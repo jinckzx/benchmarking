@@ -63,6 +63,39 @@ class DatabaseHandler:
             )
             conn.commit()
 
+        except sqlite3.Error as e:
+            conn.rollback()
+            raise RuntimeError(f"Failed to log interaction: {str(e)}")
+
+    def close(self):
+        """Close the database connection"""
+        if hasattr(self.thread_local, "conn"):
+            self.thread_local.conn.close()
+            del self.thread_local.conn
+# """for normal non rag usage"""           
+# import sqlite3
+# import threading
+# from datetime import datetime
+# from typing import Optional
+# from ..config.models import LogEntry
+
+# class DatabaseHandler:
+#     def __init__(self, db_path: str = 'consortium.db'):
+#         self.db_path = db_path
+#         self.thread_local = threading.local()
+#         self._init_db()
+
+#     def _get_connection(self) -> sqlite3.Connection:
+#         """Get or create a thread-local database connection"""
+#         if not hasattr(self.thread_local, "conn") or not self.thread_local.conn:
+#             self.thread_local.conn = sqlite3.connect(
+#                 self.db_path,
+#                 check_same_thread=False,
+#                 detect_types=sqlite3.PARSE_DECLTYPES
+#             )
+#             self.thread_local.conn.row_factory = sqlite3.Row
+#         return self.thread_local.conn
+
 #     def _init_db(self):
 #         """Initialize database schema"""
 #         try:
@@ -101,13 +134,13 @@ class DatabaseHandler:
 #                 )
 #             )
 #             conn.commit()
-        except sqlite3.Error as e:
-            conn.rollback()
-            raise RuntimeError(f"Failed to log interaction: {str(e)}")
+#         except sqlite3.Error as e:
+#             conn.rollback()
+#             raise RuntimeError(f"Failed to log interaction: {str(e)}")
 
-    def close(self):
-        """Close the database connection"""
-        if hasattr(self.thread_local, "conn"):
-            self.thread_local.conn.close()
-            del self.thread_local.conn
+#     def close(self):
+#         """Close the database connection"""
+#         if hasattr(self.thread_local, "conn"):
+#             self.thread_local.conn.close()
+#             del self.thread_local.conn
             
