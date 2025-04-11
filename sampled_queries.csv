@@ -2,3 +2,10 @@ db_id,question
 scientist_1,"What are the names of the scientists, and how many projects are each of them working on?"
 sakila_1,Find all the payment dates for the payments with an amount larger than 10 and the payments handled by a staff person with the first name Elsa.
 gas_company,"For each company id, what are the companies and how many gas stations does each one operate?"
+musical,Who is the nominee who has been nominated for the most musicals?
+tracking_grants_for_research,How many staff does each project has? List the project id and the number in an ascending order.
+hr_1,Return all information about employees with salaries between 8000 and 12000 for which commission is not null or where their department id is not 40.
+activity_1,How many male and female assistant professors do we have?
+roller_coaster,Show the names of countries that have more than one roller coaster.
+school_bus,Show the type of school and the number of buses for each type.
+products_gen_characteristics,What are the names of products that are not 'white' in color and are not measured by the unit 'Handful'?

@@ -399,7 +399,8 @@ class ConsortiumRunnerSQL:
                             (r.intent for r in valid_results),
                             key=lambda x: list(r.intent for r in valid_results).count(x)
                         ) if valid_results else "unknown",
-                        "db_id": db_id
+                        "db_id": db_id,
+                        "question": prompt  
                     }
                     final_results.append(final_result)
                     
