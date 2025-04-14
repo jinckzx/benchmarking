@@ -237,7 +237,7 @@ from typing import List, Dict
 from openai import AsyncOpenAI
 from ..config.models import ConsortiumConfig, LogEntry
 from .database import DatabaseHandler
-from .synthesis import SynthesisHandler
+from .synthesis import SynthesisHandlerSQL
 from ..utils.extractors import ResponseExtractor
 from ..utils.prompt_utils import read_iteration_prompt_sql, read_system_prompt
 from dotenv import load_dotenv
@@ -254,7 +254,7 @@ class ConsortiumRunnerSQL:
         self.db_handler = DatabaseHandler()
         self.extractor = ResponseExtractor()
         self.synthesis_db_handler = SynthesisDatabaseHandler()
-        self.synthesis_handler = SynthesisHandler(self.client, self.extractor)
+        self.synthesis_handler = SynthesisHandlerSQL(self.client, self.extractor)
         self.system_prompt = read_system_prompt()
         self.iteration_prompt_template = read_iteration_prompt_sql()
 

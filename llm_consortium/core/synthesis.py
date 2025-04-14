@@ -235,7 +235,7 @@ from .spiderlog_db import SpiderDatasetLogger
 from ..utils.logging import logger
 import json
 
-class SynthesisHandler:
+class SynthesisHandlerSQL:
     def __init__(self, client: AsyncOpenAI, extractor: ResponseExtractor):
         self.client = client
         self.extractor = extractor
