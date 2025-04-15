@@ -1473,3 +1473,105 @@ GROUP BY s.Type; - Iteration 1 Synthesis Complete - Confidence: 0.95
 2025-04-14 10:02:30 - llm_consortium - INFO - runner_sql:341 - Question: What are the names of products that are not 'white' in color and are not measured by the unit 'Handful'? - SQL: Iteration started - Iteration 1/3 for products_gen_characteristics
 2025-04-14 10:02:34 - llm_consortium - INFO - synthesis:297 - Question: What are the names of products that are not 'white' in color and are not measured by the unit 'Handful'? - SQL: No SQL detected - Iteration 1 Synthesis Complete - Confidence: 0.90
 2025-04-14 10:02:34 - llm_consortium - INFO - runner_sql:385 - Question: What are the names of products that are not 'white' in color and are not measured by the unit 'Handful'? - SQL: No SQL detected - Iteration 1 Synthesis Complete - Confidence: 0.90
+2025-04-14 10:51:03 - llm_consortium - INFO - runner:82 - Question: N/A - SQL: N/A - Starting iteration 1 of 3
+2025-04-14 10:51:03 - llm_consortium - INFO - runner:82 - Question: N/A - SQL: N/A - Starting iteration 2 of 3
+2025-04-14 10:51:03 - llm_consortium - INFO - runner:82 - Question: N/A - SQL: N/A - Starting iteration 3 of 3
+2025-04-14 10:51:09 - llm_consortium - ERROR - synthesis:77 - Question: N/A - SQL: N/A - Arbiter synthesis error: 'SynthesisHandler' object has no attribute '_extract_intent'
+2025-04-14 10:51:09 - llm_consortium - INFO - runner:105 - Question: N/A - SQL: N/A - Iteration 1 - Confidence Score: 0.00/0.8
+2025-04-14 10:51:13 - llm_consortium - ERROR - synthesis:77 - Question: N/A - SQL: N/A - Arbiter synthesis error: 'SynthesisHandler' object has no attribute '_extract_intent'
+2025-04-14 10:51:13 - llm_consortium - INFO - runner:105 - Question: N/A - SQL: N/A - Iteration 2 - Confidence Score: 0.00/0.8
+2025-04-14 10:51:17 - llm_consortium - ERROR - synthesis:77 - Question: N/A - SQL: N/A - Arbiter synthesis error: 'SynthesisHandler' object has no attribute '_extract_intent'
+2025-04-14 10:51:17 - llm_consortium - INFO - runner:105 - Question: N/A - SQL: N/A - Iteration 3 - Confidence Score: 0.00/0.8
+2025-04-15 10:25:22 - llm_consortium - INFO - runner_sql:341 - Question: What are the names of the scientists, and how many projects are each of them working on? - SQL: Iteration started - Iteration 1/3 for scientist_1
+2025-04-15 10:25:27 - llm_consortium - INFO - synthesis:297 - Question: What are the names of the scientists, and how many projects are each of them working on? - SQL: SELECT s.Name, COUNT(at.Project) AS ProjectCount
+FROM Scientists s
+LEFT JOIN AssignedTo at ON s.SSN = at.Scientist
+GROUP BY s.Name; - Iteration 1 Synthesis Complete - Confidence: 0.95
+2025-04-15 10:25:27 - llm_consortium - INFO - runner_sql:385 - Question: What are the names of the scientists, and how many projects are each of them working on? - SQL: SELECT s.Name, COUNT(at.Project) AS ProjectCount
+FROM Scientists s
+LEFT JOIN AssignedTo at ON s.SSN = at.Scientist
+GROUP BY s.Name; - Iteration 1 Synthesis Complete - Confidence: 0.95
+2025-04-15 10:25:27 - llm_consortium - INFO - runner_sql:341 - Question: Find all the payment dates for the payments with an amount larger than 10 and the payments handled by a staff person with the first name Elsa. - SQL: Iteration started - Iteration 1/3 for sakila_1
+2025-04-15 10:25:31 - llm_consortium - INFO - synthesis:297 - Question: Find all the payment dates for the payments with an amount larger than 10 and the payments handled by a staff person with the first name Elsa. - SQL: SELECT payment_date 
+FROM payment 
+WHERE amount > 10 
+AND staff_id IN (SELECT staff_id FROM staff WHERE first_name = 'Elsa'); - Iteration 1 Synthesis Complete - Confidence: 0.95
+2025-04-15 10:25:31 - llm_consortium - INFO - runner_sql:385 - Question: Find all the payment dates for the payments with an amount larger than 10 and the payments handled by a staff person with the first name Elsa. - SQL: SELECT payment_date 
+FROM payment 
+WHERE amount > 10 
+AND staff_id IN (SELECT staff_id FROM staff WHERE first_name = 'Elsa'); - Iteration 1 Synthesis Complete - Confidence: 0.95
+2025-04-15 10:25:31 - llm_consortium - INFO - runner_sql:341 - Question: For each company id, what are the companies and how many gas stations does each one operate? - SQL: Iteration started - Iteration 1/3 for gas_company
+2025-04-15 10:25:36 - llm_consortium - INFO - synthesis:297 - Question: For each company id, what are the companies and how many gas stations does each one operate? - SQL: No SQL detected - Iteration 1 Synthesis Complete - Confidence: 0.95
+2025-04-15 10:25:36 - llm_consortium - INFO - runner_sql:385 - Question: For each company id, what are the companies and how many gas stations does each one operate? - SQL: No SQL detected - Iteration 1 Synthesis Complete - Confidence: 0.95
+2025-04-15 10:25:36 - llm_consortium - INFO - runner_sql:341 - Question: Who is the nominee who has been nominated for the most musicals? - SQL: Iteration started - Iteration 1/3 for musical
+2025-04-15 10:25:40 - llm_consortium - INFO - synthesis:297 - Question: Who is the nominee who has been nominated for the most musicals? - SQL: No SQL detected - Iteration 1 Synthesis Complete - Confidence: 0.85
+2025-04-15 10:25:40 - llm_consortium - INFO - runner_sql:385 - Question: Who is the nominee who has been nominated for the most musicals? - SQL: No SQL detected - Iteration 1 Synthesis Complete - Confidence: 0.85
+2025-04-15 10:25:40 - llm_consortium - INFO - runner_sql:341 - Question: How many staff does each project has? List the project id and the number in an ascending order. - SQL: Iteration started - Iteration 1/3 for tracking_grants_for_research
+2025-04-15 10:25:47 - llm_consortium - INFO - synthesis:297 - Question: How many staff does each project has? List the project id and the number in an ascending order. - SQL: SELECT project_id, COUNT(staff_id) AS staff_count
+FROM Project_Staff
+GROUP BY project_id
+ORDER BY staff_count ASC; - Iteration 1 Synthesis Complete - Confidence: 0.95
+2025-04-15 10:25:47 - llm_consortium - INFO - runner_sql:385 - Question: How many staff does each project has? List the project id and the number in an ascending order. - SQL: SELECT project_id, COUNT(staff_id) AS staff_count
+FROM Project_Staff
+GROUP BY project_id
+ORDER BY staff_count ASC; - Iteration 1 Synthesis Complete - Confidence: 0.95
+2025-04-15 10:25:47 - llm_consortium - INFO - runner_sql:341 - Question: Return all information about employees with salaries between 8000 and 12000 for which commission is not null or where their department id is not 40. - SQL: Iteration started - Iteration 1/3 for hr_1
+2025-04-15 10:25:52 - llm_consortium - INFO - synthesis:297 - Question: Return all information about employees with salaries between 8000 and 12000 for which commission is not null or where their department id is not 40. - SQL: SELECT * 
+FROM employees 
+WHERE (SALARY BETWEEN 8000 AND 12000 AND COMMISSION_PCT IS NOT NULL) 
+   OR DEPARTMENT_ID <> 40; - Iteration 1 Synthesis Complete - Confidence: 0.95
+2025-04-15 10:25:52 - llm_consortium - INFO - runner_sql:385 - Question: Return all information about employees with salaries between 8000 and 12000 for which commission is not null or where their department id is not 40. - SQL: SELECT * 
+FROM employees 
+WHERE (SALARY BETWEEN 8000 AND 12000 AND COMMISSION_PCT IS NOT NULL) 
+   OR DEPARTMENT_ID <> 40; - Iteration 1 Synthesis Complete - Confidence: 0.95
+2025-04-15 10:25:52 - llm_consortium - INFO - runner_sql:341 - Question: How many male and female assistant professors do we have? - SQL: Iteration started - Iteration 1/3 for activity_1
+2025-04-15 10:25:56 - llm_consortium - INFO - synthesis:297 - Question: How many male and female assistant professors do we have? - SQL: SELECT Sex, COUNT(*) AS Count
+FROM Faculty
+WHERE Rank = 'AsstProf'
+GROUP BY Sex; - Iteration 1 Synthesis Complete - Confidence: 0.95
+2025-04-15 10:25:56 - llm_consortium - INFO - runner_sql:385 - Question: How many male and female assistant professors do we have? - SQL: SELECT Sex, COUNT(*) AS Count
+FROM Faculty
+WHERE Rank = 'AsstProf'
+GROUP BY Sex; - Iteration 1 Synthesis Complete - Confidence: 0.95
+2025-04-15 10:25:56 - llm_consortium - INFO - runner_sql:341 - Question: Show the names of countries that have more than one roller coaster. - SQL: Iteration started - Iteration 1/3 for roller_coaster
+2025-04-15 10:26:00 - llm_consortium - INFO - synthesis:297 - Question: Show the names of countries that have more than one roller coaster. - SQL: No SQL detected - Iteration 1 Synthesis Complete - Confidence: 0.95
+2025-04-15 10:26:00 - llm_consortium - INFO - runner_sql:385 - Question: Show the names of countries that have more than one roller coaster. - SQL: No SQL detected - Iteration 1 Synthesis Complete - Confidence: 0.95
+2025-04-15 10:26:00 - llm_consortium - INFO - runner_sql:341 - Question: Show the type of school and the number of buses for each type. - SQL: Iteration started - Iteration 1/3 for school_bus
+2025-04-15 10:26:06 - llm_consortium - INFO - synthesis:297 - Question: Show the type of school and the number of buses for each type. - SQL: SELECT s.Type, COUNT(sb.Driver_ID) AS Number_of_Buses
+FROM school s
+LEFT JOIN school_bus sb ON s.School_ID = sb.School_ID
+GROUP BY s.Type; - Iteration 1 Synthesis Complete - Confidence: 0.95
+2025-04-15 10:26:06 - llm_consortium - INFO - runner_sql:385 - Question: Show the type of school and the number of buses for each type. - SQL: SELECT s.Type, COUNT(sb.Driver_ID) AS Number_of_Buses
+FROM school s
+LEFT JOIN school_bus sb ON s.School_ID = sb.School_ID
+GROUP BY s.Type; - Iteration 1 Synthesis Complete - Confidence: 0.95
+2025-04-15 10:26:06 - llm_consortium - INFO - runner_sql:341 - Question: What are the names of products that are not 'white' in color and are not measured by the unit 'Handful'? - SQL: Iteration started - Iteration 1/3 for products_gen_characteristics
+2025-04-15 10:26:10 - llm_consortium - INFO - synthesis:297 - Question: What are the names of products that are not 'white' in color and are not measured by the unit 'Handful'? - SQL: No SQL detected - Iteration 1 Synthesis Complete - Confidence: 0.90
+2025-04-15 10:26:10 - llm_consortium - INFO - runner_sql:385 - Question: What are the names of products that are not 'white' in color and are not measured by the unit 'Handful'? - SQL: No SQL detected - Iteration 1 Synthesis Complete - Confidence: 0.90
+2025-04-15 15:37:47 - llm_consortium - INFO - runner:82 - Question: N/A - SQL: N/A - Starting iteration 1 of 3
+2025-04-15 15:37:48 - llm_consortium - INFO - runner:82 - Question: N/A - SQL: N/A - Starting iteration 2 of 3
+2025-04-15 15:37:48 - llm_consortium - INFO - runner:82 - Question: N/A - SQL: N/A - Starting iteration 3 of 3
+2025-04-15 15:37:54 - llm_consortium - ERROR - synthesis:77 - Question: N/A - SQL: N/A - Arbiter synthesis error: 'SynthesisHandler' object has no attribute '_extract_intent'
+2025-04-15 15:37:54 - llm_consortium - INFO - runner:105 - Question: N/A - SQL: N/A - Iteration 1 - Confidence Score: 0.00/0.8
+2025-04-15 15:38:01 - llm_consortium - ERROR - synthesis:77 - Question: N/A - SQL: N/A - Arbiter synthesis error: 'SynthesisHandler' object has no attribute '_extract_intent'
+2025-04-15 15:38:01 - llm_consortium - INFO - runner:105 - Question: N/A - SQL: N/A - Iteration 2 - Confidence Score: 0.00/0.8
+2025-04-15 15:38:07 - llm_consortium - ERROR - synthesis:77 - Question: N/A - SQL: N/A - Arbiter synthesis error: 'SynthesisHandler' object has no attribute '_extract_intent'
+2025-04-15 15:38:07 - llm_consortium - INFO - runner:105 - Question: N/A - SQL: N/A - Iteration 3 - Confidence Score: 0.00/0.8
+2025-04-15 15:39:47 - llm_consortium - INFO - runner:82 - Question: N/A - SQL: N/A - Starting iteration 1 of 3
+2025-04-15 15:39:47 - llm_consortium - INFO - runner:82 - Question: N/A - SQL: N/A - Starting iteration 2 of 3
+2025-04-15 15:39:47 - llm_consortium - INFO - runner:82 - Question: N/A - SQL: N/A - Starting iteration 3 of 3
+2025-04-15 15:39:52 - llm_consortium - ERROR - synthesis:77 - Question: N/A - SQL: N/A - Arbiter synthesis error: 'SynthesisHandler' object has no attribute '_extract_intent'
+2025-04-15 15:39:52 - llm_consortium - INFO - runner:105 - Question: N/A - SQL: N/A - Iteration 1 - Confidence Score: 0.00/0.8
+2025-04-15 15:39:56 - llm_consortium - ERROR - synthesis:77 - Question: N/A - SQL: N/A - Arbiter synthesis error: 'SynthesisHandler' object has no attribute '_extract_intent'
+2025-04-15 15:39:56 - llm_consortium - INFO - runner:105 - Question: N/A - SQL: N/A - Iteration 2 - Confidence Score: 0.00/0.8
+2025-04-15 15:40:01 - llm_consortium - ERROR - synthesis:77 - Question: N/A - SQL: N/A - Arbiter synthesis error: 'SynthesisHandler' object has no attribute '_extract_intent'
+2025-04-15 15:40:01 - llm_consortium - INFO - runner:105 - Question: N/A - SQL: N/A - Iteration 3 - Confidence Score: 0.00/0.8
+2025-04-15 15:41:18 - llm_consortium - INFO - runner:82 - Question: N/A - SQL: N/A - Starting iteration 1 of 3
+2025-04-15 15:41:18 - llm_consortium - INFO - runner:82 - Question: N/A - SQL: N/A - Starting iteration 2 of 3
+2025-04-15 15:41:18 - llm_consortium - INFO - runner:82 - Question: N/A - SQL: N/A - Starting iteration 3 of 3
+2025-04-15 15:41:23 - llm_consortium - ERROR - synthesis:77 - Question: N/A - SQL: N/A - Arbiter synthesis error: 'SynthesisHandler' object has no attribute '_extract_intent'
+2025-04-15 15:41:23 - llm_consortium - INFO - runner:105 - Question: N/A - SQL: N/A - Iteration 1 - Confidence Score: 0.00/0.8
+2025-04-15 15:41:27 - llm_consortium - ERROR - synthesis:77 - Question: N/A - SQL: N/A - Arbiter synthesis error: 'SynthesisHandler' object has no attribute '_extract_intent'
+2025-04-15 15:41:27 - llm_consortium - INFO - runner:105 - Question: N/A - SQL: N/A - Iteration 2 - Confidence Score: 0.00/0.8
+2025-04-15 15:41:32 - llm_consortium - ERROR - synthesis:77 - Question: N/A - SQL: N/A - Arbiter synthesis error: 'SynthesisHandler' object has no attribute '_extract_intent'
+2025-04-15 15:41:32 - llm_consortium - INFO - runner:105 - Question: N/A - SQL: N/A - Iteration 3 - Confidence Score: 0.00/0.8
