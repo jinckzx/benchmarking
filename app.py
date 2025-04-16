@@ -685,17 +685,21 @@ def spider_eval_page():
     import tempfile
     import pandas as pd
     import altair as alt
+    import uuid
+    from datetime import datetime
     from llm_consortium.utils.pricing import MODEL_PRICING, AVG_INPUT_TOKENS, AVG_OUTPUT_TOKENS, calculate_cost
+    if 'download_key' not in st.session_state:
+        st.session_state.download_key = f"spider_init_{uuid.uuid4()}"
 
+
+        if 'models' not in st.session_state:
+            st.session_state.models = []
     st.title("GenAI App Tuner")
 
-    if 'models' not in st.session_state:
-        st.session_state.models = []
-    
     runner_sql=ConsortiumRunnerSQL()
-    
+
     col1, col2 = st.columns([2, 3])
-    
+
     with col1:
         st.subheader("Configuration")
         model_selector = st.selectbox("Select Model", ["gpt-4o-mini", "gpt-3.5-turbo", "gemini-2", "o3-mini"])
@@ -726,13 +730,13 @@ def spider_eval_page():
         confidence = st.slider("Confidence Threshold", 0.0, 1.0, 0.8)
         max_iter = st.number_input("Max Iterations", min_value=1, value=3, step=1)
         min_iter = st.number_input("Min Iterations", min_value=1, value=1, step=1)
-    
+
     with col2:
         st.subheader("Execution")
         
         # Add CSV upload
         uploaded_file = st.file_uploader(
-            "Upload CSV with queries",
+            "Upload CSV with queries must include db_id and question columns",
             type=["csv"],
             help="CSV must contain 'db_id' and 'question' columns"
         )
@@ -749,7 +753,7 @@ def spider_eval_page():
                 st.dataframe(cost_df, use_container_width=True)
             else:
                 st.info("Add models to see cost estimation")
-        
+
         if st.button("Run Consortium", type="primary"):
             if not st.session_state.models:
                 st.error("Please add at least one model")
@@ -775,7 +779,6 @@ def spider_eval_page():
             
             st.subheader("Results")
 
-            # Create summary dataframe
             summary_data = []
             for query_result in result:
                 summary_data.append({
@@ -786,7 +789,7 @@ def spider_eval_page():
                     "Confidence": query_result['synthesis'].get('confidence', 0),
                     "Iterations": query_result.get('iterations', max_iter)
                 })
-            
+            summary_df=pd.DataFrame(summary_data)
             st.markdown("### Consolidated Results")
             st.dataframe(
                 pd.DataFrame(summary_data),
@@ -864,21 +867,23 @@ def spider_eval_page():
                 else:
                     st.warning("No model responses recorded for this query")
 
-            # Download button
-            with tempfile.NamedTemporaryFile(mode="w", suffix=".json") as fp:
-                json.dump(result, fp, indent=2)
-                fp.seek(0)
-                st.download_button(
-                    "⬇️ Download Full Results",
-                    fp.read(),
-                    "consortium_results.json",
-                    "application/json"
-                )
+                
+            csv_data = summary_df.to_csv(index=False).encode('utf-8')
+            download_key = f"spider_download_{datetime.now().timestamp()}_{uuid.uuid4()}"
+                
+            st.download_button(
+                "⬇️ Download Consolidated Results (CSV)",
+                data=csv_data,
+                file_name="consortium_summary.csv",
+                mime="text/csv",
+                key=download_key,
+                help="Download summary data in CSV format"
+            )
 
 
 
 if __name__ == "__main__":
-        main()
+    main()
 
 
 
@@ -895,72 +900,76 @@ if __name__ == "__main__":
 
 
 
-# import streamlit as st
-# import asyncio
-# from llm_consortium.core.runner import ConsortiumRunner
-# from llm_consortium.utils.handlers import initialize_session_state, process_file_upload, create_consortium_config
-# from llm_consortium.utils.components import configure_sidebar, display_cost_estimation, display_results
 
-# def main():
-#     st.set_page_config(
-#         layout="wide",
-#         page_title="LLM Consortium",
-#         initial_sidebar_state="expanded"
-#     )
-#     st.title("LLM Consortium")
-#     initialize_session_state()
 
-#     # Configure sidebar and get parameters
-#     arbiter, confidence, max_iter, min_iter = configure_sidebar()
 
-#     # Main content area
-#     st.header("Execution Panel")
-    
-#     # Execution mode selection
-#     execution_mode = st.radio(
-#         "Execution Mode:",
-#         ["Standard Prompt", "RAG Mode"],
-#         horizontal=True,
-#         help="Select between standard prompt execution or RAG-enhanced execution"
-#     )
-    
-#     # Handle RAG file upload
-#     if execution_mode == "RAG Mode":
-#         uploaded_file = st.file_uploader(
-#             "Upload knowledge file (PDF, DOCX, TXT, CSV)",
-#             type=["pdf", "docx", "txt", "csv"]
-#         )
-#         if uploaded_file and (uploaded_file != st.session_state.uploaded_file):
-#             with st.status("🔄 Processing uploaded file..."):
-#                 if process_file_upload(uploaded_file):
-#                     st.success("File processed successfully!")
-#                 else:
-#                     st.error("Unsupported file type")
-    
-#     # Common input elements
-#     prompt = st.text_area("Input Prompt", height=150, placeholder="Enter your prompt here...")
-    
-#     # Cost estimation
-#     display_cost_estimation(arbiter, max_iter)
-    
-#     # Execution button
-#     if st.button("Run Consortium", type="primary", use_container_width=True):
-#         if not st.session_state.models:
-#             st.error("Please add at least one model")
-#             return
+
+    # import streamlit as st
+    # import asyncio
+    # from llm_consortium.core.runner import ConsortiumRunner
+    # from llm_consortium.utils.handlers import initialize_session_state, process_file_upload, create_consortium_config
+    # from llm_consortium.utils.components import configure_sidebar, display_cost_estimation, display_results
+
+    # def main():
+    #     st.set_page_config(
+    #         layout="wide",
+    #         page_title="LLM Consortium",
+    #         initial_sidebar_state="expanded"
+    #     )
+    #     st.title("LLM Consortium")
+    #     initialize_session_state()
+
+    #     # Configure sidebar and get parameters
+    #     arbiter, confidence, max_iter, min_iter = configure_sidebar()
+
+    #     # Main content area
+    #     st.header("Execution Panel")
         
-#         try:
-#             config = create_consortium_config(arbiter, confidence, max_iter, min_iter)
+    #     # Execution mode selection
+    #     execution_mode = st.radio(
+    #         "Execution Mode:",
+    #         ["Standard Prompt", "RAG Mode"],
+    #         horizontal=True,
+    #         help="Select between standard prompt execution or RAG-enhanced execution"
+    #     )
+        
+    #     # Handle RAG file upload
+    #     if execution_mode == "RAG Mode":
+    #         uploaded_file = st.file_uploader(
+    #             "Upload knowledge file (PDF, DOCX, TXT, CSV)",
+    #             type=["pdf", "docx", "txt", "csv"]
+    #         )
+    #         if uploaded_file and (uploaded_file != st.session_state.uploaded_file):
+    #             with st.status("🔄 Processing uploaded file..."):
+    #                 if process_file_upload(uploaded_file):
+    #                     st.success("File processed successfully!")
+    #                 else:
+    #                     st.error("Unsupported file type")
+        
+    #     # Common input elements
+    #     prompt = st.text_area("Input Prompt", height=150, placeholder="Enter your prompt here...")
+        
+    #     # Cost estimation
+    #     display_cost_estimation(arbiter, max_iter)
+        
+    #     # Execution button
+    #     if st.button("Run Consortium", type="primary", use_container_width=True):
+    #         if not st.session_state.models:
+    #             st.error("Please add at least one model")
+    #             return
             
-#             if execution_mode == "RAG Mode" and st.session_state.rag_engine:
-#                 result = st.session_state.rag_engine.query(prompt)
-#             else:
-#                 result = asyncio.run(ConsortiumRunner().run_consortium(config, prompt))
-            
-#             display_results(result, arbiter, max_iter)
-            
-#         except Exception as e:
-#             st.error(f"Error executing consortium: {str(e)}")
+    #         try:
+    #             config = create_consortium_config(arbiter, confidence, max_iter, min_iter)
+                
+    #             if execution_mode == "RAG Mode" and st.session_state.rag_engine:
+    #                 result = st.session_state.rag_engine.query(prompt)
+    #             else:
+    #                 result = asyncio.run(ConsortiumRunner().run_consortium(config, prompt))
+                
+    #             display_results(result, arbiter, max_iter)
+                
+    #         except Exception as e:
+    #             st.error(f"Error executing consortium: {str(e)}")
 
-# if __name__ == "__main__":
-#     main()
+    # if __name__ == "__main__":
+    #     main()

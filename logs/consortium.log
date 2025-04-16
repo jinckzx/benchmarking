@@ -732,3 +732,13 @@
 2025-04-16 14:21:01 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for music_1
 2025-04-16 14:21:06 - llm_consortium - INFO - synthesis_sql:70 - Iteration 1 Synthesis Complete - Confidence: 0.90
 2025-04-16 14:21:06 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.90
+2025-04-16 14:48:17 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for e_government
+2025-04-16 14:48:27 - llm_consortium - INFO - synthesis_sql:70 - Iteration 1 Synthesis Complete - Confidence: 0.95
+2025-04-16 14:48:27 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.95
+2025-04-16 14:48:27 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for bike_1
+2025-04-16 14:48:31 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 14:48:43 - llm_consortium - INFO - synthesis_sql:70 - Iteration 1 Synthesis Complete - Confidence: 0.80
+2025-04-16 14:48:43 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.80
+2025-04-16 14:48:43 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for music_1
+2025-04-16 14:48:49 - llm_consortium - INFO - synthesis_sql:70 - Iteration 1 Synthesis Complete - Confidence: 0.90
+2025-04-16 14:48:49 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.90
