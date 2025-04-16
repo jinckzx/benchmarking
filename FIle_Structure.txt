@@ -1,0 +1,40 @@
+PERSONAL-LLM/
+├── .env
+├── requirements.txt
+├── app.py
+├── main.py
+├── logs/
+├── data/
+│   ├── processed_files   (for RAG)
+│   └── raw_files         (for RAG)
+├── llm_consortium/       # Main package
+│   ├── __init__.py
+│   ├── core/             # Core logic for LLM processing
+│   │   ├── __init__.py
+│   │   ├── runner.py
+│   │   ├── rag_processor.py
+│   │   ├── file_handler.py
+│   │   ├── consortium.py
+│   │   └── synthesis.py
+│   ├── config/           # Configuration and model settings
+│   │   ├── __init__.py
+│   │   ├── settings.py
+│   │   └── models.py
+│   ├── database/         # Handles database interactions
+│   │   ├── __init__.py
+│   │   ├── database.py
+│   │   └── synthesis_db.py
+│   ├── ui/
+│   │   ├── __init__.py
+│   │   └── components.py
+│   └── utils/            # Utility functions
+│       ├── __init__.py
+│       ├── prompt_utils.py
+│       ├── extractors.py
+│       ├── handlers.py
+│       ├── logging.py
+│       └── pricing.py
+├── setup.py
+└── tests/                # Testing suite (future implementation)
+    ├── __init__.py
+    └── tests.py
