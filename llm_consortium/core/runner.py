@@ -14,7 +14,7 @@ from ..utils.prompt_utils import read_iteration_prompt , read_system_prompt
 from dotenv import load_dotenv
 from ..utils.logging import logger
 from ..database.synthesis_db import SynthesisDatabaseHandler
-
+from .client_init import llm
 
 load_dotenv()
 # api_key=os.getenv("OPENAI_API_KEY")
@@ -22,13 +22,13 @@ load_dotenv()
 
 class ConsortiumRunner:
     def __init__(self):
-        self.client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        self.client = llm
         self.db_handler = DatabaseHandler()
         self.extractor = ResponseExtractor()
         ################################################################
         self.synthesis_db_handler = SynthesisDatabaseHandler()
         ################################################################
-        self.synthesis_handler = SynthesisHandler(self.client, self.extractor)
+        self.synthesis_handler = SynthesisHandler(self.extractor)
         self.index = VectorStoreIndex.from_documents(
             SimpleDirectoryReader("data").load_data()
         )
@@ -51,12 +51,12 @@ class ConsortiumRunner:
                 {"role": "system", "content": self.system_prompt},
                 {"role": "user", "content": model_prompt}
             ]
-            response = await self.client.chat.completions.create(
+            response = await self.client.chat(
                 model=model,
                 messages=messages,
                 temperature=0.2
             )
-            content = response.choices[0].message.content
+            content = response["content"]
             
             return LogEntry(
                 prompt=prompt,

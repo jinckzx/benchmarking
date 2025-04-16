@@ -18,7 +18,7 @@ from dotenv import load_dotenv
 from ..utils.logging import logger
 from ..database.spiderlog_db import SpiderDatasetLogger
 from .rag_processor import RAGConfig
-
+from .client_init import llm
 load_dotenv()
 
 SCHEMA_PATH = "D:\\inforigin_projects\\personal-llm\\dataset\\spider_data\\database\\{db_id}\\schema.sql"
@@ -28,11 +28,11 @@ class ConsortiumRunnerSQL:
         
     
         
-        self.client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        self.client = llm
         self.db_handler = DatabaseHandlerSQL()
         self.extractor = ResponseExtractor()
         self.synthesis_db_handler = SpiderDatasetLogger()
-        self.synthesis_handler = SynthesisHandlerSQL(self.client, self.extractor)
+        self.synthesis_handler = SynthesisHandlerSQL(self.extractor)
         self.system_prompt = read_system_prompt()
         self.iteration_prompt_template = read_iteration_prompt_sql()
     def ingest_csv(self, csv_path: str) -> List[Dict[str, str]]:
@@ -67,13 +67,13 @@ class ConsortiumRunnerSQL:
                 )}
             ]
             
-            response = await self.client.chat.completions.create(
+            response = await self.client.chat(
                 model=model,
                 messages=messages,
                 temperature=0.2
             )
             
-            content = response.choices[0].message.content
+            content = response["content"]
             logger.debug("Raw model output", 
                         extra={'question': prompt, 'generated_sql': content})
             

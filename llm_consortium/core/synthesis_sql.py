@@ -7,10 +7,10 @@ from ..utils.extractors import ResponseExtractor
 from ..database.spiderlog_db import SpiderDatasetLogger
 from ..utils.logging import logger
 import json
-
+from .client_init import llm
 class SynthesisHandlerSQL:
-    def __init__(self, client: AsyncOpenAI, extractor: ResponseExtractor):
-        self.client = client
+    def __init__(self,  extractor: ResponseExtractor):
+        self.client = llm
         self.extractor = extractor
         self.db_handler = SpiderDatasetLogger()
         self.arbiter_system_prompt = read_arbiter_system_prompt()
@@ -35,12 +35,12 @@ class SynthesisHandlerSQL:
         ]
         
         try:
-            response = await self.client.chat.completions.create(
+            response = await self.client.chat(
                 model=arbiter,
                 messages=messages,
                 temperature=0.2
             )
-            content = response.choices[0].message.content
+            content = response["content"]
             
             # Extract final SQL using the response extractor
             final_sql = self.extractor.extract_sql(content)

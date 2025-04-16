@@ -770,3 +770,198 @@
 2025-04-16 15:00:32 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for music_1
 2025-04-16 15:00:37 - llm_consortium - INFO - synthesis_sql:70 - Iteration 1 Synthesis Complete - Confidence: 0.90
 2025-04-16 15:00:37 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.90
+2025-04-16 15:03:32 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for e_government
+2025-04-16 15:03:37 - llm_consortium - INFO - synthesis_sql:70 - Iteration 1 Synthesis Complete - Confidence: 0.95
+2025-04-16 15:03:37 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.95
+2025-04-16 15:03:37 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for bike_1
+2025-04-16 15:03:41 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 15:03:44 - llm_consortium - INFO - synthesis_sql:70 - Iteration 1 Synthesis Complete - Confidence: 0.75
+2025-04-16 15:03:44 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.75
+2025-04-16 15:03:44 - llm_consortium - INFO - runner_sql:118 - Iteration 2/3 for bike_1
+2025-04-16 15:03:48 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 15:03:52 - llm_consortium - INFO - synthesis_sql:70 - Iteration 2 Synthesis Complete - Confidence: 0.80
+2025-04-16 15:03:52 - llm_consortium - INFO - runner_sql:162 - Iteration 2 Synthesis Complete - Confidence: 0.80
+2025-04-16 15:03:52 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for music_1
+2025-04-16 15:03:57 - llm_consortium - INFO - synthesis_sql:70 - Iteration 1 Synthesis Complete - Confidence: 0.90
+2025-04-16 15:03:57 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.90
+2025-04-16 15:43:58 - llm_consortium - INFO - runner:86 - Starting iteration 1 of 3
+2025-04-16 15:43:59 - llm_consortium - INFO - runner:86 - Starting iteration 2 of 3
+2025-04-16 15:43:59 - llm_consortium - INFO - runner:86 - Starting iteration 3 of 3
+2025-04-16 15:44:05 - llm_consortium - INFO - synthesis:60 - Iteration 1 Synthesis Complete - Confidence: 0.90
+2025-04-16 15:44:05 - llm_consortium - INFO - runner:109 - Iteration 1 - Confidence Score: 0.90/0.8
+2025-04-16 16:21:45 - llm_consortium - INFO - runner:86 - Starting iteration 1 of 3
+2025-04-16 16:21:45 - llm_consortium - INFO - runner:86 - Starting iteration 2 of 3
+2025-04-16 16:21:45 - llm_consortium - INFO - runner:86 - Starting iteration 3 of 3
+2025-04-16 16:21:52 - llm_consortium - INFO - synthesis:60 - Iteration 1 Synthesis Complete - Confidence: 0.95
+2025-04-16 16:21:52 - llm_consortium - INFO - runner:109 - Iteration 1 - Confidence Score: 0.95/0.8
+2025-04-16 16:22:30 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for e_government
+2025-04-16 16:22:33 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:22:35 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:22:35 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:22:35 - llm_consortium - INFO - runner_sql:118 - Iteration 2/3 for e_government
+2025-04-16 16:22:37 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:22:39 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:22:39 - llm_consortium - INFO - runner_sql:162 - Iteration 2 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:22:39 - llm_consortium - INFO - runner_sql:118 - Iteration 3/3 for e_government
+2025-04-16 16:22:41 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:22:44 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:22:44 - llm_consortium - INFO - runner_sql:162 - Iteration 3 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:22:44 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for bike_1
+2025-04-16 16:22:56 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:22:58 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:22:58 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:22:58 - llm_consortium - INFO - runner_sql:118 - Iteration 2/3 for bike_1
+2025-04-16 16:23:06 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:23:09 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:23:09 - llm_consortium - INFO - runner_sql:162 - Iteration 2 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:23:09 - llm_consortium - INFO - runner_sql:118 - Iteration 3/3 for bike_1
+2025-04-16 16:23:16 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:23:19 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:23:19 - llm_consortium - INFO - runner_sql:162 - Iteration 3 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:23:19 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for music_1
+2025-04-16 16:23:21 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:23:24 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:23:24 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:23:24 - llm_consortium - INFO - runner_sql:118 - Iteration 2/3 for music_1
+2025-04-16 16:23:26 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:23:28 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:23:28 - llm_consortium - INFO - runner_sql:162 - Iteration 2 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:23:28 - llm_consortium - INFO - runner_sql:118 - Iteration 3/3 for music_1
+2025-04-16 16:23:30 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:23:32 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:23:32 - llm_consortium - INFO - runner_sql:162 - Iteration 3 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:25:24 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for e_government
+2025-04-16 16:25:26 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:25:28 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:25:28 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:25:28 - llm_consortium - INFO - runner_sql:118 - Iteration 2/3 for e_government
+2025-04-16 16:25:29 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:25:31 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:25:31 - llm_consortium - INFO - runner_sql:162 - Iteration 2 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:25:31 - llm_consortium - INFO - runner_sql:118 - Iteration 3/3 for e_government
+2025-04-16 16:25:32 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:25:35 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:25:35 - llm_consortium - INFO - runner_sql:162 - Iteration 3 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:25:35 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for bike_1
+2025-04-16 16:25:41 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:25:44 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:25:44 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:25:44 - llm_consortium - INFO - runner_sql:118 - Iteration 2/3 for bike_1
+2025-04-16 16:25:49 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:25:51 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:25:51 - llm_consortium - INFO - runner_sql:162 - Iteration 2 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:25:51 - llm_consortium - INFO - runner_sql:118 - Iteration 3/3 for bike_1
+2025-04-16 16:25:54 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:25:56 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:25:56 - llm_consortium - INFO - runner_sql:162 - Iteration 3 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:25:56 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for music_1
+2025-04-16 16:25:57 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:26:00 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:26:00 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:26:00 - llm_consortium - INFO - runner_sql:118 - Iteration 2/3 for music_1
+2025-04-16 16:26:01 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:26:03 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:26:03 - llm_consortium - INFO - runner_sql:162 - Iteration 2 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:26:03 - llm_consortium - INFO - runner_sql:118 - Iteration 3/3 for music_1
+2025-04-16 16:26:05 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:26:08 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:26:08 - llm_consortium - INFO - runner_sql:162 - Iteration 3 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:27:20 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for e_government
+2025-04-16 16:27:22 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:27:25 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:27:25 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:27:25 - llm_consortium - INFO - runner_sql:118 - Iteration 2/3 for e_government
+2025-04-16 16:27:26 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:27:28 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:27:28 - llm_consortium - INFO - runner_sql:162 - Iteration 2 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:27:28 - llm_consortium - INFO - runner_sql:118 - Iteration 3/3 for e_government
+2025-04-16 16:27:30 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:27:33 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:27:33 - llm_consortium - INFO - runner_sql:162 - Iteration 3 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:27:33 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for bike_1
+2025-04-16 16:27:41 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:27:44 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:27:44 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:27:44 - llm_consortium - INFO - runner_sql:118 - Iteration 2/3 for bike_1
+2025-04-16 16:27:59 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:28:02 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:28:02 - llm_consortium - INFO - runner_sql:162 - Iteration 2 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:28:02 - llm_consortium - INFO - runner_sql:118 - Iteration 3/3 for bike_1
+2025-04-16 16:28:13 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:28:15 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:28:15 - llm_consortium - INFO - runner_sql:162 - Iteration 3 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:28:15 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for music_1
+2025-04-16 16:28:17 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:28:19 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:28:19 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:28:19 - llm_consortium - INFO - runner_sql:118 - Iteration 2/3 for music_1
+2025-04-16 16:28:20 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:28:23 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:28:23 - llm_consortium - INFO - runner_sql:162 - Iteration 2 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:28:23 - llm_consortium - INFO - runner_sql:118 - Iteration 3/3 for music_1
+2025-04-16 16:28:26 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:28:29 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:28:29 - llm_consortium - INFO - runner_sql:162 - Iteration 3 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:29:33 - llm_consortium - INFO - runner:86 - Starting iteration 1 of 1
+2025-04-16 16:29:38 - llm_consortium - INFO - synthesis:60 - Iteration 1 Synthesis Complete - Confidence: 1.00
+2025-04-16 16:29:38 - llm_consortium - INFO - runner:109 - Iteration 1 - Confidence Score: 1.00/0.43
+2025-04-16 16:30:07 - llm_consortium - INFO - runner_sql:118 - Iteration 1/1 for e_government
+2025-04-16 16:30:10 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:30:13 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:30:13 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:30:13 - llm_consortium - INFO - runner_sql:118 - Iteration 1/1 for bike_1
+2025-04-16 16:30:16 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:30:19 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:30:19 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:30:19 - llm_consortium - INFO - runner_sql:118 - Iteration 1/1 for music_1
+2025-04-16 16:30:20 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:30:22 - llm_consortium - ERROR - synthesis_sql:82 - Arbiter synthesis error: 'dict' object has no attribute 'choices'
+2025-04-16 16:30:22 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.00
+2025-04-16 16:32:05 - llm_consortium - INFO - runner_sql:118 - Iteration 1/1 for e_government
+2025-04-16 16:32:10 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:32:12 - llm_consortium - INFO - synthesis_sql:70 - Iteration 1 Synthesis Complete - Confidence: 0.60
+2025-04-16 16:32:12 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.60
+2025-04-16 16:32:12 - llm_consortium - INFO - runner_sql:118 - Iteration 1/1 for bike_1
+2025-04-16 16:32:20 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:32:24 - llm_consortium - INFO - synthesis_sql:70 - Iteration 1 Synthesis Complete - Confidence: 0.75
+2025-04-16 16:32:24 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.75
+2025-04-16 16:32:24 - llm_consortium - INFO - runner_sql:118 - Iteration 1/1 for music_1
+2025-04-16 16:32:25 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:32:28 - llm_consortium - INFO - synthesis_sql:70 - Iteration 1 Synthesis Complete - Confidence: 0.75
+2025-04-16 16:32:28 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.75
+2025-04-16 16:34:09 - llm_consortium - INFO - runner_sql:118 - Iteration 1/2 for e_government
+2025-04-16 16:34:13 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:34:15 - llm_consortium - INFO - synthesis_sql:70 - Iteration 1 Synthesis Complete - Confidence: 0.70
+2025-04-16 16:34:15 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.70
+2025-04-16 16:34:15 - llm_consortium - INFO - runner_sql:118 - Iteration 2/2 for e_government
+2025-04-16 16:34:17 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:34:20 - llm_consortium - INFO - synthesis_sql:70 - Iteration 2 Synthesis Complete - Confidence: 0.75
+2025-04-16 16:34:20 - llm_consortium - INFO - runner_sql:162 - Iteration 2 Synthesis Complete - Confidence: 0.75
+2025-04-16 16:34:20 - llm_consortium - INFO - runner_sql:118 - Iteration 1/2 for bike_1
+2025-04-16 16:34:23 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:34:26 - llm_consortium - INFO - synthesis_sql:70 - Iteration 1 Synthesis Complete - Confidence: 0.80
+2025-04-16 16:34:26 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.80
+2025-04-16 16:34:26 - llm_consortium - INFO - runner_sql:118 - Iteration 1/2 for music_1
+2025-04-16 16:34:27 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:34:31 - llm_consortium - INFO - synthesis_sql:70 - Iteration 1 Synthesis Complete - Confidence: 0.80
+2025-04-16 16:34:31 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.80
+2025-04-16 16:35:30 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for e_government
+2025-04-16 16:35:35 - llm_consortium - INFO - runner_sql:118 - Iteration 1/2 for e_government
+2025-04-16 16:35:35 - llm_consortium - INFO - synthesis_sql:70 - Iteration 1 Synthesis Complete - Confidence: 0.90
+2025-04-16 16:35:35 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.90
+2025-04-16 16:35:35 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for bike_1
+2025-04-16 16:35:39 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:35:39 - llm_consortium - INFO - synthesis_sql:70 - Iteration 1 Synthesis Complete - Confidence: 0.95
+2025-04-16 16:35:39 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.95
+2025-04-16 16:35:39 - llm_consortium - INFO - runner_sql:118 - Iteration 1/2 for bike_1
+2025-04-16 16:35:42 - llm_consortium - INFO - synthesis_sql:70 - Iteration 1 Synthesis Complete - Confidence: 0.75
+2025-04-16 16:35:42 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.75
+2025-04-16 16:35:42 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for music_1
+2025-04-16 16:35:43 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-16 16:35:47 - llm_consortium - INFO - synthesis_sql:70 - Iteration 1 Synthesis Complete - Confidence: 0.90
+2025-04-16 16:35:47 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.90
+2025-04-16 16:35:48 - llm_consortium - INFO - synthesis_sql:70 - Iteration 1 Synthesis Complete - Confidence: 0.80
+2025-04-16 16:35:48 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.80
+2025-04-16 16:35:48 - llm_consortium - INFO - runner_sql:118 - Iteration 1/2 for music_1
+2025-04-16 16:35:52 - llm_consortium - INFO - synthesis_sql:70 - Iteration 1 Synthesis Complete - Confidence: 0.90
+2025-04-16 16:35:52 - llm_consortium - INFO - runner_sql:162 - Iteration 1 Synthesis Complete - Confidence: 0.90

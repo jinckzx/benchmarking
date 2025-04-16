@@ -5,10 +5,11 @@ from ..utils.prompt_utils import read_arbiter_prompt, read_arbiter_system_prompt
 from ..utils.extractors import ResponseExtractor
 from ..database.synthesis_db import SynthesisDatabaseHandler
 from ..utils.logging import logger
+from .client_init import llm
 
 class SynthesisHandler:
-    def __init__(self, client: AsyncOpenAI, extractor: ResponseExtractor):
-        self.client = client
+    def __init__(self, extractor: ResponseExtractor):
+        self.client = llm
         self.extractor = extractor
         self.db_handler = SynthesisDatabaseHandler()
         self.arbiter_system_prompt = read_arbiter_system_prompt()
@@ -29,13 +30,13 @@ class SynthesisHandler:
         messages = [{"role": "system", "content": self.arbiter_system_prompt},
                     {"role": "user", "content": synthesis_prompt}]
         try:
-            response = await self.client.chat.completions.create(
+            response = await self.client.chat(
                 model=arbiter,
                 # messages=[{"role": "user", "content": synthesis_prompt}],
                 messages=messages,
                 temperature=0.2
             )
-            content = response.choices[0].message.content
+            content = response["content"]
             
             result = {
                 "text": content,
