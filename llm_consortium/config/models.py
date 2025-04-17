@@ -59,6 +59,9 @@ class ConsortiumConfig(BaseModel):
     confidence_threshold: float = 0.8
     max_iterations: int = 3
     min_iterations: int = 1
+    min_temp: float
+    max_temp: float
+    num_trials: int
     
 
 # class LogEntry(BaseModel):

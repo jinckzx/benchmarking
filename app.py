@@ -318,7 +318,14 @@ import tempfile
 import pandas as pd
 import altair as alt
 from llm_consortium.utils.pricing import MODEL_PRICING, AVG_INPUT_TOKENS, AVG_OUTPUT_TOKENS, calculate_cost
-
+import streamlit as st
+import asyncio
+import pandas as pd
+import altair as alt
+import tempfile
+import json
+from llm_consortium.config.models import ConsortiumConfig
+from llm_consortium.core.runner import ConsortiumRunner
 
 def main():
     st.set_page_config(
@@ -343,15 +350,230 @@ def main():
         spider_eval_page()
 
 def prompt_eval_page():
-    st.title("GenAI App Tuner")
+    # st.title("GenAI App Tuner")
 
-    runner = ConsortiumRunner()
+    # runner = ConsortiumRunner()
     
-    # Initialize session state for models
+    # # Initialize session state for models
+    # if 'models' not in st.session_state:
+    #     st.session_state.models = []
+    
+    # # Layout with columns
+    # col1, col2 = st.columns([2, 3])
+    
+    # with col1:
+    #     st.header("Configuration")
+        
+    #     # Model selection
+    #     model_selector = st.selectbox(
+    #         "Select Model",
+    #         ["gpt-4o-mini", "gpt-3.5-turbo", "gemini-2", "o3-mini"]
+    #     )
+    #     instance_count = st.number_input("Instances", min_value=1, value=1, step=1)
+        
+    #     # Add model button
+    #     if st.button("Add Model"):
+    #         # Check if model already exists
+    #         existing_index = -1
+    #         for idx, (model, count) in enumerate(st.session_state.models):
+    #             if model == model_selector:
+    #                 existing_index = idx
+    #                 break
+
+    #         if existing_index >= 0:
+    #             # Update existing entry
+    #             st.session_state.models[existing_index] = (model_selector, int(instance_count))
+    #         else:
+    #             # Add new entry
+    #             st.session_state.models.append((model_selector, int(instance_count)))
+    #             st.rerun() # Refresh the UI to show updated list
+
+    #     # Display models with delete buttons
+    #     if st.session_state.models:
+    #         st.write("### Selected Models")
+    #         for idx, (model, count) in enumerate(st.session_state.models):
+    #             cols = st.columns([4, 2, 1])
+    #             with cols[0]:
+    #                 st.markdown(f"**{model}**")
+    #             with cols[1]:
+    #                 st.markdown(f"Instances: {count}")
+    #             with cols[2]:
+    #                 if st.button("❌", key=f"delete_{idx}"):
+    #                     st.session_state.models.pop(idx)
+    #                     st.rerun()
+    #     else:
+    #         st.info("No models added yet")
+        
+    #     # Arbiter and other settings
+    #     arbiter = st.selectbox(
+    #         "Arbiter Model",
+    #         ["gpt-4o-mini", "gemini-2", "gpt-3.5-turbo"],
+    #         index=2
+    #     )
+        
+    #     confidence = st.slider("Confidence Threshold", 0.0, 1.0, 0.8)
+    #     max_iter = st.number_input("Max Iterations", min_value=1, value=3, step=1)
+    #     min_iter = st.number_input("Min Iterations", min_value=1, value=1, step=1)
+        
+    
+    # with col2:
+    #     st.header("Execution")
+    #     prompt = st.text_area("Input Prompt", height=150)
+
+    #     # Cost estimation
+    #     st.write("### Cost Estimation (Including Arbiter)")
+    #     if st.session_state.models:
+
+    #         #Aggregate models with their instances
+    #         models_dict = {}
+    #         for model, count in st.session_state.models:
+    #             models_dict[model] = models_dict.get(model, 0) + count
+            
+    #         # Add arbiter as separate entry
+    #         models_with_arbiter = [(k, v) for k, v in models_dict.items()]
+    #         models_with_arbiter.append((arbiter, 1))
+    #         total_cost, cost_df = calculate_cost(models_with_arbiter, max_iter)
+    #         st.dataframe(cost_df, use_container_width=True)
+    #         st.write(f"**Estimated Total Cost:** ${total_cost:.4f}")
+    #     else:
+    #         st.info("Add models to see cost estimation")
+    #     st.caption("*Based on average of 500 input tokens and 300 output tokens per request*")
+        
+    #     # Run Consortium button
+    #     if st.button("Run Consortium", type="primary"):
+    #         if not st.session_state.models:
+    #             st.error("Please add at least one model")
+    #             return
+            
+    #         # Convert models list to dictionary
+    #         models_dict = {model: count for model, count in st.session_state.models}
+            
+    #         # Create ConsortiumConfig
+    #         config = ConsortiumConfig(
+    #             models=models_dict,
+    #             arbiter=arbiter,
+    #             confidence_threshold=confidence,
+    #             max_iterations=int(max_iter),
+    #             min_iterations=int(min_iter)
+    #         )
+
+    #         # Run the consortium
+    #         result = asyncio.run(runner.run_consortium(config, prompt))
+            
+    #         # Get actual iterations completed
+    #         iterations = result.get("iterations", int(max_iter))
+
+    #         # Calculate final cost including arbiter
+    #         models_with_arbiter = st.session_state.models.copy()
+    #         models_with_arbiter.append((arbiter, 1))  # Arbiter counts as 1 instance
+    #         total_cost, cost_df = calculate_cost(models_with_arbiter, result.get("iterations", int(max_iter)))
+            
+            # # Save results to temporary file
+            # with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
+            #     json.dump({
+            #         **result,
+            #         "cost_estimation": {
+            #             "total_cost": total_cost,
+            #             "breakdown": cost_df.to_dict('records'),
+            #             "iterations": result.get("iterations", int(max_iter))
+            #         }
+            #     }, f, indent=2)
+            #     tmp_file = f.name
+            
+    #         # Display results
+
+    #         st.subheader("Actual Cost")
+    #         st.write(f"${total_cost:.4f} (after {result.get('iterations', int(max_iter))} iterations)")
+            
+    #         st.subheader("Synthesized Answer")
+    #         st.write(result.get("synthesis", {}).get("text", "No synthesis result"))
+            
+            
+    #         st.subheader("Individual Responses")
+    #         responses = [
+    #             {
+    #                 "Model": r.get("model", "Unknown"),
+    #                 "Response": r.get("response", "")[:100] + "..." if len(r.get("response", "")) > 100 else r.get("response", ""),
+    #                 "Confidence": r.get("confidence", 0),
+    #                 "Latency": f"{r.get('latency', 0):.2f}s",
+    #                 "Cost": f"${(MODEL_PRICING.get(r.get('model', 'Unknown').rsplit('-', 1)[0], {}).get('input', 0) * AVG_INPUT_TOKENS / 1000 * iterations + MODEL_PRICING.get(r.get('model', 'Unknown').rsplit('-', 1)[0], {}).get('output', 0) * AVG_OUTPUT_TOKENS / 1000 * iterations):.4f}"
+    #             } for r in result.get("raw_responses", [])
+    #         ]
+    #         st.dataframe(pd.DataFrame(responses), use_container_width=True)
+
+
+    #         st.subheader("Model Performance Analysis")
+    #         # Create dataframe for visualization
+    #         model_data = pd.DataFrame([
+    #             {
+    #                 "Model": r["model"].split("-")[0],  # Base model name
+    #                 "Confidence": r["confidence"],
+    #                 "Latency": r["latency"],
+    #                 "Response Length": len(r["response"])
+    #             } for r in result.get("raw_responses", [])
+    #         ])
+            
+
+    #         if not model_data.empty:
+
+    #             # Confidence comparison of Models
+    #             st.subheader("Model Confidence Comparison")
+                
+    #             # Create dataframe with individual model responses
+    #             model_comparison_df = pd.DataFrame([
+    #             {
+    #                 "Model": r.get("model", "Unknown"),
+    #                 "Confidence": r.get("confidence", 0),
+    #                 "Latency": r.get("latency", 0)
+    #                 }
+    #             for r in result.get("raw_responses", [])
+    #                 ])
+
+    #             if not model_comparison_df.empty:
+    #                 # Create bar chart
+    #                 bar_chart = alt.Chart(model_comparison_df).mark_bar().encode(
+    #                     x=alt.X('Model:N', title='Model Instance', sort='-y'),
+    #                     y=alt.Y('Confidence:Q', title='Confidence Score', scale=alt.Scale(domain=[0, 1])),
+    #                     color=alt.Color('Model:N', legend=None),
+    #                     tooltip=['Model', 'Confidence', 'Latency']
+    #                 ).properties(
+    #                     width=800,
+    #                     height=400,
+    #                     title='Confidence Scores by Model Instance'
+    #                 )
+                
+    #             # Add text labels
+    #             text = bar_chart.mark_text(
+    #                 align='center',
+    #                 baseline='bottom',
+    #                 dy=-5,
+    #                 color='black'
+    #                 ).encode(
+    #                 text=alt.Text('Confidence:Q', format='.2f')
+    #             )
+    #             st.altair_chart(bar_chart + text)
+                
+    #             # Latency vs Confidence Scatter Plot
+    #             st.write("### Latency vs Confidence")
+    #             scatter = alt.Chart(model_data).mark_circle(size=60).encode(
+    #                 x='Latency:Q',
+    #                 y='Confidence:Q',
+    #                 color='Model:N',
+    #                 tooltip=['Model', 'Confidence', 'Latency']
+    #             ).properties(width=600, height=300)
+    #             st.altair_chart(scatter)
+                
+    #         else:
+    #             st.warning("No response data available for visualization")
+
+    
+    
+    st.title("GenAI App Tuner")
+    
+    # Initialize session state
     if 'models' not in st.session_state:
         st.session_state.models = []
     
-    # Layout with columns
     col1, col2 = st.columns([2, 3])
     
     with col1:
@@ -364,40 +586,37 @@ def prompt_eval_page():
         )
         instance_count = st.number_input("Instances", min_value=1, value=1, step=1)
         
-        # Add model button
         if st.button("Add Model"):
-            # Check if model already exists
             existing_index = -1
             for idx, (model, count) in enumerate(st.session_state.models):
                 if model == model_selector:
                     existing_index = idx
                     break
-
             if existing_index >= 0:
-                # Update existing entry
                 st.session_state.models[existing_index] = (model_selector, int(instance_count))
             else:
-                # Add new entry
                 st.session_state.models.append((model_selector, int(instance_count)))
-                st.rerun() # Refresh the UI to show updated list
+                st.rerun()
 
-        # Display models with delete buttons
         if st.session_state.models:
             st.write("### Selected Models")
             for idx, (model, count) in enumerate(st.session_state.models):
                 cols = st.columns([4, 2, 1])
-                with cols[0]:
-                    st.markdown(f"**{model}**")
-                with cols[1]:
-                    st.markdown(f"Instances: {count}")
-                with cols[2]:
-                    if st.button("❌", key=f"delete_{idx}"):
-                        st.session_state.models.pop(idx)
-                        st.rerun()
+                cols[0].markdown(f"**{model}**")
+                cols[1].markdown(f"Instances: {count}")
+                if cols[2].button("❌", key=f"delete_{idx}"):
+                    st.session_state.models.pop(idx)
+                    st.rerun()
         else:
             st.info("No models added yet")
         
-        # Arbiter and other settings
+        st.header("Arbiter Tuning")
+        min_temp = st.slider("Min Temperature", 0.0, 1.0, 0.1)
+        max_temp = st.slider("Max Temperature", 0.0, 1.0, 0.9)
+        num_trials = st.number_input("Number of Trials", 1, 20, 5)
+        if min_temp >= max_temp:
+            st.error("Max temperature must be greater than min temperature")
+
         arbiter = st.selectbox(
             "Arbiter Model",
             ["gpt-4o-mini", "gemini-2", "gpt-3.5-turbo"],
@@ -405,26 +624,16 @@ def prompt_eval_page():
         )
         
         confidence = st.slider("Confidence Threshold", 0.0, 1.0, 0.8)
-        max_iter = st.number_input("Max Iterations", min_value=1, value=3, step=1)
-        min_iter = st.number_input("Min Iterations", min_value=1, value=1, step=1)
-        
+        max_iter = st.number_input("Max Iterations", 1, 10, 3)
+        min_iter = st.number_input("Min Iterations", 1, 10, 1)
     
     with col2:
         st.header("Execution")
         prompt = st.text_area("Input Prompt", height=150)
 
-        # Cost estimation
-        st.write("### Cost Estimation (Including Arbiter)")
         if st.session_state.models:
-
-            #Aggregate models with their instances
-            models_dict = {}
-            for model, count in st.session_state.models:
-                models_dict[model] = models_dict.get(model, 0) + count
-            
-            # Add arbiter as separate entry
-            models_with_arbiter = [(k, v) for k, v in models_dict.items()]
-            models_with_arbiter.append((arbiter, 1))
+            models_dict = {model: count for model, count in st.session_state.models}
+            models_with_arbiter = [(k, v) for k, v in models_dict.items()] + [(arbiter, 1)]
             total_cost, cost_df = calculate_cost(models_with_arbiter, max_iter)
             st.dataframe(cost_df, use_container_width=True)
             st.write(f"**Estimated Total Cost:** ${total_cost:.4f}")
@@ -432,141 +641,139 @@ def prompt_eval_page():
             st.info("Add models to see cost estimation")
         st.caption("*Based on average of 500 input tokens and 300 output tokens per request*")
         
-        # Run Consortium button
         if st.button("Run Consortium", type="primary"):
             if not st.session_state.models:
                 st.error("Please add at least one model")
                 return
             
-            # Convert models list to dictionary
-            models_dict = {model: count for model, count in st.session_state.models}
-            
-            # Create ConsortiumConfig
             config = ConsortiumConfig(
-                models=models_dict,
+                models={model: count for model, count in st.session_state.models},
                 arbiter=arbiter,
                 confidence_threshold=confidence,
-                max_iterations=int(max_iter),
-                min_iterations=int(min_iter)
+                max_iterations=max_iter,
+                min_iterations=min_iter,
+                min_temp=min_temp,
+                max_temp=max_temp,
+                num_trials=num_trials
             )
 
-            # Run the consortium
-            result = asyncio.run(runner.run_consortium(config, prompt))
+            runner = ConsortiumRunner()
             
-            # Get actual iterations completed
-            iterations = result.get("iterations", int(max_iter))
+            with st.spinner("Running consortium..."):
+                result = asyncio.run(runner.run_consortium(config, prompt))
 
-            # Calculate final cost including arbiter
-            models_with_arbiter = st.session_state.models.copy()
-            models_with_arbiter.append((arbiter, 1))  # Arbiter counts as 1 instance
-            total_cost, cost_df = calculate_cost(models_with_arbiter, result.get("iterations", int(max_iter)))
-            
-            # Save results to temporary file
+            # Save results to temporary file for download
             with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
-                json.dump({
-                    **result,
-                    "cost_estimation": {
-                        "total_cost": total_cost,
-                        "breakdown": cost_df.to_dict('records'),
-                        "iterations": result.get("iterations", int(max_iter))
-                    }
-                }, f, indent=2)
+                json.dump(result, f, indent=2)
                 tmp_file = f.name
-            
+
             # Display results
+            _display_results(result, config, tmp_file)
 
-            st.subheader("Actual Cost")
-            st.write(f"${total_cost:.4f} (after {result.get('iterations', int(max_iter))} iterations)")
-            
-            st.subheader("Synthesized Answer")
-            st.write(result.get("synthesis", {}).get("text", "No synthesis result"))
-            
-            
-            st.subheader("Individual Responses")
-            responses = [
-                {
-                    "Model": r.get("model", "Unknown"),
-                    "Response": r.get("response", "")[:100] + "..." if len(r.get("response", "")) > 100 else r.get("response", ""),
-                    "Confidence": r.get("confidence", 0),
-                    "Latency": f"{r.get('latency', 0):.2f}s",
-                    "Cost": f"${(MODEL_PRICING.get(r.get('model', 'Unknown').rsplit('-', 1)[0], {}).get('input', 0) * AVG_INPUT_TOKENS / 1000 * iterations + MODEL_PRICING.get(r.get('model', 'Unknown').rsplit('-', 1)[0], {}).get('output', 0) * AVG_OUTPUT_TOKENS / 1000 * iterations):.4f}"
-                } for r in result.get("raw_responses", [])
-            ]
-            st.dataframe(pd.DataFrame(responses), use_container_width=True)
+def _display_results(result, config, tmp_file):
+    iterations = result.get("iterations", config.max_iterations)
+    
+    # Cost display
+    models_with_arbiter = list(config.models.items()) + [(config.arbiter, 1)]
+    total_cost, _ = calculate_cost(models_with_arbiter, iterations)
+    st.subheader("Actual Cost")
+    st.write(f"${total_cost:.4f} (after {iterations} iterations)")
 
+    # Temperature tuning results
+    if 'temperature_trials' in result:
+        st.subheader("Temperature Tuning Results")
+        tuning_data = pd.DataFrame(result['temperature_trials'])
+        
+        chart = alt.Chart(tuning_data).mark_line().encode(
+            x='temperature:Q',
+            y='confidence:Q',
+            tooltip=['temperature', 'confidence']
+        ).properties(width=700, height=300)
+        
+        best_point = alt.Chart(pd.DataFrame([{
+            'temperature': result['synthesis']['temperature'],
+            'confidence': result['synthesis']['confidence']
+        }])).mark_circle(color='red', size=100).encode(
+            x='temperature:Q',
+            y='confidence:Q'
+        )
+        
+        st.altair_chart(chart + best_point)
+        st.write(f"**Best Temperature:** {result['synthesis']['temperature']:.2f}")
+        st.write(f"**Achieved Confidence:** {result['synthesis']['confidence']:.2f}")
 
-            st.subheader("Model Performance Analysis")
-            # Create dataframe for visualization
-            model_data = pd.DataFrame([
-                {
-                    "Model": r["model"].split("-")[0],  # Base model name
-                    "Confidence": r["confidence"],
-                    "Latency": r["latency"],
-                    "Response Length": len(r["response"])
-                } for r in result.get("raw_responses", [])
-            ])
-            
+    # Synthesis result
+    st.subheader("Synthesized Answer")
+    st.write(result.get("synthesis", {}).get("text", "No synthesis result"))
 
-            if not model_data.empty:
+    # Individual responses
+    st.subheader("Individual Responses")
+    responses_df = pd.DataFrame([
+        {
+            "Model": r.get("model", "Unknown"),
+            "Response": r.get("response", "")[:100] + ("..." if len(r.get("response", "")) > 100 else ""),
+            "Confidence": r.get("confidence", 0),
+            "Latency": f"{r.get('latency', 0):.2f}s",
+            "Cost": f"{_calculate_response_cost(r, iterations):.4f}"
+        } for r in result.get("raw_responses", [])
+    ])
+    st.dataframe(responses_df, use_container_width=True)
 
-                # Confidence comparison of Models
-                st.subheader("Model Confidence Comparison")
-                
-                # Create dataframe with individual model responses
-                model_comparison_df = pd.DataFrame([
-                {
-                    "Model": r.get("model", "Unknown"),
-                    "Confidence": r.get("confidence", 0),
-                    "Latency": r.get("latency", 0)
-                    }
-                for r in result.get("raw_responses", [])
-                    ])
+    # Visualization
+    _display_visualizations(result)
 
-                if not model_comparison_df.empty:
-                    # Create bar chart
-                    bar_chart = alt.Chart(model_comparison_df).mark_bar().encode(
-                        x=alt.X('Model:N', title='Model Instance', sort='-y'),
-                        y=alt.Y('Confidence:Q', title='Confidence Score', scale=alt.Scale(domain=[0, 1])),
-                        color=alt.Color('Model:N', legend=None),
-                        tooltip=['Model', 'Confidence', 'Latency']
-                    ).properties(
-                        width=800,
-                        height=400,
-                        title='Confidence Scores by Model Instance'
-                    )
-                
-                # Add text labels
-                text = bar_chart.mark_text(
-                    align='center',
-                    baseline='bottom',
-                    dy=-5,
-                    color='black'
-                    ).encode(
-                    text=alt.Text('Confidence:Q', format='.2f')
-                )
-                st.altair_chart(bar_chart + text)
-                
-                # Latency vs Confidence Scatter Plot
-                st.write("### Latency vs Confidence")
-                scatter = alt.Chart(model_data).mark_circle(size=60).encode(
-                    x='Latency:Q',
-                    y='Confidence:Q',
-                    color='Model:N',
-                    tooltip=['Model', 'Confidence', 'Latency']
-                ).properties(width=600, height=300)
-                st.altair_chart(scatter)
-                
-            else:
-                st.warning("No response data available for visualization")
-            
-            # Download button
-            with open(tmp_file, "rb") as f:
-                st.download_button(
-                    label="Download Results",
-                    data=f,
-                    file_name="consortium_results.json",
-                    mime="application/json"
-                )
+    # Download button
+    with open(tmp_file, "rb") as f:
+        st.download_button(
+            label="Download Results",
+            data=f,
+            file_name="consortium_results.json",
+            mime="application/json"
+        )
+
+def _calculate_response_cost(response, iterations):
+    model_name = response.get("model", "Unknown").rsplit('-', 1)[0]
+    pricing = MODEL_PRICING.get(model_name, {"input": 0, "output": 0})
+    return (pricing["input"] * AVG_INPUT_TOKENS / 1000 * iterations +
+            pricing["output"] * AVG_OUTPUT_TOKENS / 1000 * iterations)
+
+def _display_visualizations(result):
+    model_data = pd.DataFrame([
+        {
+            "Model": r["model"].split("-")[0],
+            "Confidence": r["confidence"],
+            "Latency": r["latency"],
+            "Response Length": len(r["response"])
+        } for r in result.get("raw_responses", [])
+    ])
+
+    if not model_data.empty:
+        st.subheader("Model Confidence Comparison")
+        bar_chart = alt.Chart(model_data).mark_bar().encode(
+            x='Model:N',
+            y='mean(Confidence):Q',
+            color='Model:N',
+            tooltip=['mean(Confidence)']
+        ).properties(width=800, height=400)
+        st.altair_chart(bar_chart)
+
+        st.subheader("Latency vs Confidence")
+        scatter = alt.Chart(model_data).mark_circle(size=60).encode(
+            x='Latency:Q',
+            y='Confidence:Q',
+            color='Model:N',
+            tooltip=['Model', 'Confidence', 'Latency']
+        ).properties(width=600, height=300)
+        st.altair_chart(scatter)
+    
+        # # Download button
+        # with open(tmp_file, "rb") as f:
+        #     st.download_button(
+        #         label="Download Results",
+        #         data=f,
+        #         file_name="consortium_results.json",
+        #         mime="application/json"
+        #     )
 
 
 def rag_eval_page():
