@@ -982,3 +982,184 @@
 2025-04-17 11:17:29 - llm_consortium - INFO - runner:206 - Starting iteration 1 of 2
 2025-04-17 11:17:56 - llm_consortium - INFO - synthesis:309 - Iteration 0 Best Synthesis - Temp: 0.91, Confidence: 0.98
 2025-04-17 11:17:56 - llm_consortium - INFO - runner:229 - Iteration 1 - Best Confidence: 0.98/0.8
+2025-04-17 15:46:14 - llm_consortium - INFO - runner:206 - Starting iteration 1 of 3
+2025-04-17 15:47:05 - llm_consortium - INFO - synthesis:309 - Iteration 0 Best Synthesis - Temp: 0.58, Confidence: 0.95
+2025-04-17 15:47:05 - llm_consortium - INFO - runner:229 - Iteration 1 - Best Confidence: 0.95/0.85
+2025-04-17 15:51:05 - llm_consortium - INFO - runner:206 - Starting iteration 1 of 3
+2025-04-17 15:51:41 - llm_consortium - INFO - synthesis:309 - Iteration 0 Best Synthesis - Temp: 0.57, Confidence: 0.98
+2025-04-17 15:51:41 - llm_consortium - INFO - runner:229 - Iteration 1 - Best Confidence: 0.98/0.85
+2025-04-17 15:53:11 - llm_consortium - INFO - runner_sql:118 - Iteration 1/1 for e_government
+2025-04-17 15:53:17 - llm_consortium - ERROR - synthesis_sql:280 - Trial logging failed: Failed to log spider query: table spider_queries has no column named iteration
+2025-04-17 15:53:20 - llm_consortium - ERROR - synthesis_sql:280 - Trial logging failed: Failed to log spider query: table spider_queries has no column named iteration
+2025-04-17 15:53:22 - llm_consortium - ERROR - synthesis_sql:280 - Trial logging failed: Failed to log spider query: table spider_queries has no column named iteration
+2025-04-17 15:53:24 - llm_consortium - ERROR - synthesis_sql:280 - Trial logging failed: Failed to log spider query: table spider_queries has no column named iteration
+2025-04-17 15:53:27 - llm_consortium - ERROR - synthesis_sql:280 - Trial logging failed: Failed to log spider query: table spider_queries has no column named iteration
+2025-04-17 15:53:27 - llm_consortium - ERROR - synthesis_sql:309 - Best result logging failed: Failed to log spider query: table spider_queries has no column named iteration
+2025-04-17 15:53:27 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.59, Confidence: 0.95
+2025-04-17 15:53:27 - llm_consortium - INFO - runner_sql:118 - Iteration 1/1 for bike_1
+2025-04-17 15:53:35 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-17 15:53:36 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-17 15:53:38 - llm_consortium - ERROR - synthesis_sql:280 - Trial logging failed: Failed to log spider query: table spider_queries has no column named iteration
+2025-04-17 15:53:40 - llm_consortium - ERROR - synthesis_sql:280 - Trial logging failed: Failed to log spider query: table spider_queries has no column named iteration
+2025-04-17 15:53:42 - llm_consortium - ERROR - synthesis_sql:280 - Trial logging failed: Failed to log spider query: table spider_queries has no column named iteration
+2025-04-17 15:53:44 - llm_consortium - ERROR - synthesis_sql:280 - Trial logging failed: Failed to log spider query: table spider_queries has no column named iteration
+2025-04-17 15:53:46 - llm_consortium - ERROR - synthesis_sql:280 - Trial logging failed: Failed to log spider query: table spider_queries has no column named iteration
+2025-04-17 15:53:46 - llm_consortium - ERROR - synthesis_sql:309 - Best result logging failed: Failed to log spider query: table spider_queries has no column named iteration
+2025-04-17 15:53:46 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.93, Confidence: 0.85
+2025-04-17 15:53:46 - llm_consortium - INFO - runner_sql:118 - Iteration 1/1 for music_1
+2025-04-17 15:53:53 - llm_consortium - ERROR - synthesis_sql:280 - Trial logging failed: Failed to log spider query: table spider_queries has no column named iteration
+2025-04-17 15:53:55 - llm_consortium - ERROR - synthesis_sql:280 - Trial logging failed: Failed to log spider query: table spider_queries has no column named iteration
+2025-04-17 15:53:58 - llm_consortium - ERROR - synthesis_sql:280 - Trial logging failed: Failed to log spider query: table spider_queries has no column named iteration
+2025-04-17 15:54:01 - llm_consortium - ERROR - synthesis_sql:280 - Trial logging failed: Failed to log spider query: table spider_queries has no column named iteration
+2025-04-17 15:54:05 - llm_consortium - ERROR - synthesis_sql:280 - Trial logging failed: Failed to log spider query: table spider_queries has no column named iteration
+2025-04-17 15:54:05 - llm_consortium - ERROR - synthesis_sql:309 - Best result logging failed: Failed to log spider query: table spider_queries has no column named iteration
+2025-04-17 15:54:05 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.70, Confidence: 0.95
+2025-04-17 15:56:39 - llm_consortium - INFO - runner_sql:118 - Iteration 1/1 for e_government
+2025-04-17 15:56:57 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.63, Confidence: 0.95
+2025-04-17 15:56:57 - llm_consortium - INFO - runner_sql:118 - Iteration 1/1 for bike_1
+2025-04-17 15:57:08 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-17 15:57:10 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-17 15:57:25 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.86, Confidence: 0.80
+2025-04-17 15:57:25 - llm_consortium - INFO - runner_sql:118 - Iteration 1/1 for music_1
+2025-04-17 15:57:43 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.82, Confidence: 0.95
+2025-04-17 16:13:38 - llm_consortium - INFO - runner:206 - Starting iteration 1 of 3
+2025-04-17 16:14:00 - llm_consortium - INFO - synthesis:309 - Iteration 0 Best Synthesis - Temp: 0.16, Confidence: 0.95
+2025-04-17 16:14:00 - llm_consortium - INFO - runner:229 - Iteration 1 - Best Confidence: 0.95/0.8
+2025-04-17 16:16:45 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for e_government
+2025-04-17 16:17:21 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.76, Confidence: 0.98
+2025-04-17 16:17:21 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for bike_1
+2025-04-17 16:17:55 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-17 16:17:59 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-17 16:18:18 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.61, Confidence: 0.80
+2025-04-17 16:18:18 - llm_consortium - INFO - runner_sql:118 - Iteration 2/3 for bike_1
+2025-04-17 16:18:34 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-17 16:18:39 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-17 16:19:04 - llm_consortium - INFO - runner_sql:180 - Iteration 2 Best Synthesis - Temp: 0.63, Confidence: 0.90
+2025-04-17 16:19:04 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for music_1
+2025-04-17 16:19:35 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.59, Confidence: 0.95
+2025-04-17 16:22:55 - llm_consortium - INFO - runner_sql:118 - Iteration 1/2 for e_government
+2025-04-17 16:23:08 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.77, Confidence: 0.95
+2025-04-17 16:23:08 - llm_consortium - INFO - runner_sql:118 - Iteration 1/2 for bike_1
+2025-04-17 16:23:17 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-17 16:23:22 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-17 16:23:31 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.86, Confidence: 0.80
+2025-04-17 16:23:31 - llm_consortium - INFO - runner_sql:118 - Iteration 1/2 for music_1
+2025-04-17 16:23:42 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.67, Confidence: 0.95
+2025-04-17 16:39:51 - llm_consortium - INFO - runner:206 - Starting iteration 1 of 3
+2025-04-17 16:40:12 - llm_consortium - INFO - synthesis:309 - Iteration 0 Best Synthesis - Temp: 0.12, Confidence: 0.95
+2025-04-17 16:40:12 - llm_consortium - INFO - runner:229 - Iteration 1 - Best Confidence: 0.95/0.8
+2025-04-17 16:41:10 - llm_consortium - INFO - runner_sql:118 - Iteration 1/2 for e_government
+2025-04-17 16:41:32 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.06, Confidence: 0.95
+2025-04-17 16:41:32 - llm_consortium - INFO - runner_sql:118 - Iteration 1/2 for bike_1
+2025-04-17 16:41:40 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-17 16:41:40 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-17 16:41:56 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.23, Confidence: 0.80
+2025-04-17 16:41:56 - llm_consortium - INFO - runner_sql:118 - Iteration 1/2 for music_1
+2025-04-17 16:42:17 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.21, Confidence: 0.95
+2025-04-21 10:01:40 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for e_government
+2025-04-21 10:01:53 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.13, Confidence: 0.90
+2025-04-21 10:01:53 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for bike_1
+2025-04-21 10:01:56 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-21 10:02:03 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.18, Confidence: 0.80
+2025-04-21 10:02:03 - llm_consortium - INFO - runner_sql:118 - Iteration 2/3 for bike_1
+2025-04-21 10:02:05 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-21 10:02:13 - llm_consortium - INFO - runner_sql:180 - Iteration 2 Best Synthesis - Temp: 0.11, Confidence: 0.80
+2025-04-21 10:02:13 - llm_consortium - INFO - runner_sql:118 - Iteration 3/3 for bike_1
+2025-04-21 10:02:16 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-21 10:02:23 - llm_consortium - INFO - runner_sql:180 - Iteration 3 Best Synthesis - Temp: 0.52, Confidence: 0.85
+2025-04-21 10:02:23 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for music_1
+2025-04-21 10:02:29 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.10, Confidence: 0.90
+2025-04-21 10:26:17 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for e_government
+2025-04-21 10:26:33 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.88, Confidence: 1.00
+2025-04-21 10:26:33 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for bike_1
+2025-04-21 10:26:40 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-21 10:26:46 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.88, Confidence: 0.85
+2025-04-21 10:26:46 - llm_consortium - INFO - runner_sql:118 - Iteration 2/3 for bike_1
+2025-04-21 10:26:57 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-21 10:27:03 - llm_consortium - INFO - runner_sql:180 - Iteration 2 Best Synthesis - Temp: 0.34, Confidence: 0.85
+2025-04-21 10:27:03 - llm_consortium - INFO - runner_sql:118 - Iteration 3/3 for bike_1
+2025-04-21 10:27:15 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-21 10:27:21 - llm_consortium - INFO - runner_sql:180 - Iteration 3 Best Synthesis - Temp: 0.39, Confidence: 0.85
+2025-04-21 10:27:21 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for music_1
+2025-04-21 10:27:33 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.40, Confidence: 0.95
+2025-04-21 10:29:05 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for e_government
+2025-04-21 10:29:15 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.30, Confidence: 0.95
+2025-04-21 10:29:15 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for bike_1
+2025-04-21 10:29:21 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-21 10:29:29 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.22, Confidence: 0.80
+2025-04-21 10:29:29 - llm_consortium - INFO - runner_sql:118 - Iteration 2/3 for bike_1
+2025-04-21 10:29:40 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-21 10:29:46 - llm_consortium - INFO - runner_sql:180 - Iteration 2 Best Synthesis - Temp: 0.79, Confidence: 0.90
+2025-04-21 10:29:46 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for music_1
+2025-04-21 10:29:56 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.46, Confidence: 0.90
+2025-04-21 10:33:41 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for e_government
+2025-04-21 10:33:50 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.27, Confidence: 0.95
+2025-04-21 10:33:50 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for bike_1
+2025-04-21 10:33:59 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-21 10:34:07 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.57, Confidence: 0.85
+2025-04-21 10:34:07 - llm_consortium - INFO - runner_sql:118 - Iteration 2/3 for bike_1
+2025-04-21 10:34:14 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-21 10:34:22 - llm_consortium - INFO - runner_sql:180 - Iteration 2 Best Synthesis - Temp: 0.68, Confidence: 0.85
+2025-04-21 10:34:22 - llm_consortium - INFO - runner_sql:118 - Iteration 3/3 for bike_1
+2025-04-21 10:34:31 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-21 10:34:39 - llm_consortium - INFO - runner_sql:180 - Iteration 3 Best Synthesis - Temp: 0.22, Confidence: 0.80
+2025-04-21 10:34:39 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for music_1
+2025-04-21 10:34:50 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.13, Confidence: 0.90
+2025-04-21 10:44:30 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for e_government
+2025-04-21 10:44:40 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.85, Confidence: 1.00
+2025-04-21 10:44:40 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for bike_1
+2025-04-21 10:44:48 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-21 10:44:55 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.24, Confidence: 0.85
+2025-04-21 10:44:55 - llm_consortium - INFO - runner_sql:118 - Iteration 2/3 for bike_1
+2025-04-21 10:45:04 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-21 10:45:10 - llm_consortium - INFO - runner_sql:180 - Iteration 2 Best Synthesis - Temp: 0.74, Confidence: 0.80
+2025-04-21 10:45:10 - llm_consortium - INFO - runner_sql:118 - Iteration 3/3 for bike_1
+2025-04-21 10:45:20 - llm_consortium - ERROR - runner_sql:92 - Query failed
+2025-04-21 10:45:28 - llm_consortium - INFO - runner_sql:180 - Iteration 3 Best Synthesis - Temp: 0.27, Confidence: 0.85
+2025-04-21 10:45:28 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for music_1
+2025-04-21 10:45:39 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.18, Confidence: 0.90
+2025-04-21 10:53:35 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for e_government
+2025-04-21 10:53:46 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.29, Confidence: 0.90
+2025-04-21 10:53:46 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for bike_1
+2025-04-21 10:53:59 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.18, Confidence: 0.95
+2025-04-21 10:53:59 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for music_1
+2025-04-21 10:54:08 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.31, Confidence: 0.95
+2025-04-21 11:01:02 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for e_government
+2025-04-21 11:01:13 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.24, Confidence: 0.90
+2025-04-21 11:01:13 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for bike_1
+2025-04-21 11:01:25 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.88, Confidence: 1.00
+2025-04-21 11:01:25 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for music_1
+2025-04-21 11:01:34 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.16, Confidence: 0.95
+2025-04-21 11:02:14 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for e_government
+2025-04-21 11:02:24 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.24, Confidence: 0.90
+2025-04-21 11:02:24 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for bike_1
+2025-04-21 11:02:32 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.16, Confidence: 0.95
+2025-04-21 11:02:32 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for music_1
+2025-04-21 11:02:42 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.11, Confidence: 0.95
+2025-04-21 11:04:35 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for e_government
+2025-04-21 11:04:44 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.15, Confidence: 0.95
+2025-04-21 11:04:44 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for bike_1
+2025-04-21 11:04:54 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.40, Confidence: 0.95
+2025-04-21 11:04:54 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for music_1
+2025-04-21 11:05:03 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.34, Confidence: 0.95
+2025-04-21 11:07:31 - llm_consortium - INFO - runner_sql:118 - Iteration 1/2 for e_government
+2025-04-21 11:07:51 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.11, Confidence: 0.95
+2025-04-21 11:07:51 - llm_consortium - INFO - runner_sql:118 - Iteration 1/2 for bike_1
+2025-04-21 11:08:05 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.07, Confidence: 0.95
+2025-04-21 11:08:05 - llm_consortium - INFO - runner_sql:118 - Iteration 1/2 for music_1
+2025-04-21 11:08:27 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.08, Confidence: 0.95
+2025-04-21 11:20:01 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for e_government
+2025-04-21 11:20:16 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.10, Confidence: 0.95
+2025-04-21 11:20:16 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for bike_1
+2025-04-21 11:20:32 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.12, Confidence: 0.95
+2025-04-21 11:20:32 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for music_1
+2025-04-21 11:20:48 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.12, Confidence: 0.90
+2025-04-21 11:46:05 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for e_government
+2025-04-21 11:47:18 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.12, Confidence: 0.95
+2025-04-21 11:47:18 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for bike_1
+2025-04-21 11:48:14 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.14, Confidence: 1.00
+2025-04-21 11:48:14 - llm_consortium - INFO - runner_sql:118 - Iteration 1/3 for music_1
+2025-04-21 11:49:09 - llm_consortium - INFO - runner_sql:180 - Iteration 1 Best Synthesis - Temp: 0.17, Confidence: 0.95
+2025-04-21 11:52:09 - llm_consortium - INFO - runner:206 - Starting iteration 1 of 3
+2025-04-21 11:52:47 - llm_consortium - INFO - synthesis:309 - Iteration 0 Best Synthesis - Temp: 0.37, Confidence: 0.95
+2025-04-21 11:52:47 - llm_consortium - INFO - runner:229 - Iteration 1 - Best Confidence: 0.95/0.95

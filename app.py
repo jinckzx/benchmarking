@@ -740,7 +740,7 @@ def _calculate_response_cost(response, iterations):
 def _display_visualizations(result):
     model_data = pd.DataFrame([
         {
-            "Model": r["model"].split("-")[0],
+            "Model": r.get("model","Unknown"),
             "Confidence": r["confidence"],
             "Latency": r["latency"],
             "Response Length": len(r["response"])
@@ -880,10 +880,7 @@ def rag_eval_page():
                                 st.error(f"Error displaying {doc.name}: {str(e)}")
             except Exception as e:
                 st.error(f"RAG evaluation failed: {str(e)}")
-
-
 def spider_eval_page():
-    
     import streamlit as st
     from llm_consortium.core.runner_sql import ConsortiumRunnerSQL
     from llm_consortium.config.models import ConsortiumConfig
@@ -894,16 +891,17 @@ def spider_eval_page():
     import altair as alt
     import uuid
     from datetime import datetime
-    from llm_consortium.utils.pricing import MODEL_PRICING, AVG_INPUT_TOKENS, AVG_OUTPUT_TOKENS, calculate_cost
+    from llm_consortium.utils.pricing import calculate_cost
+
     if 'download_key' not in st.session_state:
         st.session_state.download_key = f"spider_init_{uuid.uuid4()}"
 
-
-        if 'models' not in st.session_state:
-            st.session_state.models = []
+    if 'models' not in st.session_state:
+        st.session_state.models = []
+        
     st.title("GenAI App Tuner")
 
-    runner_sql=ConsortiumRunnerSQL()
+    runner_sql = ConsortiumRunnerSQL()
 
     col1, col2 = st.columns([2, 3])
 
@@ -933,6 +931,13 @@ def spider_eval_page():
         else:
             st.info("No models added yet")
         
+        st.subheader("Arbiter Tuning")
+        min_temp = st.slider("Min Temperature", 0.0, 1.0, 0.1)
+        max_temp = st.slider("Max Temperature", 0.0, 1.0, 0.9)
+        num_trials = st.number_input("Temperature Trials", 1, 20, 5)
+        if min_temp >= max_temp:
+            st.error("Max temperature must be greater than min temperature")
+        
         arbiter = st.selectbox("Arbiter Model", ["gpt-4o-mini", "gemini-2", "gpt-3.5-turbo"], index=2)
         confidence = st.slider("Confidence Threshold", 0.0, 1.0, 0.8)
         max_iter = st.number_input("Max Iterations", min_value=1, value=3, step=1)
@@ -940,26 +945,22 @@ def spider_eval_page():
 
     with col2:
         st.subheader("Execution")
-        
-        # Add CSV upload
         uploaded_file = st.file_uploader(
             "Upload CSV with queries must include db_id and question columns",
             type=["csv"],
             help="CSV must contain 'db_id' and 'question' columns"
         )
         
-        # Display cost estimation only when CSV is uploaded
-        if uploaded_file is not None:
-            if st.session_state.models:
-                models_dict = {model: count for model, count in st.session_state.models}
-                total_cost, cost_df = calculate_cost(
-                    [(m, c) for m, c in models_dict.items()] + [(arbiter, 1)], 
-                    max_iter
-                )
-                st.write(f"**Estimated Cost:** ${total_cost:.4f}")
-                st.dataframe(cost_df, use_container_width=True)
-            else:
-                st.info("Add models to see cost estimation")
+        if uploaded_file is not None and st.session_state.models:
+            models_dict = {model: count for model, count in st.session_state.models}
+            total_cost, cost_df = calculate_cost(
+                [(m, c) for m, c in models_dict.items()] + [(arbiter, 1)], 
+                max_iter
+            )
+            st.write(f"**Estimated Cost:** ${total_cost:.4f}")
+            st.dataframe(cost_df, use_container_width=True)
+        elif uploaded_file:
+            st.info("Add models to see cost estimation")
 
         if st.button("Run Consortium", type="primary"):
             if not st.session_state.models:
@@ -969,123 +970,431 @@ def spider_eval_page():
                 st.error("Please upload a CSV file first")
                 st.stop()
 
-            # Save uploaded file to temp
             with tempfile.NamedTemporaryFile(delete=False, suffix=".csv") as tmp_file:
                 tmp_file.write(uploaded_file.getvalue())
                 csv_path = tmp_file.name
+            
+            models_dict = {model: count for model, count in st.session_state.models}
             
             config = ConsortiumConfig(
                 models=models_dict,
                 arbiter=arbiter,
                 confidence_threshold=confidence,
                 max_iterations=int(max_iter),
-                min_iterations=int(min_iter)
+                min_iterations=int(min_iter),
+                min_temp=min_temp,
+                max_temp=max_temp,
+                num_trials=num_trials
             )
             
-            result = asyncio.run(runner_sql.run_consortium(config,csv_path))
-            
-            st.subheader("Results")
-
-            summary_data = []
-            for query_result in result:
-                summary_data.append({
-                    "Database ID": query_result.get('db_id', 'N/A'),
-                    "Question": query_result.get('question', 'N/A'),
-                    "Generated SQL": query_result['synthesis'].get('final_query', 'No SQL generated'),
-                    "Intent": query_result.get('intent', 'N/A'),
-                    "Confidence": query_result['synthesis'].get('confidence', 0),
-                    "Iterations": query_result.get('iterations', max_iter)
-                })
-            summary_df=pd.DataFrame(summary_data)
-            st.markdown("### Consolidated Results")
-            st.dataframe(
-                pd.DataFrame(summary_data),
-                column_config={
-                    "Generated SQL": st.column_config.TextColumn(
-                        "SQL Query",
-                        help="Final synthesized SQL",
-                        width="large"
-                    )
-                },
-                use_container_width=True,
-                hide_index=True
-            )
-            
-            # Detailed results for each query
-            for idx, query_result in enumerate(result):
-                st.markdown(f"### Query {idx+1} Details")
+            try:
+                with st.spinner("Running consortium..."):
+                    result = asyncio.run(runner_sql.run_consortium(config, csv_path))
                 
-                col1, col2 = st.columns(2)
-                with col1:
-                    st.markdown(f"**Database:** `{query_result.get('db_id', 'N/A')}`")
-                    st.markdown(f"**Intent:** {query_result.get('intent', 'N/A')}")
+                st.subheader("Results")
+
+                summary_data = []
+                for query_result in result:
+                    best_result = query_result.get('best', {})
+                    summary_entry = {
+                        "Database ID": query_result.get('db_id', 'N/A'),
+                        "Question": query_result.get('question', 'N/A'),
+                        "Generated SQL": best_result.get('final_query', 'No SQL generated'),
+                        "Best Temperature": best_result.get('temperature', 0.0),
+                        "Min Temp": min_temp,
+                        "Max Temp": max_temp,
+                        "Trials": num_trials,
+                        "Confidence": best_result.get('confidence', 0),
+                        "Iterations": query_result.get('iterations', max_iter),
+                        "Intent": query_result.get('intent', 'N/A')
+                    }
+                    summary_data.append(summary_entry)
+
+                if not summary_data:
+                    st.warning("No results returned. Check your CSV format.")
+                    st.stop()
+                
+                summary_df = pd.DataFrame(summary_data)
+
+                st.markdown("### Consolidated Results")
+                st.dataframe(
+                    summary_df,
+                    column_config={
+                        "Generated SQL": st.column_config.TextColumn("SQL Query", width="large"),
+                        "Best Temperature": st.column_config.NumberColumn(format="%.2f"),
+                        "Confidence": st.column_config.NumberColumn(format="%.2f")
+                    },
+                    use_container_width=True,
+                    hide_index=True
+                )
+
+                for idx, query_result in enumerate(result):
+                    st.markdown(f"### Query {idx+1} Details")
                     
-                with col2:
-                    st.markdown(f"**Confidence:** {query_result['synthesis'].get('confidence', 0):.2f}")
-                    st.markdown(f"**Iterations:** {query_result.get('iterations', max_iter)}")
+                    best_result = query_result.get('best', {})
+                    # Get trials data from query_result instead of best_result
+                    trials_data = query_result.get('trials', [])
 
-                st.markdown("#### Final SQL")
-                st.code(query_result['synthesis'].get('final_query', 'No SQL generated'), language='sql')
+                    col1, col2, col3 = st.columns(3)
+                    with col1:
+                        st.metric("Best Temperature", f"{best_result.get('temperature', 0.0):.2f}")
+                    with col2:
+                        st.metric("Temperature Range", f"{min_temp}-{max_temp}")
+                    with col3:
+                        st.metric("Trials Conducted", num_trials)
+
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.markdown(f"**Database:** `{query_result.get('db_id', 'N/A')}`")
+                        st.markdown(f"**Intent:** {query_result.get('intent', 'N/A')}")
+                    with col2:
+                        st.markdown(f"**Confidence:** {best_result.get('confidence', 0):.2f}")
+                        st.markdown(f"**Iterations:** {query_result.get('iterations', max_iter)}")
+
+                    st.markdown("#### Final SQL")
+                    st.code(best_result.get('final_query', 'No SQL generated'), language='sql')
+
+                    # Updated the trials_data check and visualization
+                    if trials_data:
+                        with st.expander("Temperature Tuning Analysis"):
+                            trial_df = pd.DataFrame(trials_data)
+                            
+                            if not trial_df.empty and 'temperature' in trial_df.columns and 'confidence' in trial_df.columns:
+                                # Get the best temperature and confidence for highlighting
+                                best_temp = best_result.get('temperature')
+                                best_conf = best_result.get('confidence')
+                                
+                                chart = alt.Chart(trial_df).mark_line().encode(
+                                    x='temperature:Q',
+                                    y='confidence:Q',
+                                    tooltip=['temperature', 'confidence'] + 
+                                           (['sql'] if 'sql' in trial_df.columns else [])
+                                ).properties(title="Temperature vs Confidence", height=300)
+                                
+                                # Add a marker for the best point if we have the data
+                                if best_temp is not None and best_conf is not None:
+                                    best_point = alt.Chart(pd.DataFrame([{
+                                        'temperature': best_temp,
+                                        'confidence': best_conf
+                                    }])).mark_circle(color='red', size=100).encode(
+                                        x='temperature:Q',
+                                        y='confidence:Q'
+                                    )
+                                    chart = chart + best_point
+                                    
+                                st.altair_chart(chart, use_container_width=True)
+                            else:
+                                st.warning("Temperature trial data has incorrect format or is empty")
+
+                    responses_data = []
+                    for response in query_result.get("raw_responses", []):
+                        responses_data.append({
+                            "Model": response.get("model", "Unknown"),
+                            "SQL Response": response.get("response", ""),
+                            "Confidence": response.get("confidence", 0),
+                            "Latency (s)": f"{response.get('latency', 0):.2f}",
+                            "Iteration": response.get("iteration", 0)
+                        })
+
+                    if responses_data:
+                        st.markdown("#### Model Responses")
+                        df_responses = pd.DataFrame(responses_data)
+                        st.dataframe(
+                            df_responses,
+                            column_config={
+                                "SQL Response": st.column_config.TextColumn("SQL", help="Model-generated SQL", width="large")
+                            },
+                            use_container_width=True,
+                            hide_index=True
+                        )
+
+                        with st.expander("Performance Analysis"):
+                            col1, col2 = st.columns(2)
+                            with col1:
+                                st.altair_chart(alt.Chart(df_responses).mark_bar().encode(
+                                    x='Model:N',
+                                    y='Confidence:Q',
+                                    color='Model:N',
+                                    tooltip=['Model', 'Confidence', 'Latency (s)']
+                                ).properties(height=300))
+                            with col2:
+                                st.altair_chart(alt.Chart(df_responses).mark_circle(size=60).encode(
+                                    x='Latency (s):Q',
+                                    y='Confidence:Q',
+                                    color='Model:N',
+                                    tooltip=['Model', 'Confidence', 'Latency (s)']
+                                ).properties(height=300))
+                    else:
+                        st.warning("No model responses recorded for this query")
+
+                csv_data = summary_df.to_csv(index=False).encode('utf-8')
+                download_key = f"spider_download_{datetime.now().timestamp()}_{uuid.uuid4()}"
+                st.download_button(
+                    "⬇️ Download Consolidated Results (CSV)",
+                    data=csv_data,
+                    file_name="spider_consortium_results.csv",
+                    mime="text/csv",
+                    key=download_key,
+                    help="Includes temperature tuning details"
+                )
                 
-                # Model responses
-                responses_data = []
-                for response in query_result.get("raw_responses", []):
-                    responses_data.append({
-                        "Model": response.get("model", "Unknown"),
-                        "SQL Response": response.get("response", ""),
-                        "Confidence": response.get("confidence", 0),
-                        "Latency (s)": f"{response.get('latency', 0):.2f}",
-                        "Iteration": response.get("iteration", 0)
-                    })
+            except Exception as e:
+                st.error(f"Error running consortium: {str(e)}")
+                import traceback
+                st.code(traceback.format_exc(), language="python")
+# """version 2 working"""
+# def spider_eval_page():
+#     import streamlit as st
+#     from llm_consortium.core.runner_sql import ConsortiumRunnerSQL
+#     from llm_consortium.config.models import ConsortiumConfig
+#     import asyncio
+#     import json
+#     import tempfile
+#     import pandas as pd
+#     import altair as alt
+#     import uuid
+#     from datetime import datetime
+#     from llm_consortium.utils.pricing import calculate_cost
+
+#     if 'download_key' not in st.session_state:
+#         st.session_state.download_key = f"spider_init_{uuid.uuid4()}"
+
+#     if 'models' not in st.session_state:
+#         st.session_state.models = []
+        
+#     st.title("GenAI App Tuner")
+
+#     runner_sql = ConsortiumRunnerSQL()
+
+#     col1, col2 = st.columns([2, 3])
+
+#     with col1:
+#         st.subheader("Configuration")
+#         model_selector = st.selectbox("Select Model", ["gpt-4o-mini", "gpt-3.5-turbo", "gemini-2", "o3-mini"])
+#         instance_count = st.number_input("Instances", min_value=1, value=1, step=1)
+        
+#         if st.button("Add Model"):
+#             new_models = {(m, c) for m, c in st.session_state.models if m != model_selector}
+#             new_models.add((model_selector, instance_count))
+#             st.session_state.models = list(new_models)
+#             st.rerun()
+        
+#         if st.session_state.models:
+#             st.write("### Selected Models")
+#             for idx, (model, count) in enumerate(st.session_state.models):
+#                 cols = st.columns([4, 2, 1])
+#                 with cols[0]:
+#                     st.markdown(f"**{model}**")
+#                 with cols[1]:
+#                     st.markdown(f"Instances: {count}")
+#                 with cols[2]:
+#                     if st.button("❌", key=f"delete_{idx}"):
+#                         st.session_state.models.remove((model, count))
+#                         st.rerun()
+#         else:
+#             st.info("No models added yet")
+        
+#         st.subheader("Arbiter Tuning")
+#         min_temp = st.slider("Min Temperature", 0.0, 1.0, 0.1)
+#         max_temp = st.slider("Max Temperature", 0.0, 1.0, 0.9)
+#         num_trials = st.number_input("Temperature Trials", 1, 20, 5)
+#         if min_temp >= max_temp:
+#             st.error("Max temperature must be greater than min temperature")
+        
+#         arbiter = st.selectbox("Arbiter Model", ["gpt-4o-mini", "gemini-2", "gpt-3.5-turbo"], index=2)
+#         confidence = st.slider("Confidence Threshold", 0.0, 1.0, 0.8)
+#         max_iter = st.number_input("Max Iterations", min_value=1, value=3, step=1)
+#         min_iter = st.number_input("Min Iterations", min_value=1, value=1, step=1)
+
+#     with col2:
+#         st.subheader("Execution")
+#         uploaded_file = st.file_uploader(
+#             "Upload CSV with queries must include db_id and question columns",
+#             type=["csv"],
+#             help="CSV must contain 'db_id' and 'question' columns"
+#         )
+        
+#         if uploaded_file is not None and st.session_state.models:
+#             models_dict = {model: count for model, count in st.session_state.models}
+#             total_cost, cost_df = calculate_cost(
+#                 [(m, c) for m, c in models_dict.items()] + [(arbiter, 1)], 
+#                 max_iter
+#             )
+#             st.write(f"**Estimated Cost:** ${total_cost:.4f}")
+#             st.dataframe(cost_df, use_container_width=True)
+#         elif uploaded_file:
+#             st.info("Add models to see cost estimation")
+
+#         if st.button("Run Consortium", type="primary"):
+#             if not st.session_state.models:
+#                 st.error("Please add at least one model")
+#                 st.stop()
+#             if not uploaded_file:
+#                 st.error("Please upload a CSV file first")
+#                 st.stop()
+
+#             with tempfile.NamedTemporaryFile(delete=False, suffix=".csv") as tmp_file:
+#                 tmp_file.write(uploaded_file.getvalue())
+#                 csv_path = tmp_file.name
+            
+#             models_dict = {model: count for model, count in st.session_state.models}
+            
+#             config = ConsortiumConfig(
+#                 models=models_dict,
+#                 arbiter=arbiter,
+#                 confidence_threshold=confidence,
+#                 max_iterations=int(max_iter),
+#                 min_iterations=int(min_iter),
+#                 min_temp=min_temp,
+#                 max_temp=max_temp,
+#                 num_trials=num_trials
+#             )
+            
+#             try:
+#                 with st.spinner("Running consortium..."):
+#                     result = asyncio.run(runner_sql.run_consortium(config, csv_path))
                 
-                if responses_data:
-                    df_responses = pd.DataFrame(responses_data)
-                    st.dataframe(
-                        df_responses,
-                        column_config={
-                            "SQL Response": st.column_config.TextColumn(
-                                "SQL",
-                                help="Model-generated SQL",
-                                width="large"
-                            )
-                        },
-                        use_container_width=True,
-                        hide_index=True
-                    )
+#                 st.subheader("Results")
+
+#                 summary_data = []
+#                 for query_result in result:
+#                     best_result = query_result.get('best', {})
+#                     summary_entry = {
+#                         "Database ID": query_result.get('db_id', 'N/A'),
+#                         "Question": query_result.get('question', 'N/A'),
+#                         "Generated SQL": best_result.get('final_query', 'No SQL generated'),
+#                         "Best Temperature": best_result.get('temperature', 0.0),
+#                         "Min Temp": min_temp,
+#                         "Max Temp": max_temp,
+#                         "Trials": num_trials,
+#                         "Confidence": best_result.get('confidence', 0),
+#                         "Iterations": query_result.get('iterations', max_iter),
+#                         "Intent": query_result.get('intent', 'N/A')
+#                     }
+#                     summary_data.append(summary_entry)
+
+#                 if not summary_data:
+#                     st.warning("No results returned. Check your CSV format.")
+#                     st.stop()
+                
+#                 summary_df = pd.DataFrame(summary_data)
+
+#                 st.markdown("### Consolidated Results")
+#                 st.dataframe(
+#                     summary_df,
+#                     column_config={
+#                         "Generated SQL": st.column_config.TextColumn("SQL Query", width="large"),
+#                         "Best Temperature": st.column_config.NumberColumn(format="%.2f"),
+#                         "Confidence": st.column_config.NumberColumn(format="%.2f")
+#                     },
+#                     use_container_width=True,
+#                     hide_index=True
+#                 )
+
+#                 for idx, query_result in enumerate(result):
+#                     st.markdown(f"### Query {idx+1} Details")
                     
-                    # Visualizations
-                    with st.expander("Performance Analysis"):
-                        col1, col2 = st.columns(2)
-                        with col1:
-                            st.altair_chart(alt.Chart(df_responses).mark_bar().encode(
-                                x='Model:N',
-                                y='Confidence:Q',
-                                color='Model:N',
-                                tooltip=['Model', 'Confidence', 'Latency (s)']
-                            ).properties(height=300))
-                        
-                        with col2:
-                            st.altair_chart(alt.Chart(df_responses).mark_circle(size=60).encode(
-                                x='Latency (s):Q',
-                                y='Confidence:Q',
-                                color='Model:N',
-                                tooltip=['Model', 'Confidence', 'Latency (s)']
-                            ).properties(height=300))
-                else:
-                    st.warning("No model responses recorded for this query")
+#                     best_result = query_result.get('best', {})
+#                     trials = best_result.get('trials', [])
 
+#                     col1, col2, col3 = st.columns(3)
+#                     with col1:
+#                         st.metric("Best Temperature", f"{best_result.get('temperature', 0.0):.2f}")
+#                     with col2:
+#                         st.metric("Temperature Range", f"{min_temp}-{max_temp}")
+#                     with col3:
+#                         st.metric("Trials Conducted", num_trials)
+
+#                     col1, col2 = st.columns(2)
+#                     with col1:
+#                         st.markdown(f"**Database:** `{query_result.get('db_id', 'N/A')}`")
+#                         st.markdown(f"**Intent:** {query_result.get('intent', 'N/A')}")
+#                     with col2:
+#                         st.markdown(f"**Confidence:** {best_result.get('confidence', 0):.2f}")
+#                         st.markdown(f"**Iterations:** {query_result.get('iterations', max_iter)}")
+
+#                     st.markdown("#### Final SQL")
+#                     st.code(best_result.get('final_query', 'No SQL generated'), language='sql')
+
+#                     if trials:
+#                         with st.expander("Temperature Tuning Analysis"):
+#                             trial_df = pd.DataFrame(trials)
+#                             if 'temperature' in trial_df and 'confidence' in trial_df:
+#                                 chart = alt.Chart(trial_df).mark_line().encode(
+#                                     x='temperature:Q',
+#                                     y='confidence:Q',
+#                                     tooltip=['temperature', 'confidence'] + (['sql'] if 'sql' in trial_df.columns else [])
+#                                 ).properties(title="Temperature vs Confidence", height=300)
+
+#                                 if 'temperature' in best_result and 'confidence' in best_result:
+#                                     best_point = alt.Chart(pd.DataFrame([{
+#                                         'temperature': best_result['temperature'],
+#                                         'confidence': best_result['confidence']
+#                                     }])).mark_circle(color='red', size=100).encode(
+#                                         x='temperature:Q',
+#                                         y='confidence:Q'
+#                                     )
+#                                     chart += best_point
+#                                 st.altair_chart(chart, use_container_width=True)
+#                             else:
+#                                 st.warning("Temperature trial data has incorrect format")
+
+#                     responses_data = []
+#                     for response in query_result.get("raw_responses", []):
+#                         responses_data.append({
+#                             "Model": response.get("model", "Unknown"),
+#                             "SQL Response": response.get("response", ""),
+#                             "Confidence": response.get("confidence", 0),
+#                             "Latency (s)": f"{response.get('latency', 0):.2f}",
+#                             "Iteration": response.get("iteration", 0)
+#                         })
+
+#                     if responses_data:
+#                         st.markdown("#### Model Responses")
+#                         df_responses = pd.DataFrame(responses_data)
+#                         st.dataframe(
+#                             df_responses,
+#                             column_config={
+#                                 "SQL Response": st.column_config.TextColumn("SQL", help="Model-generated SQL", width="large")
+#                             },
+#                             use_container_width=True,
+#                             hide_index=True
+#                         )
+
+#                         with st.expander("Performance Analysis"):
+#                             col1, col2 = st.columns(2)
+#                             with col1:
+#                                 st.altair_chart(alt.Chart(df_responses).mark_bar().encode(
+#                                     x='Model:N',
+#                                     y='Confidence:Q',
+#                                     color='Model:N',
+#                                     tooltip=['Model', 'Confidence', 'Latency (s)']
+#                                 ).properties(height=300))
+#                             with col2:
+#                                 st.altair_chart(alt.Chart(df_responses).mark_circle(size=60).encode(
+#                                     x='Latency (s):Q',
+#                                     y='Confidence:Q',
+#                                     color='Model:N',
+#                                     tooltip=['Model', 'Confidence', 'Latency (s)']
+#                                 ).properties(height=300))
+#                     else:
+#                         st.warning("No model responses recorded for this query")
+
+#                 csv_data = summary_df.to_csv(index=False).encode('utf-8')
+#                 download_key = f"spider_download_{datetime.now().timestamp()}_{uuid.uuid4()}"
+#                 st.download_button(
+#                     "⬇️ Download Consolidated Results (CSV)",
+#                     data=csv_data,
+#                     file_name="spider_consortium_results.csv",
+#                     mime="text/csv",
+#                     key=download_key,
+#                     help="Includes temperature tuning details"
+#                 )
                 
-            csv_data = summary_df.to_csv(index=False).encode('utf-8')
-            download_key = f"spider_download_{datetime.now().timestamp()}_{uuid.uuid4()}"
-                
-            st.download_button(
-                "⬇️ Download Consolidated Results (CSV)",
-                data=csv_data,
-                file_name="consortium_summary.csv",
-                mime="text/csv",
-                key=download_key,
-                help="Download summary data in CSV format"
-            )
+#             except Exception as e:
+#                 st.error(f"Error running consortium: {str(e)}")
+#                 import traceback
+#                 st.code(traceback.format_exc(), language="python")
 
 
 

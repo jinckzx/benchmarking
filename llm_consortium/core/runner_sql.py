@@ -149,42 +149,73 @@ class ConsortiumRunnerSQL:
                             }
                         )
                         valid_results.append(result)
-                    
-                    # Perform synthesis with context
+                    # Perform synthesis with temperature tuning
                     synthesis = await self.synthesis_handler.synthesize(
                         prompt,
                         valid_results,
                         config.arbiter,
-                        iteration + 1
+                        iteration + 1,
+                        min_temp=config.min_temp,
+                        max_temp=config.max_temp,
+                        num_trials=config.num_trials
                     )
-                    
-                    # Log synthesis results with full context
+                    #####################################################################
+                    # # Perform synthesis with context
+                    # synthesis = await self.synthesis_handler.synthesize(
+                    #     prompt,
+                    #     valid_results,
+                    #     config.arbiter,
+                    #     iteration + 1
+                    # )
+                    ###################################################################
+                    # # Log synthesis results with full context
+                    # logger.info(
+                    #     f"Iteration {iteration+1} Synthesis Complete - Confidence: {synthesis['confidence']:.2f}",
+                    #     extra={
+                    #         'question': prompt,
+                    #         'generated_sql': synthesis.get('final_query', synthesis.get('response', 'N/A'))
+                    #     }
+                    # )                    
+                    # # Update logging with temperature info
                     logger.info(
-                        f"Iteration {iteration+1} Synthesis Complete - Confidence: {synthesis['confidence']:.2f}",
+                        f"Iteration {iteration+1} Best Synthesis - "
+                        f"Temp: {synthesis['best']['temperature']:.2f}, "
+                        f"Confidence: {synthesis['best']['confidence']:.2f}",
                         extra={
                             'question': prompt,
-                            'generated_sql': synthesis.get('final_query', synthesis.get('response', 'N/A'))
+                            'generated_sql': synthesis['best']['final_query']
                         }
                     )
-                    
-                    # Build final result package
                     final_result = {
-                        "synthesis": synthesis,
+                        **synthesis,
                         "raw_responses": responses,
                         "iterations": iteration + 1,
-                        "intent": max(
-                            (r.intent for r in valid_results),
-                            key=lambda x: list(r.intent for r in valid_results).count(x)
-                        ) if valid_results else "unknown",
+                        "intent": synthesis['best']['intent'],
                         "db_id": db_id,
                         "question": prompt  
                     }
                     final_results.append(final_result)
-                    
+                    # Build final result package
+                    # final_result = {
+                    #     "synthesis": synthesis,
+                    #     "raw_responses": responses,
+                    #     "iterations": iteration + 1,
+                    #     "intent": max(
+                    #         (r.intent for r in valid_results),
+                    #         key=lambda x: list(r.intent for r in valid_results).count(x)
+                    #     ) if valid_results else "unknown",
+                    #     "db_id": db_id,
+                    #     "question": prompt  
+                    # }
+                    # final_results.append(final_result)
                     # Check early exit conditions
-                    if (synthesis['confidence'] >= config.confidence_threshold 
+                    if (synthesis['best']['confidence'] >= config.confidence_threshold 
                         and iteration >= config.min_iterations - 1):
                         break
+                    # # Check early exit conditions
+                    # if (synthesis['confidence'] >= config.confidence_threshold 
+                    #     and iteration >= config.min_iterations - 1):
+                    #     break
 
         finally:
             self.db_handler.close()
