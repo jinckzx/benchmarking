@@ -1,0 +1,31 @@
+class,question
+baseball_game_match,What is average salary of the players in the team named 'Boston Red Stockings' ?
+bike,How many trips stated from  a station in Mountain View and ended at one in Palo Alto?
+icfp,"Find the first and last name of the author(s) who wrote the paper ""Nameless, Painless""."
+university_school_college_activity,Find courses that ran in Fall 2009 and in Spring 2010.
+club,Count the total number of students.
+icfp,"Which papers have the substring ""Database"" in their titles? Show the titles of the papers."
+protein,How many institutions do not have an associated protein in our record?
+music_musical_theme,Find all the vocal types.
+customer_customers,How many customers are there of each gender?
+machine,Show the team that have at least two technicians.
+election,"Find the distinct years when the governor was named ""Eliot Spitzer""."
+local,"What are the distinct cross reference source system codes which are related to the master customer details 'Gottlieb, Becker and Wyman'?"
+dorm,Find the name of dorms only for female (F gender).
+cre,Give the details of the project with the document name 'King Book'.
+music_musical_theme,"Show all artist name, age, and country ordered by the yeared they joined."
+customer_customers,Give me the name of the customer who ordered the most items in total.
+culture,What are all company names that have a corresponding movie directed in the year 1999?
+program,Which channels broadcast both in the morning and at night? Give me the channel names.
+party,What are the names of members and their corresponding parties?
+film_sakila_movie_cinema,"What are the names and ids of the different categories, and how many films are in each?"
+company,Show the different headquarters and number of companies at each headquarter.
+customer_customers,Retrieve the list of all cities.
+university_school_college_activity,What are the names of all instructors who advise students in the math depart sorted by total credits of the student.
+culture,"Show all movie titles, years, and directors, ordered by budget."
+university_school_college_activity,What is the name of the instructor who advises the student with the greatest number of total credits?
+e,List all the information about course authors and tutors in alphabetical order of the personal name.
+csu,Which campus has the most degrees conferred in all times?
+university_school_college_activity,What are the names of all students who took a class and the corresponding course descriptions?
+university_school_college_activity,How many different departments are there in each school that has less than 5 apartments?
+assets,"List the asset id, details, make and model for every asset."

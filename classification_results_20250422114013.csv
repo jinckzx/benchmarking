@@ -1,0 +1,31 @@
+question,predicted_class,confidence,iterations,temperature,reasoning,true_class,is_correct
+What is average salary of the players in the team named 'Boston Red Stockings' ?,UNKNOWN,0.85,1,0.39,,baseball_game_match,False
+How many trips stated from  a station in Mountain View and ended at one in Palo Alto?,UNKNOWN,0.85,1,0.23,,bike,False
+"Find the first and last name of the author(s) who wrote the paper ""Nameless, Painless"".",UNKNOWN,0.85,1,0.29,,icfp,False
+Find courses that ran in Fall 2009 and in Spring 2010.,UNKNOWN,0.85,1,0.42,,university_school_college_activity,False
+Count the total number of students.,UNKNOWN,0.85,1,0.17,,club,False
+"Which papers have the substring ""Database"" in their titles? Show the titles of the papers.",UNKNOWN,0.85,1,0.31,,icfp,False
+How many institutions do not have an associated protein in our record?,UNKNOWN,0.85,1,0.54,,protein,False
+Find all the vocal types.,ifications,0.9,1,0.59,,music_musical_theme,False
+How many customers are there of each gender?,UNKNOWN,0.85,1,0.31,,customer_customers,False
+Show the team that have at least two technicians.,UNKNOWN,0.85,1,0.11,,machine,False
+"Find the distinct years when the governor was named ""Eliot Spitzer"".",UNKNOWN,0.85,1,0.16,,election,False
+"What are the distinct cross reference source system codes which are related to the master customer details 'Gottlieb, Becker and Wyman'?",UNKNOWN,0.85,1,0.25,,local,False
+Find the name of dorms only for female (F gender).,UNKNOWN,0.85,1,0.43,,dorm,False
+Give the details of the project with the document name 'King Book'.,UNKNOWN,0.85,1,0.16,,cre,False
+"Show all artist name, age, and country ordered by the yeared they joined.",UNKNOWN,0.85,1,0.3,,music_musical_theme,False
+Give me the name of the customer who ordered the most items in total.,UNKNOWN,0.85,1,0.33,,customer_customers,False
+What are all company names that have a corresponding movie directed in the year 1999?,UNKNOWN,0.9,1,0.8,,culture,False
+Which channels broadcast both in the morning and at night? Give me the channel names.,UNKNOWN,0.85,1,0.17,,program,False
+What are the names of members and their corresponding parties?,UNKNOWN,0.85,1,0.31,,party,False
+"What are the names and ids of the different categories, and how many films are in each?",UNKNOWN,0.95,1,0.67,,film_sakila_movie_cinema,False
+Show the different headquarters and number of companies at each headquarter.,UNKNOWN,0.85,1,0.31,,company,False
+Retrieve the list of all cities.,UNKNOWN,0.85,1,0.26,,customer_customers,False
+What are the names of all instructors who advise students in the math depart sorted by total credits of the student.,UNKNOWN,0.85,1,0.21,,university_school_college_activity,False
+"Show all movie titles, years, and directors, ordered by budget.",UNKNOWN,0.85,1,0.12,,culture,False
+What is the name of the instructor who advises the student with the greatest number of total credits?,UNKNOWN,0.85,1,0.2,,university_school_college_activity,False
+List all the information about course authors and tutors in alphabetical order of the personal name.,UNKNOWN,0.85,1,0.29,,e,False
+Which campus has the most degrees conferred in all times?,UNKNOWN,0.85,1,0.12,,csu,False
+What are the names of all students who took a class and the corresponding course descriptions?,and the corresponding course descriptions are as follows,0.85,1,0.2,,university_school_college_activity,False
+How many different departments are there in each school that has less than 5 apartments?,UNKNOWN,0.85,1,0.19,,university_school_college_activity,False
+"List the asset id, details, make and model for every asset.",UNKNOWN,0.85,1,0.11,,assets,False

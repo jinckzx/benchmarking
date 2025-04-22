@@ -338,7 +338,7 @@ def main():
         st.header("Evaluation Types")
         app_mode = st.radio(
             "Select Evaluation Mode",
-            ["Non-RAG_eval", "RAG_eval", "Text2SQL_eval"],
+            ["Non-RAG_eval", "RAG_eval", "Text2SQL_eval","Classification_Eval"],
             index=0
         )
 
@@ -348,6 +348,8 @@ def main():
         rag_eval_page()
     elif app_mode == "Text2SQL_eval":
         spider_eval_page()
+    elif app_mode == "Classification_Eval":
+        classification_page()
 
 def prompt_eval_page():
     # st.title("GenAI App Tuner")
@@ -1142,261 +1144,290 @@ def spider_eval_page():
                 st.error(f"Error running consortium: {str(e)}")
                 import traceback
                 st.code(traceback.format_exc(), language="python")
-# """version 2 working"""
-# def spider_eval_page():
-#     import streamlit as st
-#     from llm_consortium.core.runner_sql import ConsortiumRunnerSQL
-#     from llm_consortium.config.models import ConsortiumConfig
-#     import asyncio
-#     import json
-#     import tempfile
-#     import pandas as pd
-#     import altair as alt
-#     import uuid
-#     from datetime import datetime
-#     from llm_consortium.utils.pricing import calculate_cost
+def classification_page():
+    import streamlit as st
+    from llm_consortium.core.runner_class import ConsortiumRunnerClass
+    from llm_consortium.config.models import ConsortiumConfig
+    import asyncio
+    import json
+    import tempfile
+    import pandas as pd
+    import altair as alt
+    import uuid
+    from datetime import datetime
+    from llm_consortium.utils.pricing import calculate_cost
+    
+    if 'download_key' not in st.session_state:
+        st.session_state.download_key = f"classification_init_{uuid.uuid4()}"
 
-#     if 'download_key' not in st.session_state:
-#         st.session_state.download_key = f"spider_init_{uuid.uuid4()}"
-
-#     if 'models' not in st.session_state:
-#         st.session_state.models = []
+    if 'classification_models' not in st.session_state:
+        st.session_state.classification_models = []
         
-#     st.title("GenAI App Tuner")
+    st.title("Classification Consortium Tuner")
 
-#     runner_sql = ConsortiumRunnerSQL()
+    runner_class = ConsortiumRunnerClass()
 
-#     col1, col2 = st.columns([2, 3])
+    col1, col2 = st.columns([2, 3])
 
-#     with col1:
-#         st.subheader("Configuration")
-#         model_selector = st.selectbox("Select Model", ["gpt-4o-mini", "gpt-3.5-turbo", "gemini-2", "o3-mini"])
-#         instance_count = st.number_input("Instances", min_value=1, value=1, step=1)
+    with col1:
+        st.subheader("Configuration")
+        model_selector = st.selectbox("Select Model", ["gpt-4o-mini", "gpt-3.5-turbo", "gemini-2", "o3-mini", "claude-3-sonnet"])
+        instance_count = st.number_input("Instances", min_value=1, value=1, step=1)
         
-#         if st.button("Add Model"):
-#             new_models = {(m, c) for m, c in st.session_state.models if m != model_selector}
-#             new_models.add((model_selector, instance_count))
-#             st.session_state.models = list(new_models)
-#             st.rerun()
+        if st.button("Add Model"):
+            new_models = {(m, c) for m, c in st.session_state.classification_models if m != model_selector}
+            new_models.add((model_selector, instance_count))
+            st.session_state.classification_models = list(new_models)
+            st.rerun()
         
-#         if st.session_state.models:
-#             st.write("### Selected Models")
-#             for idx, (model, count) in enumerate(st.session_state.models):
-#                 cols = st.columns([4, 2, 1])
-#                 with cols[0]:
-#                     st.markdown(f"**{model}**")
-#                 with cols[1]:
-#                     st.markdown(f"Instances: {count}")
-#                 with cols[2]:
-#                     if st.button("❌", key=f"delete_{idx}"):
-#                         st.session_state.models.remove((model, count))
-#                         st.rerun()
-#         else:
-#             st.info("No models added yet")
+        if st.session_state.classification_models:
+            st.write("### Selected Models")
+            for idx, (model, count) in enumerate(st.session_state.classification_models):
+                cols = st.columns([4, 2, 1])
+                with cols[0]:
+                    st.markdown(f"**{model}**")
+                with cols[1]:
+                    st.markdown(f"Instances: {count}")
+                with cols[2]:
+                    if st.button("❌", key=f"delete_class_{idx}"):
+                        st.session_state.classification_models.remove((model, count))
+                        st.rerun()
+        else:
+            st.info("No models added yet")
         
-#         st.subheader("Arbiter Tuning")
-#         min_temp = st.slider("Min Temperature", 0.0, 1.0, 0.1)
-#         max_temp = st.slider("Max Temperature", 0.0, 1.0, 0.9)
-#         num_trials = st.number_input("Temperature Trials", 1, 20, 5)
-#         if min_temp >= max_temp:
-#             st.error("Max temperature must be greater than min temperature")
+        st.subheader("Arbiter Tuning")
+        min_temp = st.slider("Min Temperature", 0.0, 1.0, 0.1)
+        max_temp = st.slider("Max Temperature", 0.0, 1.0, 0.9)
+        num_trials = st.number_input("Temperature Trials", 1, 20, 5)
+        if min_temp >= max_temp:
+            st.error("Max temperature must be greater than min temperature")
         
-#         arbiter = st.selectbox("Arbiter Model", ["gpt-4o-mini", "gemini-2", "gpt-3.5-turbo"], index=2)
-#         confidence = st.slider("Confidence Threshold", 0.0, 1.0, 0.8)
-#         max_iter = st.number_input("Max Iterations", min_value=1, value=3, step=1)
-#         min_iter = st.number_input("Min Iterations", min_value=1, value=1, step=1)
+        arbiter = st.selectbox("Arbiter Model", ["gpt-4o-mini", "gemini-2", "gpt-3.5-turbo", "claude-3-sonnet"], index=2)
+        confidence = st.slider("Confidence Threshold", 0.0, 1.0, 0.8)
+        max_iter = st.number_input("Max Iterations", min_value=1, value=3, step=1)
+        min_iter = st.number_input("Min Iterations", min_value=1, value=1, step=1)
 
-#     with col2:
-#         st.subheader("Execution")
-#         uploaded_file = st.file_uploader(
-#             "Upload CSV with queries must include db_id and question columns",
-#             type=["csv"],
-#             help="CSV must contain 'db_id' and 'question' columns"
-#         )
+    with col2:
+        st.subheader("Execution")
+        uploaded_file = st.file_uploader(
+            "Upload CSV with questions and optional class labels",
+            type=["csv"],
+            help="CSV must contain 'question' column and optionally 'class', 'label', or 'category' column"
+        )
         
-#         if uploaded_file is not None and st.session_state.models:
-#             models_dict = {model: count for model, count in st.session_state.models}
-#             total_cost, cost_df = calculate_cost(
-#                 [(m, c) for m, c in models_dict.items()] + [(arbiter, 1)], 
-#                 max_iter
-#             )
-#             st.write(f"**Estimated Cost:** ${total_cost:.4f}")
-#             st.dataframe(cost_df, use_container_width=True)
-#         elif uploaded_file:
-#             st.info("Add models to see cost estimation")
+        if uploaded_file is not None and st.session_state.classification_models:
+            models_dict = {model: count for model, count in st.session_state.classification_models}
+            total_cost, cost_df = calculate_cost(
+                [(m, c) for m, c in models_dict.items()] + [(arbiter, 1)], 
+                max_iter
+            )
+            st.write(f"**Estimated Cost:** ${total_cost:.4f}")
+            st.dataframe(cost_df, use_container_width=True)
+        elif uploaded_file:
+            st.info("Add models to see cost estimation")
 
-#         if st.button("Run Consortium", type="primary"):
-#             if not st.session_state.models:
-#                 st.error("Please add at least one model")
-#                 st.stop()
-#             if not uploaded_file:
-#                 st.error("Please upload a CSV file first")
-#                 st.stop()
+        if st.button("Run Classification Consortium", type="primary"):
+            if not st.session_state.classification_models:
+                st.error("Please add at least one model")
+                st.stop()
+            if not uploaded_file:
+                st.error("Please upload a CSV file first")
+                st.stop()
 
-#             with tempfile.NamedTemporaryFile(delete=False, suffix=".csv") as tmp_file:
-#                 tmp_file.write(uploaded_file.getvalue())
-#                 csv_path = tmp_file.name
-            
-#             models_dict = {model: count for model, count in st.session_state.models}
-            
-#             config = ConsortiumConfig(
-#                 models=models_dict,
-#                 arbiter=arbiter,
-#                 confidence_threshold=confidence,
-#                 max_iterations=int(max_iter),
-#                 min_iterations=int(min_iter),
-#                 min_temp=min_temp,
-#                 max_temp=max_temp,
-#                 num_trials=num_trials
-#             )
-            
-#             try:
-#                 with st.spinner("Running consortium..."):
-#                     result = asyncio.run(runner_sql.run_consortium(config, csv_path))
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".csv") as tmp_file:
+                tmp_file.write(uploaded_file.getvalue())
+                csv_path = tmp_file.name
                 
-#                 st.subheader("Results")
-
-#                 summary_data = []
-#                 for query_result in result:
-#                     best_result = query_result.get('best', {})
-#                     summary_entry = {
-#                         "Database ID": query_result.get('db_id', 'N/A'),
-#                         "Question": query_result.get('question', 'N/A'),
-#                         "Generated SQL": best_result.get('final_query', 'No SQL generated'),
-#                         "Best Temperature": best_result.get('temperature', 0.0),
-#                         "Min Temp": min_temp,
-#                         "Max Temp": max_temp,
-#                         "Trials": num_trials,
-#                         "Confidence": best_result.get('confidence', 0),
-#                         "Iterations": query_result.get('iterations', max_iter),
-#                         "Intent": query_result.get('intent', 'N/A')
-#                     }
-#                     summary_data.append(summary_entry)
-
-#                 if not summary_data:
-#                     st.warning("No results returned. Check your CSV format.")
-#                     st.stop()
+            # Create output path
+            output_path = f"classification_results_{datetime.now().strftime('%Y%m%d%H%M%S')}.csv"
+            
+            models_dict = {model: count for model, count in st.session_state.classification_models}
+            
+            config = ConsortiumConfig(
+                models=models_dict,
+                arbiter=arbiter,
+                confidence_threshold=confidence,
+                max_iterations=int(max_iter),
+                min_iterations=int(min_iter),
+                min_temp=min_temp,
+                max_temp=max_temp,
+                num_trials=num_trials
+            )
+            
+            try:
+                with st.spinner("Running classification consortium..."):
+                    result = asyncio.run(runner_class.run_consortium(config, csv_path, output_path))
                 
-#                 summary_df = pd.DataFrame(summary_data)
-
-#                 st.markdown("### Consolidated Results")
-#                 st.dataframe(
-#                     summary_df,
-#                     column_config={
-#                         "Generated SQL": st.column_config.TextColumn("SQL Query", width="large"),
-#                         "Best Temperature": st.column_config.NumberColumn(format="%.2f"),
-#                         "Confidence": st.column_config.NumberColumn(format="%.2f")
-#                     },
-#                     use_container_width=True,
-#                     hide_index=True
-#                 )
-
-#                 for idx, query_result in enumerate(result):
-#                     st.markdown(f"### Query {idx+1} Details")
+                st.subheader("Classification Results")
+                has_true_classes = result.get("has_true_classes", False)
+                
+                # Process results for display
+                summary_data = []
+                for query_result in result.get("results", []):
+                    best_result = query_result.get('best', {})
+                    summary_entry = {
+                        "Question": query_result.get('question', 'N/A'),
+                        "Predicted Class": best_result.get('final_class', 'UNKNOWN'),
+                        "Confidence": best_result.get('confidence', 0),
+                        "Best Temperature": best_result.get('temperature', 0.0),
+                        "Iterations": query_result.get('iterations', max_iter),
+                        "Model Count": sum(count for _, count in models_dict.items())
+                    }
                     
-#                     best_result = query_result.get('best', {})
-#                     trials = best_result.get('trials', [])
+                    if has_true_classes:
+                        summary_entry["True Class"] = query_result.get('true_class', '')
+                        summary_entry["Is Correct"] = summary_entry["Predicted Class"] == summary_entry["True Class"]
+                    
+                    summary_data.append(summary_entry)
 
-#                     col1, col2, col3 = st.columns(3)
-#                     with col1:
-#                         st.metric("Best Temperature", f"{best_result.get('temperature', 0.0):.2f}")
-#                     with col2:
-#                         st.metric("Temperature Range", f"{min_temp}-{max_temp}")
-#                     with col3:
-#                         st.metric("Trials Conducted", num_trials)
-
-#                     col1, col2 = st.columns(2)
-#                     with col1:
-#                         st.markdown(f"**Database:** `{query_result.get('db_id', 'N/A')}`")
-#                         st.markdown(f"**Intent:** {query_result.get('intent', 'N/A')}")
-#                     with col2:
-#                         st.markdown(f"**Confidence:** {best_result.get('confidence', 0):.2f}")
-#                         st.markdown(f"**Iterations:** {query_result.get('iterations', max_iter)}")
-
-#                     st.markdown("#### Final SQL")
-#                     st.code(best_result.get('final_query', 'No SQL generated'), language='sql')
-
-#                     if trials:
-#                         with st.expander("Temperature Tuning Analysis"):
-#                             trial_df = pd.DataFrame(trials)
-#                             if 'temperature' in trial_df and 'confidence' in trial_df:
-#                                 chart = alt.Chart(trial_df).mark_line().encode(
-#                                     x='temperature:Q',
-#                                     y='confidence:Q',
-#                                     tooltip=['temperature', 'confidence'] + (['sql'] if 'sql' in trial_df.columns else [])
-#                                 ).properties(title="Temperature vs Confidence", height=300)
-
-#                                 if 'temperature' in best_result and 'confidence' in best_result:
-#                                     best_point = alt.Chart(pd.DataFrame([{
-#                                         'temperature': best_result['temperature'],
-#                                         'confidence': best_result['confidence']
-#                                     }])).mark_circle(color='red', size=100).encode(
-#                                         x='temperature:Q',
-#                                         y='confidence:Q'
-#                                     )
-#                                     chart += best_point
-#                                 st.altair_chart(chart, use_container_width=True)
-#                             else:
-#                                 st.warning("Temperature trial data has incorrect format")
-
-#                     responses_data = []
-#                     for response in query_result.get("raw_responses", []):
-#                         responses_data.append({
-#                             "Model": response.get("model", "Unknown"),
-#                             "SQL Response": response.get("response", ""),
-#                             "Confidence": response.get("confidence", 0),
-#                             "Latency (s)": f"{response.get('latency', 0):.2f}",
-#                             "Iteration": response.get("iteration", 0)
-#                         })
-
-#                     if responses_data:
-#                         st.markdown("#### Model Responses")
-#                         df_responses = pd.DataFrame(responses_data)
-#                         st.dataframe(
-#                             df_responses,
-#                             column_config={
-#                                 "SQL Response": st.column_config.TextColumn("SQL", help="Model-generated SQL", width="large")
-#                             },
-#                             use_container_width=True,
-#                             hide_index=True
-#                         )
-
-#                         with st.expander("Performance Analysis"):
-#                             col1, col2 = st.columns(2)
-#                             with col1:
-#                                 st.altair_chart(alt.Chart(df_responses).mark_bar().encode(
-#                                     x='Model:N',
-#                                     y='Confidence:Q',
-#                                     color='Model:N',
-#                                     tooltip=['Model', 'Confidence', 'Latency (s)']
-#                                 ).properties(height=300))
-#                             with col2:
-#                                 st.altair_chart(alt.Chart(df_responses).mark_circle(size=60).encode(
-#                                     x='Latency (s):Q',
-#                                     y='Confidence:Q',
-#                                     color='Model:N',
-#                                     tooltip=['Model', 'Confidence', 'Latency (s)']
-#                                 ).properties(height=300))
-#                     else:
-#                         st.warning("No model responses recorded for this query")
-
-#                 csv_data = summary_df.to_csv(index=False).encode('utf-8')
-#                 download_key = f"spider_download_{datetime.now().timestamp()}_{uuid.uuid4()}"
-#                 st.download_button(
-#                     "⬇️ Download Consolidated Results (CSV)",
-#                     data=csv_data,
-#                     file_name="spider_consortium_results.csv",
-#                     mime="text/csv",
-#                     key=download_key,
-#                     help="Includes temperature tuning details"
-#                 )
+                if not summary_data:
+                    st.warning("No results returned. Check your CSV format.")
+                    st.stop()
                 
-#             except Exception as e:
-#                 st.error(f"Error running consortium: {str(e)}")
-#                 import traceback
-#                 st.code(traceback.format_exc(), language="python")
+                summary_df = pd.DataFrame(summary_data)
 
+                # Display metrics if available
+                if "metrics" in result and result["metrics"]:
+                    metrics = result["metrics"]
+                    
+                    col1, col2, col3 = st.columns(3)
+                    with col1:
+                        st.metric("Accuracy", f"{metrics.get('accuracy', 0):.2%}")
+                    with col2:
+                        st.metric("Macro F1", f"{metrics.get('macro_f1', 0):.4f}")
+                    with col3:
+                        st.metric("Weighted F1", f"{metrics.get('weighted_f1', 0):.4f}")
+                    
+                    # Add confusion matrix if available
+                    if "confusion_matrix" in metrics:
+                        with st.expander("Confusion Matrix"):
+                            confusion_matrix = metrics["confusion_matrix"]
+                            st.dataframe(confusion_matrix)
+                
+                # Show main results table
+                st.markdown("### Consolidated Results")
+                st.dataframe(
+                    summary_df,
+                    column_config={
+                        "Question": st.column_config.TextColumn("Question", width="large"),
+                        "Predicted Class": st.column_config.TextColumn("Predicted Class", width="medium"),
+                        "Confidence": st.column_config.NumberColumn(format="%.2f"),
+                        "Best Temperature": st.column_config.NumberColumn(format="%.2f"),
+                        "Is Correct": st.column_config.CheckboxColumn("Is Correct") if has_true_classes else None
+                    },
+                    use_container_width=True,
+                    hide_index=True
+                )
 
+                # Display individual results
+                for idx, query_result in enumerate(result.get("results", [])):
+                    with st.expander(f"Question {idx+1} Details"):
+                        best_result = query_result.get('best', {})
+                        trials_data = query_result.get('trials', [])
+                        
+                        st.markdown(f"**Question:** {query_result.get('question', 'N/A')}")
+                        
+                        if has_true_classes:
+                            true_class = query_result.get('true_class', '')
+                            st.markdown(f"**True Class:** {true_class}")
+                        
+                        col1, col2, col3 = st.columns(3)
+                        with col1:
+                            st.metric("Predicted Class", best_result.get('final_class', 'UNKNOWN'))
+                        with col2:
+                            st.metric("Confidence", f"{best_result.get('confidence', 0):.2f}")
+                        with col3:
+                            st.metric("Best Temperature", f"{best_result.get('temperature', 0.0):.2f}")
+                        
+                        st.markdown("#### Reasoning")
+                        st.write(best_result.get('reasoning', 'No reasoning provided'))
+                        
+                        # Show temperature trials visualization
+                        if trials_data:
+                            st.markdown("#### Temperature Tuning Analysis")
+                            trial_df = pd.DataFrame(trials_data)
+                            
+                            if not trial_df.empty and 'temperature' in trial_df.columns and 'confidence' in trial_df.columns:
+                                # Get the best temperature and confidence for highlighting
+                                best_temp = best_result.get('temperature')
+                                best_conf = best_result.get('confidence')
+                                
+                                chart = alt.Chart(trial_df).mark_line().encode(
+                                    x=alt.X('temperature:Q', title='Temperature'),
+                                    y=alt.Y('confidence:Q', title='Confidence'),
+                                    tooltip=['temperature', 'confidence', 'final_class']
+                                ).properties(title="Temperature vs Confidence", height=300)
+                                
+                                # Add a marker for the best point
+                                if best_temp is not None and best_conf is not None:
+                                    best_point = alt.Chart(pd.DataFrame([{
+                                        'temperature': best_temp,
+                                        'confidence': best_conf
+                                    }])).mark_circle(color='red', size=100).encode(
+                                        x='temperature:Q',
+                                        y='confidence:Q'
+                                    )
+                                    chart = chart + best_point
+                                    
+                                st.altair_chart(chart, use_container_width=True)
+                        
+                        # Show individual model responses
+                        responses_data = []
+                        for response in query_result.get("raw_responses", []):
+                            responses_data.append({
+                                "Model": response.get("model", "Unknown"),
+                                "Predicted Class": response.get("predicted_class", "UNKNOWN"),
+                                "Confidence": response.get("confidence", 0),
+                                "Latency (s)": f"{response.get('latency', 0):.2f}",
+                                "Iteration": response.get("iteration", 0)
+                            })
+
+                        if responses_data:
+                            st.markdown("#### Model Responses")
+                            df_responses = pd.DataFrame(responses_data)
+                            st.dataframe(
+                                df_responses,
+                                column_config={
+                                    "Predicted Class": st.column_config.TextColumn("Predicted Class", width="medium"),
+                                    "Confidence": st.column_config.NumberColumn(format="%.2f"),
+                                },
+                                use_container_width=True,
+                                hide_index=True
+                            )
+
+                            # Show model performance charts
+                            col1, col2 = st.columns(2)
+                            with col1:
+                                st.altair_chart(alt.Chart(df_responses).mark_bar().encode(
+                                    x='Model:N',
+                                    y='Confidence:Q',
+                                    color='Model:N',
+                                    tooltip=['Model', 'Confidence', 'Latency (s)']
+                                ).properties(height=300))
+                            with col2:
+                                st.altair_chart(alt.Chart(df_responses).mark_circle(size=60).encode(
+                                    x='Latency (s):Q',
+                                    y='Confidence:Q',
+                                    color='Model:N',
+                                    tooltip=['Model', 'Confidence', 'Latency (s)']
+                                ).properties(height=300))
+
+                # Provide download button for results
+                csv_data = summary_df.to_csv(index=False).encode('utf-8')
+                download_key = f"classification_download_{datetime.now().timestamp()}_{uuid.uuid4()}"
+                st.download_button(
+                    "⬇️ Download Classification Results (CSV)",
+                    data=csv_data,
+                    file_name="classification_consortium_results.csv",
+                    mime="text/csv",
+                    key=download_key,
+                    help="Download consolidated classification results"
+                )
+                
+            except Exception as e:
+                st.error(f"Error running classification consortium: {str(e)}")
+                import traceback
+                st.code(traceback.format_exc(), language="python")
 
 if __name__ == "__main__":
     main()

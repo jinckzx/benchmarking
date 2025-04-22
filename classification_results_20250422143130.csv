@@ -1,0 +1,211 @@
+question,predicted_class,confidence,iterations,temperature,reasoning,true_class,is_correct
+What is average salary of the players in the team named 'Boston Red Stockings' ?,baseball_game_match,0.95,1,0.32,"Given that the question specifically asks for the average salary of players in a baseball team, 'Boston Red Stockings', the most appropriate classification is 'baseball_game_match'. The focus on player salaries and the team name clearly indicate a connection to baseball games and matches.
+
+### Final Class:
+baseball_game_match
+
+### Confidence Score:
+0.95",baseball_game_match,True
+How many trips stated from  a station in Mountain View and ended at one in Palo Alto?,railway_train_station,0.95,1,0.43,"Based on the consensus between the models in correctly identifying the transportation-related nature of the query and the specific mention of trips between stations in Mountain View and Palo Alto, the most appropriate database category is 'railway_train_station.'
+
+### Final Class:
+railway_train_station
+
+### Confidence Score:
+0.95",bike,False
+"Find the first and last name of the author(s) who wrote the paper ""Nameless, Painless"".",Journal,0.95,1,0.67,"Based on the consensus between the models and the relevance of academic publications and authors to the given question, the most appropriate database category is 'journal.'
+
+### Final Class:
+Journal
+
+### Confidence Score:
+0.95",icfp,False
+Find courses that ran in Fall 2009 and in Spring 2010.,university_school_college_activity,0.95,1,0.16,"The consensus among the models on the relevance of 'university_school_college_activity' for storing course information and academic schedules, along with the specific mention of Fall 2009 and Spring 2010, supports this classification as the most appropriate for the given question.
+
+### Final Class:
+university_school_college_activity
+
+### Confidence Score:
+0.95",university_school_college_activity,True
+Count the total number of students.,student,0.95,1,0.5,"Given that the question explicitly mentions counting the total number of students, the most appropriate classification is ""student."" This classification directly relates to the specific data domain indicated in the question.
+
+### Final Class:
+student
+
+### Confidence Score:
+0.95",club,False
+"Which papers have the substring ""Database"" in their titles? Show the titles of the papers.",UNKNOWN,0.95,1,0.23,"Given that both models agree on the classification and reasoning behind it, the most appropriate database category for this question is 'UNKNOWN' as it involves searching for papers with a specific substring in their titles, which doesn't directly align with any of the provided database categories.
+
+### Final Class:
+UNKNOWN
+
+### Confidence Score:
+0.95",icfp,False
+How many institutions do not have an associated protein in our record?,Protein,0.95,1,0.63,"Given that both models correctly associate the question with the database domain and focus on biological entities, the most appropriate classification is 'protein.'
+
+### Final Class:
+Protein
+
+### Confidence Score:
+0.95",protein,False
+Find all the vocal types.,,0.9,1,0.12,"Both models correctly identify the question's context within music and vocal types. However, the category suggested by gpt-4o-mini-0, `classification of vocal types within musical themes or genres`, provides a more specific and accurate classification for the given question.
+
+### Final Class:
+`classification of vocal types within musical themes or genres`
+
+### Confidence Score:
+0.90",music_musical_theme,False
+How many customers are there of each gender?,customer_customers,1.0,1,0.3,"Based on the consensus between the models, the clear relevance of the 'customer_customers' category to the question, and the accurate understanding of the query's context, the most appropriate database category is 'customer_customers.'
+
+### Final Class:
+customer_customers
+
+### Confidence Score:
+1.00",customer_customers,True
+Show the team that have at least two technicians.,Department,0.9,1,0.61,"Considering the focus on team structure and technicians within an organizational setting, the classification under 'department' seems most appropriate. The mention of technicians within a team suggests a workplace scenario, aligning with the concept of departments within a company database.
+
+### Final Class:
+Department
+
+### Confidence Score:
+0.90",machine,False
+"Find the distinct years when the governor was named ""Eliot Spitzer"".",UNKNOWN,0.95,1,0.38,"The consensus among the models is strong in categorizing the question as ""UNKNOWN"" due to its focus on a specific governor and the years he served. The mention of Eliot Spitzer indicates a political context, aligning with the domain of elections and governance.
+
+### Final Class:
+UNKNOWN
+
+### Confidence Score:
+0.95",election,False
+"What are the distinct cross reference source system codes which are related to the master customer details 'Gottlieb, Becker and Wyman'?",customer_customers,0.95,1,0.66,"Based on the consensus between the models gpt-3.5-turbo-0 and gpt-4o-mini-0 regarding the focus on customer data management, master customer details, and cross-reference source system codes, the most appropriate database category is 'customer_customers.'
+
+### Final Class:
+customer_customers
+
+### Confidence Score:
+0.95",local,False
+Find the name of dorms only for female (F gender).,Student,0.95,1,0.88,"Considering the consensus and the emphasis on both the dormitory aspect and the gender specification, the best category for this query is likely the 'student' category in the database classification.
+
+### Final Class:
+Student
+
+### Confidence Score:
+0.95",dorm,False
+Give the details of the project with the document name 'King Book'.,Book,0.95,1,0.49,"Considering the unanimous agreement among the models that the document 'King Book' pertains to literature or written works, the most appropriate database category is 'book'. This classification aligns with the context provided in the question and the emphasis on the term 'King Book' as a document related to written material.
+
+### Final Class:
+Book
+
+### Confidence Score:
+0.95",cre,False
+"Show all artist name, age, and country ordered by the yeared they joined.",Music Artists,0.95,1,0.2,"Based on the consensus between the models, their accurate identification of the domain and key elements, and the absence of contradictions, the most appropriate database category for this question is **Music Artists**.
+
+### Final Class:
+Music Artists
+
+### Confidence Score:
+0.95",music_musical_theme,False
+Give me the name of the customer who ordered the most items in total.,customer_customers,1.0,1,0.72,"The question's explicit mention of customers and their orders directly points to 'customer_customers' as the most appropriate database category. Since all models correctly identify this alignment, the consensus reinforces the accuracy of this classification.
+
+### Final Class:
+customer_customers
+
+### Confidence Score:
+1.00",customer_customers,True
+What are all company names that have a corresponding movie directed in the year 1999?,Company,0.98,1,0.86,"Both models correctly identify the connection between company names and movies directed in 1999, and the specific query is related to company names associated with movies. Therefore, based on the consensus and detailed reasoning provided by both models, the most appropriate category is 'company.'
+
+### Final Class:
+Company
+
+### Confidence Score:
+0.98",culture,False
+Which channels broadcast both in the morning and at night? Give me the channel names.,tv,0.9,1,0.34,"Considering that the question specifically asks about channels broadcasting in the morning and at night, the most appropriate category would be 'tv' as suggested by gpt-3.5-turbo-0. While news channels do broadcast at those times, the question does not specify news channels, so a broader category like 'tv' would encompass a wider range of channels that fit the criteria.
+
+### Final Class:
+tv
+
+### Confidence Score:
+0.90",program,False
+What are the names of members and their corresponding parties?,Election,0.95,1,0.38,"Considering the consistent classification and reasoning provided by both models, the most appropriate database category for this question is 'Election.'
+
+### Final Class:
+Election
+
+### Confidence Score:
+0.95",party,False
+"What are the names and ids of the different categories, and how many films are in each?",film_sakila_movie_cinema,0.95,1,0.11,"Based on the unanimous agreement among all models that the 'film_sakila_movie_cinema' database category is the most appropriate due to its alignment with film-related information, it is the best choice for this classification question.
+
+### Final Class:
+film_sakila_movie_cinema
+
+### Confidence Score:
+0.95",film_sakila_movie_cinema,True
+Show the different headquarters and number of companies at each headquarter.,Company,1.0,1,0.47,"Based on the unanimous agreement among the models that the question pertains to companies and their headquarters, specifically focusing on the number of companies at each headquarters, the most appropriate database category is 'company.'
+
+### Final Class:
+Company
+
+### Confidence Score:
+1.00",company,False
+Retrieve the list of all cities.,City,0.95,1,0.23,"Based on the consensus between the models, the direct relevance of the question to the 'city' category, and the high confidence levels, the most appropriate database category for retrieving the list of all cities is 'city.'
+
+### Final Class:
+City
+
+### Confidence Score:
+0.95",customer_customers,False
+What are the names of all instructors who advise students in the math depart sorted by total credits of the student.,UNKNOWN,0.95,1,0.64,"Given the alignment in classification and understanding of the context by both models, it is reasonable to conclude that the most appropriate database category for this query is UNKNOWN, as the question does not fit clearly into any pre-defined category and may require further clarification or customization.
+
+### Final Class:
+UNKNOWN
+
+### Confidence Score:
+0.95",university_school_college_activity,False
+"Show all movie titles, years, and directors, ordered by budget.",film_sakila_movie_cinema,0.9,1,0.2,"Considering that the question explicitly mentions ordering by budget, which is a common aspect in movie databases, and the direct relevance to movie titles, years, and directors, the most appropriate database category is likely related to movies or cinema. The mention of ""budget"" further supports this classification.
+
+### Final Class:
+film_sakila_movie_cinema
+
+### Confidence Score:
+0.90",culture,False
+What is the name of the instructor who advises the student with the greatest number of total credits?,university_school_college_activity,0.95,1,0.3,"The consensus among the models indicates a strong alignment with the domain of academic activities, particularly in a university or college setting. The emphasis on student records, academic advising, and total credits further solidifies this classification.
+
+### Final Class:
+university_school_college_activity
+
+### Confidence Score:
+0.95",university_school_college_activity,True
+List all the information about course authors and tutors in alphabetical order of the personal name.,UNKNOWN,0.95,1,0.65,"Based on the analysis of the responses, since both models classify the question under an ""UNKNOWN"" category and provide similar reasoning, it is appropriate to consider this as the most suitable classification for the question about course authors and tutors in alphabetical order of the personal name.
+
+### Final Class:
+UNKNOWN
+
+### Confidence Score:
+0.95",e,False
+Which campus has the most degrees conferred in all times?,university_school_college_activity,0.95,1,0.71,"Considering the consistency between the two models and the relevance of the category ""university_school_college_activity"" to the question about degrees conferred by a campus, the most appropriate classification is **""university_school_college_activity.""**
+
+### Final Class:
+university_school_college_activity
+
+### Confidence Score:
+0.95",csu,False
+What are the names of all students who took a class and the corresponding course descriptions?,es,0.9,1,0.43,"Considering the clear indication towards student-related data and course descriptions, the 'es' (educational services) classification seems to be the most appropriate. The emphasis on educational data aligns well with the nature of the query, making it a suitable choice.
+
+### Final Class:
+es
+
+### Confidence Score:
+0.90",university_school_college_activity,False
+How many different departments are there in each school that has less than 5 apartments?,department,0.95,1,0.6,"Given that the question specifically asks for the number of departments in schools with less than 5 apartments, the primary focus is on the classification of 'department.' The mention of schools and apartments is secondary to the main query, making the 'department' category the most relevant.
+
+### Final Class:
+department
+
+### Confidence Score:
+0.95",university_school_college_activity,False
+"List the asset id, details, make and model for every asset.",Asset Management,0.95,1,0.68,"Considering the specific request to list asset ID, details, make, and model for every asset, and the emphasis on asset-related data retrieval, **the most appropriate database category** for this query is **Asset Management**.
+
+### Final Class:
+Asset Management
+
+### Confidence Score:
+0.95",assets,False

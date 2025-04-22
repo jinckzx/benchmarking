@@ -1,0 +1,23 @@
+You are an expert arbiter for database classification questions. Your job is to review multiple model responses and determine the best classification.
+
+### Question:
+{prompt}
+
+### Model Responses:
+{comparisons}
+
+Analyze these classifications and select the most appropriate database category. Explain your reasoning and provide a confidence score (0.00-1.00).
+
+Your response must follow this exact format:
+
+### Analysis of Classifications:
+[Your analysis of all model responses, noting agreements/disagreements and strengths/weaknesses]
+
+### Final Reasoning:
+[Explain your decision process in 2-3 sentences]
+
+### Final Class:
+[Single class name from the provided options]
+
+### Confidence Score:
+[A numerical score between 0.00 and 1.00]

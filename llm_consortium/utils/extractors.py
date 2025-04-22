@@ -120,10 +120,63 @@ class ResponseExtractor:
 
     @staticmethod
     def extract_section(text: str, start_marker: str, end_marker: Optional[str] = None) -> str:
-        """Generic section extractor"""
-        try:
-            start_idx = text.index(start_marker) + len(start_marker)
-            end_idx = text.index(end_marker) if end_marker else len(text)
-            return text[start_idx:end_idx].strip()
-        except ValueError:
+        """Extract text section between markers"""
+        if start_marker not in text:
             return ""
+            
+        parts = text.split(start_marker, 1)
+        if len(parts) < 2:
+            return ""
+            
+        section = parts[1].strip()
+        
+        if end_marker and end_marker in section:
+            section = section.split(end_marker, 1)[0].strip()
+            
+        return section
+    @staticmethod
+    def extract_class( text: str) -> str:
+        """Extract the final class label from the response"""
+        # Try to find with specific formatting
+        pattern = r"Final\s+Class\s*[:|=]?\s*([A-Za-z0-9_\-\s]+)"
+        match = re.search(pattern, text, re.IGNORECASE)
+        if match:
+            return match.group(1).strip()
+            
+        # Try to find class with alternate format
+        pattern = r"Class\s*[:|=]?\s*([A-Za-z0-9_\-\s]+)"
+        match = re.search(pattern, text, re.IGNORECASE)
+        if match:
+            return match.group(1).strip()
+            
+        # Try to find classification with alternate format
+        pattern = r"Classification\s*[:|=]?\s*([A-Za-z0-9_\-\s]+)"
+        match = re.search(pattern, text, re.IGNORECASE)
+        if match:
+            return match.group(1).strip()
+            
+        # If no specific format found, look for any class-like pattern
+        pattern = r"(?:predicted|final|chosen|selected|best)\s+class\s*[:|=]?\s*([A-Za-z0-9_\-\s]+)"
+        match = re.search(pattern, text, re.IGNORECASE)
+        if match:
+            return match.group(1).strip()
+            
+        # Fallback: return "UNKNOWN"
+        return "UNKNOWN"
+    
+
+    @staticmethod
+    def extract_reasoning(text: str) -> str:
+        """Extract reasoning section from classification response"""
+        # Try multiple possible section headers for reasoning
+        for header in ["Reasoning:", "### Reasoning:", "Rationale:", "Explanation:", "Analysis:"]:
+            reasoning = ResponseExtractor.extract_section(text, header)
+            if reasoning:
+                return reasoning
+        
+        # If no specific section found, look for any reasoning-like paragraph
+        pattern = r"(?:reasoning|rationale|explanation)[:\s]+([^\n]+(?:\n[^\n]+)*)"
+        match = re.search(pattern, text, re.IGNORECASE)
+        if match:
+            return match.group(1).strip()
+        return ""

@@ -64,35 +64,59 @@ class ConsortiumConfig(BaseModel):
     num_trials: int
     
 
-# class LogEntry(BaseModel):
-#     timestamp: str = Field(default_factory=lambda: datetime.now().isoformat())
-#     prompt: str
-#     model: str
-#     response: str
-#     confidence: float
-#     latency: float
-#     iteration: int
-
 class LogEntry(BaseModel):
-    prompt: str
+    prompt: str = "" 
+    question: str = "" 
     model: str
     response: str
+    predicted_class: str  # This replaces 'response' in your current model
     confidence: float
     latency: float
     iteration: int
+    reasoning: str
     intent: str = ""  # New field with default
     db_id: str = ""   # New field with default
+    raw_response: Optional[str] = None  # Add this field to store the complete response
     timestamp: datetime = datetime.now()
     error: Optional[str]=None
     def to_dict(self):
         """Convert the LogEntry object to a dictionary."""
         return {
             "timestamp": self.timestamp.isoformat(),
-            "prompt": self.prompt,
+            "question": self.question,
+            "prompt":self.prompt,
             "model": self.model,
-            "response": self.response,
+            "response":self.response,
+            "predicted_class": self.predicted_class,
             "confidence": self.confidence,
             "latency": self.latency,
             "iteration": self.iteration,
-            "error": self.error
+            "reasoning": self.reasoning,
+            "raw_response": self.raw_response
         }
+
+# class LogEntry(BaseModel):
+#     prompt: str
+#     question: str
+#     model: str
+#     response: str
+#     confidence: float
+#     latency: float
+#     iteration: int
+#     intent: str = ""  # New field with default
+#     db_id: str = ""   # New field with default
+#     timestamp: datetime = datetime.now()
+#     error: Optional[str]=None
+#     def to_dict(self):
+#         """Convert the LogEntry object to a dictionary."""
+#         return {
+#             "timestamp": self.timestamp.isoformat(),
+#             "prompt": self.prompt,
+#             "question": self.question,
+#             "model": self.model,
+#             "response": self.response,
+#             "confidence": self.confidence,
+#             "latency": self.latency,
+#             "iteration": self.iteration,
+#             "error": self.error
+#         }

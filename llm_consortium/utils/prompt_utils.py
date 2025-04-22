@@ -82,7 +82,12 @@ Rules:
 - Identify consensus and contradictions.
 - Highlight strong/weak arguments.
 - Provide a confidence score (0-1)."""
-
+def read_iteration_prompt_class(prompt_name: str="iteration_classification_prompt.txt")-> str:
+    """read the classification iteration propmt template from the /prompts directory"""
+    return _read_prompt(prompt_name, get_default_iteration_prompt)
+def read_arbiter_prompt_class(prompt_name: str="arbiter_class.txt")-> str:
+    """read the classification iteration propmt template from the /prompts directory"""
+    return _read_prompt(prompt_name, get_default_iteration_prompt)
 def read_iteration_prompt_sql(prompt_name: str = "iteration_prompt_sql.txt") -> str:
     """
     Read the SQL iteration prompt template from the prompts directory.
