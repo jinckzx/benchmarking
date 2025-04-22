@@ -1,22 +1,6 @@
 Context: You are an expert database classifier. Given a natural language question related to databases, your task is to classify the question into one of the following database domains:
 
-['department', 'farm', 'student', 'bike', 'book',
-       'music_musical_theme', 'twitter', 'product',
-       'aircraft_flight_pilot', 'allergy', 'store', 'journal',
-       'customer_customers', 'race', 'coffee', 'chinook', 'insurance',
-       'medicine', 'university_school_college_activity', 'phone',
-       'baseball_game_match', 'climbing', 'body', 'election', 'apartment',
-       'soccer', 'performance', 'debate', 'wedding', 'epinions', 'riding',
-       'gymnast', 'small', 'browser', 'wrestler', 'protein',
-       'film_sakila_movie_cinema', 'gas', 'party', 'cre', 'company',
-       'local', 'formula', 'machine', 'entrepreneur', 'perpetrator',
-       'csu', 'candidate', 'county', 'inn', 'storm', 'news', 'restaurant',
-       'icfp', 'loan', 'behavior', 'assets', 'railway_train_station',
-       'sports', 'manufacturer_manufactory', 'hr', 'mountain', 'program',
-       'e', 'hospital', 'ship', 'club', 'tracking', 'network',
-       'decoration', 'document', 'solvency', 'entertainment', 'device',
-       'shop', 'voter', 'swimming', 'dorm', 'workshop', 'roller', 'city',
-       'scientist', 'wine', 'driving', 'architecture', 'culture']
+['farm', 'student', 'bike', 'book', 'music_musical_theme']
        
 Your job is to carefully analyze the question and return the **most relevant database category** from the above list.
 

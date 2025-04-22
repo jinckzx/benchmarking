@@ -51,9 +51,8 @@ class ConsortiumRunnerSQL:
             raise FileNotFoundError(f"Schema file not found: {schema_file}")
         with open(schema_file, "r") as f:
             return f.read()
-
     async def _query_model(self, model: str, prompt: str, instance: int, 
-                         iteration: int, db_id: str) -> LogEntry:
+                        iteration: int, db_id: str) -> LogEntry:
         """Execute model query with comprehensive logging"""
         start_time = datetime.now()
         try:
@@ -77,20 +76,23 @@ class ConsortiumRunnerSQL:
             logger.debug("Raw model output", 
                         extra={'question': prompt, 'generated_sql': content})
             
+            extracted_sql = self.extractor.extract_sql(content)
+            
             return LogEntry(
                 prompt=prompt,
                 model=f"{model}-{instance}",
-                response=self.extractor.extract_sql(content),
+                response=extracted_sql,  # SQL query goes here
                 confidence=self.extractor.extract_confidence(content),
                 latency=(datetime.now() - start_time).total_seconds(),
                 iteration=iteration,
                 intent=self.extractor.extract_intent(content),
-                db_id=db_id
+                db_id=db_id,
+                raw_response=content  # Store full response
             )
         except Exception as e:
             error_msg = f"{type(e).__name__}: {str(e)}"
             logger.error("Query failed", 
-                        extra={'question': prompt, 'generated_sql': error_msg})
+                    extra={'question': prompt, 'generated_sql': error_msg})
             return LogEntry(
                 prompt=prompt,
                 model=f"{model}-{instance}",
@@ -99,8 +101,58 @@ class ConsortiumRunnerSQL:
                 latency=(datetime.now() - start_time).total_seconds(),
                 iteration=iteration,
                 intent="",
-                db_id=db_id
+                db_id=db_id,
+                error=error_msg
             )
+    # async def _query_model(self, model: str, prompt: str, instance: int, 
+    #                      iteration: int, db_id: str) -> LogEntry:
+    #     """Execute model query with comprehensive logging"""
+    #     start_time = datetime.now()
+    #     try:
+    #         context = self.get_schema(db_id)
+    #         messages = [
+    #             {"role": "system", "content": self.system_prompt},
+    #             {"role": "user", "content": self.iteration_prompt_template.format(
+    #                 context=context,
+    #                 prompt=prompt,
+    #                 model=model
+    #             )}
+    #         ]
+            
+    #         response = await self.client.chat(
+    #             model=model,
+    #             messages=messages,
+    #             temperature=0.2
+    #         )
+            
+    #         content = response["content"]
+    #         logger.debug("Raw model output", 
+    #                     extra={'question': prompt, 'generated_sql': content})
+            
+    #         return LogEntry(
+    #             prompt=prompt,
+    #             model=f"{model}-{instance}",
+    #             response=self.extractor.extract_sql(content),
+    #             confidence=self.extractor.extract_confidence(content),
+    #             latency=(datetime.now() - start_time).total_seconds(),
+    #             iteration=iteration,
+    #             intent=self.extractor.extract_intent(content),
+    #             db_id=db_id
+    #         )
+    #     except Exception as e:
+    #         error_msg = f"{type(e).__name__}: {str(e)}"
+    #         logger.error("Query failed", 
+    #                     extra={'question': prompt, 'generated_sql': error_msg})
+    #         return LogEntry(
+    #             prompt=prompt,
+    #             model=f"{model}-{instance}",
+    #             response=error_msg,
+    #             confidence=0.0,
+    #             latency=(datetime.now() - start_time).total_seconds(),
+    #             iteration=iteration,
+    #             intent="",
+    #             db_id=db_id
+    #         )
 
     async def run_consortium(self, config: ConsortiumConfig, csv_path: str) -> List[Dict]:
         """Main execution flow with end-to-end logging"""

@@ -32,7 +32,6 @@ class ConsortiumRunnerClass:
             missing = required_columns - set(df.columns)
             raise ValueError(f"CSV missing required columns: {', '.join(missing)}")
         return df.to_dict(orient="records")
-
     async def _query_model(self, model: str, question: str, available_classes: List[str], 
                         instance: int, iteration: int, true_class: Optional[str] = None) -> LogEntry:
         """Execute model query with comprehensive logging"""
@@ -54,14 +53,14 @@ class ConsortiumRunnerClass:
             )
             
             content = response["content"]
+            extracted_class = self.extractor.extract_class(content)
             logger.debug("Raw model output", 
-                        extra={'question': question, 'predicted_class': self.extractor.extract_class(content)})
+                        extra={'question': question, 'predicted_class': extracted_class})
             
             return LogEntry(
-                question=question,
+                question=question,  # Use question field for classification
                 model=f"{model}-{instance}",
-                response=self.extractor.extract_class(content),  
-                predicted_class=self.extractor.extract_class(content),
+                predicted_class=extracted_class,  # Class prediction goes here
                 confidence=self.extractor.extract_confidence(content),
                 latency=(datetime.now() - start_time).total_seconds(),
                 iteration=iteration,
@@ -80,8 +79,10 @@ class ConsortiumRunnerClass:
                 latency=(datetime.now() - start_time).total_seconds(),
                 iteration=iteration,
                 reasoning=error_msg,
-                raw_response=error_msg
+                raw_response=error_msg,
+                error=error_msg
             )
+
     async def run_consortium(self, config: ConsortiumConfig, csv_path: str, output_path: str) -> Dict:
         """Main execution flow with end-to-end logging"""
         final_results = []
