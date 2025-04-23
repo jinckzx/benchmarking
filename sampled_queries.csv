@@ -1,4 +1,4 @@
-db_id,question
-baseball_1,What is average salary of the players in the team named 'Boston Red Stockings' ?
-bike_1,How many trips stated from  a station in Mountain View and ended at one in Palo Alto?
-icfp_1,"Find the first and last name of the author(s) who wrote the paper ""Nameless, Painless""."
+db_id,question,query
+student_1,Which grade is studying in classroom 103?,SELECT DISTINCT grade FROM list WHERE classroom  =  103
+cre_Docs_and_Epenses,Show the document type code with fewer than 3 documents.,SELECT document_type_code FROM Documents GROUP BY document_type_code HAVING count(*)  <  3
+storm_record,What is the total number of deaths and damage for all storms with a max speed greater than the average?,"SELECT sum(number_deaths) ,  sum(damage_millions_USD) FROM storm WHERE max_speed  >  (SELECT avg(max_speed) FROM storm)"

@@ -3,10 +3,10 @@ Context: You are an expert database classifier. Given a natural language questio
 ['farm', 'student', 'bike', 'book', 'music_musical_theme']
        
 Your job is to carefully analyze the question and return the **most relevant database category** from the above list.
-
+The predicted category must be only from the provided list of classes.
 #### Question: {question}
 
-Provide your response in this exact format:
+Must provide your response in this exact given format below:
 
 ### Answer:
 [Only one category from the list above, e.g., 'student', do NOT create a new category]
