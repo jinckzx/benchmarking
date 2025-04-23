@@ -3692,3 +3692,181 @@
 2025-04-23 10:54:42 - llm_consortium - INFO - runner_sql:183 - Iteration 1 Best Synthesis - Temp: 0.24, Confidence: 0.95
 2025-04-23 10:54:42 - llm_consortium - INFO - runner_sql:121 - Iteration 1/3 for storm_record
 2025-04-23 10:55:04 - llm_consortium - INFO - runner_sql:183 - Iteration 1 Best Synthesis - Temp: 0.82, Confidence: 0.98
+2025-04-23 11:37:09 - llm_consortium - INFO - runner_class:114 - Iteration 1/3 for question
+2025-04-23 11:37:25 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.30, Confidence: 1.00
+2025-04-23 11:37:25 - llm_consortium - INFO - runner_class:114 - Iteration 1/3 for question
+2025-04-23 11:37:43 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.27, Confidence: 0.95
+2025-04-23 11:37:43 - llm_consortium - INFO - runner_class:114 - Iteration 1/3 for question
+2025-04-23 11:37:56 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.20, Confidence: 1.00
+2025-04-23 11:37:56 - llm_consortium - INFO - runner_class:114 - Iteration 1/3 for question
+2025-04-23 11:38:25 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.87, Confidence: 1.00
+2025-04-23 11:38:25 - llm_consortium - INFO - runner_class:114 - Iteration 1/3 for question
+2025-04-23 11:38:46 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.88, Confidence: 1.00
+2025-04-23 11:38:46 - llm_consortium - INFO - runner_class:114 - Iteration 1/3 for question
+2025-04-23 11:39:01 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.38, Confidence: 1.00
+2025-04-23 11:39:01 - llm_consortium - INFO - runner_class:114 - Iteration 1/3 for question
+2025-04-23 11:39:29 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.65, Confidence: 0.90
+2025-04-23 11:39:29 - llm_consortium - INFO - runner_class:114 - Iteration 1/3 for question
+2025-04-23 11:39:45 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.54, Confidence: 1.00
+2025-04-23 11:39:45 - llm_consortium - INFO - runner_class:114 - Iteration 1/3 for question
+2025-04-23 11:40:04 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.21, Confidence: 0.95
+2025-04-23 11:40:04 - llm_consortium - INFO - runner_class:114 - Iteration 1/3 for question
+2025-04-23 11:40:22 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.21, Confidence: 0.95
+2025-04-23 11:40:22 - llm_consortium - INFO - runner_class:114 - Iteration 1/3 for question
+2025-04-23 11:40:42 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.27, Confidence: 0.95
+2025-04-23 11:40:42 - llm_consortium - INFO - runner_class:114 - Iteration 1/3 for question
+2025-04-23 11:41:01 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.59, Confidence: 0.85
+2025-04-23 11:41:01 - llm_consortium - INFO - runner_class:114 - Iteration 1/3 for question
+2025-04-23 11:41:16 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.20, Confidence: 1.00
+2025-04-23 11:41:16 - llm_consortium - INFO - runner_class:114 - Iteration 1/3 for question
+2025-04-23 11:41:35 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.35, Confidence: 1.00
+2025-04-23 11:41:35 - llm_consortium - INFO - runner_class:114 - Iteration 1/3 for question
+2025-04-23 11:41:52 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.24, Confidence: 0.95
+2025-04-23 11:41:52 - llm_consortium - INFO - runner_class:114 - Iteration 1/3 for question
+2025-04-23 11:42:17 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.21, Confidence: 0.90
+2025-04-23 11:42:17 - llm_consortium - INFO - runner_class:114 - Iteration 1/3 for question
+2025-04-23 11:42:34 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.34, Confidence: 1.00
+2025-04-23 11:42:34 - llm_consortium - INFO - runner_class:114 - Iteration 1/3 for question
+2025-04-23 11:42:53 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.79, Confidence: 1.00
+2025-04-23 11:42:53 - llm_consortium - INFO - runner_class:114 - Iteration 1/3 for question
+2025-04-23 11:43:11 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.26, Confidence: 1.00
+2025-04-23 11:43:11 - llm_consortium - INFO - runner_class:114 - Iteration 1/3 for question
+2025-04-23 11:43:28 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.37, Confidence: 0.95
+2025-04-23 11:43:28 - llm_consortium - INFO - runner_class:229 - Results exported to classification_results_20250423113708.csv
+2025-04-23 13:16:27 - llm_consortium - INFO - runner_sql:352 - Iteration 1/3 for student_1
+2025-04-23 13:26:04 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for student_1
+2025-04-23 13:26:05 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-23 13:26:06 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-23 13:26:06 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-23 13:26:18 - llm_consortium - INFO - runner_sql:430 - Iteration 1 Best Synthesis - Temp: 0.17, Confidence: 0.10
+2025-04-23 13:26:18 - llm_consortium - INFO - runner_sql:354 - Iteration 2/3 for student_1
+2025-04-23 13:26:18 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 2
+2025-04-23 13:26:20 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-23 13:26:20 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-23 13:26:33 - llm_consortium - INFO - runner_sql:430 - Iteration 2 Best Synthesis - Temp: 0.13, Confidence: 0.10
+2025-04-23 13:26:33 - llm_consortium - INFO - runner_sql:354 - Iteration 3/3 for student_1
+2025-04-23 13:26:33 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 3
+2025-04-23 13:26:34 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-23 13:26:34 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-23 13:26:44 - llm_consortium - INFO - runner_sql:430 - Iteration 3 Best Synthesis - Temp: 0.23, Confidence: 0.10
+2025-04-23 13:26:44 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for cre_Docs_and_Epenses
+2025-04-23 13:26:44 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-23 13:26:46 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-23 13:26:46 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-23 13:26:58 - llm_consortium - INFO - runner_sql:430 - Iteration 1 Best Synthesis - Temp: 0.14, Confidence: 0.20
+2025-04-23 13:26:58 - llm_consortium - INFO - runner_sql:354 - Iteration 2/3 for cre_Docs_and_Epenses
+2025-04-23 13:26:58 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 2
+2025-04-23 13:26:59 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-23 13:26:59 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-23 13:27:13 - llm_consortium - INFO - runner_sql:430 - Iteration 2 Best Synthesis - Temp: 0.34, Confidence: 0.20
+2025-04-23 13:27:13 - llm_consortium - INFO - runner_sql:354 - Iteration 3/3 for cre_Docs_and_Epenses
+2025-04-23 13:27:13 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 3
+2025-04-23 13:27:15 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-23 13:27:15 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-23 13:27:25 - llm_consortium - INFO - runner_sql:430 - Iteration 3 Best Synthesis - Temp: 0.37, Confidence: 0.00
+2025-04-23 13:27:25 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for storm_record
+2025-04-23 13:27:25 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-23 13:27:26 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-23 13:27:27 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-23 13:27:43 - llm_consortium - INFO - runner_sql:430 - Iteration 1 Best Synthesis - Temp: 0.89, Confidence: 0.95
+2025-04-23 13:30:21 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for student_1
+2025-04-23 13:30:21 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-23 13:30:38 - llm_consortium - INFO - runner_sql:430 - Iteration 1 Best Synthesis - Temp: 0.72, Confidence: 0.98
+2025-04-23 13:30:38 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for cre_Docs_and_Epenses
+2025-04-23 13:30:38 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-23 13:30:59 - llm_consortium - INFO - runner_sql:430 - Iteration 1 Best Synthesis - Temp: 0.53, Confidence: 0.95
+2025-04-23 13:30:59 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for storm_record
+2025-04-23 13:30:59 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-23 13:31:16 - llm_consortium - INFO - runner_sql:430 - Iteration 1 Best Synthesis - Temp: 0.20, Confidence: 0.95
+2025-04-23 13:43:59 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for student_1
+2025-04-23 13:44:55 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.12, Confidence: 0.95
+2025-04-23 13:44:55 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for cre_Docs_and_Epenses
+2025-04-23 13:45:12 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.36, Confidence: 0.95
+2025-04-23 13:45:12 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for storm_record
+2025-04-23 13:45:30 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.40, Confidence: 0.95
+2025-04-23 13:48:11 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for student_1
+2025-04-23 13:48:12 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-23 13:48:23 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.76, Confidence: 0.95
+2025-04-23 13:48:23 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for cre_Docs_and_Epenses
+2025-04-23 13:48:23 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-23 13:48:35 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.40, Confidence: 0.95
+2025-04-23 13:48:35 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for storm_record
+2025-04-23 13:48:35 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-23 13:48:47 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.42, Confidence: 0.95
+2025-04-23 14:33:43 - llm_consortium - INFO - runner_sql:354 - Iteration 1/2 for student_1
+2025-04-23 14:33:43 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-23 14:33:56 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.49, Confidence: 0.95
+2025-04-23 14:33:56 - llm_consortium - INFO - runner_sql:354 - Iteration 1/2 for cre_Docs_and_Epenses
+2025-04-23 14:33:56 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-23 14:34:08 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.46, Confidence: 0.95
+2025-04-23 14:34:08 - llm_consortium - INFO - runner_sql:354 - Iteration 1/2 for storm_record
+2025-04-23 14:34:08 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-23 14:34:20 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.66, Confidence: 0.95
+2025-04-23 14:36:20 - llm_consortium - INFO - runner_sql:354 - Iteration 1/2 for student_1
+2025-04-23 14:36:20 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-23 14:36:30 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.43, Confidence: 0.95
+2025-04-23 14:36:30 - llm_consortium - INFO - runner_sql:354 - Iteration 1/2 for cre_Docs_and_Epenses
+2025-04-23 14:36:30 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-23 14:36:41 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.13, Confidence: 0.95
+2025-04-23 14:36:41 - llm_consortium - INFO - runner_sql:354 - Iteration 1/2 for storm_record
+2025-04-23 14:36:41 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-23 14:36:52 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.38, Confidence: 0.95
+2025-04-23 14:39:21 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for student_1
+2025-04-23 14:39:50 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.55, Confidence: 0.98
+2025-04-23 14:39:50 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for cre_Docs_and_Epenses
+2025-04-23 14:40:24 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.31, Confidence: 0.95
+2025-04-23 14:40:24 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for storm_record
+2025-04-23 14:40:57 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.12, Confidence: 0.95
+2025-04-23 14:43:09 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-23 14:43:32 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.16, Confidence: 1.00
+2025-04-23 14:43:32 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-23 14:43:58 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.15, Confidence: 1.00
+2025-04-23 14:43:58 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-23 14:44:33 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.13, Confidence: 0.95
+2025-04-23 14:44:33 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-23 14:44:56 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.10, Confidence: 1.00
+2025-04-23 14:44:56 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-23 14:45:29 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.34, Confidence: 1.00
+2025-04-23 14:45:29 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-23 14:46:02 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.20, Confidence: 1.00
+2025-04-23 14:46:02 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-23 14:46:30 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.25, Confidence: 1.00
+2025-04-23 14:46:30 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-23 14:47:00 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.22, Confidence: 0.95
+2025-04-23 14:47:00 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-23 14:47:26 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.25, Confidence: 1.00
+2025-04-23 14:47:26 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-23 14:47:59 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.15, Confidence: 0.95
+2025-04-23 14:47:59 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-23 14:48:29 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.11, Confidence: 0.95
+2025-04-23 14:48:29 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-23 14:49:03 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.30, Confidence: 0.80
+2025-04-23 14:49:03 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-23 14:49:29 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.15, Confidence: 1.00
+2025-04-23 14:49:29 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-23 14:49:58 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.15, Confidence: 1.00
+2025-04-23 14:49:58 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-23 14:50:24 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.17, Confidence: 1.00
+2025-04-23 14:50:24 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-23 14:51:01 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.16, Confidence: 0.85
+2025-04-23 14:51:01 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-23 14:51:26 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.52, Confidence: 1.00
+2025-04-23 14:51:26 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-23 14:51:54 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.43, Confidence: 1.00
+2025-04-23 14:51:54 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-23 14:52:28 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.15, Confidence: 1.00
+2025-04-23 14:52:28 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-23 14:52:59 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.19, Confidence: 0.95
+2025-04-23 14:52:59 - llm_consortium - INFO - runner_class:229 - Results exported to classification_results_20250423144308.csv
+2025-04-23 14:57:30 - llm_consortium - INFO - runner:206 - Starting iteration 1 of 3
+2025-04-23 14:57:46 - llm_consortium - INFO - synthesis:309 - Iteration 0 Best Synthesis - Temp: 0.12, Confidence: 0.97
+2025-04-23 14:57:46 - llm_consortium - INFO - runner:229 - Iteration 1 - Best Confidence: 0.97/0.8
+2025-04-23 15:09:09 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for student_1
+2025-04-23 15:09:09 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-23 15:09:21 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.12, Confidence: 0.95
+2025-04-23 15:09:21 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for cre_Docs_and_Epenses
+2025-04-23 15:09:21 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-23 15:09:34 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.20, Confidence: 0.95
+2025-04-23 15:09:34 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for storm_record
+2025-04-23 15:09:34 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-23 15:09:47 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.34, Confidence: 0.95

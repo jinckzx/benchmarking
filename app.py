@@ -949,6 +949,22 @@ def spider_eval_page():
         confidence = st.slider("Confidence Threshold", 0.0, 1.0, 0.8)
         max_iter = st.number_input("Max Iterations", min_value=1, value=3, step=1)
         min_iter = st.number_input("Min Iterations", min_value=1, value=1, step=1)
+        
+        # Model temperature tuning section
+        st.subheader("Model Temperature Tuning")
+        enable_model_temp_tuning = st.checkbox("Enable Model Temperature Tuning", value=True)
+        
+        model_min_temp = 0.0
+        model_max_temp = 0.0
+        model_num_trials = 0
+        
+        if enable_model_temp_tuning:
+            model_min_temp = st.slider("Model Min Temperature", 0.0, 1.0, 0.0, key="model_min_temp")
+            model_max_temp = st.slider("Model Max Temperature", 0.0, 1.0, 0.7, key="model_max_temp")
+            model_num_trials = st.number_input("Model Temperature Trials Per Model", 1, 10, 3, key="model_temp_trials")
+            
+            if model_min_temp >= model_max_temp:
+                st.error("Model max temperature must be greater than min temperature")
 
     with col2:
         st.subheader("Execution")
@@ -990,6 +1006,7 @@ def spider_eval_page():
             
             models_dict = {model: count for model, count in st.session_state.models}
             
+            # Create config with model temperature tuning parameters
             config = ConsortiumConfig(
                 models=models_dict,
                 arbiter=arbiter,
@@ -998,17 +1015,93 @@ def spider_eval_page():
                 min_iterations=int(min_iter),
                 min_temp=min_temp,
                 max_temp=max_temp,
-                num_trials=num_trials
+                num_trials=num_trials,
+                # Model temperature parameters
+                enable_model_temp_tuning=enable_model_temp_tuning,
+                model_min_temp=model_min_temp,
+                model_max_temp=model_max_temp,
+                model_num_trials=model_num_trials
             )
             
             try:
                 with st.spinner("Running consortium..."):
                     result = asyncio.run(runner_sql.run_consortium(config, csv_path))
                 
+                # Process and display results
                 st.subheader("Results")
-
+                
+                # Model Temperature Analysis
+                if enable_model_temp_tuning:
+                    st.subheader("Model Temperature Analysis")
+                    
+                    # Create a dataframe for model temperature trials
+                    model_temp_data = []
+                    for query_result in result:
+                        for response in query_result.get("raw_responses", []):
+                            # Extract the temperature
+                            temp = response.get("temperature")
+                            if temp is not None:
+                                model_temp_data.append({
+                                    "Model": response.get("model", "Unknown"),
+                                    "Temperature": float(temp),
+                                    "Confidence": float(response.get("confidence", 0.0)),
+                                    "Question": query_result.get("question", "N/A"),
+                                    "DB ID": query_result.get("db_id", "N/A")
+                                })
+                    
+                    if model_temp_data:
+                        st.write(f"Found {len(model_temp_data)} temperature data points")
+                        model_temp_df = pd.DataFrame(model_temp_data)
+                        
+                        # Create scatter plot of temperature vs confidence
+                        scatter_chart = alt.Chart(model_temp_df).mark_circle(size=60).encode(
+                            x=alt.X('Temperature:Q', scale=alt.Scale(domain=[0, 1])),
+                            y='Confidence:Q',
+                            color='Model:N',
+                            tooltip=['Model', 'Temperature', 'Confidence', 'Question']
+                        ).properties(
+                            width=600,
+                            height=400,
+                            title="Model Temperature vs Confidence"
+                        )
+                        
+                        st.altair_chart(scatter_chart, use_container_width=True)
+                        
+                        # Display raw data
+                        with st.expander("View Model Temperature Data", expanded=True):
+                            st.dataframe(model_temp_df)
+                        
+                        # Create box plot of confidence by model and temperature range
+                        # First bin temperatures
+                        model_temp_df['Temp Range'] = pd.cut(
+                            model_temp_df['Temperature'], 
+                            bins=[0, 0.2, 0.4, 0.6, 0.8, 1.0],
+                            labels=['0.0-0.2', '0.2-0.4', '0.4-0.6', '0.6-0.8', '0.8-1.0']
+                        )
+                        
+                        box_chart = alt.Chart(model_temp_df).mark_boxplot().encode(
+                            x='Model:N',
+                            y='Confidence:Q',
+                            color='Model:N',
+                            column='Temp Range:N'
+                        ).properties(
+                            title="Confidence Distribution by Temperature Range"
+                        )
+                        
+                        st.altair_chart(box_chart, use_container_width=True)
+                    else:
+                        st.warning("No model temperature data available - Check the response structure:")
+                        # Display the raw result structure for debugging
+                        if result:
+                            sample = result[0].get("raw_responses", [])[0] if result[0].get("raw_responses") else {}
+                            st.write("Sample response keys:", list(sample.keys()))
+                            st.json(sample)
+                        else:
+                            st.write("No results returned")
+                
+                # Evaluation metrics processing
                 summary_data = []
-                model_results = []  # New list to track individual model performance
+                model_results = []  # List to track individual model performance
                 
                 for idx, query_result in enumerate(result):
                     best_result = query_result.get('best', {})
@@ -1091,7 +1184,8 @@ def spider_eval_page():
                             "Execution Match": model_exec_match,
                             "Confidence": response.get("confidence", 0),
                             "Latency (s)": response.get("latency", 0),
-                            "Iteration": response.get("iteration", 0)
+                            "Iteration": response.get("iteration", 0),
+                            "Temperature": response.get("temperature", 0.0)
                         })
 
                 if not summary_data:
@@ -1215,6 +1309,7 @@ def spider_eval_page():
                         "SQL Response": st.column_config.TextColumn("SQL Query", width="large"),
                         "Confidence": st.column_config.NumberColumn(format="%.2f"),
                         "Latency (s)": st.column_config.NumberColumn(format="%.2f"),
+                        "Temperature": st.column_config.NumberColumn(format="%.2f"),
                         "Exact Match": st.column_config.TextColumn("Exact Match", width="small"),
                         "Execution Match": st.column_config.TextColumn("Execution Match", width="small")
                     },
@@ -1318,8 +1413,8 @@ def spider_eval_page():
                             else:
                                 st.warning("Temperature trial data has incorrect format or is empty")
 
-                    # Model response data
-                    responses_data = []
+                    # Model response data for this specific query
+                    query_responses_data = []
                     for response in query_result.get("raw_responses", []):
                         model_sql = response.get("response", "")
                         model_exact_match = False
@@ -1339,26 +1434,28 @@ def spider_eval_page():
                                         model_sql, ground_truth_sql, db_file_path
                                     )
                                 except Exception as e:
-                                    # Silently continue, we'll show errors only for the final result
+                                    # Silently continue
                                     pass
                         
-                        responses_data.append({
+                        query_responses_data.append({
                             "Model": response.get("model", "Unknown"),
                             "SQL Response": model_sql,
                             "Confidence": response.get("confidence", 0),
                             "Latency (s)": f"{response.get('latency', 0):.2f}",
+                            "Temperature": response.get("temperature", 0.0),
                             "Iteration": response.get("iteration", 0),
                             "Exact Match": "✅" if model_exact_match else "❌",
                             "Execution Match": "✅" if model_exec_match else "❌"
                         })
 
-                    if responses_data:
+                    if query_responses_data:
                         st.markdown("#### Model Responses")
-                        df_responses = pd.DataFrame(responses_data)
+                        df_responses = pd.DataFrame(query_responses_data)
                         st.dataframe(
                             df_responses,
                             column_config={
                                 "SQL Response": st.column_config.TextColumn("SQL", help="Model-generated SQL", width="large"),
+                                "Temperature": st.column_config.NumberColumn(format="%.2f"),
                                 "Exact Match": st.column_config.TextColumn("Exact Match", width="small"),
                                 "Execution Match": st.column_config.TextColumn("Execution Match", width="small")
                             },
@@ -1373,14 +1470,14 @@ def spider_eval_page():
                                     x='Model:N',
                                     y='Confidence:Q',
                                     color='Model:N',
-                                    tooltip=['Model', 'Confidence', 'Latency (s)']
+                                    tooltip=['Model', 'Confidence', 'Latency (s)', 'Temperature']
                                 ).properties(height=300))
                             with col2:
                                 st.altair_chart(alt.Chart(df_responses).mark_circle(size=60).encode(
-                                    x='Latency (s):Q',
+                                    x='Temperature:Q',
                                     y='Confidence:Q',
                                     color='Model:N',
-                                    tooltip=['Model', 'Confidence', 'Latency (s)']
+                                    tooltip=['Model', 'Confidence', 'Latency (s)', 'Temperature']
                                 ).properties(height=300))
                     else:
                         st.warning("No model responses recorded for this query")
@@ -1414,6 +1511,7 @@ def spider_eval_page():
                 st.error(f"Error running consortium: {str(e)}")
                 import traceback
                 st.code(traceback.format_exc(), language="python")
+# Update the spider_eval_page function in your Streamlit app code with model tuning
 # def spider_eval_page():
 #     import streamlit as st
 #     import os
@@ -1430,6 +1528,230 @@ def spider_eval_page():
     
 #     # Import SQLMetrics class
 #     from llm_consortium.metrics.metrics_sql import SQLMetrics
+
+#     # Initialize session state
+#     if 'download_key' not in st.session_state:
+#         st.session_state.download_key = f"spider_init_{uuid.uuid4()}"
+
+#     if 'models' not in st.session_state:
+#         st.session_state.models = []
+        
+#     st.title("GenAI App Tuner")
+
+#     runner_sql = ConsortiumRunnerSQL()
+
+#     col1, col2 = st.columns([2, 3])
+
+#     with col1:
+#         st.subheader("Configuration")
+#         model_selector = st.selectbox("Select Model", ["gpt-4o-mini", "gpt-3.5-turbo", "gemini-2", "o3-mini"])
+#         instance_count = st.number_input("Instances", min_value=1, value=1, step=1)
+        
+#         if st.button("Add Model"):
+#             new_models = {(m, c) for m, c in st.session_state.models if m != model_selector}
+#             new_models.add((model_selector, instance_count))
+#             st.session_state.models = list(new_models)
+#             st.rerun()
+        
+#         if st.session_state.models:
+#             st.write("### Selected Models")
+#             for idx, (model, count) in enumerate(st.session_state.models):
+#                 cols = st.columns([4, 2, 1])
+#                 with cols[0]:
+#                     st.markdown(f"**{model}**")
+#                 with cols[1]:
+#                     st.markdown(f"Instances: {count}")
+#                 with cols[2]:
+#                     if st.button("❌", key=f"delete_{idx}"):
+#                         st.session_state.models.remove((model, count))
+#                         st.rerun()
+#         else:
+#             st.info("No models added yet")
+        
+#         st.subheader("Arbiter Tuning")
+#         min_temp = st.slider("Min Temperature", 0.0, 1.0, 0.1)
+#         max_temp = st.slider("Max Temperature", 0.0, 1.0, 0.9)
+#         num_trials = st.number_input("Temperature Trials", 1, 20, 5)
+#         if min_temp >= max_temp:
+#             st.error("Max temperature must be greater than min temperature")
+        
+#         arbiter = st.selectbox("Arbiter Model", ["gpt-4o-mini", "gemini-2", "gpt-3.5-turbo"], index=2)
+#         confidence = st.slider("Confidence Threshold", 0.0, 1.0, 0.8)
+#         max_iter = st.number_input("Max Iterations", min_value=1, value=3, step=1)
+#         min_iter = st.number_input("Min Iterations", min_value=1, value=1, step=1)
+        
+#         # New section for model temperature tuning
+#         st.subheader("Model Temperature Tuning")
+#         enable_model_temp_tuning = st.checkbox("Enable Model Temperature Tuning", value=False)
+        
+#         model_min_temp = 0.0
+#         model_max_temp = 0.0
+#         model_num_trials = 0
+        
+#         if enable_model_temp_tuning:
+#             model_min_temp = st.slider("Model Min Temperature", 0.0, 1.0, 0.0, key="model_min_temp")
+#             model_max_temp = st.slider("Model Max Temperature", 0.0, 1.0, 0.7, key="model_max_temp")
+#             model_num_trials = st.number_input("Model Temperature Trials Per Model", 1, 10, 3, key="model_temp_trials")
+            
+#             if model_min_temp >= model_max_temp:
+#                 st.error("Model max temperature must be greater than min temperature")
+
+#     with col2:
+#         st.subheader("Execution")
+#         uploaded_file = st.file_uploader(
+#             "Upload CSV with queries (must include db_id, question, and query columns)",
+#             type=["csv"],
+#             help="CSV must contain 'db_id', 'question', and 'query' columns"
+#         )
+        
+#         if uploaded_file is not None and st.session_state.models:
+#             models_dict = {model: count for model, count in st.session_state.models}
+#             total_cost, cost_df = calculate_cost(
+#                 [(m, c) for m, c in models_dict.items()] + [(arbiter, 1)], 
+#                 max_iter
+#             )
+#             st.write(f"**Estimated Cost:** ${total_cost:.4f}")
+#             st.dataframe(cost_df, use_container_width=True)
+#         elif uploaded_file:
+#             st.info("Add models to see cost estimation")
+
+#         if st.button("Run Consortium", type="primary"):
+#             if not st.session_state.models:
+#                 st.error("Please add at least one model")
+#                 st.stop()
+#             if not uploaded_file:
+#                 st.error("Please upload a CSV file first")
+#                 st.stop()
+
+#             # Save the uploaded file to a temporary file
+#             with tempfile.NamedTemporaryFile(delete=False, suffix=".csv") as tmp_file:
+#                 tmp_file.write(uploaded_file.getvalue())
+#                 csv_path = tmp_file.name
+            
+#             # Load the CSV to get the ground truth queries
+#             input_df = pd.read_csv(uploaded_file)
+#             if not all(col in input_df.columns for col in ['db_id', 'question', 'query']):
+#                 st.error("CSV must contain 'db_id', 'question', and 'query' columns")
+#                 st.stop()
+            
+#             models_dict = {model: count for model, count in st.session_state.models}
+            
+#             # Create config with model temperature tuning parameters
+#             config = ConsortiumConfig(
+#                 models=models_dict,
+#                 arbiter=arbiter,
+#                 confidence_threshold=confidence,
+#                 max_iterations=int(max_iter),
+#                 min_iterations=int(min_iter),
+#                 min_temp=min_temp,
+#                 max_temp=max_temp,
+#                 num_trials=num_trials,
+#                 # New model temperature parameters
+#                 enable_model_temp_tuning=enable_model_temp_tuning,
+#                 model_min_temp=model_min_temp,
+#                 model_max_temp=model_max_temp,
+#                 model_num_trials=model_num_trials
+#             )
+            
+#             try:
+#                 with st.spinner("Running consortium..."):
+#                     result = asyncio.run(runner_sql.run_consortium(config, csv_path))
+                
+#                 # Process and display results
+#                 st.subheader("Results")
+#                     # Update this part of the Streamlit UI code
+#                 if enable_model_temp_tuning:
+#                     st.subheader("Model Temperature Analysis")
+                    
+#                     # Create a dataframe for model temperature trials
+#                     model_temp_data = []
+#                     for query_result in result:
+#                         for response in query_result.get("raw_responses", []):
+#                             # Extract the temperature - check both ways it might be stored
+#                             temp = response.get("temperature")
+#                             if temp is not None:
+#                                 model_temp_data.append({
+#                                     "Model": response.get("model", "Unknown"),
+#                                     "Temperature": float(temp),
+#                                     "Confidence": float(response.get("confidence", 0.0)),
+#                                     "Question": query_result.get("question", "N/A"),
+#                                     "DB ID": query_result.get("db_id", "N/A")
+#                                 })
+                    
+#                     if model_temp_data:
+#                         st.write(f"Found {len(model_temp_data)} temperature data points")
+#                         model_temp_df = pd.DataFrame(model_temp_data)
+                        
+#                         # Create scatter plot of temperature vs confidence
+#                         scatter_chart = alt.Chart(model_temp_df).mark_circle(size=60).encode(
+#                             x=alt.X('Temperature:Q', scale=alt.Scale(domain=[0, 1])),
+#                             y='Confidence:Q',
+#                             color='Model:N',
+#                             tooltip=['Model', 'Temperature', 'Confidence', 'Question']
+#                         ).properties(
+#                             width=600,
+#                             height=400,
+#                             title="Model Temperature vs Confidence"
+#                         )
+                        
+#                         st.altair_chart(scatter_chart, use_container_width=True)
+                        
+#                         # Display raw data first for debugging
+#                         with st.expander("View Model Temperature Data", expanded=True):
+#                             st.dataframe(model_temp_df)
+                        
+#                         # Create box plot of confidence by model and temperature range
+#                         # First bin temperatures
+#                         model_temp_df['Temp Range'] = pd.cut(
+#                             model_temp_df['Temperature'], 
+#                             bins=[0, 0.2, 0.4, 0.6, 0.8, 1.0],
+#                             labels=['0.0-0.2', '0.2-0.4', '0.4-0.6', '0.6-0.8', '0.8-1.0']
+#                         )
+                        
+#                         box_chart = alt.Chart(model_temp_df).mark_boxplot().encode(
+#                             x='Model:N',
+#                             y='Confidence:Q',
+#                             color='Model:N',
+#                             column='Temp Range:N'
+#                         ).properties(
+#                             title="Confidence Distribution by Temperature Range"
+#                         )
+                        
+#                         st.altair_chart(box_chart, use_container_width=True)
+#                     else:
+#                         st.warning("No model temperature data available - Check the response structure:")
+#                         # Display the raw result structure for debugging
+#                         if result:
+#                             sample = result[0].get("raw_responses", [])[0] if result[0].get("raw_responses") else {}
+#                             st.write("Sample response keys:", list(sample.keys()))
+#                             st.json(sample)
+#                         else:
+#                             st.write("No results returned")
+               
+                    
+                
+#             except Exception as e:
+#                 st.error(f"Error running consortium: {str(e)}")
+#                 import traceback
+#                 st.code(traceback.format_exc(), language="python")
+                
+### without model tuning
+# def spider_eval_page():
+#     import streamlit as st
+#     import os
+#     import asyncio
+#     import tempfile
+#     import pandas as pd
+#     import altair as alt
+#     import uuid
+#     from datetime import datetime
+    
+#     from llm_consortium.core.runner_sql import ConsortiumRunnerSQL
+#     from llm_consortium.config.models import ConsortiumConfig
+#     from llm_consortium.utils.pricing import calculate_cost
+    
+#     # Import SQLMetrics class
+#     from llm_consortium.metrics.metrics_sql import SQLMetrics 
 
 #     # Initialize session state
 #     if 'download_key' not in st.session_state:
@@ -1540,6 +1862,8 @@ def spider_eval_page():
 #                 st.subheader("Results")
 
 #                 summary_data = []
+#                 model_results = []  # New list to track individual model performance
+                
 #                 for idx, query_result in enumerate(result):
 #                     best_result = query_result.get('best', {})
 #                     db_id = query_result.get('db_id', 'N/A')
@@ -1589,6 +1913,40 @@ def spider_eval_page():
 #                         "Intent": query_result.get('intent', 'N/A')
 #                     }
 #                     summary_data.append(summary_entry)
+                    
+#                     # Evaluate each model response individually
+#                     for response in query_result.get("raw_responses", []):
+#                         model_sql = response.get("response", "")
+#                         model_exact_match = False
+#                         model_exec_match = False
+                        
+#                         if model_sql and ground_truth_sql and ground_truth_sql != 'N/A':
+#                             # Perform exact match evaluation
+#                             model_exact_match = SQLMetrics.exact_match(model_sql, ground_truth_sql)
+                            
+#                             # Get database path
+#                             db_file_path = SQLMetrics.get_db_path(db_id)
+                            
+#                             # Perform execution match evaluation if DB file exists
+#                             if os.path.exists(db_file_path):
+#                                 try:
+#                                     model_exec_match = SQLMetrics.execution_match(
+#                                         model_sql, ground_truth_sql, db_file_path
+#                                     )
+#                                 except Exception as e:
+#                                     pass  # Silently continue, we'll show errors only for the final result
+                        
+#                         model_results.append({
+#                             "Database ID": db_id,
+#                             "Question": question,
+#                             "Model": response.get("model", "Unknown"),
+#                             "SQL Response": model_sql,
+#                             "Exact Match": model_exact_match,
+#                             "Execution Match": model_exec_match,
+#                             "Confidence": response.get("confidence", 0),
+#                             "Latency (s)": response.get("latency", 0),
+#                             "Iteration": response.get("iteration", 0)
+#                         })
 
 #                 if not summary_data:
 #                     st.warning("No results returned. Check your CSV format.")
@@ -1597,24 +1955,94 @@ def spider_eval_page():
 #                 # Create summary DataFrame and calculate metrics
 #                 summary_df = pd.DataFrame(summary_data)
                 
-#                 # Calculate metrics - make sure to pass summary_df correctly
-#                 metrics = SQLMetrics.compute_metrics(summary_df)
+#                 # Calculate metrics for the arbiter's final results
+#                 arbiter_metrics = SQLMetrics.compute_metrics(summary_df)
                 
-#                 # Display overall metrics
+#                 # Create and calculate metrics for individual models
+#                 model_results_df = pd.DataFrame(model_results)
+                
+#                 # Group model results by model name and calculate performance
+#                 if not model_results_df.empty:
+#                     model_performance = {}
+#                     for model_name, group in model_results_df.groupby("Model"):
+#                         metrics = SQLMetrics.compute_metrics(group)
+#                         model_performance[model_name] = metrics
+                
+#                 # Display overall metrics for the arbiter
+#                 st.markdown("### Arbiter Results")
 #                 col1, col2 = st.columns(2)
 #                 with col1:
-#                     st.metric("Exact Match Rate", f"{metrics['exact_match_rate']:.1f}%")
-#                     st.markdown(f"**Exact Matches:** {metrics['exact_match_count']} / {metrics['total']}")
+#                     st.metric("Exact Match Rate", f"{arbiter_metrics['exact_match_rate']:.1f}%")
+#                     st.markdown(f"**Exact Matches:** {arbiter_metrics['exact_match_count']} / {arbiter_metrics['total']}")
 #                 with col2:
-#                     st.metric("Execution Match Rate", f"{metrics['execution_match_rate']:.1f}%")
-#                     st.markdown(f"**Execution Matches:** {metrics['execution_match_count']} / {metrics['total']}")
+#                     st.metric("Execution Match Rate", f"{arbiter_metrics['execution_match_rate']:.1f}%")
+#                     st.markdown(f"**Execution Matches:** {arbiter_metrics['execution_match_count']} / {arbiter_metrics['total']}")
 
-#                 # For display, convert boolean values to checkmarks
+#                 # Display individual model performance metrics
+#                 if model_results_df.empty:
+#                     st.warning("No individual model results available")
+#                 else:
+#                     st.markdown("### Individual Model Performance")
+                    
+#                     # Create performance comparison dataframe
+#                     model_perf_data = []
+#                     for model_name, metrics in model_performance.items():
+#                         model_perf_data.append({
+#                             "Model": model_name,
+#                             "Exact Match Rate": f"{metrics['exact_match_rate']:.1f}%",
+#                             "Execution Match Rate": f"{metrics['execution_match_rate']:.1f}%",
+#                             "Exact Match Count": f"{metrics['exact_match_count']} / {metrics['total']}",
+#                             "Execution Match Count": f"{metrics['execution_match_count']} / {metrics['total']}",
+#                             "Exact Match Rate Value": metrics['exact_match_rate'],  # For sorting
+#                             "Execution Match Rate Value": metrics['execution_match_rate']  # For sorting
+#                         })
+                    
+#                     model_perf_df = pd.DataFrame(model_perf_data)
+                    
+#                     # Sort by execution match rate (higher is better)
+#                     model_perf_df = model_perf_df.sort_values("Execution Match Rate Value", ascending=False)
+                    
+#                     # Remove the value columns used for sorting
+#                     display_model_perf = model_perf_df.drop(columns=["Exact Match Rate Value", "Execution Match Rate Value"])
+                    
+#                     st.dataframe(
+#                         display_model_perf,
+#                         use_container_width=True,
+#                         hide_index=True
+#                     )
+                    
+#                     # Create charts to visualize model performance
+#                     chart_data = pd.DataFrame({
+#                         "Model": model_perf_df["Model"],
+#                         "Exact Match Rate": model_perf_df["Exact Match Rate Value"],
+#                         "Execution Match Rate": model_perf_df["Execution Match Rate Value"]
+#                     })
+                    
+#                     # Melt the dataframe for easier charting
+#                     chart_data_melted = pd.melt(
+#                         chart_data, 
+#                         id_vars=["Model"], 
+#                         value_vars=["Exact Match Rate", "Execution Match Rate"],
+#                         var_name="Metric", 
+#                         value_name="Rate"
+#                     )
+                    
+#                     # Create bar chart
+#                     chart = alt.Chart(chart_data_melted).mark_bar().encode(
+#                         x=alt.X('Model:N', sort='-y'),
+#                         y=alt.Y('Rate:Q', title='Rate (%)'),
+#                         color='Metric:N',
+#                         tooltip=['Model', 'Metric', 'Rate']
+#                     ).properties(height=300)
+                    
+#                     st.altair_chart(chart, use_container_width=True)
+
+#                 # For display, convert boolean values to checkmarks in summary df
 #                 display_df = summary_df.copy()
 #                 display_df["Exact Match"] = display_df["Exact Match"].map({True: "✅", False: "❌"})
 #                 display_df["Execution Match"] = display_df["Execution Match"].map({True: "✅", False: "❌"})
 
-#                 st.markdown("### Consolidated Results")
+#                 st.markdown("### Consolidated Arbiter Results")
 #                 st.dataframe(
 #                     display_df,
 #                     column_config={
@@ -1622,6 +2050,25 @@ def spider_eval_page():
 #                         "Ground Truth SQL": st.column_config.TextColumn("Ground Truth", width="large"),
 #                         "Best Temperature": st.column_config.NumberColumn(format="%.2f"),
 #                         "Confidence": st.column_config.NumberColumn(format="%.2f"),
+#                         "Exact Match": st.column_config.TextColumn("Exact Match", width="small"),
+#                         "Execution Match": st.column_config.TextColumn("Execution Match", width="small")
+#                     },
+#                     use_container_width=True,
+#                     hide_index=True
+#                 )
+                
+#                 # For display, convert boolean values to checkmarks in model results df
+#                 display_model_df = model_results_df.copy()
+#                 display_model_df["Exact Match"] = display_model_df["Exact Match"].map({True: "✅", False: "❌"})
+#                 display_model_df["Execution Match"] = display_model_df["Execution Match"].map({True: "✅", False: "❌"})
+
+#                 st.markdown("### All Model Responses")
+#                 st.dataframe(
+#                     display_model_df,
+#                     column_config={
+#                         "SQL Response": st.column_config.TextColumn("SQL Query", width="large"),
+#                         "Confidence": st.column_config.NumberColumn(format="%.2f"),
+#                         "Latency (s)": st.column_config.NumberColumn(format="%.2f"),
 #                         "Exact Match": st.column_config.TextColumn("Exact Match", width="small"),
 #                         "Execution Match": st.column_config.TextColumn("Execution Match", width="small")
 #                     },
@@ -1687,7 +2134,7 @@ def spider_eval_page():
 #                     st.markdown("#### Question")
 #                     st.markdown(f"_{question}_")
                     
-#                     st.markdown("#### Generated SQL")
+#                     st.markdown("#### Generated SQL (Best Result)")
 #                     st.code(generated_sql, language='sql')
                     
 #                     st.markdown("#### Ground Truth SQL")
@@ -1728,12 +2175,35 @@ def spider_eval_page():
 #                     # Model response data
 #                     responses_data = []
 #                     for response in query_result.get("raw_responses", []):
+#                         model_sql = response.get("response", "")
+#                         model_exact_match = False
+#                         model_exec_match = False
+                        
+#                         if model_sql and ground_truth_sql and ground_truth_sql != 'N/A':
+#                             # Perform exact match evaluation
+#                             model_exact_match = SQLMetrics.exact_match(model_sql, ground_truth_sql)
+                            
+#                             # Get database path
+#                             db_file_path = SQLMetrics.get_db_path(db_id)
+                            
+#                             # Perform execution match evaluation if DB file exists
+#                             if os.path.exists(db_file_path):
+#                                 try:
+#                                     model_exec_match = SQLMetrics.execution_match(
+#                                         model_sql, ground_truth_sql, db_file_path
+#                                     )
+#                                 except Exception as e:
+#                                     # Silently continue, we'll show errors only for the final result
+#                                     pass
+                        
 #                         responses_data.append({
 #                             "Model": response.get("model", "Unknown"),
-#                             "SQL Response": response.get("response", ""),
+#                             "SQL Response": model_sql,
 #                             "Confidence": response.get("confidence", 0),
 #                             "Latency (s)": f"{response.get('latency', 0):.2f}",
-#                             "Iteration": response.get("iteration", 0)
+#                             "Iteration": response.get("iteration", 0),
+#                             "Exact Match": "✅" if model_exact_match else "❌",
+#                             "Execution Match": "✅" if model_exec_match else "❌"
 #                         })
 
 #                     if responses_data:
@@ -1742,7 +2212,9 @@ def spider_eval_page():
 #                         st.dataframe(
 #                             df_responses,
 #                             column_config={
-#                                 "SQL Response": st.column_config.TextColumn("SQL", help="Model-generated SQL", width="large")
+#                                 "SQL Response": st.column_config.TextColumn("SQL", help="Model-generated SQL", width="large"),
+#                                 "Exact Match": st.column_config.TextColumn("Exact Match", width="small"),
+#                                 "Execution Match": st.column_config.TextColumn("Execution Match", width="small")
 #                             },
 #                             use_container_width=True,
 #                             hide_index=True
@@ -1767,16 +2239,29 @@ def spider_eval_page():
 #                     else:
 #                         st.warning("No model responses recorded for this query")
 
-#                 # Export data - keep boolean values in CSV
-#                 csv_data = summary_df.to_csv(index=False).encode('utf-8')
-#                 download_key = f"spider_download_{datetime.now().timestamp()}_{uuid.uuid4()}"
+#                 # Export data - save both summary and model results
+#                 summary_csv = summary_df.to_csv(index=False).encode('utf-8')
+#                 model_results_csv = model_results_df.to_csv(index=False).encode('utf-8')
+                
+#                 download_key_summary = f"spider_summary_{datetime.now().timestamp()}_{uuid.uuid4()}"
+#                 download_key_models = f"spider_models_{datetime.now().timestamp()}_{uuid.uuid4()}"
+                
 #                 st.download_button(
-#                     "⬇️ Download Consolidated Results (CSV)",
-#                     data=csv_data,
-#                     file_name="spider_consortium_results.csv",
+#                     "⬇️ Download Arbiter Results (CSV)",
+#                     data=summary_csv,
+#                     file_name="spider_arbiter_results.csv",
 #                     mime="text/csv",
-#                     key=download_key,
-#                     help="Includes evaluation metrics and temperature tuning details"
+#                     key=download_key_summary,
+#                     help="Includes evaluation metrics for arbiter results"
+#                 )
+                
+#                 st.download_button(
+#                     "⬇️ Download Model Results (CSV)",
+#                     data=model_results_csv,
+#                     file_name="spider_model_results.csv",
+#                     mime="text/csv",
+#                     key=download_key_models,
+#                     help="Includes evaluation metrics for all model responses"
 #                 )
                 
 #             except Exception as e:

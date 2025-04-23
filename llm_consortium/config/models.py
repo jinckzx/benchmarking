@@ -16,6 +16,12 @@ class ConsortiumConfig(BaseModel):
     min_temp: float
     max_temp: float
     num_trials: int
+    # New fields for model temperature tuning
+    enable_model_temp_tuning: bool = False
+    model_min_temp: float = 0.0
+    model_max_temp: float = 0.7
+    model_num_trials: int = 2
+    
     
 
 # class LogEntry(BaseModel):
@@ -74,7 +80,7 @@ class LogEntry(BaseModel):
     intent: str = ""  # For SQL runner
     db_id: str = ""  # For SQL runner
     raw_response: Optional[str] = None  # Full model response for Class runner
-    
+    temperature: float = 0.2  # Add temperature field with default
     def to_dict(self):
         """Convert the LogEntry object to a dictionary with all fields."""
         return {
@@ -91,5 +97,6 @@ class LogEntry(BaseModel):
             "intent": self.intent,
             "db_id": self.db_id,
             "raw_response": self.raw_response,
-            "error": self.error
+            "error": self.error,
+            "temperature": self.temperature
         }
