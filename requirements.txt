@@ -16,3 +16,9 @@ llama-index-embeddings-fastembed==0.3.1
 fastembed==0.6.1
 onnxruntime==1.21.0
 langchain_community==0.3.21
+langchain_openai
+pandas
+matplotlib
+scikit-learn
+ipykernel
+deepeval==2.7.5

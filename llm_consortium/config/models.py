@@ -24,36 +24,7 @@ class ConsortiumConfig(BaseModel):
     
     
 
-# class LogEntry(BaseModel):
-#     prompt: str = "" 
-#     question: str = "" 
-#     model: str
-#     response: str
-#     predicted_class: str  # This replaces 'response' in your current model
-#     confidence: float
-#     latency: float
-#     iteration: int
-#     reasoning: str
-#     intent: str = ""  # New field with default
-#     db_id: str = ""   # New field with default
-#     raw_response: Optional[str] = None  # Add this field to store the complete response
-#     timestamp: datetime = datetime.now()
-#     error: Optional[str]=None
-#     def to_dict(self):
-#         """Convert the LogEntry object to a dictionary."""
-#         return {
-#             "timestamp": self.timestamp.isoformat(),
-#             "question": self.question,
-#             "prompt":self.prompt,
-#             "model": self.model,
-#             "response":self.response,
-#             "predicted_class": self.predicted_class,
-#             "confidence": self.confidence,
-#             "latency": self.latency,
-#             "iteration": self.iteration,
-#             "reasoning": self.reasoning,
-#             "raw_response": self.raw_response
-#         }
+
 from pydantic import BaseModel, Field
 from typing import Dict, Optional
 from datetime import datetime

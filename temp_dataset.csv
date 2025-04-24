@@ -1,4 +1,4 @@
-db_id,question,query
+db_id,question,gold_sql
 e_government,What are the payment method codes that have been used by more than 3 parties?,SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3
 bike_1,What is the average latitude and longitude of the starting points of all trips?,"SELECT avg(T1.lat) ,  avg(T1.long) FROM station AS T1 JOIN trip AS T2 ON T1.id  =  T2.start_station_id"
 music_1,What are the ids of all songs that are available on mp4 or have a higher resolution than 720?,"SELECT f_id FROM files WHERE formats  =  ""mp4"" UNION SELECT f_id FROM song WHERE resolution  >  720"

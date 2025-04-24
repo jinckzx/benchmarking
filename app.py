@@ -338,7 +338,7 @@ def main():
         st.header("Evaluation Types")
         app_mode = st.radio(
             "Select Evaluation Mode",
-            ["Non-RAG_eval", "RAG_eval", "Text2SQL_eval","Classification_Eval"],
+            ["Non-RAG_eval", "RAG_eval", "Text2SQL_eval","Classification_Eval", "new_sql"],
             index=0
         )
 
@@ -350,6 +350,8 @@ def main():
         spider_eval_page()
     elif app_mode == "Classification_Eval":
         classification_page()
+    elif app_mode == "new_sql":
+        text2sql_ui()
 
 def prompt_eval_page():
     # st.title("GenAI App Tuner")
@@ -1511,766 +1513,10 @@ def spider_eval_page():
                 st.error(f"Error running consortium: {str(e)}")
                 import traceback
                 st.code(traceback.format_exc(), language="python")
-# Update the spider_eval_page function in your Streamlit app code with model tuning
-# def spider_eval_page():
-#     import streamlit as st
-#     import os
-#     import asyncio
-#     import tempfile
-#     import pandas as pd
-#     import altair as alt
-#     import uuid
-#     from datetime import datetime
-    
-#     from llm_consortium.core.runner_sql import ConsortiumRunnerSQL
-#     from llm_consortium.config.models import ConsortiumConfig
-#     from llm_consortium.utils.pricing import calculate_cost
-    
-#     # Import SQLMetrics class
-#     from llm_consortium.metrics.metrics_sql import SQLMetrics
-
-#     # Initialize session state
-#     if 'download_key' not in st.session_state:
-#         st.session_state.download_key = f"spider_init_{uuid.uuid4()}"
-
-#     if 'models' not in st.session_state:
-#         st.session_state.models = []
-        
-#     st.title("GenAI App Tuner")
-
-#     runner_sql = ConsortiumRunnerSQL()
-
-#     col1, col2 = st.columns([2, 3])
-
-#     with col1:
-#         st.subheader("Configuration")
-#         model_selector = st.selectbox("Select Model", ["gpt-4o-mini", "gpt-3.5-turbo", "gemini-2", "o3-mini"])
-#         instance_count = st.number_input("Instances", min_value=1, value=1, step=1)
-        
-#         if st.button("Add Model"):
-#             new_models = {(m, c) for m, c in st.session_state.models if m != model_selector}
-#             new_models.add((model_selector, instance_count))
-#             st.session_state.models = list(new_models)
-#             st.rerun()
-        
-#         if st.session_state.models:
-#             st.write("### Selected Models")
-#             for idx, (model, count) in enumerate(st.session_state.models):
-#                 cols = st.columns([4, 2, 1])
-#                 with cols[0]:
-#                     st.markdown(f"**{model}**")
-#                 with cols[1]:
-#                     st.markdown(f"Instances: {count}")
-#                 with cols[2]:
-#                     if st.button("❌", key=f"delete_{idx}"):
-#                         st.session_state.models.remove((model, count))
-#                         st.rerun()
-#         else:
-#             st.info("No models added yet")
-        
-#         st.subheader("Arbiter Tuning")
-#         min_temp = st.slider("Min Temperature", 0.0, 1.0, 0.1)
-#         max_temp = st.slider("Max Temperature", 0.0, 1.0, 0.9)
-#         num_trials = st.number_input("Temperature Trials", 1, 20, 5)
-#         if min_temp >= max_temp:
-#             st.error("Max temperature must be greater than min temperature")
-        
-#         arbiter = st.selectbox("Arbiter Model", ["gpt-4o-mini", "gemini-2", "gpt-3.5-turbo"], index=2)
-#         confidence = st.slider("Confidence Threshold", 0.0, 1.0, 0.8)
-#         max_iter = st.number_input("Max Iterations", min_value=1, value=3, step=1)
-#         min_iter = st.number_input("Min Iterations", min_value=1, value=1, step=1)
-        
-#         # New section for model temperature tuning
-#         st.subheader("Model Temperature Tuning")
-#         enable_model_temp_tuning = st.checkbox("Enable Model Temperature Tuning", value=False)
-        
-#         model_min_temp = 0.0
-#         model_max_temp = 0.0
-#         model_num_trials = 0
-        
-#         if enable_model_temp_tuning:
-#             model_min_temp = st.slider("Model Min Temperature", 0.0, 1.0, 0.0, key="model_min_temp")
-#             model_max_temp = st.slider("Model Max Temperature", 0.0, 1.0, 0.7, key="model_max_temp")
-#             model_num_trials = st.number_input("Model Temperature Trials Per Model", 1, 10, 3, key="model_temp_trials")
-            
-#             if model_min_temp >= model_max_temp:
-#                 st.error("Model max temperature must be greater than min temperature")
-
-#     with col2:
-#         st.subheader("Execution")
-#         uploaded_file = st.file_uploader(
-#             "Upload CSV with queries (must include db_id, question, and query columns)",
-#             type=["csv"],
-#             help="CSV must contain 'db_id', 'question', and 'query' columns"
-#         )
-        
-#         if uploaded_file is not None and st.session_state.models:
-#             models_dict = {model: count for model, count in st.session_state.models}
-#             total_cost, cost_df = calculate_cost(
-#                 [(m, c) for m, c in models_dict.items()] + [(arbiter, 1)], 
-#                 max_iter
-#             )
-#             st.write(f"**Estimated Cost:** ${total_cost:.4f}")
-#             st.dataframe(cost_df, use_container_width=True)
-#         elif uploaded_file:
-#             st.info("Add models to see cost estimation")
-
-#         if st.button("Run Consortium", type="primary"):
-#             if not st.session_state.models:
-#                 st.error("Please add at least one model")
-#                 st.stop()
-#             if not uploaded_file:
-#                 st.error("Please upload a CSV file first")
-#                 st.stop()
-
-#             # Save the uploaded file to a temporary file
-#             with tempfile.NamedTemporaryFile(delete=False, suffix=".csv") as tmp_file:
-#                 tmp_file.write(uploaded_file.getvalue())
-#                 csv_path = tmp_file.name
-            
-#             # Load the CSV to get the ground truth queries
-#             input_df = pd.read_csv(uploaded_file)
-#             if not all(col in input_df.columns for col in ['db_id', 'question', 'query']):
-#                 st.error("CSV must contain 'db_id', 'question', and 'query' columns")
-#                 st.stop()
-            
-#             models_dict = {model: count for model, count in st.session_state.models}
-            
-#             # Create config with model temperature tuning parameters
-#             config = ConsortiumConfig(
-#                 models=models_dict,
-#                 arbiter=arbiter,
-#                 confidence_threshold=confidence,
-#                 max_iterations=int(max_iter),
-#                 min_iterations=int(min_iter),
-#                 min_temp=min_temp,
-#                 max_temp=max_temp,
-#                 num_trials=num_trials,
-#                 # New model temperature parameters
-#                 enable_model_temp_tuning=enable_model_temp_tuning,
-#                 model_min_temp=model_min_temp,
-#                 model_max_temp=model_max_temp,
-#                 model_num_trials=model_num_trials
-#             )
-            
-#             try:
-#                 with st.spinner("Running consortium..."):
-#                     result = asyncio.run(runner_sql.run_consortium(config, csv_path))
-                
-#                 # Process and display results
-#                 st.subheader("Results")
-#                     # Update this part of the Streamlit UI code
-#                 if enable_model_temp_tuning:
-#                     st.subheader("Model Temperature Analysis")
-                    
-#                     # Create a dataframe for model temperature trials
-#                     model_temp_data = []
-#                     for query_result in result:
-#                         for response in query_result.get("raw_responses", []):
-#                             # Extract the temperature - check both ways it might be stored
-#                             temp = response.get("temperature")
-#                             if temp is not None:
-#                                 model_temp_data.append({
-#                                     "Model": response.get("model", "Unknown"),
-#                                     "Temperature": float(temp),
-#                                     "Confidence": float(response.get("confidence", 0.0)),
-#                                     "Question": query_result.get("question", "N/A"),
-#                                     "DB ID": query_result.get("db_id", "N/A")
-#                                 })
-                    
-#                     if model_temp_data:
-#                         st.write(f"Found {len(model_temp_data)} temperature data points")
-#                         model_temp_df = pd.DataFrame(model_temp_data)
-                        
-#                         # Create scatter plot of temperature vs confidence
-#                         scatter_chart = alt.Chart(model_temp_df).mark_circle(size=60).encode(
-#                             x=alt.X('Temperature:Q', scale=alt.Scale(domain=[0, 1])),
-#                             y='Confidence:Q',
-#                             color='Model:N',
-#                             tooltip=['Model', 'Temperature', 'Confidence', 'Question']
-#                         ).properties(
-#                             width=600,
-#                             height=400,
-#                             title="Model Temperature vs Confidence"
-#                         )
-                        
-#                         st.altair_chart(scatter_chart, use_container_width=True)
-                        
-#                         # Display raw data first for debugging
-#                         with st.expander("View Model Temperature Data", expanded=True):
-#                             st.dataframe(model_temp_df)
-                        
-#                         # Create box plot of confidence by model and temperature range
-#                         # First bin temperatures
-#                         model_temp_df['Temp Range'] = pd.cut(
-#                             model_temp_df['Temperature'], 
-#                             bins=[0, 0.2, 0.4, 0.6, 0.8, 1.0],
-#                             labels=['0.0-0.2', '0.2-0.4', '0.4-0.6', '0.6-0.8', '0.8-1.0']
-#                         )
-                        
-#                         box_chart = alt.Chart(model_temp_df).mark_boxplot().encode(
-#                             x='Model:N',
-#                             y='Confidence:Q',
-#                             color='Model:N',
-#                             column='Temp Range:N'
-#                         ).properties(
-#                             title="Confidence Distribution by Temperature Range"
-#                         )
-                        
-#                         st.altair_chart(box_chart, use_container_width=True)
-#                     else:
-#                         st.warning("No model temperature data available - Check the response structure:")
-#                         # Display the raw result structure for debugging
-#                         if result:
-#                             sample = result[0].get("raw_responses", [])[0] if result[0].get("raw_responses") else {}
-#                             st.write("Sample response keys:", list(sample.keys()))
-#                             st.json(sample)
-#                         else:
-#                             st.write("No results returned")
-               
-                    
-                
-#             except Exception as e:
-#                 st.error(f"Error running consortium: {str(e)}")
-#                 import traceback
-#                 st.code(traceback.format_exc(), language="python")
-                
-### without model tuning
-# def spider_eval_page():
-#     import streamlit as st
-#     import os
-#     import asyncio
-#     import tempfile
-#     import pandas as pd
-#     import altair as alt
-#     import uuid
-#     from datetime import datetime
-    
-#     from llm_consortium.core.runner_sql import ConsortiumRunnerSQL
-#     from llm_consortium.config.models import ConsortiumConfig
-#     from llm_consortium.utils.pricing import calculate_cost
-    
-#     # Import SQLMetrics class
-#     from llm_consortium.metrics.metrics_sql import SQLMetrics 
-
-#     # Initialize session state
-#     if 'download_key' not in st.session_state:
-#         st.session_state.download_key = f"spider_init_{uuid.uuid4()}"
-
-#     if 'models' not in st.session_state:
-#         st.session_state.models = []
-        
-#     st.title("GenAI App Tuner")
-
-#     runner_sql = ConsortiumRunnerSQL()
-
-#     col1, col2 = st.columns([2, 3])
-
-#     with col1:
-#         st.subheader("Configuration")
-#         model_selector = st.selectbox("Select Model", ["gpt-4o-mini", "gpt-3.5-turbo", "gemini-2", "o3-mini"])
-#         instance_count = st.number_input("Instances", min_value=1, value=1, step=1)
-        
-#         if st.button("Add Model"):
-#             new_models = {(m, c) for m, c in st.session_state.models if m != model_selector}
-#             new_models.add((model_selector, instance_count))
-#             st.session_state.models = list(new_models)
-#             st.rerun()
-        
-#         if st.session_state.models:
-#             st.write("### Selected Models")
-#             for idx, (model, count) in enumerate(st.session_state.models):
-#                 cols = st.columns([4, 2, 1])
-#                 with cols[0]:
-#                     st.markdown(f"**{model}**")
-#                 with cols[1]:
-#                     st.markdown(f"Instances: {count}")
-#                 with cols[2]:
-#                     if st.button("❌", key=f"delete_{idx}"):
-#                         st.session_state.models.remove((model, count))
-#                         st.rerun()
-#         else:
-#             st.info("No models added yet")
-        
-#         st.subheader("Arbiter Tuning")
-#         min_temp = st.slider("Min Temperature", 0.0, 1.0, 0.1)
-#         max_temp = st.slider("Max Temperature", 0.0, 1.0, 0.9)
-#         num_trials = st.number_input("Temperature Trials", 1, 20, 5)
-#         if min_temp >= max_temp:
-#             st.error("Max temperature must be greater than min temperature")
-        
-#         arbiter = st.selectbox("Arbiter Model", ["gpt-4o-mini", "gemini-2", "gpt-3.5-turbo"], index=2)
-#         confidence = st.slider("Confidence Threshold", 0.0, 1.0, 0.8)
-#         max_iter = st.number_input("Max Iterations", min_value=1, value=3, step=1)
-#         min_iter = st.number_input("Min Iterations", min_value=1, value=1, step=1)
-
-#     with col2:
-#         st.subheader("Execution")
-#         uploaded_file = st.file_uploader(
-#             "Upload CSV with queries (must include db_id, question, and query columns)",
-#             type=["csv"],
-#             help="CSV must contain 'db_id', 'question', and 'query' columns"
-#         )
-        
-#         if uploaded_file is not None and st.session_state.models:
-#             models_dict = {model: count for model, count in st.session_state.models}
-#             total_cost, cost_df = calculate_cost(
-#                 [(m, c) for m, c in models_dict.items()] + [(arbiter, 1)], 
-#                 max_iter
-#             )
-#             st.write(f"**Estimated Cost:** ${total_cost:.4f}")
-#             st.dataframe(cost_df, use_container_width=True)
-#         elif uploaded_file:
-#             st.info("Add models to see cost estimation")
-
-#         if st.button("Run Consortium", type="primary"):
-#             if not st.session_state.models:
-#                 st.error("Please add at least one model")
-#                 st.stop()
-#             if not uploaded_file:
-#                 st.error("Please upload a CSV file first")
-#                 st.stop()
-
-#             # Save the uploaded file to a temporary file
-#             with tempfile.NamedTemporaryFile(delete=False, suffix=".csv") as tmp_file:
-#                 tmp_file.write(uploaded_file.getvalue())
-#                 csv_path = tmp_file.name
-            
-#             # Load the CSV to get the ground truth queries
-#             input_df = pd.read_csv(uploaded_file)
-#             if not all(col in input_df.columns for col in ['db_id', 'question', 'query']):
-#                 st.error("CSV must contain 'db_id', 'question', and 'query' columns")
-#                 st.stop()
-            
-#             models_dict = {model: count for model, count in st.session_state.models}
-            
-#             config = ConsortiumConfig(
-#                 models=models_dict,
-#                 arbiter=arbiter,
-#                 confidence_threshold=confidence,
-#                 max_iterations=int(max_iter),
-#                 min_iterations=int(min_iter),
-#                 min_temp=min_temp,
-#                 max_temp=max_temp,
-#                 num_trials=num_trials
-#             )
-            
-#             try:
-#                 with st.spinner("Running consortium..."):
-#                     result = asyncio.run(runner_sql.run_consortium(config, csv_path))
-                
-#                 st.subheader("Results")
-
-#                 summary_data = []
-#                 model_results = []  # New list to track individual model performance
-                
-#                 for idx, query_result in enumerate(result):
-#                     best_result = query_result.get('best', {})
-#                     db_id = query_result.get('db_id', 'N/A')
-#                     question = query_result.get('question', 'N/A')
-#                     generated_sql = best_result.get('final_query', 'No SQL generated')
-                    
-#                     # Find the ground truth query for this question
-#                     matching_row = input_df[(input_df['db_id'] == db_id) & 
-#                                           (input_df['question'] == question)]
-                    
-#                     ground_truth_sql = "N/A"
-#                     exact_match = False
-#                     exec_match = False
-                    
-#                     if not matching_row.empty:
-#                         ground_truth_sql = matching_row['query'].iloc[0]
-                        
-#                         # Skip empty queries
-#                         if generated_sql and generated_sql != 'No SQL generated' and ground_truth_sql:
-#                             # Perform exact match evaluation
-#                             exact_match = SQLMetrics.exact_match(generated_sql, ground_truth_sql)
-                            
-#                             # Get database path
-#                             db_file_path = SQLMetrics.get_db_path(db_id)
-                            
-#                             # Perform execution match evaluation if DB file exists
-#                             if os.path.exists(db_file_path):
-#                                 try:
-#                                     exec_match = SQLMetrics.execution_match(
-#                                         generated_sql, ground_truth_sql, db_file_path
-#                                     )
-#                                 except Exception as e:
-#                                     st.error(f"Error with execution match for query {idx+1}: {e}")
-#                             else:
-#                                 st.warning(f"Database file not found: {db_file_path}")
-                    
-#                     summary_entry = {
-#                         "Database ID": db_id,
-#                         "Question": question,
-#                         "Generated SQL": generated_sql,
-#                         "Ground Truth SQL": ground_truth_sql,
-#                         "Exact Match": exact_match,  # Boolean for calculations
-#                         "Execution Match": exec_match,  # Boolean for calculations
-#                         "Best Temperature": best_result.get('temperature', 0.0),
-#                         "Confidence": best_result.get('confidence', 0),
-#                         "Iterations": query_result.get('iterations', max_iter),
-#                         "Intent": query_result.get('intent', 'N/A')
-#                     }
-#                     summary_data.append(summary_entry)
-                    
-#                     # Evaluate each model response individually
-#                     for response in query_result.get("raw_responses", []):
-#                         model_sql = response.get("response", "")
-#                         model_exact_match = False
-#                         model_exec_match = False
-                        
-#                         if model_sql and ground_truth_sql and ground_truth_sql != 'N/A':
-#                             # Perform exact match evaluation
-#                             model_exact_match = SQLMetrics.exact_match(model_sql, ground_truth_sql)
-                            
-#                             # Get database path
-#                             db_file_path = SQLMetrics.get_db_path(db_id)
-                            
-#                             # Perform execution match evaluation if DB file exists
-#                             if os.path.exists(db_file_path):
-#                                 try:
-#                                     model_exec_match = SQLMetrics.execution_match(
-#                                         model_sql, ground_truth_sql, db_file_path
-#                                     )
-#                                 except Exception as e:
-#                                     pass  # Silently continue, we'll show errors only for the final result
-                        
-#                         model_results.append({
-#                             "Database ID": db_id,
-#                             "Question": question,
-#                             "Model": response.get("model", "Unknown"),
-#                             "SQL Response": model_sql,
-#                             "Exact Match": model_exact_match,
-#                             "Execution Match": model_exec_match,
-#                             "Confidence": response.get("confidence", 0),
-#                             "Latency (s)": response.get("latency", 0),
-#                             "Iteration": response.get("iteration", 0)
-#                         })
-
-#                 if not summary_data:
-#                     st.warning("No results returned. Check your CSV format.")
-#                     st.stop()
-                
-#                 # Create summary DataFrame and calculate metrics
-#                 summary_df = pd.DataFrame(summary_data)
-                
-#                 # Calculate metrics for the arbiter's final results
-#                 arbiter_metrics = SQLMetrics.compute_metrics(summary_df)
-                
-#                 # Create and calculate metrics for individual models
-#                 model_results_df = pd.DataFrame(model_results)
-                
-#                 # Group model results by model name and calculate performance
-#                 if not model_results_df.empty:
-#                     model_performance = {}
-#                     for model_name, group in model_results_df.groupby("Model"):
-#                         metrics = SQLMetrics.compute_metrics(group)
-#                         model_performance[model_name] = metrics
-                
-#                 # Display overall metrics for the arbiter
-#                 st.markdown("### Arbiter Results")
-#                 col1, col2 = st.columns(2)
-#                 with col1:
-#                     st.metric("Exact Match Rate", f"{arbiter_metrics['exact_match_rate']:.1f}%")
-#                     st.markdown(f"**Exact Matches:** {arbiter_metrics['exact_match_count']} / {arbiter_metrics['total']}")
-#                 with col2:
-#                     st.metric("Execution Match Rate", f"{arbiter_metrics['execution_match_rate']:.1f}%")
-#                     st.markdown(f"**Execution Matches:** {arbiter_metrics['execution_match_count']} / {arbiter_metrics['total']}")
-
-#                 # Display individual model performance metrics
-#                 if model_results_df.empty:
-#                     st.warning("No individual model results available")
-#                 else:
-#                     st.markdown("### Individual Model Performance")
-                    
-#                     # Create performance comparison dataframe
-#                     model_perf_data = []
-#                     for model_name, metrics in model_performance.items():
-#                         model_perf_data.append({
-#                             "Model": model_name,
-#                             "Exact Match Rate": f"{metrics['exact_match_rate']:.1f}%",
-#                             "Execution Match Rate": f"{metrics['execution_match_rate']:.1f}%",
-#                             "Exact Match Count": f"{metrics['exact_match_count']} / {metrics['total']}",
-#                             "Execution Match Count": f"{metrics['execution_match_count']} / {metrics['total']}",
-#                             "Exact Match Rate Value": metrics['exact_match_rate'],  # For sorting
-#                             "Execution Match Rate Value": metrics['execution_match_rate']  # For sorting
-#                         })
-                    
-#                     model_perf_df = pd.DataFrame(model_perf_data)
-                    
-#                     # Sort by execution match rate (higher is better)
-#                     model_perf_df = model_perf_df.sort_values("Execution Match Rate Value", ascending=False)
-                    
-#                     # Remove the value columns used for sorting
-#                     display_model_perf = model_perf_df.drop(columns=["Exact Match Rate Value", "Execution Match Rate Value"])
-                    
-#                     st.dataframe(
-#                         display_model_perf,
-#                         use_container_width=True,
-#                         hide_index=True
-#                     )
-                    
-#                     # Create charts to visualize model performance
-#                     chart_data = pd.DataFrame({
-#                         "Model": model_perf_df["Model"],
-#                         "Exact Match Rate": model_perf_df["Exact Match Rate Value"],
-#                         "Execution Match Rate": model_perf_df["Execution Match Rate Value"]
-#                     })
-                    
-#                     # Melt the dataframe for easier charting
-#                     chart_data_melted = pd.melt(
-#                         chart_data, 
-#                         id_vars=["Model"], 
-#                         value_vars=["Exact Match Rate", "Execution Match Rate"],
-#                         var_name="Metric", 
-#                         value_name="Rate"
-#                     )
-                    
-#                     # Create bar chart
-#                     chart = alt.Chart(chart_data_melted).mark_bar().encode(
-#                         x=alt.X('Model:N', sort='-y'),
-#                         y=alt.Y('Rate:Q', title='Rate (%)'),
-#                         color='Metric:N',
-#                         tooltip=['Model', 'Metric', 'Rate']
-#                     ).properties(height=300)
-                    
-#                     st.altair_chart(chart, use_container_width=True)
-
-#                 # For display, convert boolean values to checkmarks in summary df
-#                 display_df = summary_df.copy()
-#                 display_df["Exact Match"] = display_df["Exact Match"].map({True: "✅", False: "❌"})
-#                 display_df["Execution Match"] = display_df["Execution Match"].map({True: "✅", False: "❌"})
-
-#                 st.markdown("### Consolidated Arbiter Results")
-#                 st.dataframe(
-#                     display_df,
-#                     column_config={
-#                         "Generated SQL": st.column_config.TextColumn("SQL Query", width="large"),
-#                         "Ground Truth SQL": st.column_config.TextColumn("Ground Truth", width="large"),
-#                         "Best Temperature": st.column_config.NumberColumn(format="%.2f"),
-#                         "Confidence": st.column_config.NumberColumn(format="%.2f"),
-#                         "Exact Match": st.column_config.TextColumn("Exact Match", width="small"),
-#                         "Execution Match": st.column_config.TextColumn("Execution Match", width="small")
-#                     },
-#                     use_container_width=True,
-#                     hide_index=True
-#                 )
-                
-#                 # For display, convert boolean values to checkmarks in model results df
-#                 display_model_df = model_results_df.copy()
-#                 display_model_df["Exact Match"] = display_model_df["Exact Match"].map({True: "✅", False: "❌"})
-#                 display_model_df["Execution Match"] = display_model_df["Execution Match"].map({True: "✅", False: "❌"})
-
-#                 st.markdown("### All Model Responses")
-#                 st.dataframe(
-#                     display_model_df,
-#                     column_config={
-#                         "SQL Response": st.column_config.TextColumn("SQL Query", width="large"),
-#                         "Confidence": st.column_config.NumberColumn(format="%.2f"),
-#                         "Latency (s)": st.column_config.NumberColumn(format="%.2f"),
-#                         "Exact Match": st.column_config.TextColumn("Exact Match", width="small"),
-#                         "Execution Match": st.column_config.TextColumn("Execution Match", width="small")
-#                     },
-#                     use_container_width=True,
-#                     hide_index=True
-#                 )
-
-#                 # Per-query detailed results
-#                 for idx, query_result in enumerate(result):
-#                     st.markdown(f"### Query {idx+1} Details")
-                    
-#                     best_result = query_result.get('best', {})
-#                     trials_data = query_result.get('trials', [])
-                    
-#                     db_id = query_result.get('db_id', 'N/A')
-#                     question = query_result.get('question', 'N/A')
-#                     generated_sql = best_result.get('final_query', 'No SQL generated')
-                    
-#                     # Find matching ground truth for detailed view
-#                     matching_row = input_df[(input_df['db_id'] == db_id) & 
-#                                           (input_df['question'] == question)]
-                    
-#                     ground_truth_sql = "N/A"
-#                     exact_match = False
-#                     exec_match = False
-                    
-#                     if not matching_row.empty:
-#                         ground_truth_sql = matching_row['query'].iloc[0]
-                        
-#                         if generated_sql and generated_sql != 'No SQL generated' and ground_truth_sql:
-#                             # Use SQLMetrics class for evaluation
-#                             exact_match = SQLMetrics.exact_match(generated_sql, ground_truth_sql)
-                            
-#                             # Get database path
-#                             db_file_path = SQLMetrics.get_db_path(db_id)
-                            
-#                             if os.path.exists(db_file_path):
-#                                 try:
-#                                     exec_match = SQLMetrics.execution_match(
-#                                         generated_sql, ground_truth_sql, db_file_path
-#                                     )
-#                                 except Exception as e:
-#                                     st.error(f"Error with execution match for query {idx+1}: {e}")
-#                             else:
-#                                 st.warning(f"Database file not found: {db_file_path}")
-
-#                     col1, col2, col3 = st.columns(3)
-#                     with col1:
-#                         st.metric("Best Temperature", f"{best_result.get('temperature', 0.0):.2f}")
-#                     with col2:
-#                         st.metric("Exact Match", "✅" if exact_match else "❌")
-#                     with col3:
-#                         st.metric("Execution Match", "✅" if exec_match else "❌")
-
-#                     col1, col2 = st.columns(2)
-#                     with col1:
-#                         st.markdown(f"**Database:** `{db_id}`")
-#                         st.markdown(f"**Intent:** {query_result.get('intent', 'N/A')}")
-#                     with col2:
-#                         st.markdown(f"**Confidence:** {best_result.get('confidence', 0):.2f}")
-#                         st.markdown(f"**Iterations:** {query_result.get('iterations', max_iter)}")
-
-#                     st.markdown("#### Question")
-#                     st.markdown(f"_{question}_")
-                    
-#                     st.markdown("#### Generated SQL (Best Result)")
-#                     st.code(generated_sql, language='sql')
-                    
-#                     st.markdown("#### Ground Truth SQL")
-#                     st.code(ground_truth_sql, language='sql')
-
-#                     # Temperature tuning analysis
-#                     if trials_data:
-#                         with st.expander("Temperature Tuning Analysis"):
-#                             trial_df = pd.DataFrame(trials_data)
-                            
-#                             if not trial_df.empty and 'temperature' in trial_df.columns and 'confidence' in trial_df.columns:
-#                                 # Get the best temperature and confidence for highlighting
-#                                 best_temp = best_result.get('temperature')
-#                                 best_conf = best_result.get('confidence')
-                                
-#                                 chart = alt.Chart(trial_df).mark_line().encode(
-#                                     x='temperature:Q',
-#                                     y='confidence:Q',
-#                                     tooltip=['temperature', 'confidence'] + 
-#                                            (['sql'] if 'sql' in trial_df.columns else [])
-#                                 ).properties(title="Temperature vs Confidence", height=300)
-                                
-#                                 # Add a marker for the best point if we have the data
-#                                 if best_temp is not None and best_conf is not None:
-#                                     best_point = alt.Chart(pd.DataFrame([{
-#                                         'temperature': best_temp,
-#                                         'confidence': best_conf
-#                                     }])).mark_circle(color='red', size=100).encode(
-#                                         x='temperature:Q',
-#                                         y='confidence:Q'
-#                                     )
-#                                     chart = chart + best_point
-                                    
-#                                 st.altair_chart(chart, use_container_width=True)
-#                             else:
-#                                 st.warning("Temperature trial data has incorrect format or is empty")
-
-#                     # Model response data
-#                     responses_data = []
-#                     for response in query_result.get("raw_responses", []):
-#                         model_sql = response.get("response", "")
-#                         model_exact_match = False
-#                         model_exec_match = False
-                        
-#                         if model_sql and ground_truth_sql and ground_truth_sql != 'N/A':
-#                             # Perform exact match evaluation
-#                             model_exact_match = SQLMetrics.exact_match(model_sql, ground_truth_sql)
-                            
-#                             # Get database path
-#                             db_file_path = SQLMetrics.get_db_path(db_id)
-                            
-#                             # Perform execution match evaluation if DB file exists
-#                             if os.path.exists(db_file_path):
-#                                 try:
-#                                     model_exec_match = SQLMetrics.execution_match(
-#                                         model_sql, ground_truth_sql, db_file_path
-#                                     )
-#                                 except Exception as e:
-#                                     # Silently continue, we'll show errors only for the final result
-#                                     pass
-                        
-#                         responses_data.append({
-#                             "Model": response.get("model", "Unknown"),
-#                             "SQL Response": model_sql,
-#                             "Confidence": response.get("confidence", 0),
-#                             "Latency (s)": f"{response.get('latency', 0):.2f}",
-#                             "Iteration": response.get("iteration", 0),
-#                             "Exact Match": "✅" if model_exact_match else "❌",
-#                             "Execution Match": "✅" if model_exec_match else "❌"
-#                         })
-
-#                     if responses_data:
-#                         st.markdown("#### Model Responses")
-#                         df_responses = pd.DataFrame(responses_data)
-#                         st.dataframe(
-#                             df_responses,
-#                             column_config={
-#                                 "SQL Response": st.column_config.TextColumn("SQL", help="Model-generated SQL", width="large"),
-#                                 "Exact Match": st.column_config.TextColumn("Exact Match", width="small"),
-#                                 "Execution Match": st.column_config.TextColumn("Execution Match", width="small")
-#                             },
-#                             use_container_width=True,
-#                             hide_index=True
-#                         )
-
-#                         with st.expander("Performance Analysis"):
-#                             col1, col2 = st.columns(2)
-#                             with col1:
-#                                 st.altair_chart(alt.Chart(df_responses).mark_bar().encode(
-#                                     x='Model:N',
-#                                     y='Confidence:Q',
-#                                     color='Model:N',
-#                                     tooltip=['Model', 'Confidence', 'Latency (s)']
-#                                 ).properties(height=300))
-#                             with col2:
-#                                 st.altair_chart(alt.Chart(df_responses).mark_circle(size=60).encode(
-#                                     x='Latency (s):Q',
-#                                     y='Confidence:Q',
-#                                     color='Model:N',
-#                                     tooltip=['Model', 'Confidence', 'Latency (s)']
-#                                 ).properties(height=300))
-#                     else:
-#                         st.warning("No model responses recorded for this query")
-
-#                 # Export data - save both summary and model results
-#                 summary_csv = summary_df.to_csv(index=False).encode('utf-8')
-#                 model_results_csv = model_results_df.to_csv(index=False).encode('utf-8')
-                
-#                 download_key_summary = f"spider_summary_{datetime.now().timestamp()}_{uuid.uuid4()}"
-#                 download_key_models = f"spider_models_{datetime.now().timestamp()}_{uuid.uuid4()}"
-                
-#                 st.download_button(
-#                     "⬇️ Download Arbiter Results (CSV)",
-#                     data=summary_csv,
-#                     file_name="spider_arbiter_results.csv",
-#                     mime="text/csv",
-#                     key=download_key_summary,
-#                     help="Includes evaluation metrics for arbiter results"
-#                 )
-                
-#                 st.download_button(
-#                     "⬇️ Download Model Results (CSV)",
-#                     data=model_results_csv,
-#                     file_name="spider_model_results.csv",
-#                     mime="text/csv",
-#                     key=download_key_models,
-#                     help="Includes evaluation metrics for all model responses"
-#                 )
-                
-#             except Exception as e:
-#                 st.error(f"Error running consortium: {str(e)}")
-#                 import traceback
-#                 st.code(traceback.format_exc(), language="python")
 
 def classification_page():
     import streamlit as st
+    import matplotlib.pyplot as plt
     from llm_consortium.core.runner_class import ConsortiumRunnerClass
     from llm_consortium.config.models import ConsortiumConfig
     import asyncio
@@ -2553,6 +1799,426 @@ def classification_page():
                 st.error(f"Error running classification consortium: {str(e)}")
                 import traceback
                 st.code(traceback.format_exc(), language="python")
+def text2sql_ui():
+    import os
+    import matplotlib.pyplot as plt
+    import streamlit as st
+    from llm_consortium.core.sql.sql_model_runner import SQLModelRunner
+    from llm_consortium.config.models_sql import ModelConfig
+    import asyncio
+    import json
+    import tempfile
+    import pandas as pd
+    import altair as alt
+    import uuid
+    from llm_consortium.utils.logging import logger
+    from datetime import datetime
+    from llm_consortium.utils.pricing import calculate_cost
+
+    
+
+    # Title and description
+    st.title("SQL Model Evaluation and Tuning")
+    st.markdown("""
+    This tool evaluates different LLM models for SQL query generation and tunes hyperparameters for the best performer.
+    Upload your test dataset, select models to evaluate, and configure evaluation parameters.
+    """)
+
+    # Initialize session state for storing results between reruns
+    if 'sql_evaluation_results' not in st.session_state:
+        st.session_state.sql_evaluation_results = None
+    if 'sql_best_model' not in st.session_state:
+        st.session_state.sql_best_model = None
+    if 'sql_best_params' not in st.session_state:
+        st.session_state.sql_best_params = None
+    if 'sql_tuning_results' not in st.session_state:
+        st.session_state.sql_tuning_results = None
+    if 'sql_running' not in st.session_state:
+        st.session_state.sql_running = False
+    if 'sql_progress' not in st.session_state:
+        st.session_state.sql_progress = 0
+
+    def reset_results():
+        st.session_state.sql_evaluation_results = None
+        st.session_state.sql_best_model = None
+        st.session_state.sql_best_params = None
+        st.session_state.sql_tuning_results = None
+        st.session_state.sql_running = False
+        st.session_state.sql_progress = 0
+
+    # Layout with two columns - config panel and results
+    col1, col2 = st.columns([1, 3])
+
+    # Configuration panel
+    with col1:
+        st.header("Configuration")
+        
+        # File uploader
+        uploaded_file = st.file_uploader("Upload Test Dataset (CSV)", type=["csv"], key="sql_csv_upload")
+        
+        # Model selection (with default models)
+        default_models = ["gpt-4o-mini", "gpt-4o"]
+        available_models = ["gpt-4o-mini", "gpt-4o", "gpt-3.5-turbo", "claude-3-opus", "claude-3-sonnet", "claude-3-haiku"]
+        selected_models = st.multiselect(
+            "Select Models to Evaluate", 
+            available_models,
+            default=default_models,
+            key="sql_models"
+        )
+        
+        # Base configuration
+        st.subheader("Base Settings")
+        base_temperature = st.slider("Base Temperature", 0.0, 1.0, 0.2, 0.05, key="sql_base_temp")
+        
+        # Tuning settings
+        st.subheader("Hyperparameter Tuning")
+        enable_tuning = st.checkbox("Enable Hyperparameter Tuning", value=True, key="sql_enable_tuning")
+        
+        min_temp = st.slider("Min Temperature", 0.0, 1.0, 0.0, 0.05, key="sql_min_temp")
+        max_temp = st.slider("Max Temperature", 0.0, 1.0, 0.8, 0.05, key="sql_max_temp")
+        num_trials = st.slider("Number of Trials", 3, 10, 5, key="sql_num_trials")
+        sample_size = st.slider("Tuning Sample Size", 5, 50, 10, key="sql_sample_size")
+        
+        # Output settings
+        st.subheader("Output Settings")
+        output_dir = st.text_input("Output Directory", "results", key="sql_output_dir")
+        save_results = st.checkbox("Save Results to File", value=True, key="sql_save_results")
+        
+        # Run button
+        run_button = st.button("Run Evaluation", type="primary", key="sql_run_button", 
+                              disabled=len(selected_models) == 0 or uploaded_file is None)
+
+    # Main content area in the second column
+    with col2:
+        async def run_evaluation_async(config, csv_path):
+            """Run the evaluation and tuning pipeline asynchronously"""
+            try:
+                runner = SQLModelRunner()
+                
+                # Step 1: Evaluate all models
+                st.session_state.sql_progress = 10
+                evaluation_progress.progress(st.session_state.sql_progress/100, "Evaluating models...")
+                
+                # Run evaluation
+                evaluation_results = await runner.evaluate_models(config, csv_path)
+                st.session_state.sql_evaluation_results = evaluation_results
+                st.session_state.sql_progress = 50
+                evaluation_progress.progress(st.session_state.sql_progress/100, "Evaluation complete, processing results...")
+                
+                # Calculate average latency for each model
+                model_metrics = {}
+                for model_name, eval_data in evaluation_results.items():
+                    metrics = eval_data["metrics"]
+                    responses = eval_data["responses"]
+                    
+                    # Calculate average latency (not directly provided in metrics)
+                    latencies = [r["latency"] for r in responses]
+                    avg_latency = sum(latencies) / len(latencies) if latencies else 0
+                    
+                    model_metrics[model_name] = {
+                        "execution_match_rate": metrics["execution_match_rate"],
+                        "exact_match_rate": metrics["exact_match_rate"],
+                        "avg_latency": avg_latency
+                    }
+                
+                # Find best model based on execution match rate, breaking ties with latency
+                best_model = max(
+                    model_metrics.items(),
+                    key=lambda x: (x[1]["execution_match_rate"], -x[1]["avg_latency"])
+                )[0]
+                
+                st.session_state.sql_best_model = best_model
+                st.session_state.sql_progress = 60
+                evaluation_progress.progress(st.session_state.sql_progress/100, f"Best model identified: {best_model}")
+                
+                # Step 3: Tune the best model if enabled
+                if config.enable_tuning:
+                    evaluation_progress.progress(st.session_state.sql_progress/100, f"Tuning {best_model}...")
+                    best_params = await runner.tune_best_model(
+                        best_model,
+                        csv_path,
+                        config
+                    )
+                    st.session_state.sql_best_params = best_params
+                    st.session_state.sql_progress = 80
+                    evaluation_progress.progress(st.session_state.sql_progress/100, "Tuning complete")
+                    
+                    # Step 4: Optionally evaluate with tuned parameters
+                    if config.run_final_evaluation:
+                        evaluation_progress.progress(st.session_state.sql_progress/100, f"Final evaluation with tuned parameters...")
+                        final_results = await runner.evaluate_with_params(
+                            best_model, 
+                            best_params, 
+                            csv_path
+                        )
+                        st.session_state.sql_tuning_results = final_results
+                        
+                # Save results if requested
+                if save_results:
+                    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                    os.makedirs(output_dir, exist_ok=True)
+                    output_file = os.path.join(output_dir, f"sql_eval_results_{timestamp}.json")
+                    
+                    with open(output_file, "w") as f:
+                        json.dump({
+                            "model_evaluations": evaluation_results,
+                            "best_model": best_model,
+                            "best_params": best_params if config.enable_tuning else None,
+                            "model_metrics": model_metrics
+                        }, f, indent=2, default=str)
+                        
+                st.session_state.sql_progress = 100
+                evaluation_progress.progress(st.session_state.sql_progress/100, "Complete!")
+                return model_metrics
+                
+            except Exception as e:
+                st.error(f"Error during evaluation: {str(e)}")
+                logger.error(f"Evaluation error: {str(e)}")
+                return None
+            finally:
+                st.session_state.sql_running = False
+        
+        if run_button and not st.session_state.sql_running:
+            # Create config
+            config = ModelConfig(
+                models=selected_models,
+                base_temperature=base_temperature,
+                enable_tuning=enable_tuning,
+                min_temp=min_temp,
+                max_temp=max_temp,
+                num_trials=num_trials,
+                tuning_sample_size=sample_size,
+                run_final_evaluation=True
+            )
+            
+            # Save uploaded file temporarily
+            temp_csv = "temp_dataset.csv"
+            with open(temp_csv, "wb") as f:
+                f.write(uploaded_file.getvalue())
+            
+            # Reset previous results
+            reset_results()
+            
+            # Show progress bar
+            evaluation_progress = st.progress(0, "Starting evaluation...")
+            st.session_state.sql_running = True
+            
+            # Method 1: Using a synchronous wrapper function
+            def run_evaluation(config, csv_path):
+                """Synchronous wrapper for the async evaluation function"""
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+                try:
+                    return loop.run_until_complete(run_evaluation_async(config, csv_path))
+                finally:
+                    loop.close()
+            
+            # Run the evaluation in the current thread (this will block the UI until complete)
+            run_evaluation(config, temp_csv)
+                
+            
+        # Display tabs for results
+        if st.session_state.sql_running or st.session_state.sql_evaluation_results:
+            tabs = st.tabs(["Evaluation Results", "Model Comparison", "Best Model", "Hyperparameter Tuning", "Sample Queries"])
+            
+            # Tab 1: Evaluation Results Table
+            with tabs[0]:
+                if st.session_state.sql_evaluation_results:
+                    st.header("Model Evaluation Results")
+                    
+                    # Create a DataFrame for metrics
+                    metrics_data = []
+                    
+                    for model_name, eval_data in st.session_state.sql_evaluation_results.items():
+                        metrics = eval_data["metrics"]
+                        responses = eval_data["responses"]
+                        
+                        # Calculate average latency
+                        latencies = [r["latency"] for r in responses]
+                        avg_latency = sum(latencies) / len(latencies) if latencies else 0
+                        
+                        metrics_data.append({
+                            "Model": model_name,
+                            "Execution Match (%)": round(metrics["execution_match_rate"], 2),
+                            "Exact Match (%)": round(metrics["exact_match_rate"], 2),
+                            "Avg. Latency (s)": round(avg_latency, 3),
+                            "Samples": len(responses)
+                        })
+                    
+                    metrics_df = pd.DataFrame(metrics_data)
+                    st.dataframe(metrics_df, use_container_width=True)
+                    
+                    if st.session_state.sql_best_model:
+                        st.success(f"Best model: {st.session_state.sql_best_model}")
+                else:
+                    st.info("Running evaluation..." if st.session_state.sql_running else "Run evaluation to see results")
+            
+            # Tab 2: Model Comparison Charts
+            with tabs[1]:
+                if st.session_state.sql_evaluation_results:
+                    st.header("Model Comparison")
+                    
+                    # Prepare data for visualization
+                    models = []
+                    exec_match = []
+                    exact_match = []
+                    latencies = []
+                    
+                    for model_name, eval_data in st.session_state.sql_evaluation_results.items():
+                        metrics = eval_data["metrics"]
+                        responses = eval_data["responses"]
+                        
+                        # Calculate average latency
+                        avg_latency = sum([r["latency"] for r in responses]) / len(responses) if responses else 0
+                        
+                        models.append(model_name)
+                        exec_match.append(metrics["execution_match_rate"])
+                        exact_match.append(metrics["exact_match_rate"])
+                        latencies.append(avg_latency)
+                    
+                    # Create charts
+                    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+                    
+                    # Match rates chart
+                    x = range(len(models))
+                    width = 0.35
+                    
+                    ax1.bar([i - width/2 for i in x], exec_match, width, label='Execution Match (%)')
+                    ax1.bar([i + width/2 for i in x], exact_match, width, label='Exact Match (%)')
+                    ax1.set_xticks(x)
+                    ax1.set_xticklabels(models, rotation=45, ha='right')
+                    ax1.set_ylabel('Match Rate (%)')
+                    ax1.set_title('Model Match Rates')
+                    ax1.legend()
+                    ax1.grid(True, linestyle='--', alpha=0.7)
+                    
+                    # Latency chart
+                    ax2.bar(models, latencies, color='orange')
+                    ax2.set_xticklabels(models, rotation=45, ha='right')
+                    ax2.set_ylabel('Average Latency (s)')
+                    ax2.set_title('Model Latency')
+                    ax2.grid(True, linestyle='--', alpha=0.7)
+                    
+                    plt.tight_layout()
+                    st.pyplot(fig)
+                else:
+                    st.info("Running evaluation..." if st.session_state.sql_running else "Run evaluation to see results")
+            
+            # Tab 3: Best Model Details
+            with tabs[2]:
+                if st.session_state.sql_best_model:
+                    st.header(f"Best Model: {st.session_state.sql_best_model}")
+                    
+                    best_model_data = st.session_state.sql_evaluation_results[st.session_state.sql_best_model]
+                    metrics = best_model_data["metrics"]
+                    
+                    col1, col2, col3 = st.columns(3)
+                    col1.metric("Execution Match Rate", f"{metrics['execution_match_rate']:.2f}%")
+                    col2.metric("Exact Match Rate", f"{metrics['exact_match_rate']:.2f}%")
+                    
+                    responses = best_model_data["responses"]
+                    avg_latency = sum([r["latency"] for r in responses]) / len(responses) if responses else 0
+                    col3.metric("Average Latency", f"{avg_latency:.3f}s")
+                    
+                    # Show confidence distribution
+                    st.subheader("Confidence Distribution")
+                    confidences = [r["confidence"] for r in responses]
+                    
+                    fig, ax = plt.subplots(figsize=(10, 5))
+                    ax.hist(confidences, bins=10, alpha=0.7)
+                    ax.set_xlabel('Confidence')
+                    ax.set_ylabel('Count')
+                    ax.grid(True, linestyle='--', alpha=0.7)
+                    st.pyplot(fig)
+                else:
+                    st.info("Running evaluation..." if st.session_state.sql_running else "Run evaluation to see results")
+            
+            # Tab 4: Hyperparameter Tuning Results
+            with tabs[3]:
+                if st.session_state.sql_best_params:
+                    st.header("Hyperparameter Tuning Results")
+                    
+                    col1, col2 = st.columns(2)
+                    col1.metric("Best Temperature", f"{st.session_state.sql_best_params['temperature']:.2f}")
+                    col1.metric("Execution Match Rate", f"{st.session_state.sql_best_params['execution_match_rate']:.2f}%")
+                    
+                    # Show tuned vs untuned comparison if available
+                    if st.session_state.sql_tuning_results:
+                        st.subheader("Before vs After Tuning")
+                        
+                        before_metrics = st.session_state.sql_evaluation_results[st.session_state.sql_best_model]["metrics"]
+                        after_metrics = st.session_state.sql_tuning_results["metrics"]
+                        
+                        comp_data = {
+                            "Metric": ["Execution Match Rate", "Exact Match Rate"],
+                            "Before Tuning": [
+                                f"{before_metrics['execution_match_rate']:.2f}%",
+                                f"{before_metrics['exact_match_rate']:.2f}%"
+                            ],
+                            "After Tuning": [
+                                f"{after_metrics['execution_match_rate']:.2f}%",
+                                f"{after_metrics['exact_match_rate']:.2f}%"
+                            ]
+                        }
+                        
+                        st.table(pd.DataFrame(comp_data))
+                elif enable_tuning:
+                    st.info("Hyperparameter tuning in progress..." if st.session_state.sql_running else "Run evaluation to see tuning results")
+                else:
+                    st.info("Hyperparameter tuning is disabled")
+            
+            # Tab 5: Sample Queries
+            with tabs[4]:
+                if st.session_state.sql_evaluation_results:
+                    st.header("Sample Query Results")
+                    
+                    # Model selector for viewing samples
+                    model_to_view = st.selectbox(
+                        "Select model to view samples",
+                        list(st.session_state.sql_evaluation_results.keys()),
+                        key="sql_model_selector"
+                    )
+                    
+                    if model_to_view:
+                        responses = st.session_state.sql_evaluation_results[model_to_view]["responses"]
+                        
+                        # Filter options
+                        filter_col1, filter_col2 = st.columns(2)
+                        show_correct = filter_col1.checkbox("Show Correct Queries", value=True, key="sql_show_correct")
+                        show_incorrect = filter_col2.checkbox("Show Incorrect Queries", value=True, key="sql_show_incorrect")
+                        
+                        filtered_responses = [
+                            r for r in responses 
+                            if (show_correct and r["execution_match"]) or (show_incorrect and not r["execution_match"])
+                        ]
+                        
+                        # Show samples
+                        if filtered_responses:
+                            for i, response in enumerate(filtered_responses[:10]):  # Limit to 10 samples
+                                with st.expander(
+                                    f"Query {i+1}: {'✅' if response['execution_match'] else '❌'} " + 
+                                    response["question"][:100] + ("..." if len(response["question"]) > 100 else "")
+                                ):
+                                    st.markdown("**Question:**")
+                                    st.write(response["question"])
+                                    
+                                    st.markdown("**Generated SQL:**")
+                                    st.code(response["generated_sql"], language="sql")
+                                    
+                                    st.markdown("**Gold SQL:**")
+                                    st.code(response["gold_sql"], language="sql")
+                                    
+                                    col1, col2, col3 = st.columns(3)
+                                    col1.metric("Execution Match", "✅" if response["execution_match"] else "❌")
+                                    col2.metric("Exact Match", "✅" if response["exact_match"] else "❌")
+                                    col3.metric("Confidence", f"{response['confidence']:.2f}")
+                        else:
+                            st.info("No queries matching your filter criteria")
+                else:
+                    st.info("Running evaluation..." if st.session_state.sql_running else "Run evaluation to see sample queries")
+    
+
+
 
 if __name__ == "__main__":
     main()

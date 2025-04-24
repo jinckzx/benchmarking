@@ -3870,3 +3870,489 @@
 2025-04-23 15:09:34 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for storm_record
 2025-04-23 15:09:34 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
 2025-04-23 15:09:47 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.34, Confidence: 0.95
+2025-04-24 10:58:49 - llm_consortium - INFO - runner:206 - Starting iteration 1 of 3
+2025-04-24 10:59:06 - llm_consortium - INFO - synthesis:309 - Iteration 0 Best Synthesis - Temp: 0.11, Confidence: 0.95
+2025-04-24 10:59:06 - llm_consortium - INFO - runner:229 - Iteration 1 - Best Confidence: 0.95/0.8
+2025-04-24 11:12:07 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for e_government
+2025-04-24 11:12:07 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:12:07 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:12:07 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:12:18 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.37, Confidence: 0.00
+2025-04-24 11:12:18 - llm_consortium - INFO - runner_sql:354 - Iteration 2/3 for e_government
+2025-04-24 11:12:18 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 2
+2025-04-24 11:12:18 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:12:18 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:12:28 - llm_consortium - INFO - runner_sql:434 - Iteration 2 Best Synthesis - Temp: 0.34, Confidence: 0.00
+2025-04-24 11:12:28 - llm_consortium - INFO - runner_sql:354 - Iteration 3/3 for e_government
+2025-04-24 11:12:28 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 3
+2025-04-24 11:12:28 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:12:28 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:12:38 - llm_consortium - INFO - runner_sql:434 - Iteration 3 Best Synthesis - Temp: 0.50, Confidence: 0.00
+2025-04-24 11:12:38 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for bike_1
+2025-04-24 11:12:38 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:12:38 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:12:38 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:12:51 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.28, Confidence: 0.00
+2025-04-24 11:12:51 - llm_consortium - INFO - runner_sql:354 - Iteration 2/3 for bike_1
+2025-04-24 11:12:51 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 2
+2025-04-24 11:12:51 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:12:51 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:13:02 - llm_consortium - INFO - runner_sql:434 - Iteration 2 Best Synthesis - Temp: 0.19, Confidence: 0.00
+2025-04-24 11:13:02 - llm_consortium - INFO - runner_sql:354 - Iteration 3/3 for bike_1
+2025-04-24 11:13:02 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 3
+2025-04-24 11:13:02 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:13:02 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:13:14 - llm_consortium - INFO - runner_sql:434 - Iteration 3 Best Synthesis - Temp: 0.69, Confidence: 0.00
+2025-04-24 11:13:14 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for music_1
+2025-04-24 11:13:14 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:13:14 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:13:14 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:13:27 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.11, Confidence: 0.00
+2025-04-24 11:13:27 - llm_consortium - INFO - runner_sql:354 - Iteration 2/3 for music_1
+2025-04-24 11:13:27 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 2
+2025-04-24 11:13:27 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:13:27 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:15:24 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for e_government
+2025-04-24 11:15:24 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:15:24 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:15:24 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:15:28 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.80, Confidence: 0.25
+2025-04-24 11:15:28 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for bike_1
+2025-04-24 11:15:28 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:15:28 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:15:28 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:15:31 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.87, Confidence: 0.85
+2025-04-24 11:15:31 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for music_1
+2025-04-24 11:15:31 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:15:31 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:15:31 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:15:35 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.32, Confidence: 0.80
+2025-04-24 11:15:35 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for college_2
+2025-04-24 11:15:35 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:15:35 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:15:35 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:15:39 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.11, Confidence: 0.20
+2025-04-24 11:15:39 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for soccer_2
+2025-04-24 11:15:39 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:15:39 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:15:39 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:15:43 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.37, Confidence: 0.85
+2025-04-24 11:15:43 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for department_store
+2025-04-24 11:15:43 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:15:43 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:15:43 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:15:48 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.17, Confidence: 0.70
+2025-04-24 11:15:48 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for voter_2
+2025-04-24 11:15:48 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:15:48 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:15:48 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:15:52 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.55, Confidence: 0.10
+2025-04-24 11:15:52 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for company_employee
+2025-04-24 11:15:52 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:15:52 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:15:52 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:15:56 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.19, Confidence: 0.20
+2025-04-24 11:15:56 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for decoration_competition
+2025-04-24 11:15:56 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:15:56 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:15:56 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:16:00 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.80, Confidence: 0.50
+2025-04-24 11:16:00 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for hospital_1
+2025-04-24 11:16:00 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:16:00 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:16:00 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:16:04 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.36, Confidence: 0.80
+2025-04-24 11:16:04 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for coffee_shop
+2025-04-24 11:16:04 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:16:04 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:16:04 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:16:08 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.60, Confidence: 0.70
+2025-04-24 11:16:08 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for cre_Doc_Tracking_DB
+2025-04-24 11:16:08 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:16:08 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:16:08 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:16:12 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.41, Confidence: 0.90
+2025-04-24 11:16:12 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for music_1
+2025-04-24 11:16:12 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:16:12 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:16:12 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:16:15 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.12, Confidence: 0.90
+2025-04-24 11:16:15 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for inn_1
+2025-04-24 11:16:15 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:16:15 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:16:15 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:16:19 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.48, Confidence: 0.90
+2025-04-24 11:16:19 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for match_season
+2025-04-24 11:16:19 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:16:19 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:16:19 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:16:23 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.68, Confidence: 0.20
+2025-04-24 11:16:23 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for inn_1
+2025-04-24 11:16:23 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:16:23 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:16:23 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:16:28 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.18, Confidence: 0.10
+2025-04-24 11:16:28 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for wine_1
+2025-04-24 11:16:28 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:16:28 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:16:28 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:16:34 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.61, Confidence: 0.20
+2025-04-24 11:16:34 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for music_4
+2025-04-24 11:16:34 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:16:34 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:16:34 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:16:39 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.53, Confidence: 0.20
+2025-04-24 11:16:39 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for tracking_orders
+2025-04-24 11:16:39 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:16:39 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:16:39 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:16:44 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.15, Confidence: 0.80
+2025-04-24 11:16:44 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for loan_1
+2025-04-24 11:16:44 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:16:44 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:16:44 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:16:47 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.39, Confidence: 0.85
+2025-04-24 11:20:23 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for e_government
+2025-04-24 11:20:23 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:20:32 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.31, Confidence: 0.95
+2025-04-24 11:20:32 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for bike_1
+2025-04-24 11:20:32 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:20:35 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:20:35 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:20:40 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.74, Confidence: 0.80
+2025-04-24 11:20:40 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for music_1
+2025-04-24 11:20:40 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:20:48 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.25, Confidence: 0.95
+2025-04-24 11:20:48 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for college_2
+2025-04-24 11:20:48 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:20:48 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:20:48 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:20:56 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.18, Confidence: 0.60
+2025-04-24 11:20:56 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for soccer_2
+2025-04-24 11:20:56 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:21:06 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.13, Confidence: 0.95
+2025-04-24 11:21:06 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for department_store
+2025-04-24 11:21:06 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:21:15 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.12, Confidence: 0.95
+2025-04-24 11:21:15 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for voter_2
+2025-04-24 11:21:15 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:21:23 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.66, Confidence: 0.95
+2025-04-24 11:21:23 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for company_employee
+2025-04-24 11:21:23 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:21:31 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.16, Confidence: 0.95
+2025-04-24 11:21:31 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for decoration_competition
+2025-04-24 11:21:31 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:21:40 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.72, Confidence: 0.97
+2025-04-24 11:21:40 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for hospital_1
+2025-04-24 11:21:40 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:21:48 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.24, Confidence: 0.95
+2025-04-24 11:21:48 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for coffee_shop
+2025-04-24 11:21:48 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:21:56 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.15, Confidence: 0.95
+2025-04-24 11:21:56 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for cre_Doc_Tracking_DB
+2025-04-24 11:21:56 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:22:03 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.19, Confidence: 0.95
+2025-04-24 11:22:03 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for music_1
+2025-04-24 11:22:04 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:22:10 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.46, Confidence: 0.90
+2025-04-24 11:22:10 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for inn_1
+2025-04-24 11:22:10 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:22:10 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:22:10 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:22:16 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.10, Confidence: 0.10
+2025-04-24 11:22:16 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for match_season
+2025-04-24 11:22:16 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:22:29 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.11, Confidence: 0.95
+2025-04-24 11:22:29 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for inn_1
+2025-04-24 11:22:29 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:22:29 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:22:29 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:22:35 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.23, Confidence: 0.20
+2025-04-24 11:22:35 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for wine_1
+2025-04-24 11:22:35 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:22:35 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:22:35 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 11:22:41 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.46, Confidence: 0.20
+2025-04-24 11:22:41 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for music_4
+2025-04-24 11:22:41 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:22:48 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.25, Confidence: 0.95
+2025-04-24 11:22:48 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for tracking_orders
+2025-04-24 11:22:48 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:22:56 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.19, Confidence: 0.95
+2025-04-24 11:22:56 - llm_consortium - INFO - runner_sql:354 - Iteration 1/1 for loan_1
+2025-04-24 11:22:56 - llm_consortium - INFO - runner_sql:375 - Model temperature assignments for iteration 1
+2025-04-24 11:23:05 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.38, Confidence: 0.95
+2025-04-24 12:02:31 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for e_government
+2025-04-24 12:06:13 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for e_government
+2025-04-24 12:06:28 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.19, Confidence: 0.95
+2025-04-24 12:06:28 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for bike_1
+2025-04-24 12:06:36 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 12:06:39 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 12:06:48 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.80, Confidence: 0.80
+2025-04-24 12:06:48 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for music_1
+2025-04-24 12:07:02 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.12, Confidence: 0.95
+2025-04-24 12:07:02 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for college_2
+2025-04-24 12:07:03 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 12:07:03 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 12:07:11 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.73, Confidence: 0.30
+2025-04-24 12:07:11 - llm_consortium - INFO - runner_sql:354 - Iteration 2/3 for college_2
+2025-04-24 12:07:11 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 12:07:11 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 12:07:20 - llm_consortium - INFO - runner_sql:434 - Iteration 2 Best Synthesis - Temp: 0.12, Confidence: 0.70
+2025-04-24 12:07:20 - llm_consortium - INFO - runner_sql:354 - Iteration 3/3 for college_2
+2025-04-24 12:07:20 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 12:07:20 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 12:07:28 - llm_consortium - INFO - runner_sql:434 - Iteration 3 Best Synthesis - Temp: 0.20, Confidence: 0.50
+2025-04-24 12:07:28 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for soccer_2
+2025-04-24 12:07:43 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.19, Confidence: 0.97
+2025-04-24 12:07:43 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for department_store
+2025-04-24 12:07:58 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.23, Confidence: 0.95
+2025-04-24 12:07:58 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for voter_2
+2025-04-24 12:08:10 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.79, Confidence: 0.98
+2025-04-24 12:08:10 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for company_employee
+2025-04-24 12:08:21 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.26, Confidence: 0.95
+2025-04-24 12:08:21 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for decoration_competition
+2025-04-24 12:08:37 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.67, Confidence: 0.97
+2025-04-24 12:08:37 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for hospital_1
+2025-04-24 12:08:50 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.23, Confidence: 0.95
+2025-04-24 12:08:50 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for coffee_shop
+2025-04-24 12:09:01 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.78, Confidence: 0.98
+2025-04-24 12:09:01 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for cre_Doc_Tracking_DB
+2025-04-24 12:09:13 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.21, Confidence: 0.95
+2025-04-24 12:09:13 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for music_1
+2025-04-24 12:09:24 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.21, Confidence: 0.90
+2025-04-24 12:09:24 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for inn_1
+2025-04-24 12:09:24 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 12:09:24 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 12:09:33 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.64, Confidence: 0.70
+2025-04-24 12:09:33 - llm_consortium - INFO - runner_sql:354 - Iteration 2/3 for inn_1
+2025-04-24 12:09:33 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 12:09:33 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 12:09:40 - llm_consortium - INFO - runner_sql:434 - Iteration 2 Best Synthesis - Temp: 0.80, Confidence: 0.90
+2025-04-24 12:09:40 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for match_season
+2025-04-24 12:09:54 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.17, Confidence: 0.95
+2025-04-24 12:09:54 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for inn_1
+2025-04-24 12:09:54 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 12:09:54 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 12:10:10 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.16, Confidence: 0.50
+2025-04-24 12:10:10 - llm_consortium - INFO - runner_sql:354 - Iteration 2/3 for inn_1
+2025-04-24 12:10:10 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 12:10:10 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 12:10:26 - llm_consortium - INFO - runner_sql:434 - Iteration 2 Best Synthesis - Temp: 0.24, Confidence: 0.20
+2025-04-24 12:10:26 - llm_consortium - INFO - runner_sql:354 - Iteration 3/3 for inn_1
+2025-04-24 12:10:26 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 12:10:26 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 12:10:35 - llm_consortium - INFO - runner_sql:434 - Iteration 3 Best Synthesis - Temp: 0.43, Confidence: 0.20
+2025-04-24 12:10:35 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for wine_1
+2025-04-24 12:10:35 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 12:10:35 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 12:10:42 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.71, Confidence: 0.20
+2025-04-24 12:10:42 - llm_consortium - INFO - runner_sql:354 - Iteration 2/3 for wine_1
+2025-04-24 12:10:42 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 12:10:42 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 12:10:53 - llm_consortium - INFO - runner_sql:434 - Iteration 2 Best Synthesis - Temp: 0.48, Confidence: 0.20
+2025-04-24 12:10:53 - llm_consortium - INFO - runner_sql:354 - Iteration 3/3 for wine_1
+2025-04-24 12:10:53 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 12:10:53 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 12:11:04 - llm_consortium - INFO - runner_sql:434 - Iteration 3 Best Synthesis - Temp: 0.44, Confidence: 0.20
+2025-04-24 12:11:04 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for music_4
+2025-04-24 12:11:16 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.80, Confidence: 0.97
+2025-04-24 12:11:16 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for tracking_orders
+2025-04-24 12:11:31 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.35, Confidence: 0.95
+2025-04-24 12:11:31 - llm_consortium - INFO - runner_sql:354 - Iteration 1/3 for loan_1
+2025-04-24 12:11:47 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.42, Confidence: 0.95
+2025-04-24 14:29:59 - llm_consortium - ERROR - app:1973 - Evaluation error: CSV missing required columns: gold_sql
+2025-04-24 14:30:34 - llm_consortium - ERROR - app:1973 - Evaluation error: 'ModelConfig' object has no attribute 'sql'
+2025-04-24 14:36:09 - llm_consortium - INFO - sql_model_runner:118 - Evaluating model: gpt-4o-mini
+2025-04-24 14:36:17 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 14:36:19 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 14:36:35 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 14:36:37 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 14:36:37 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 14:36:42 - llm_consortium - ERROR - app:1973 - Evaluation error: 'Exact Match'
+2025-04-24 14:38:16 - llm_consortium - INFO - runner_sql:354 - Iteration 1/2 for e_government
+2025-04-24 14:38:27 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.19, Confidence: 0.95
+2025-04-24 14:38:27 - llm_consortium - INFO - runner_sql:354 - Iteration 1/2 for bike_1
+2025-04-24 14:38:41 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 14:38:42 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 14:38:48 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.48, Confidence: 0.80
+2025-04-24 14:38:48 - llm_consortium - INFO - runner_sql:354 - Iteration 1/2 for music_1
+2025-04-24 14:38:58 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.60, Confidence: 0.95
+2025-04-24 14:38:58 - llm_consortium - INFO - runner_sql:354 - Iteration 1/2 for college_2
+2025-04-24 14:38:58 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 14:38:58 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 14:39:04 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.35, Confidence: 0.70
+2025-04-24 14:39:04 - llm_consortium - INFO - runner_sql:354 - Iteration 2/2 for college_2
+2025-04-24 14:39:04 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 14:39:04 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 14:39:09 - llm_consortium - INFO - runner_sql:434 - Iteration 2 Best Synthesis - Temp: 0.35, Confidence: 0.70
+2025-04-24 14:39:09 - llm_consortium - INFO - runner_sql:354 - Iteration 1/2 for soccer_2
+2025-04-24 14:39:19 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.21, Confidence: 0.97
+2025-04-24 14:39:19 - llm_consortium - INFO - runner_sql:354 - Iteration 1/2 for department_store
+2025-04-24 14:39:32 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.22, Confidence: 0.95
+2025-04-24 14:39:32 - llm_consortium - INFO - runner_sql:354 - Iteration 1/2 for voter_2
+2025-04-24 14:39:39 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.25, Confidence: 0.97
+2025-04-24 14:39:39 - llm_consortium - INFO - runner_sql:354 - Iteration 1/2 for company_employee
+2025-04-24 14:39:47 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.28, Confidence: 0.95
+2025-04-24 14:39:47 - llm_consortium - INFO - runner_sql:354 - Iteration 1/2 for decoration_competition
+2025-04-24 14:39:55 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.23, Confidence: 0.95
+2025-04-24 14:39:55 - llm_consortium - INFO - runner_sql:354 - Iteration 1/2 for hospital_1
+2025-04-24 14:40:03 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.48, Confidence: 0.95
+2025-04-24 14:40:03 - llm_consortium - INFO - runner_sql:354 - Iteration 1/2 for coffee_shop
+2025-04-24 14:40:11 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.48, Confidence: 0.97
+2025-04-24 14:40:11 - llm_consortium - INFO - runner_sql:354 - Iteration 1/2 for cre_Doc_Tracking_DB
+2025-04-24 14:40:26 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.13, Confidence: 0.95
+2025-04-24 14:40:26 - llm_consortium - INFO - runner_sql:354 - Iteration 1/2 for music_1
+2025-04-24 14:40:34 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.20, Confidence: 0.90
+2025-04-24 14:40:34 - llm_consortium - INFO - runner_sql:354 - Iteration 1/2 for inn_1
+2025-04-24 14:40:34 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 14:40:34 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 14:40:40 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.20, Confidence: 0.20
+2025-04-24 14:40:40 - llm_consortium - INFO - runner_sql:354 - Iteration 2/2 for inn_1
+2025-04-24 14:40:40 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 14:40:40 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 14:40:46 - llm_consortium - INFO - runner_sql:434 - Iteration 2 Best Synthesis - Temp: 0.76, Confidence: 0.50
+2025-04-24 14:40:46 - llm_consortium - INFO - runner_sql:354 - Iteration 1/2 for match_season
+2025-04-24 14:40:55 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.15, Confidence: 0.90
+2025-04-24 14:40:55 - llm_consortium - INFO - runner_sql:354 - Iteration 1/2 for inn_1
+2025-04-24 14:40:55 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 14:40:55 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 14:41:00 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.56, Confidence: 0.20
+2025-04-24 14:41:00 - llm_consortium - INFO - runner_sql:354 - Iteration 2/2 for inn_1
+2025-04-24 14:41:00 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 14:41:00 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 14:41:07 - llm_consortium - INFO - runner_sql:434 - Iteration 2 Best Synthesis - Temp: 0.90, Confidence: 0.50
+2025-04-24 14:41:07 - llm_consortium - INFO - runner_sql:354 - Iteration 1/2 for wine_1
+2025-04-24 14:41:07 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 14:41:07 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 14:41:14 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.15, Confidence: 0.10
+2025-04-24 14:41:14 - llm_consortium - INFO - runner_sql:354 - Iteration 2/2 for wine_1
+2025-04-24 14:41:14 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 14:41:14 - llm_consortium - ERROR - runner_sql:325 - Query failed
+2025-04-24 14:41:19 - llm_consortium - INFO - runner_sql:434 - Iteration 2 Best Synthesis - Temp: 0.27, Confidence: 0.20
+2025-04-24 14:41:19 - llm_consortium - INFO - runner_sql:354 - Iteration 1/2 for music_4
+2025-04-24 14:41:28 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.12, Confidence: 0.95
+2025-04-24 14:41:28 - llm_consortium - INFO - runner_sql:354 - Iteration 1/2 for tracking_orders
+2025-04-24 14:41:36 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.23, Confidence: 0.95
+2025-04-24 14:41:36 - llm_consortium - INFO - runner_sql:354 - Iteration 1/2 for loan_1
+2025-04-24 14:41:44 - llm_consortium - INFO - runner_sql:434 - Iteration 1 Best Synthesis - Temp: 0.15, Confidence: 0.95
+2025-04-24 15:06:01 - llm_consortium - INFO - sql_model_runner:118 - Evaluating model: gpt-4o-mini
+2025-04-24 15:06:08 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:06:10 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:06:24 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:06:26 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:06:26 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:06:31 - llm_consortium - INFO - sql_model_runner:164 - Model gpt-4o-mini - Execution Match: 55.00%
+2025-04-24 15:06:31 - llm_consortium - INFO - sql_model_runner:118 - Evaluating model: gpt-3.5-turbo
+2025-04-24 15:06:40 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:06:42 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:06:52 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:06:53 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:06:53 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:06:57 - llm_consortium - INFO - sql_model_runner:164 - Model gpt-3.5-turbo - Execution Match: 50.00%
+2025-04-24 15:06:57 - llm_consortium - ERROR - app:1973 - Evaluation error: name 'os' is not defined
+2025-04-24 15:19:12 - llm_consortium - INFO - sql_model_runner:118 - Evaluating model: gpt-4o-mini
+2025-04-24 15:19:18 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:19:20 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:19:35 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:19:37 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:19:37 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:19:41 - llm_consortium - INFO - sql_model_runner:164 - Model gpt-4o-mini - Execution Match: 60.00%
+2025-04-24 15:19:41 - llm_consortium - INFO - sql_model_runner:118 - Evaluating model: gpt-3.5-turbo
+2025-04-24 15:19:46 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:19:48 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:19:57 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:19:59 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:19:59 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:20:02 - llm_consortium - INFO - sql_model_runner:164 - Model gpt-3.5-turbo - Execution Match: 55.00%
+2025-04-24 15:20:02 - llm_consortium - INFO - sql_model_runner:175 - Starting hyperparameter tuning for model: gpt-4o-mini
+2025-04-24 15:20:02 - llm_consortium - INFO - hyperparameter_tuner:81 - Testing temperatures: [0.0, 0.2, 0.4, 0.6, 0.8]
+2025-04-24 15:20:09 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:20:09 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:20:10 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:20:10 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:20:11 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:20:11 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:20:11 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:20:12 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:20:12 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:20:13 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:20:23 - llm_consortium - INFO - hyperparameter_tuner:101 - Temperature tuning results:
+2025-04-24 15:20:23 - llm_consortium - INFO - hyperparameter_tuner:103 -   Temperature 0.0: 70.00%
+2025-04-24 15:20:23 - llm_consortium - INFO - hyperparameter_tuner:103 -   Temperature 0.2: 70.00%
+2025-04-24 15:20:23 - llm_consortium - INFO - hyperparameter_tuner:103 -   Temperature 0.4: 70.00%
+2025-04-24 15:20:23 - llm_consortium - INFO - hyperparameter_tuner:103 -   Temperature 0.6: 70.00%
+2025-04-24 15:20:23 - llm_consortium - INFO - hyperparameter_tuner:103 -   Temperature 0.8: 70.00%
+2025-04-24 15:20:23 - llm_consortium - INFO - sql_model_runner:193 - Best parameters for gpt-4o-mini: {'temperature': 0.0, 'execution_match_rate': np.float64(70.0)}
+2025-04-24 15:20:23 - llm_consortium - ERROR - app:1974 - Evaluation error: 'SQLModelRunner' object has no attribute 'evaluate_with_params'
+2025-04-24 15:23:57 - llm_consortium - INFO - sql_model_runner:118 - Evaluating model: gpt-4o-mini
+2025-04-24 15:24:02 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:24:03 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:24:18 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:24:20 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:24:20 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:24:25 - llm_consortium - INFO - sql_model_runner:164 - Model gpt-4o-mini - Execution Match: 60.00%
+2025-04-24 15:24:25 - llm_consortium - INFO - sql_model_runner:118 - Evaluating model: gpt-3.5-turbo
+2025-04-24 15:24:31 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:24:32 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:24:42 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:24:43 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:24:43 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:24:47 - llm_consortium - INFO - sql_model_runner:164 - Model gpt-3.5-turbo - Execution Match: 50.00%
+2025-04-24 15:24:47 - llm_consortium - ERROR - app:1974 - Evaluation error: name 'os' is not defined
+2025-04-24 15:53:56 - llm_consortium - INFO - sql_model_runner:118 - Evaluating model: gpt-4o-mini
+2025-04-24 15:54:16 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:54:18 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:54:36 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:54:41 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:54:41 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:54:46 - llm_consortium - INFO - sql_model_runner:164 - Model gpt-4o-mini - Execution Match: 55.00%
+2025-04-24 15:54:46 - llm_consortium - INFO - sql_model_runner:118 - Evaluating model: gpt-3.5-turbo
+2025-04-24 15:55:08 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:55:09 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:55:20 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:55:22 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:55:22 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:55:26 - llm_consortium - INFO - sql_model_runner:164 - Model gpt-3.5-turbo - Execution Match: 50.00%
+2025-04-24 15:55:26 - llm_consortium - INFO - sql_model_runner:175 - Starting hyperparameter tuning for model: gpt-4o-mini
+2025-04-24 15:55:26 - llm_consortium - INFO - hyperparameter_tuner:81 - Testing temperatures: [0.1, 0.33, 0.55]
+2025-04-24 15:55:35 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:55:35 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:55:36 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:55:37 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:55:45 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:55:47 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 15:55:59 - llm_consortium - INFO - hyperparameter_tuner:101 - Temperature tuning results:
+2025-04-24 15:55:59 - llm_consortium - INFO - hyperparameter_tuner:103 -   Temperature 0.1: 70.00%
+2025-04-24 15:55:59 - llm_consortium - INFO - hyperparameter_tuner:103 -   Temperature 0.33: 80.00%
+2025-04-24 15:55:59 - llm_consortium - INFO - hyperparameter_tuner:103 -   Temperature 0.55: 80.00%
+2025-04-24 15:55:59 - llm_consortium - INFO - sql_model_runner:193 - Best parameters for gpt-4o-mini: {'temperature': 0.33, 'execution_match_rate': np.float64(80.0)}
+2025-04-24 15:55:59 - llm_consortium - ERROR - app:1975 - Evaluation error: 'SQLModelRunner' object has no attribute 'evaluate_with_params'
+2025-04-24 16:17:42 - llm_consortium - INFO - sql_model_runner:118 - Evaluating model: gpt-4o-mini
+2025-04-24 16:17:59 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 16:18:00 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 16:18:17 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 16:18:19 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 16:18:19 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 16:18:23 - llm_consortium - INFO - sql_model_runner:164 - Model gpt-4o-mini - Execution Match: 55.00%
+2025-04-24 16:18:23 - llm_consortium - INFO - sql_model_runner:118 - Evaluating model: gpt-3.5-turbo
+2025-04-24 16:18:36 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 16:18:38 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 16:18:49 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 16:18:51 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 16:18:51 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 16:18:55 - llm_consortium - INFO - sql_model_runner:164 - Model gpt-3.5-turbo - Execution Match: 55.00%
+2025-04-24 16:18:55 - llm_consortium - INFO - sql_model_runner:175 - Starting hyperparameter tuning for model: gpt-3.5-turbo
+2025-04-24 16:18:55 - llm_consortium - INFO - hyperparameter_tuner:81 - Testing temperatures: [0.1, 0.33, 0.55]
+2025-04-24 16:19:10 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 16:19:11 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 16:19:11 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 16:19:13 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 16:19:13 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 16:19:15 - llm_consortium - ERROR - sql_model_runner:92 - Query failed
+2025-04-24 16:19:23 - llm_consortium - INFO - hyperparameter_tuner:101 - Temperature tuning results:
+2025-04-24 16:19:23 - llm_consortium - INFO - hyperparameter_tuner:103 -   Temperature 0.1: 70.00%
+2025-04-24 16:19:23 - llm_consortium - INFO - hyperparameter_tuner:103 -   Temperature 0.33: 80.00%
+2025-04-24 16:19:23 - llm_consortium - INFO - hyperparameter_tuner:103 -   Temperature 0.55: 60.00%
+2025-04-24 16:19:23 - llm_consortium - INFO - sql_model_runner:193 - Best parameters for gpt-3.5-turbo: {'temperature': 0.33, 'execution_match_rate': np.float64(80.0)}
+2025-04-24 16:19:23 - llm_consortium - ERROR - app:1976 - Evaluation error: 'SQLModelRunner' object has no attribute 'evaluate_with_params'

@@ -8,7 +8,7 @@ class SQLMetrics:
     Class for evaluating SQL queries using different metrics
     """
     # Hardcoded database path
-    DB_ROOT_PATH = r"D:\inforigin_projects\personal-llm\dataset\spider_data\database"
+    DB_ROOT_PATH = r"D:\data_sci\benchmarking_tool\dataset\spider_data\spider_data\database"
     
     @staticmethod
     def contains_order_by(sql):
@@ -140,8 +140,8 @@ class SQLMetrics:
             }
         
         # Convert to numeric values (True becomes 1, False becomes 0)
-        exact_matches = results_df["Exact Match"].astype(int).sum()
-        exec_matches = results_df["Execution Match"].astype(int).sum()
+        exact_matches = results_df["exact_match"].astype(int).sum()
+        exec_matches = results_df["execution_match"].astype(int).sum()
         
         return {
             "exact_match_count": exact_matches,
