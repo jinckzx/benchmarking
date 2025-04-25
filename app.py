@@ -1930,8 +1930,7 @@ def text2sql_ui():
                 st.session_state.sql_best_model = best_model
                 st.session_state.sql_progress = 60
                 evaluation_progress.progress(st.session_state.sql_progress/100, f"Best model identified: {best_model}")
-                
-                # Step 3: Tune the best model if enabled
+                # In your run_evaluation_async function, add this code after the tuning part
                 if config.enable_tuning:
                     evaluation_progress.progress(st.session_state.sql_progress/100, f"Tuning {best_model}...")
                     best_params = await runner.tune_best_model(
@@ -1940,8 +1939,25 @@ def text2sql_ui():
                         config
                     )
                     st.session_state.sql_best_params = best_params
+                    
+                    # Capture the temperature trial results if available from the tuner
+                    # This assumes you've modified the hyperparameter_tuner to return all trial results
+                    if hasattr(runner.hyperparameter_tuner, 'trial_results'):
+                        st.session_state.sql_tuning_trials = runner.hyperparameter_tuner.trial_results
+                    
                     st.session_state.sql_progress = 80
                     evaluation_progress.progress(st.session_state.sql_progress/100, "Tuning complete")
+                # Step 3: Tune the best model if enabled
+                # if config.enable_tuning:
+                #     evaluation_progress.progress(st.session_state.sql_progress/100, f"Tuning {best_model}...")
+                #     best_params = await runner.tune_best_model(
+                #         best_model,
+                #         csv_path,
+                #         config
+                #     )
+                #     st.session_state.sql_best_params = best_params
+                #     st.session_state.sql_progress = 80
+                #     evaluation_progress.progress(st.session_state.sql_progress/100, "Tuning complete")
                     
                     # Step 4: Optionally evaluate with tuned parameters
                     if config.run_final_evaluation:
@@ -2132,7 +2148,6 @@ def text2sql_ui():
                     st.pyplot(fig)
                 else:
                     st.info("Running evaluation..." if st.session_state.sql_running else "Run evaluation to see results")
-            
             # Tab 4: Hyperparameter Tuning Results
             with tabs[3]:
                 if st.session_state.sql_best_params:
@@ -2141,6 +2156,47 @@ def text2sql_ui():
                     col1, col2 = st.columns(2)
                     col1.metric("Best Temperature", f"{st.session_state.sql_best_params['temperature']:.2f}")
                     col1.metric("Execution Match Rate", f"{st.session_state.sql_best_params['execution_match_rate']:.2f}%")
+                    
+                    # Add a section to show results for each temperature trial
+                    st.subheader("Temperature Trial Results")
+                    
+                    # Check if we have the full tuning results available in session state
+                    # If not, we can add a placeholder for this new feature
+                    if 'sql_tuning_trials' in st.session_state and st.session_state.sql_tuning_trials:
+                        # Create a dataframe to display all trial results
+                        trials_data = []
+                        for trial in st.session_state.sql_tuning_trials:
+                            trials_data.append({
+                                "Temperature": f"{trial['temperature']:.2f}",
+                                "Execution Match Rate (%)": f"{trial['execution_match_rate']:.2f}%",
+                                "Exact Match Rate (%)": f"{trial['exact_match_rate']:.2f}%" if 'exact_match_rate' in trial else "N/A"
+                            })
+                        
+                        # Display as a table
+                        st.table(pd.DataFrame(trials_data))
+                        
+                        # Also create a visualization for the temperature vs performance
+                        st.subheader("Temperature vs. Performance")
+                        
+                        # Create chart data
+                        chart_data = pd.DataFrame({
+                            'Temperature': [trial['temperature'] for trial in st.session_state.sql_tuning_trials],
+                            'Execution Match Rate (%)': [trial['execution_match_rate'] for trial in st.session_state.sql_tuning_trials]
+                        })
+                        
+                        # Create a line chart with markers
+                        chart = alt.Chart(chart_data).mark_line(point=True).encode(
+                            x=alt.X('Temperature:Q', title='Temperature'),
+                            y=alt.Y('Execution Match Rate (%):Q', title='Execution Match Rate (%)'),
+                            tooltip=['Temperature', 'Execution Match Rate (%)']
+                        ).properties(
+                            width=600,
+                            height=300
+                        )
+                        
+                        st.altair_chart(chart, use_container_width=True)
+                    else:
+                        st.info("Detailed temperature trial results are not available. Run evaluation again with the next version to see per-temperature performance.")
                     
                     # Show tuned vs untuned comparison if available
                     if st.session_state.sql_tuning_results:
@@ -2166,6 +2222,39 @@ def text2sql_ui():
                     st.info("Hyperparameter tuning in progress..." if st.session_state.sql_running else "Run evaluation to see tuning results")
                 else:
                     st.info("Hyperparameter tuning is disabled")
+            # Tab 4: Hyperparameter Tuning Results
+            # with tabs[3]:
+            #     if st.session_state.sql_best_params:
+            #         st.header("Hyperparameter Tuning Results")
+                    
+            #         col1, col2 = st.columns(2)
+            #         col1.metric("Best Temperature", f"{st.session_state.sql_best_params['temperature']:.2f}")
+            #         col1.metric("Execution Match Rate", f"{st.session_state.sql_best_params['execution_match_rate']:.2f}%")
+                    
+            #         # Show tuned vs untuned comparison if available
+            #         if st.session_state.sql_tuning_results:
+            #             st.subheader("Before vs After Tuning")
+                        
+            #             before_metrics = st.session_state.sql_evaluation_results[st.session_state.sql_best_model]["metrics"]
+            #             after_metrics = st.session_state.sql_tuning_results["metrics"]
+                        
+            #             comp_data = {
+            #                 "Metric": ["Execution Match Rate", "Exact Match Rate"],
+            #                 "Before Tuning": [
+            #                     f"{before_metrics['execution_match_rate']:.2f}%",
+            #                     f"{before_metrics['exact_match_rate']:.2f}%"
+            #                 ],
+            #                 "After Tuning": [
+            #                     f"{after_metrics['execution_match_rate']:.2f}%",
+            #                     f"{after_metrics['exact_match_rate']:.2f}%"
+            #                 ]
+            #             }
+                        
+            #             st.table(pd.DataFrame(comp_data))
+            #     elif enable_tuning:
+            #         st.info("Hyperparameter tuning in progress..." if st.session_state.sql_running else "Run evaluation to see tuning results")
+            #     else:
+            #         st.info("Hyperparameter tuning is disabled")
             
             # Tab 5: Sample Queries
             with tabs[4]:
