@@ -1804,6 +1804,7 @@ def text2sql_ui():
     import matplotlib.pyplot as plt
     import streamlit as st
     from llm_consortium.core.sql.sql_model_runner import SQLModelRunner
+    from llm_consortium.core.sql.sql_judge import SQLJudge 
     from llm_consortium.config.models_sql import ModelConfig
     import asyncio
     import json
@@ -1814,8 +1815,13 @@ def text2sql_ui():
     from llm_consortium.utils.logging import logger
     from datetime import datetime
     from llm_consortium.utils.pricing import calculate_cost
+    from llm_consortium.core.client_init import llm
 
     
+ # Import the newly created judge class
+
+    # Initialize judge
+    judge = SQLJudge(llm)
 
     # Title and description
     st.title("SQL Model Evaluation and Tuning")
@@ -1837,6 +1843,13 @@ def text2sql_ui():
         st.session_state.sql_running = False
     if 'sql_progress' not in st.session_state:
         st.session_state.sql_progress = 0
+    # Add new states for judge results
+    if 'sql_judge_results' not in st.session_state:
+        st.session_state.sql_judge_results = None
+    if 'sql_judge_running' not in st.session_state:
+        st.session_state.sql_judge_running = False
+    if 'sql_tuning_comparison' not in st.session_state:
+        st.session_state.sql_tuning_comparison = None
 
     def reset_results():
         st.session_state.sql_evaluation_results = None
@@ -1845,6 +1858,9 @@ def text2sql_ui():
         st.session_state.sql_tuning_results = None
         st.session_state.sql_running = False
         st.session_state.sql_progress = 0
+        st.session_state.sql_judge_results = None
+        st.session_state.sql_judge_running = False
+        st.session_state.sql_tuning_comparison = None
 
     # Layout with two columns - config panel and results
     col1, col2 = st.columns([1, 3])
@@ -1866,6 +1882,15 @@ def text2sql_ui():
             key="sql_models"
         )
         
+        # Judge model selection (new)
+        judge_models = ["gpt-4o-mini", "claude-3-opus", "claude-3-sonnet"] 
+        selected_judge = st.selectbox(
+            "LLM Judge Model",
+            judge_models,
+            index=0,  # Default to first model
+            key="sql_judge_model"
+        )
+        
         # Base configuration
         st.subheader("Base Settings")
         base_temperature = st.slider("Base Temperature", 0.0, 1.0, 0.2, 0.05, key="sql_base_temp")
@@ -1878,6 +1903,29 @@ def text2sql_ui():
         max_temp = st.slider("Max Temperature", 0.0, 1.0, 0.8, 0.05, key="sql_max_temp")
         num_trials = st.slider("Number of Trials", 3, 10, 5, key="sql_num_trials")
         sample_size = st.slider("Tuning Sample Size", 5, 50, 10, key="sql_sample_size")
+        
+        # Judge settings (new)
+        st.subheader("Judge Settings")
+        judge_criteria = st.multiselect(
+            "Judge Criteria",
+            [
+                "Column name accuracy",
+                "Table usage correctness",
+                "Join quality",
+                "Condition correctness",
+                "Query structure",
+                "SQL syntax correctness",
+                "Query optimization",
+                "Intent understanding"
+            ],
+            default=[
+                "Column name accuracy",
+                "Table usage correctness",
+                "Query structure",
+                "Intent understanding"
+            ],
+            key="sql_judge_criteria"
+        )
         
         # Output settings
         st.subheader("Output Settings")
@@ -1930,7 +1978,7 @@ def text2sql_ui():
                 st.session_state.sql_best_model = best_model
                 st.session_state.sql_progress = 60
                 evaluation_progress.progress(st.session_state.sql_progress/100, f"Best model identified: {best_model}")
-                # In your run_evaluation_async function, add this code after the tuning part
+                # Step 3: Tune the best model if enabled
                 if config.enable_tuning:
                     evaluation_progress.progress(st.session_state.sql_progress/100, f"Tuning {best_model}...")
                     best_params = await runner.tune_best_model(
@@ -1941,24 +1989,12 @@ def text2sql_ui():
                     st.session_state.sql_best_params = best_params
                     
                     # Capture the temperature trial results if available from the tuner
-                    # This assumes you've modified the hyperparameter_tuner to return all trial results
                     if hasattr(runner.hyperparameter_tuner, 'trial_results'):
                         st.session_state.sql_tuning_trials = runner.hyperparameter_tuner.trial_results
                     
                     st.session_state.sql_progress = 80
                     evaluation_progress.progress(st.session_state.sql_progress/100, "Tuning complete")
-                # Step 3: Tune the best model if enabled
-                # if config.enable_tuning:
-                #     evaluation_progress.progress(st.session_state.sql_progress/100, f"Tuning {best_model}...")
-                #     best_params = await runner.tune_best_model(
-                #         best_model,
-                #         csv_path,
-                #         config
-                #     )
-                #     st.session_state.sql_best_params = best_params
-                #     st.session_state.sql_progress = 80
-                #     evaluation_progress.progress(st.session_state.sql_progress/100, "Tuning complete")
-                    
+                
                     # Step 4: Optionally evaluate with tuned parameters
                     if config.run_final_evaluation:
                         evaluation_progress.progress(st.session_state.sql_progress/100, f"Final evaluation with tuned parameters...")
@@ -1993,6 +2029,46 @@ def text2sql_ui():
                 return None
             finally:
                 st.session_state.sql_running = False
+        
+        # New function for evaluating using the judge
+        async def run_judge_evaluation_async(judge_criteria):
+            """Run the judge evaluation asynchronously"""
+            try:
+                if not st.session_state.sql_evaluation_results:
+                    st.error("No evaluation results available to judge")
+                    return None
+                
+                # Evaluate all models using judge
+                judge_results = await judge.evaluate_model_outputs(
+                    st.session_state.sql_evaluation_results,
+                    criteria=judge_criteria
+                )
+                
+                # Store results
+                st.session_state.sql_judge_results = judge_results
+                
+                # If we have before/after tuning results, compare those too
+                if st.session_state.sql_best_model and st.session_state.sql_tuning_results:
+                    best_model = st.session_state.sql_best_model
+                    before_data = st.session_state.sql_evaluation_results[best_model]
+                    after_data = st.session_state.sql_tuning_results
+                    
+                    tuning_comparison = await judge.before_after_tuning_comparison(
+                        best_model,
+                        before_data,
+                        after_data
+                    )
+                    
+                    st.session_state.sql_tuning_comparison = tuning_comparison
+                
+                return judge_results
+                
+            except Exception as e:
+                st.error(f"Error during judge evaluation: {str(e)}")
+                logger.error(f"Judge evaluation error: {str(e)}")
+                return None
+            finally:
+                st.session_state.sql_judge_running = False
         
         if run_button and not st.session_state.sql_running:
             # Create config
@@ -2031,16 +2107,45 @@ def text2sql_ui():
             
             # Run the evaluation in the current thread (this will block the UI until complete)
             run_evaluation(config, temp_csv)
-                
-            
+        
         # Display tabs for results
         if st.session_state.sql_running or st.session_state.sql_evaluation_results:
-            tabs = st.tabs(["Evaluation Results", "Model Comparison", "Best Model", "Hyperparameter Tuning", "Sample Queries"])
+            tabs = st.tabs(["Evaluation Results", "Model Comparison", "Best Model", "Hyperparameter Tuning", "Sample Queries", "LLM Judge"])
             
             # Tab 1: Evaluation Results Table
             with tabs[0]:
                 if st.session_state.sql_evaluation_results:
                     st.header("Model Evaluation Results")
+                    
+                    # Add LLM Judge button
+                    judge_col1, judge_col2 = st.columns([1, 3])
+                    with judge_col1:
+                        judge_button = st.button(
+                            "Evaluate Using LLM Judge", 
+                            type="primary", 
+                            key="sql_judge_button",
+                            disabled=st.session_state.sql_judge_running
+                        )
+                    
+                    if judge_button and not st.session_state.sql_judge_running:
+                        st.session_state.sql_judge_running = True
+                        
+                        # Run judge evaluation
+                        def run_judge():
+                            """Synchronous wrapper for the async judge evaluation function"""
+                            loop = asyncio.new_event_loop()
+                            asyncio.set_event_loop(loop)
+                            try:
+                                return loop.run_until_complete(run_judge_evaluation_async(judge_criteria))
+                            finally:
+                                loop.close()
+                        
+                        # Show a spinner during evaluation
+                        with st.spinner("LLM Judge evaluating models..."):
+                            run_judge()
+                        
+                        # Show completion message
+                        st.success("LLM Judge evaluation complete! See the 'LLM Judge' tab for results.")
                     
                     # Create a DataFrame for metrics
                     metrics_data = []
@@ -2132,6 +2237,7 @@ def text2sql_ui():
                     col1.metric("Execution Match Rate", f"{metrics['execution_match_rate']:.2f}%")
                     col2.metric("Exact Match Rate", f"{metrics['exact_match_rate']:.2f}%")
                     
+                    
                     responses = best_model_data["responses"]
                     avg_latency = sum([r["latency"] for r in responses]) / len(responses) if responses else 0
                     col3.metric("Average Latency", f"{avg_latency:.3f}s")
@@ -2148,6 +2254,7 @@ def text2sql_ui():
                     st.pyplot(fig)
                 else:
                     st.info("Running evaluation..." if st.session_state.sql_running else "Run evaluation to see results")
+            
             # Tab 4: Hyperparameter Tuning Results
             with tabs[3]:
                 if st.session_state.sql_best_params:
@@ -2161,7 +2268,6 @@ def text2sql_ui():
                     st.subheader("Temperature Trial Results")
                     
                     # Check if we have the full tuning results available in session state
-                    # If not, we can add a placeholder for this new feature
                     if 'sql_tuning_trials' in st.session_state and st.session_state.sql_tuning_trials:
                         # Create a dataframe to display all trial results
                         trials_data = []
@@ -2203,7 +2309,7 @@ def text2sql_ui():
                         st.subheader("Before vs After Tuning")
                         
                         before_metrics = st.session_state.sql_evaluation_results[st.session_state.sql_best_model]["metrics"]
-                        after_metrics = st.session_state.sql_tuning_results["metrics"]
+                        best_trial = max(st.session_state.sql_tuning_trials, key=lambda x: x['execution_match_rate'])
                         
                         comp_data = {
                             "Metric": ["Execution Match Rate", "Exact Match Rate"],
@@ -2212,8 +2318,8 @@ def text2sql_ui():
                                 f"{before_metrics['exact_match_rate']:.2f}%"
                             ],
                             "After Tuning": [
-                                f"{after_metrics['execution_match_rate']:.2f}%",
-                                f"{after_metrics['exact_match_rate']:.2f}%"
+                                f"{best_trial['execution_match_rate']:.2f}%",
+                                f"{best_trial.get('exact_match_rate', 0.00):.2f}%"  # Default to 0.00 if not present
                             ]
                         }
                         
@@ -2222,40 +2328,7 @@ def text2sql_ui():
                     st.info("Hyperparameter tuning in progress..." if st.session_state.sql_running else "Run evaluation to see tuning results")
                 else:
                     st.info("Hyperparameter tuning is disabled")
-            # Tab 4: Hyperparameter Tuning Results
-            # with tabs[3]:
-            #     if st.session_state.sql_best_params:
-            #         st.header("Hyperparameter Tuning Results")
-                    
-            #         col1, col2 = st.columns(2)
-            #         col1.metric("Best Temperature", f"{st.session_state.sql_best_params['temperature']:.2f}")
-            #         col1.metric("Execution Match Rate", f"{st.session_state.sql_best_params['execution_match_rate']:.2f}%")
-                    
-            #         # Show tuned vs untuned comparison if available
-            #         if st.session_state.sql_tuning_results:
-            #             st.subheader("Before vs After Tuning")
-                        
-            #             before_metrics = st.session_state.sql_evaluation_results[st.session_state.sql_best_model]["metrics"]
-            #             after_metrics = st.session_state.sql_tuning_results["metrics"]
-                        
-            #             comp_data = {
-            #                 "Metric": ["Execution Match Rate", "Exact Match Rate"],
-            #                 "Before Tuning": [
-            #                     f"{before_metrics['execution_match_rate']:.2f}%",
-            #                     f"{before_metrics['exact_match_rate']:.2f}%"
-            #                 ],
-            #                 "After Tuning": [
-            #                     f"{after_metrics['execution_match_rate']:.2f}%",
-            #                     f"{after_metrics['exact_match_rate']:.2f}%"
-            #                 ]
-            #             }
-                        
-            #             st.table(pd.DataFrame(comp_data))
-            #     elif enable_tuning:
-            #         st.info("Hyperparameter tuning in progress..." if st.session_state.sql_running else "Run evaluation to see tuning results")
-            #     else:
-            #         st.info("Hyperparameter tuning is disabled")
-            
+
             # Tab 5: Sample Queries
             with tabs[4]:
                 if st.session_state.sql_evaluation_results:
@@ -2305,6 +2378,619 @@ def text2sql_ui():
                             st.info("No queries matching your filter criteria")
                 else:
                     st.info("Running evaluation..." if st.session_state.sql_running else "Run evaluation to see sample queries")
+            
+            # Tab 6: LLM Judge Results (New)
+            with tabs[5]:
+                st.header("LLM Judge Evaluation")
+                
+                if st.session_state.sql_judge_running:
+                    st.info("LLM judge evaluation in progress...")
+                elif st.session_state.sql_judge_results:
+                    # Display judge results
+                    
+                    # Model selection for viewing judge results
+                    judge_model_to_view = st.selectbox(
+                        "Select model to view judge evaluation",
+                        list(st.session_state.sql_judge_results.keys()),
+                        key="sql_judge_model_selector"
+                    )
+                    
+                    if judge_model_to_view:
+                        judge_result = st.session_state.sql_judge_results[judge_model_to_view]
+                        
+                        # Display any errors if present
+                        if "error" in judge_result:
+                            st.error(f"Judge evaluation error: {judge_result['error']}")
+                        else:
+                            st.subheader(f"Judge Evaluation for {judge_model_to_view}")
+                            
+                            # If the response has structured evaluation data
+                            if "evaluation" in judge_result and isinstance(judge_result["evaluation"], dict):
+                                evaluation = judge_result["evaluation"]
+                                
+                                # Display scores if available
+                                if "criteria_scores" in evaluation:
+                                    st.subheader("Criteria Scores")
+                                    
+                                    # Create score visualization
+                                    criteria_scores = evaluation["criteria_scores"]
+                                    score_data = []
+                                    for criterion, data in criteria_scores.items():
+                                        score_data.append({
+                                            "Criterion": criterion,
+                                            "Score": data["score"],
+                                            "Comments": data["comments"]
+                                        })
+                                    
+                                    # Display as a table
+                                    st.table(pd.DataFrame(score_data))
+                                    
+                                    # Create radar chart for scores
+                                    labels = [item["Criterion"] for item in score_data]
+                                    scores = [item["Score"] for item in score_data]
+                                    
+                                    fig = plt.figure(figsize=(8, 8))
+                                    ax = fig.add_subplot(111, polar=True)
+                                    
+                                    # Set the angles for each criterion
+                                    angles = [n / float(len(labels)) * 2 * 3.14159 for n in range(len(labels))]
+                                    angles += angles[:1]  # Close the loop
+                                    
+                                    # Add the scores
+                                    scores += scores[:1]  # Close the loop
+                                    
+                                    # Plot
+                                    ax.plot(angles, scores, linewidth=2, linestyle='solid')
+                                    ax.fill(angles, scores, alpha=0.25)
+                                    
+                                    # Set labels and ticks
+                                    ax.set_xticks(angles[:-1])
+                                    ax.set_xticklabels(labels)
+                                    ax.set_yticks([2, 4, 6, 8, 10])
+                                    ax.set_yticklabels(['2', '4', '6', '8', '10'])
+                                    ax.set_ylim(0, 10)
+                                    
+                                    plt.title(f'Judge Scores for {judge_model_to_view}')
+                                    st.pyplot(fig)
+                                
+                                # Display strengths and weaknesses
+                                if "strengths" in evaluation:
+                                    st.subheader("Strengths")
+                                    for strength in evaluation["strengths"]:
+                                        st.markdown(f"- {strength}")
+                                
+                                if "weaknesses" in evaluation:
+                                    st.subheader("Weaknesses")
+                                    for weakness in evaluation["weaknesses"]:
+                                        st.markdown(f"- {weakness}")
+                                
+                                # Display summary and final score
+                                if "summary" in evaluation:
+                                    st.subheader("Summary")
+                                    st.write(evaluation["summary"])
+                                
+                                if "final_score" in evaluation:
+                                    st.metric("Final Score", f"{evaluation['final_score']}/100")
+                            else:
+                                # Display raw evaluation text
+                                st.markdown("### Judge Evaluation")
+                                st.write(judge_result.get("raw_response", "No detailed evaluation available"))
+                    
+                    # Show tuning comparison if available
+                    if st.session_state.sql_tuning_comparison:
+                        st.markdown("---")
+                        st.header("Before vs After Tuning Analysis")
+                        
+                        tuning_comp = st.session_state.sql_tuning_comparison
+                        model_name = tuning_comp.get("model_name")
+                        
+                        if "error" in tuning_comp:
+                            st.error(f"Tuning comparison error: {tuning_comp['error']}")
+                        else:
+                            st.subheader(f"Tuning Impact Analysis for {model_name}")
+                            
+                            # Display the analysis
+                            st.markdown(tuning_comp.get("tuning_impact_analysis", "No tuning analysis available"))
+                
+                else:
+                    # Show instructions for using the judge
+                    st.info("""
+                    To get an LLM judge evaluation of your models:
+                    1. Complete a model evaluation run
+                    2. Go to the "Evaluation Results" tab
+                    3. Click the "Evaluate Using LLM Judge" button
+                    
+                    The judge will evaluate each model's SQL generation quality and provide detailed feedback.
+                    """)
+                    
+                    # If we have evaluation results but no judge results, show reminder
+                    if st.session_state.sql_evaluation_results:
+                        st.markdown("#### Ready for Judge Evaluation")
+                        st.markdown("You have evaluation results ready to be analyzed by the LLM judge.")
+                        judge_reminder_button = st.button(
+                            "Start Judge Evaluation", 
+                            type="primary", 
+                            key="sql_judge_reminder_button"
+                        )
+                        
+                        if judge_reminder_button:
+                            st.session_state.sql_judge_running = True
+                            
+                            # Run judge evaluation
+                            def run_judge():
+                                """Synchronous wrapper for the async judge evaluation function"""
+                                loop = asyncio.new_event_loop()
+                                asyncio.set_event_loop(loop)
+                                try:
+                                    return loop.run_until_complete(run_judge_evaluation_async(judge_criteria))
+                                finally:
+                                    loop.close()
+                            
+                            # Show a spinner during evaluation
+                            with st.spinner("LLM Judge evaluating models..."):
+                                run_judge()
+                            
+                            # Rerun to show the results
+                            st.rerun()
+
+    # # Title and description
+    # st.title("SQL Model Evaluation and Tuning")
+    # st.markdown("""
+    # This tool evaluates different LLM models for SQL query generation and tunes hyperparameters for the best performer.
+    # Upload your test dataset, select models to evaluate, and configure evaluation parameters.
+    # """)
+
+    # # Initialize session state for storing results between reruns
+    # if 'sql_evaluation_results' not in st.session_state:
+    #     st.session_state.sql_evaluation_results = None
+    # if 'sql_best_model' not in st.session_state:
+    #     st.session_state.sql_best_model = None
+    # if 'sql_best_params' not in st.session_state:
+    #     st.session_state.sql_best_params = None
+    # if 'sql_tuning_results' not in st.session_state:
+    #     st.session_state.sql_tuning_results = None
+    # if 'sql_running' not in st.session_state:
+    #     st.session_state.sql_running = False
+    # if 'sql_progress' not in st.session_state:
+    #     st.session_state.sql_progress = 0
+
+    # def reset_results():
+    #     st.session_state.sql_evaluation_results = None
+    #     st.session_state.sql_best_model = None
+    #     st.session_state.sql_best_params = None
+    #     st.session_state.sql_tuning_results = None
+    #     st.session_state.sql_running = False
+    #     st.session_state.sql_progress = 0
+
+    # # Layout with two columns - config panel and results
+    # col1, col2 = st.columns([1, 3])
+
+    # # Configuration panel
+    # with col1:
+    #     st.header("Configuration")
+        
+    #     # File uploader
+    #     uploaded_file = st.file_uploader("Upload Test Dataset (CSV)", type=["csv"], key="sql_csv_upload")
+        
+    #     # Model selection (with default models)
+    #     default_models = ["gpt-4o-mini", "gpt-4o"]
+    #     available_models = ["gpt-4o-mini", "gpt-4o", "gpt-3.5-turbo", "claude-3-opus", "claude-3-sonnet", "claude-3-haiku"]
+    #     selected_models = st.multiselect(
+    #         "Select Models to Evaluate", 
+    #         available_models,
+    #         default=default_models,
+    #         key="sql_models"
+    #     )
+        
+    #     # Base configuration
+    #     st.subheader("Base Settings")
+    #     base_temperature = st.slider("Base Temperature", 0.0, 1.0, 0.2, 0.05, key="sql_base_temp")
+        
+    #     # Tuning settings
+    #     st.subheader("Hyperparameter Tuning")
+    #     enable_tuning = st.checkbox("Enable Hyperparameter Tuning", value=True, key="sql_enable_tuning")
+        
+    #     min_temp = st.slider("Min Temperature", 0.0, 1.0, 0.0, 0.05, key="sql_min_temp")
+    #     max_temp = st.slider("Max Temperature", 0.0, 1.0, 0.8, 0.05, key="sql_max_temp")
+    #     num_trials = st.slider("Number of Trials", 3, 10, 5, key="sql_num_trials")
+    #     sample_size = st.slider("Tuning Sample Size", 5, 50, 10, key="sql_sample_size")
+        
+    #     # Output settings
+    #     st.subheader("Output Settings")
+    #     output_dir = st.text_input("Output Directory", "results", key="sql_output_dir")
+    #     save_results = st.checkbox("Save Results to File", value=True, key="sql_save_results")
+        
+    #     # Run button
+    #     run_button = st.button("Run Evaluation", type="primary", key="sql_run_button", 
+    #                           disabled=len(selected_models) == 0 or uploaded_file is None)
+
+    # # Main content area in the second column
+    # with col2:
+    #     async def run_evaluation_async(config, csv_path):
+    #         """Run the evaluation and tuning pipeline asynchronously"""
+    #         try:
+    #             runner = SQLModelRunner()
+                
+    #             # Step 1: Evaluate all models
+    #             st.session_state.sql_progress = 10
+    #             evaluation_progress.progress(st.session_state.sql_progress/100, "Evaluating models...")
+                
+    #             # Run evaluation
+    #             evaluation_results = await runner.evaluate_models(config, csv_path)
+    #             st.session_state.sql_evaluation_results = evaluation_results
+    #             st.session_state.sql_progress = 50
+    #             evaluation_progress.progress(st.session_state.sql_progress/100, "Evaluation complete, processing results...")
+                
+    #             # Calculate average latency for each model
+    #             model_metrics = {}
+    #             for model_name, eval_data in evaluation_results.items():
+    #                 metrics = eval_data["metrics"]
+    #                 responses = eval_data["responses"]
+                    
+    #                 # Calculate average latency (not directly provided in metrics)
+    #                 latencies = [r["latency"] for r in responses]
+    #                 avg_latency = sum(latencies) / len(latencies) if latencies else 0
+                    
+    #                 model_metrics[model_name] = {
+    #                     "execution_match_rate": metrics["execution_match_rate"],
+    #                     "exact_match_rate": metrics["exact_match_rate"],
+    #                     "avg_latency": avg_latency
+    #                 }
+                
+    #             # Find best model based on execution match rate, breaking ties with latency
+    #             best_model = max(
+    #                 model_metrics.items(),
+    #                 key=lambda x: (x[1]["execution_match_rate"], -x[1]["avg_latency"])
+    #             )[0]
+                
+    #             st.session_state.sql_best_model = best_model
+    #             st.session_state.sql_progress = 60
+    #             evaluation_progress.progress(st.session_state.sql_progress/100, f"Best model identified: {best_model}")
+    #             # Step 3: Tune the best model if enabled
+    #             if config.enable_tuning:
+    #                 evaluation_progress.progress(st.session_state.sql_progress/100, f"Tuning {best_model}...")
+    #                 best_params = await runner.tune_best_model(
+    #                     best_model,
+    #                     csv_path,
+    #                     config
+    #                 )
+    #                 st.session_state.sql_best_params = best_params
+                    
+    #                 # Capture the temperature trial results if available from the tuner
+    #                 # This assumes you've modified the hyperparameter_tuner to return all trial results
+    #                 if hasattr(runner.hyperparameter_tuner, 'trial_results'):
+    #                     st.session_state.sql_tuning_trials = runner.hyperparameter_tuner.trial_results
+                    
+    #                 st.session_state.sql_progress = 80
+    #                 evaluation_progress.progress(st.session_state.sql_progress/100, "Tuning complete")
+                
+
+    #                 # Step 4: Optionally evaluate with tuned parameters
+    #                 if config.run_final_evaluation:
+    #                     evaluation_progress.progress(st.session_state.sql_progress/100, f"Final evaluation with tuned parameters...")
+    #                     final_results = await runner.evaluate_with_params(
+    #                         best_model, 
+    #                         best_params, 
+    #                         csv_path
+    #                     )
+    #                     st.session_state.sql_tuning_results = final_results
+                        
+    #             # Save results if requested
+    #             if save_results:
+    #                 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    #                 os.makedirs(output_dir, exist_ok=True)
+    #                 output_file = os.path.join(output_dir, f"sql_eval_results_{timestamp}.json")
+                    
+    #                 with open(output_file, "w") as f:
+    #                     json.dump({
+    #                         "model_evaluations": evaluation_results,
+    #                         "best_model": best_model,
+    #                         "best_params": best_params if config.enable_tuning else None,
+    #                         "model_metrics": model_metrics
+    #                     }, f, indent=2, default=str)
+                        
+    #             st.session_state.sql_progress = 100
+    #             evaluation_progress.progress(st.session_state.sql_progress/100, "Complete!")
+    #             return model_metrics
+                
+    #         except Exception as e:
+    #             st.error(f"Error during evaluation: {str(e)}")
+    #             logger.error(f"Evaluation error: {str(e)}")
+    #             return None
+    #         finally:
+    #             st.session_state.sql_running = False
+        
+    #     if run_button and not st.session_state.sql_running:
+    #         # Create config
+    #         config = ModelConfig(
+    #             models=selected_models,
+    #             base_temperature=base_temperature,
+    #             enable_tuning=enable_tuning,
+    #             min_temp=min_temp,
+    #             max_temp=max_temp,
+    #             num_trials=num_trials,
+    #             tuning_sample_size=sample_size,
+    #             run_final_evaluation=True
+    #         )
+            
+    #         # Save uploaded file temporarily
+    #         temp_csv = "temp_dataset.csv"
+    #         with open(temp_csv, "wb") as f:
+    #             f.write(uploaded_file.getvalue())
+            
+    #         # Reset previous results
+    #         reset_results()
+            
+    #         # Show progress bar
+    #         evaluation_progress = st.progress(0, "Starting evaluation...")
+    #         st.session_state.sql_running = True
+            
+    #         # Method 1: Using a synchronous wrapper function
+    #         def run_evaluation(config, csv_path):
+    #             """Synchronous wrapper for the async evaluation function"""
+    #             loop = asyncio.new_event_loop()
+    #             asyncio.set_event_loop(loop)
+    #             try:
+    #                 return loop.run_until_complete(run_evaluation_async(config, csv_path))
+    #             finally:
+    #                 loop.close()
+            
+    #         # Run the evaluation in the current thread (this will block the UI until complete)
+    #         run_evaluation(config, temp_csv)
+                
+            
+    #     # Display tabs for results
+    #     if st.session_state.sql_running or st.session_state.sql_evaluation_results:
+    #         tabs = st.tabs(["Evaluation Results", "Model Comparison", "Best Model", "Hyperparameter Tuning", "Sample Queries"])
+            
+    #         # Tab 1: Evaluation Results Table
+    #         with tabs[0]:
+    #             if st.session_state.sql_evaluation_results:
+    #                 st.header("Model Evaluation Results")
+                    
+    #                 # Create a DataFrame for metrics
+    #                 metrics_data = []
+                    
+    #                 for model_name, eval_data in st.session_state.sql_evaluation_results.items():
+    #                     metrics = eval_data["metrics"]
+    #                     responses = eval_data["responses"]
+                        
+    #                     # Calculate average latency
+    #                     latencies = [r["latency"] for r in responses]
+    #                     avg_latency = sum(latencies) / len(latencies) if latencies else 0
+                        
+    #                     metrics_data.append({
+    #                         "Model": model_name,
+    #                         "Execution Match (%)": round(metrics["execution_match_rate"], 2),
+    #                         "Exact Match (%)": round(metrics["exact_match_rate"], 2),
+    #                         "Avg. Latency (s)": round(avg_latency, 3),
+    #                         "Samples": len(responses)
+    #                     })
+                    
+    #                 metrics_df = pd.DataFrame(metrics_data)
+    #                 st.dataframe(metrics_df, use_container_width=True)
+                    
+    #                 if st.session_state.sql_best_model:
+    #                     st.success(f"Best model: {st.session_state.sql_best_model}")
+    #             else:
+    #                 st.info("Running evaluation..." if st.session_state.sql_running else "Run evaluation to see results")
+            
+    #         # Tab 2: Model Comparison Charts
+    #         with tabs[1]:
+    #             if st.session_state.sql_evaluation_results:
+    #                 st.header("Model Comparison")
+                    
+    #                 # Prepare data for visualization
+    #                 models = []
+    #                 exec_match = []
+    #                 exact_match = []
+    #                 latencies = []
+                    
+    #                 for model_name, eval_data in st.session_state.sql_evaluation_results.items():
+    #                     metrics = eval_data["metrics"]
+    #                     responses = eval_data["responses"]
+                        
+    #                     # Calculate average latency
+    #                     avg_latency = sum([r["latency"] for r in responses]) / len(responses) if responses else 0
+                        
+    #                     models.append(model_name)
+    #                     exec_match.append(metrics["execution_match_rate"])
+    #                     exact_match.append(metrics["exact_match_rate"])
+    #                     latencies.append(avg_latency)
+                    
+    #                 # Create charts
+    #                 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+                    
+    #                 # Match rates chart
+    #                 x = range(len(models))
+    #                 width = 0.35
+                    
+    #                 ax1.bar([i - width/2 for i in x], exec_match, width, label='Execution Match (%)')
+    #                 ax1.bar([i + width/2 for i in x], exact_match, width, label='Exact Match (%)')
+    #                 ax1.set_xticks(x)
+    #                 ax1.set_xticklabels(models, rotation=45, ha='right')
+    #                 ax1.set_ylabel('Match Rate (%)')
+    #                 ax1.set_title('Model Match Rates')
+    #                 ax1.legend()
+    #                 ax1.grid(True, linestyle='--', alpha=0.7)
+                    
+    #                 # Latency chart
+    #                 ax2.bar(models, latencies, color='orange')
+    #                 ax2.set_xticklabels(models, rotation=45, ha='right')
+    #                 ax2.set_ylabel('Average Latency (s)')
+    #                 ax2.set_title('Model Latency')
+    #                 ax2.grid(True, linestyle='--', alpha=0.7)
+                    
+    #                 plt.tight_layout()
+    #                 st.pyplot(fig)
+    #             else:
+    #                 st.info("Running evaluation..." if st.session_state.sql_running else "Run evaluation to see results")
+            
+    #         # Tab 3: Best Model Details
+    #         with tabs[2]:
+    #             if st.session_state.sql_best_model:
+    #                 st.header(f"Best Model: {st.session_state.sql_best_model}")
+                    
+    #                 best_model_data = st.session_state.sql_evaluation_results[st.session_state.sql_best_model]
+    #                 metrics = best_model_data["metrics"]
+                    
+    #                 col1, col2, col3 = st.columns(3)
+    #                 col1.metric("Execution Match Rate", f"{metrics['execution_match_rate']:.2f}%")
+    #                 col2.metric("Exact Match Rate", f"{metrics['exact_match_rate']:.2f}%")
+                    
+    #                 responses = best_model_data["responses"]
+    #                 avg_latency = sum([r["latency"] for r in responses]) / len(responses) if responses else 0
+    #                 col3.metric("Average Latency", f"{avg_latency:.3f}s")
+                    
+    #                 # Show confidence distribution
+    #                 st.subheader("Confidence Distribution")
+    #                 confidences = [r["confidence"] for r in responses]
+                    
+    #                 fig, ax = plt.subplots(figsize=(10, 5))
+    #                 ax.hist(confidences, bins=10, alpha=0.7)
+    #                 ax.set_xlabel('Confidence')
+    #                 ax.set_ylabel('Count')
+    #                 ax.grid(True, linestyle='--', alpha=0.7)
+    #                 st.pyplot(fig)
+    #             else:
+    #                 st.info("Running evaluation..." if st.session_state.sql_running else "Run evaluation to see results")
+    #         # Tab 4: Hyperparameter Tuning Results
+    #         with tabs[3]:
+    #             if st.session_state.sql_best_params:
+    #                 st.header("Hyperparameter Tuning Results")
+                    
+    #                 col1, col2 = st.columns(2)
+    #                 col1.metric("Best Temperature", f"{st.session_state.sql_best_params['temperature']:.2f}")
+    #                 col1.metric("Execution Match Rate", f"{st.session_state.sql_best_params['execution_match_rate']:.2f}%")
+                    
+    #                 # Add a section to show results for each temperature trial
+    #                 st.subheader("Temperature Trial Results")
+                    
+    #                 # Check if we have the full tuning results available in session state
+    #                 # If not, we can add a placeholder for this new feature
+    #                 if 'sql_tuning_trials' in st.session_state and st.session_state.sql_tuning_trials:
+    #                     # Create a dataframe to display all trial results
+    #                     trials_data = []
+    #                     for trial in st.session_state.sql_tuning_trials:
+    #                         trials_data.append({
+    #                             "Temperature": f"{trial['temperature']:.2f}",
+    #                             "Execution Match Rate (%)": f"{trial['execution_match_rate']:.2f}%",
+    #                             "Exact Match Rate (%)": f"{trial['exact_match_rate']:.2f}%" if 'exact_match_rate' in trial else "N/A"
+    #                         })
+                        
+    #                     # Display as a table
+    #                     st.table(pd.DataFrame(trials_data))
+                        
+    #                     # Also create a visualization for the temperature vs performance
+    #                     st.subheader("Temperature vs. Performance")
+                        
+    #                     # Create chart data
+    #                     chart_data = pd.DataFrame({
+    #                         'Temperature': [trial['temperature'] for trial in st.session_state.sql_tuning_trials],
+    #                         'Execution Match Rate (%)': [trial['execution_match_rate'] for trial in st.session_state.sql_tuning_trials]
+    #                     })
+                        
+    #                     # Create a line chart with markers
+    #                     chart = alt.Chart(chart_data).mark_line(point=True).encode(
+    #                         x=alt.X('Temperature:Q', title='Temperature'),
+    #                         y=alt.Y('Execution Match Rate (%):Q', title='Execution Match Rate (%)'),
+    #                         tooltip=['Temperature', 'Execution Match Rate (%)']
+    #                     ).properties(
+    #                         width=600,
+    #                         height=300
+    #                     )
+                        
+    #                     st.altair_chart(chart, use_container_width=True)
+    #                 else:
+    #                     st.info("Detailed temperature trial results are not available. Run evaluation again with the next version to see per-temperature performance.")
+                    
+    #                 # Show tuned vs untuned comparison if available
+    #                 if st.session_state.sql_tuning_results:
+    #                     st.subheader("Before vs After Tuning")
+                        
+    #                     before_metrics = st.session_state.sql_evaluation_results[st.session_state.sql_best_model]["metrics"]
+    #                     best_trial = max(st.session_state.sql_tuning_trials, key=lambda x: x['execution_match_rate'])
+                        
+    #                     comp_data = {
+    #                         "Metric": ["Execution Match Rate", "Exact Match Rate"],
+    #                         "Before Tuning": [
+    #                             f"{before_metrics['execution_match_rate']:.2f}%",
+    #                             f"{before_metrics['exact_match_rate']:.2f}%"
+    #                         ],
+    #                         "After Tuning": [
+    #                             f"{best_trial['execution_match_rate']:.2f}%",
+    #                             f"{best_trial.get('exact_match_rate', 0.00):.2f}%"  # Default to 0.00 if not present
+    #                         ]
+    #                     }
+    #                     # best_metrics = st.session_state.sql_best_params
+    #                     # comp_data = {
+    #                     #     "Metric": ["Execution Match Rate", "Exact Match Rate"],
+    #                     #     "Before Tuning": [
+    #                     #         f"{before_metrics['execution_match_rate']:.2f}%",
+    #                     #         f"{before_metrics['exact_match_rate']:.2f}%"
+    #                     #     ],
+    #                     #     "After Tuning": [
+    #                     #         f"{best_metrics['execution_match_rate']:.2f}%",
+    #                     #         f"{best_metrics.get('exact_match_rate', 0.00):.2f}%"  # Default to 0.00 if not present
+    #                     #     ]
+    #                     # }
+
+                        
+    #                     st.table(pd.DataFrame(comp_data))
+    #             elif enable_tuning:
+    #                 st.info("Hyperparameter tuning in progress..." if st.session_state.sql_running else "Run evaluation to see tuning results")
+    #             else:
+    #                 st.info("Hyperparameter tuning is disabled")
+
+    #         # Tab 5: Sample Queries
+    #         with tabs[4]:
+    #             if st.session_state.sql_evaluation_results:
+    #                 st.header("Sample Query Results")
+                    
+    #                 # Model selector for viewing samples
+    #                 model_to_view = st.selectbox(
+    #                     "Select model to view samples",
+    #                     list(st.session_state.sql_evaluation_results.keys()),
+    #                     key="sql_model_selector"
+    #                 )
+                    
+    #                 if model_to_view:
+    #                     responses = st.session_state.sql_evaluation_results[model_to_view]["responses"]
+                        
+    #                     # Filter options
+    #                     filter_col1, filter_col2 = st.columns(2)
+    #                     show_correct = filter_col1.checkbox("Show Correct Queries", value=True, key="sql_show_correct")
+    #                     show_incorrect = filter_col2.checkbox("Show Incorrect Queries", value=True, key="sql_show_incorrect")
+                        
+    #                     filtered_responses = [
+    #                         r for r in responses 
+    #                         if (show_correct and r["execution_match"]) or (show_incorrect and not r["execution_match"])
+    #                     ]
+                        
+    #                     # Show samples
+    #                     if filtered_responses:
+    #                         for i, response in enumerate(filtered_responses[:10]):  # Limit to 10 samples
+    #                             with st.expander(
+    #                                 f"Query {i+1}: {'✅' if response['execution_match'] else '❌'} " + 
+    #                                 response["question"][:100] + ("..." if len(response["question"]) > 100 else "")
+    #                             ):
+    #                                 st.markdown("**Question:**")
+    #                                 st.write(response["question"])
+                                    
+    #                                 st.markdown("**Generated SQL:**")
+    #                                 st.code(response["generated_sql"], language="sql")
+                                    
+    #                                 st.markdown("**Gold SQL:**")
+    #                                 st.code(response["gold_sql"], language="sql")
+                                    
+    #                                 col1, col2, col3 = st.columns(3)
+    #                                 col1.metric("Execution Match", "✅" if response["execution_match"] else "❌")
+    #                                 col2.metric("Exact Match", "✅" if response["exact_match"] else "❌")
+    #                                 col3.metric("Confidence", f"{response['confidence']:.2f}")
+    #                     else:
+    #                         st.info("No queries matching your filter criteria")
+    #             else:
+    #                 st.info("Running evaluation..." if st.session_state.sql_running else "Run evaluation to see sample queries")
     
 
 

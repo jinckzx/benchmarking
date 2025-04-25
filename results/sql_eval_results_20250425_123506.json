@@ -1,0 +1,383 @@
+{
+  "model_evaluations": {
+    "gpt-4o-mini": {
+      "metrics": {
+        "exact_match_count": "0",
+        "execution_match_count": "11",
+        "exact_match_rate": 0.0,
+        "execution_match_rate": 64.70588235294117,
+        "total": 17
+      },
+      "responses": [
+        {
+          "question": "What are the payment method codes that have been used by more than 3 parties?",
+          "db_id": "e_government",
+          "generated_sql": "SELECT payment_method_code\nFROM Parties\nGROUP BY payment_method_code\nHAVING COUNT(party_id) > 3;",
+          "gold_sql": "SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 1.0,
+          "latency": 2.786214
+        },
+        {
+          "question": "What is the average latitude and longitude of the starting points of all trips?",
+          "db_id": "bike_1",
+          "generated_sql": "BadRequestError: Error code: 400 - {'error': {'message': \"This model's maximum context length is 128000 tokens. However, your messages resulted in 1059599 tokens. Please reduce the length of the messages.\", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'context_length_exceeded'}}",
+          "gold_sql": "SELECT avg(T1.lat) ,  avg(T1.long) FROM station AS T1 JOIN trip AS T2 ON T1.id  =  T2.start_station_id",
+          "exact_match": false,
+          "execution_match": false,
+          "confidence": 0.0,
+          "latency": 2.69843
+        },
+        {
+          "question": "What are the ids of all songs that are available on mp4 or have a higher resolution than 720?",
+          "db_id": "music_1",
+          "generated_sql": "SELECT s.song_name \nFROM song s \nJOIN files f ON s.f_id = f.f_id \nWHERE f.formats = 'mp4' OR s.resolution > 720;",
+          "gold_sql": "SELECT f_id FROM files WHERE formats  =  \"mp4\" UNION SELECT f_id FROM song WHERE resolution  >  720",
+          "exact_match": false,
+          "execution_match": false,
+          "confidence": 0.95,
+          "latency": 2.008061
+        },
+        {
+          "question": "Find the names of either colleges in LA with greater than 15000 size or in state AZ with less than 13000 enrollment.",
+          "db_id": "soccer_2",
+          "generated_sql": "SELECT cName \nFROM College \nWHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000);",
+          "gold_sql": "SELECT cName FROM College WHERE enr  <  13000 AND state = \"AZ\" UNION SELECT cName FROM College WHERE enr  >  15000 AND state = \"LA\"",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 1.0,
+          "latency": 2.169463
+        },
+        {
+          "question": "List the name and phone number of all suppliers in the alphabetical order of their addresses.",
+          "db_id": "department_store",
+          "generated_sql": "SELECT s.supplier_name, s.supplier_phone\nFROM Suppliers s\nJOIN Supplier_Addresses sa ON s.supplier_id = sa.supplier_id\nJOIN Addresses a ON sa.address_id = a.address_id\nORDER BY a.address_details;",
+          "gold_sql": "SELECT T1.supplier_name ,  T1.supplier_phone FROM Suppliers AS T1 JOIN supplier_addresses AS T2 ON T1.supplier_id  =  T2.supplier_id JOIN addresses AS T3 ON T2.address_id  =  T3.address_id ORDER BY T3.address_details",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 1.0,
+          "latency": 2.9031
+        },
+        {
+          "question": "Find the first names of students with age above 22.",
+          "db_id": "voter_2",
+          "generated_sql": "SELECT Fname FROM Student WHERE Age > 22;",
+          "gold_sql": "SELECT Fname FROM STUDENT WHERE Age  >  22",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 1.0,
+          "latency": 1.56033
+        },
+        {
+          "question": "How many companies are headquartered in the US?",
+          "db_id": "company_employee",
+          "generated_sql": "SELECT COUNT(*) FROM company WHERE Headquarters = 'USA';",
+          "gold_sql": "SELECT count(*) FROM company WHERE Headquarters  =  'USA'",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 1.0,
+          "latency": 1.83292
+        },
+        {
+          "question": "Show the distinct leader names of colleges associated with members from country \"Canada\".",
+          "db_id": "decoration_competition",
+          "generated_sql": "SELECT DISTINCT c.Leader_Name\nFROM college c\nJOIN member m ON c.College_ID = m.College_ID\nWHERE m.Country = 'Canada';",
+          "gold_sql": "SELECT DISTINCT T1.Leader_Name FROM college AS T1 JOIN member AS T2 ON T1.College_ID  =  T2.College_ID WHERE T2.Country  =  \"Canada\"",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 1.0,
+          "latency": 2.086279
+        },
+        {
+          "question": "What are the distinct names of nurses on call?",
+          "db_id": "hospital_1",
+          "generated_sql": "SELECT DISTINCT N.Name \nFROM Nurse N\nJOIN On_Call OC ON N.EmployeeID = OC.Nurse;",
+          "gold_sql": "SELECT DISTINCT T1.name FROM nurse AS T1 JOIN on_call AS T2 ON T1.EmployeeID  =  T2.nurse",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 1.0,
+          "latency": 2.013922
+        },
+        {
+          "question": "Find the purchase time, age and address of each member, and show the results in the order of purchase time.",
+          "db_id": "coffee_shop",
+          "generated_sql": "SELECT Time_of_purchase, Age, Address \nFROM member \nORDER BY Time_of_purchase;",
+          "gold_sql": "SELECT Time_of_purchase ,  age ,  address FROM member ORDER BY Time_of_purchase",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 1.0,
+          "latency": 1.45642
+        },
+        {
+          "question": "What is the name and description for document type code RV?",
+          "db_id": "cre_Doc_Tracking_DB",
+          "generated_sql": "SELECT Document_Type_Name, Document_Type_Description \nFROM Ref_Document_Types \nWHERE Document_Type_Code = 'RV';",
+          "gold_sql": "SELECT document_type_name ,  document_type_description FROM Ref_document_types WHERE document_type_code  =  \"RV\"",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 1.0,
+          "latency": 1.912662
+        },
+        {
+          "question": "What are the names of the artists who sang the shortest song?",
+          "db_id": "music_1",
+          "generated_sql": "SELECT artist_name \nFROM song \nWHERE duration = (SELECT MIN(duration) FROM song);",
+          "gold_sql": "SELECT T1.artist_name FROM song AS T1 JOIN files AS T2 ON T1.f_id  =  T2.f_id ORDER BY T2.duration LIMIT 1",
+          "exact_match": false,
+          "execution_match": false,
+          "confidence": 0.95,
+          "latency": 1.616529
+        },
+        {
+          "question": "Who are the different players, what season do they play in, and what is the name of the team they are on?",
+          "db_id": "match_season",
+          "generated_sql": "SELECT p.Player, ms.Season, t.Name AS Team\nFROM player p\nJOIN team t ON p.Team = t.Team_id\nJOIN match_season ms ON p.Team = ms.Team;",
+          "gold_sql": "SELECT T1.Season ,  T1.Player ,  T2.Name FROM match_season AS T1 JOIN team AS T2 ON T1.Team  =  T2.Team_id",
+          "exact_match": false,
+          "execution_match": false,
+          "confidence": 1.0,
+          "latency": 6.552278
+        },
+        {
+          "question": "What are the grapes, appelations, and wines with scores above 93, sorted by Name?",
+          "db_id": "wine_1",
+          "generated_sql": "FileNotFoundError: Schema file not found: D:\\data_sci\\benchmarking_tool\\dataset\\spider_data\\spider_data\\database\\wine_1\\schema.sql",
+          "gold_sql": "SELECT Grape ,  Appelation ,  Name FROM WINE WHERE Score  >  93 ORDER BY Name",
+          "exact_match": false,
+          "execution_match": false,
+          "confidence": 0.0,
+          "latency": 0.0
+        },
+        {
+          "question": "Please show the categories of the music festivals with count more than 1.",
+          "db_id": "music_4",
+          "generated_sql": "SELECT Category, COUNT(*) as Count\nFROM music_festival\nGROUP BY Category\nHAVING COUNT(*) > 1;",
+          "gold_sql": "SELECT Category FROM music_festival GROUP BY Category HAVING COUNT(*)  >  1",
+          "exact_match": false,
+          "execution_match": false,
+          "confidence": 1.0,
+          "latency": 3.967218
+        },
+        {
+          "question": "What are the invoice numbers created before 1989-09-03 or after 2007-12-25?",
+          "db_id": "tracking_orders",
+          "generated_sql": "SELECT invoice_number \nFROM Invoices \nWHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25';",
+          "gold_sql": "SELECT invoice_number FROM invoices WHERE invoice_date < \"1989-09-03\" OR invoice_date > \"2007-12-25\"",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 1.0,
+          "latency": 4.039003
+        },
+        {
+          "question": "Find the total account balance of each customer from Utah or Texas.",
+          "db_id": "loan_1",
+          "generated_sql": "SELECT SUM(acc_bal) AS total_account_balance\nFROM customer\nWHERE state IN ('Utah', 'Texas');",
+          "gold_sql": "SELECT sum(acc_bal) FROM customer WHERE state  =  'Utah' OR state  =  'Texas'",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 1.0,
+          "latency": 1.825775
+        }
+      ]
+    },
+    "gpt-3.5-turbo": {
+      "metrics": {
+        "exact_match_count": "0",
+        "execution_match_count": "11",
+        "exact_match_rate": 0.0,
+        "execution_match_rate": 64.70588235294117,
+        "total": 17
+      },
+      "responses": [
+        {
+          "question": "What are the payment method codes that have been used by more than 3 parties?",
+          "db_id": "e_government",
+          "generated_sql": "SELECT payment_method_code\nFROM Parties\nGROUP BY payment_method_code\nHAVING COUNT(DISTINCT party_id) > 3;",
+          "gold_sql": "SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 0.95,
+          "latency": 2.205197
+        },
+        {
+          "question": "What is the average latitude and longitude of the starting points of all trips?",
+          "db_id": "bike_1",
+          "generated_sql": "BadRequestError: Error code: 400 - {'error': {'message': \"This model's maximum context length is 16385 tokens. However, your messages resulted in 1061462 tokens. Please reduce the length of the messages.\", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'context_length_exceeded'}}",
+          "gold_sql": "SELECT avg(T1.lat) ,  avg(T1.long) FROM station AS T1 JOIN trip AS T2 ON T1.id  =  T2.start_station_id",
+          "exact_match": false,
+          "execution_match": false,
+          "confidence": 0.0,
+          "latency": 2.46629
+        },
+        {
+          "question": "What are the ids of all songs that are available on mp4 or have a higher resolution than 720?",
+          "db_id": "music_1",
+          "generated_sql": "SELECT f_id\nFROM files\nWHERE formats = 'mp4'\nUNION\nSELECT f_id\nFROM song\nWHERE resolution > 720;",
+          "gold_sql": "SELECT f_id FROM files WHERE formats  =  \"mp4\" UNION SELECT f_id FROM song WHERE resolution  >  720",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 0.95,
+          "latency": 1.299717
+        },
+        {
+          "question": "Find the names of either colleges in LA with greater than 15000 size or in state AZ with less than 13000 enrollment.",
+          "db_id": "soccer_2",
+          "generated_sql": "SELECT cName\nFROM College\nWHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000);",
+          "gold_sql": "SELECT cName FROM College WHERE enr  <  13000 AND state = \"AZ\" UNION SELECT cName FROM College WHERE enr  >  15000 AND state = \"LA\"",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 0.95,
+          "latency": 1.087111
+        },
+        {
+          "question": "List the name and phone number of all suppliers in the alphabetical order of their addresses.",
+          "db_id": "department_store",
+          "generated_sql": "SELECT supplier_name, supplier_phone\nFROM Suppliers\nJOIN Supplier_Addresses ON Suppliers.supplier_id = Supplier_Addresses.supplier_id\nJOIN Addresses ON Supplier_Addresses.address_id = Addresses.address_id\nORDER BY Addresses.address_details;",
+          "gold_sql": "SELECT T1.supplier_name ,  T1.supplier_phone FROM Suppliers AS T1 JOIN supplier_addresses AS T2 ON T1.supplier_id  =  T2.supplier_id JOIN addresses AS T3 ON T2.address_id  =  T3.address_id ORDER BY T3.address_details",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 0.95,
+          "latency": 1.731693
+        },
+        {
+          "question": "Find the first names of students with age above 22.",
+          "db_id": "voter_2",
+          "generated_sql": "SELECT Fname\nFROM Student\nWHERE Age > 22;",
+          "gold_sql": "SELECT Fname FROM STUDENT WHERE Age  >  22",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 0.95,
+          "latency": 1.366067
+        },
+        {
+          "question": "How many companies are headquartered in the US?",
+          "db_id": "company_employee",
+          "generated_sql": "SELECT COUNT(*) FROM company WHERE Headquarters = 'USA';",
+          "gold_sql": "SELECT count(*) FROM company WHERE Headquarters  =  'USA'",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 0.95,
+          "latency": 0.86568
+        },
+        {
+          "question": "Show the distinct leader names of colleges associated with members from country \"Canada\".",
+          "db_id": "decoration_competition",
+          "generated_sql": "SELECT DISTINCT c.Leader_Name\nFROM college c\nJOIN member m ON c.College_ID = m.College_ID\nWHERE m.Country = 'Canada';",
+          "gold_sql": "SELECT DISTINCT T1.Leader_Name FROM college AS T1 JOIN member AS T2 ON T1.College_ID  =  T2.College_ID WHERE T2.Country  =  \"Canada\"",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 0.95,
+          "latency": 5.169462
+        },
+        {
+          "question": "What are the distinct names of nurses on call?",
+          "db_id": "hospital_1",
+          "generated_sql": "SELECT DISTINCT Name\nFROM Nurse\nJOIN On_Call ON Nurse.EmployeeID = On_Call.Nurse;",
+          "gold_sql": "SELECT DISTINCT T1.name FROM nurse AS T1 JOIN on_call AS T2 ON T1.EmployeeID  =  T2.nurse",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 0.95,
+          "latency": 3.650846
+        },
+        {
+          "question": "Find the purchase time, age and address of each member, and show the results in the order of purchase time.",
+          "db_id": "coffee_shop",
+          "generated_sql": "SELECT \"Time_of_purchase\", \"Age\", \"Address\" FROM \"member\" ORDER BY \"Time_of_purchase\";",
+          "gold_sql": "SELECT Time_of_purchase ,  age ,  address FROM member ORDER BY Time_of_purchase",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 0.95,
+          "latency": 2.076701
+        },
+        {
+          "question": "What is the name and description for document type code RV?",
+          "db_id": "cre_Doc_Tracking_DB",
+          "generated_sql": "SELECT Document_Type_Name, Document_Type_Description\nFROM Ref_Document_Types\nWHERE Document_Type_Code = 'RV';",
+          "gold_sql": "SELECT document_type_name ,  document_type_description FROM Ref_document_types WHERE document_type_code  =  \"RV\"",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 0.95,
+          "latency": 3.358633
+        },
+        {
+          "question": "What are the names of the artists who sang the shortest song?",
+          "db_id": "music_1",
+          "generated_sql": "SELECT artist_name\nFROM song\nWHERE duration = (SELECT MIN(duration) FROM files);",
+          "gold_sql": "SELECT T1.artist_name FROM song AS T1 JOIN files AS T2 ON T1.f_id  =  T2.f_id ORDER BY T2.duration LIMIT 1",
+          "exact_match": false,
+          "execution_match": false,
+          "confidence": 0.85,
+          "latency": 2.922616
+        },
+        {
+          "question": "Who are the different players, what season do they play in, and what is the name of the team they are on?",
+          "db_id": "match_season",
+          "generated_sql": "SELECT player.Player, match_season.Season, team.Name\nFROM player\nJOIN match_season ON player.Team = match_season.Team\nJOIN team ON player.Team = team.Team_id;",
+          "gold_sql": "SELECT T1.Season ,  T1.Player ,  T2.Name FROM match_season AS T1 JOIN team AS T2 ON T1.Team  =  T2.Team_id",
+          "exact_match": false,
+          "execution_match": false,
+          "confidence": 0.95,
+          "latency": 1.968241
+        },
+        {
+          "question": "What are the grapes, appelations, and wines with scores above 93, sorted by Name?",
+          "db_id": "wine_1",
+          "generated_sql": "FileNotFoundError: Schema file not found: D:\\data_sci\\benchmarking_tool\\dataset\\spider_data\\spider_data\\database\\wine_1\\schema.sql",
+          "gold_sql": "SELECT Grape ,  Appelation ,  Name FROM WINE WHERE Score  >  93 ORDER BY Name",
+          "exact_match": false,
+          "execution_match": false,
+          "confidence": 0.0,
+          "latency": 0.0
+        },
+        {
+          "question": "Please show the categories of the music festivals with count more than 1.",
+          "db_id": "music_4",
+          "generated_sql": "SELECT \"Category\", COUNT(\"Category\") AS \"Category_Count\"\nFROM \"music_festival\"\nGROUP BY \"Category\"\nHAVING COUNT(\"Category\") > 1;",
+          "gold_sql": "SELECT Category FROM music_festival GROUP BY Category HAVING COUNT(*)  >  1",
+          "exact_match": false,
+          "execution_match": false,
+          "confidence": 0.95,
+          "latency": 2.394435
+        },
+        {
+          "question": "What are the invoice numbers created before 1989-09-03 or after 2007-12-25?",
+          "db_id": "tracking_orders",
+          "generated_sql": "SELECT invoice_number\nFROM Invoices\nWHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25';",
+          "gold_sql": "SELECT invoice_number FROM invoices WHERE invoice_date < \"1989-09-03\" OR invoice_date > \"2007-12-25\"",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 0.95,
+          "latency": 1.241807
+        },
+        {
+          "question": "Find the total account balance of each customer from Utah or Texas.",
+          "db_id": "loan_1",
+          "generated_sql": "SELECT cust_name, SUM(acc_bal) AS total_account_balance\nFROM customer\nWHERE state IN ('Utah', 'Texas')\nGROUP BY cust_name;",
+          "gold_sql": "SELECT sum(acc_bal) FROM customer WHERE state  =  'Utah' OR state  =  'Texas'",
+          "exact_match": false,
+          "execution_match": false,
+          "confidence": 0.95,
+          "latency": 7.313516
+        }
+      ]
+    }
+  },
+  "best_model": "gpt-3.5-turbo",
+  "best_params": {
+    "temperature": 0.0,
+    "execution_match_rate": 64.70588235294117
+  },
+  "model_metrics": {
+    "gpt-4o-mini": {
+      "execution_match_rate": 64.70588235294117,
+      "exact_match_rate": 0.0,
+      "avg_latency": 2.436976705882353
+    },
+    "gpt-3.5-turbo": {
+      "execution_match_rate": 64.70588235294117,
+      "exact_match_rate": 0.0,
+      "avg_latency": 2.418706588235294
+    }
+  }
+}
