@@ -4720,3 +4720,56 @@
 2025-04-29 10:11:27 - llm_consortium - INFO - runner_class:114 - Iteration 1/3 for question
 2025-04-29 10:11:36 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.38, Confidence: 0.90
 2025-04-29 10:11:36 - llm_consortium - INFO - runner_class:229 - Results exported to classification_results_20250429100840.csv
+2025-04-29 13:35:34 - llm_consortium - INFO - sql_model_runner:343 - Evaluating model: gpt-4o-mini
+2025-04-29 13:35:39 - llm_consortium - ERROR - sql_model_runner:318 - Query failed
+2025-04-29 13:35:56 - llm_consortium - ERROR - sql_model_runner:318 - Query failed
+2025-04-29 13:36:00 - llm_consortium - INFO - sql_model_runner:389 - Model gpt-4o-mini - Execution Match: 70.59%
+2025-04-29 13:36:00 - llm_consortium - INFO - sql_model_runner:343 - Evaluating model: gpt-3.5-turbo
+2025-04-29 13:36:04 - llm_consortium - ERROR - sql_model_runner:318 - Query failed
+2025-04-29 13:36:20 - llm_consortium - ERROR - sql_model_runner:318 - Query failed
+2025-04-29 13:36:24 - llm_consortium - INFO - sql_model_runner:389 - Model gpt-3.5-turbo - Execution Match: 64.71%
+2025-04-29 13:36:24 - llm_consortium - INFO - sql_model_runner:467 - Starting hyperparameter tuning for model: gpt-4o-mini
+2025-04-29 13:36:24 - llm_consortium - INFO - hyperparameter_tuner:84 - Testing temperatures: [0.0, 0.2, 0.4, 0.6, 0.8]
+2025-04-29 13:36:27 - llm_consortium - ERROR - sql_model_runner:318 - Query failed
+2025-04-29 13:36:28 - llm_consortium - ERROR - sql_model_runner:318 - Query failed
+2025-04-29 13:36:29 - llm_consortium - ERROR - sql_model_runner:318 - Query failed
+2025-04-29 13:36:29 - llm_consortium - ERROR - sql_model_runner:318 - Query failed
+2025-04-29 13:36:29 - llm_consortium - ERROR - sql_model_runner:318 - Query failed
+2025-04-29 13:36:41 - llm_consortium - INFO - hyperparameter_tuner:113 - Temperature tuning results:
+2025-04-29 13:36:41 - llm_consortium - INFO - hyperparameter_tuner:115 -   Temperature 0.0: 90.00%
+2025-04-29 13:36:41 - llm_consortium - INFO - hyperparameter_tuner:115 -   Temperature 0.2: 90.00%
+2025-04-29 13:36:41 - llm_consortium - INFO - hyperparameter_tuner:115 -   Temperature 0.4: 90.00%
+2025-04-29 13:36:41 - llm_consortium - INFO - hyperparameter_tuner:115 -   Temperature 0.6: 90.00%
+2025-04-29 13:36:41 - llm_consortium - INFO - hyperparameter_tuner:115 -   Temperature 0.8: 90.00%
+2025-04-29 13:36:41 - llm_consortium - INFO - sql_model_runner:485 - Best parameters for gpt-4o-mini: {'temperature': 0.0, 'execution_match_rate': np.float64(90.0)}
+2025-04-29 13:36:41 - llm_consortium - INFO - sql_model_runner:414 - Running final evaluation for gpt-4o-mini with tuned parameters: {'temperature': 0.0, 'execution_match_rate': np.float64(90.0)}
+2025-04-29 13:36:45 - llm_consortium - ERROR - sql_model_runner:318 - Query failed
+2025-04-29 13:37:04 - llm_consortium - ERROR - sql_model_runner:318 - Query failed
+2025-04-29 14:21:46 - llm_consortium - INFO - sql_model_runner:409 - Evaluating model: gpt-4o-mini
+2025-04-29 14:22:03 - llm_consortium - ERROR - sql_model_runner:385 - Query failed
+2025-04-29 14:22:22 - llm_consortium - ERROR - sql_model_runner:385 - Query failed
+2025-04-29 14:22:27 - llm_consortium - INFO - sql_model_runner:455 - Model gpt-4o-mini evaluation complete. Execution match rate: 70.59%, Exact match rate: 0.00%
+2025-04-29 14:22:27 - llm_consortium - INFO - sql_model_runner:409 - Evaluating model: gpt-3.5-turbo
+2025-04-29 14:22:40 - llm_consortium - ERROR - sql_model_runner:385 - Query failed
+2025-04-29 14:22:53 - llm_consortium - ERROR - sql_model_runner:385 - Query failed
+2025-04-29 14:22:57 - llm_consortium - INFO - sql_model_runner:455 - Model gpt-3.5-turbo evaluation complete. Execution match rate: 58.82%, Exact match rate: 0.00%
+2025-04-29 14:22:57 - llm_consortium - INFO - sql_model_runner:468 - Tuning hyperparameters for model: gpt-4o-mini
+2025-04-29 14:22:57 - llm_consortium - INFO - hyperparameter_tuner:207 - Testing temperatures: [0.0, 0.27, 0.53, 0.8]
+2025-04-29 14:23:02 - llm_consortium - ERROR - sql_model_runner:385 - Query failed
+2025-04-29 14:23:02 - llm_consortium - ERROR - sql_model_runner:385 - Query failed
+2025-04-29 14:23:03 - llm_consortium - ERROR - sql_model_runner:385 - Query failed
+2025-04-29 14:23:06 - llm_consortium - ERROR - sql_model_runner:385 - Query failed
+2025-04-29 14:23:18 - llm_consortium - ERROR - sql_model_runner:385 - Query failed
+2025-04-29 14:23:21 - llm_consortium - ERROR - sql_model_runner:385 - Query failed
+2025-04-29 14:23:23 - llm_consortium - ERROR - sql_model_runner:385 - Query failed
+2025-04-29 14:23:24 - llm_consortium - ERROR - sql_model_runner:385 - Query failed
+2025-04-29 14:23:28 - llm_consortium - INFO - hyperparameter_tuner:236 - Temperature tuning results:
+2025-04-29 14:23:28 - llm_consortium - INFO - hyperparameter_tuner:238 -   Temperature 0.0: 70.59%
+2025-04-29 14:23:28 - llm_consortium - INFO - hyperparameter_tuner:238 -   Temperature 0.27: 70.59%
+2025-04-29 14:23:28 - llm_consortium - INFO - hyperparameter_tuner:238 -   Temperature 0.53: 70.59%
+2025-04-29 14:23:28 - llm_consortium - INFO - hyperparameter_tuner:238 -   Temperature 0.8: 70.59%
+2025-04-29 14:23:28 - llm_consortium - INFO - sql_model_runner:488 - Tuning complete. Best temperature: 0.0
+2025-04-29 14:23:28 - llm_consortium - INFO - sql_model_runner:498 - Running final evaluation for gpt-4o-mini with temperature 0.0
+2025-04-29 14:23:44 - llm_consortium - ERROR - sql_model_runner:385 - Query failed
+2025-04-29 14:24:03 - llm_consortium - ERROR - sql_model_runner:385 - Query failed
+2025-04-29 14:24:08 - llm_consortium - INFO - sql_model_runner:551 - Tuned model evaluation complete. Execution match rate: 70.59%, Exact match rate: 0.00%
