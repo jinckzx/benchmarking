@@ -4,18 +4,3 @@ music_musical_theme,How many unique labels are there for albums?
 book,What is the number of distinct publication dates?
 book,List the writers who have written more than one book.
 music_musical_theme,"What are the names of all songs produced by the artist with the first name ""Marianne""?"
-music_musical_theme,How many songs use drums as an instrument?
-bike,Find the ids and names of stations from which at least 200 trips started.
-student,Find distinct cities of address of students?
-music_musical_theme,Find all the vocal types.
-bike,"For each trip, return its ending station's installation date."
-music_musical_theme,"What are the names and year of joining for artists that do not have the country ""United States""?"
-farm,What is the most common status across all cities?
-student,How many courses do the student whose id is 171 attend?
-student,What are the ids of the students who registered course statistics by order of registration date?
-music_musical_theme,Find the name of songs that does not have a back vocal.
-student,What are the different cities where people live?
-farm,List the total number of horses on farms in ascending order.
-music_musical_theme,What is the maximum and minimum resolution of all songs that are approximately 3 minutes long?
-music_musical_theme,Find the names of the artists who are from Bangladesh and have never received rating higher than 7.
-music_musical_theme,Show theme and year for all exhibitions in an descending order of ticket price.

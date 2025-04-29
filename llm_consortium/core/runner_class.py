@@ -11,7 +11,7 @@ from ..utils.prompt_utils import read_iteration_prompt_class, read_system_prompt
 from ..utils.logging import logger
 from ..database.synthesis_class_db import ClassificationSynthesisLogger
 from .client_init import llm
-from .metrics_class import ClassificationMetricsHandler
+from llm_consortium.metrics.metrics_class import ClassificationMetricsHandler
 
 class ConsortiumRunnerClass:
     def __init__(self):
@@ -174,7 +174,7 @@ class ConsortiumRunnerClass:
                         **synthesis,
                         "raw_responses": responses,
                         "iterations": iteration + 1,
-                        "true_class": true_class,
+                        "ground_truth": true_class,
                         "question": question  
                     }
                     final_results.append(final_result)

@@ -1659,15 +1659,15 @@ def classification_page():
 
                 # Display metrics if available
                 if "metrics" in result and result["metrics"]:
-                    metrics = result["metrics"]
-                    
+                    metrics = result["metrics"]["arbiter"]
+
                     col1, col2, col3 = st.columns(3)
                     with col1:
                         st.metric("Accuracy", f"{metrics.get('accuracy', 0):.2%}")
                     with col2:
-                        st.metric("Macro F1", f"{metrics.get('macro_f1', 0):.4f}")
+                        st.metric("F1", f"{metrics.get('f1', 0):.4f}")
                     with col3:
-                        st.metric("Weighted F1", f"{metrics.get('weighted_f1', 0):.4f}")
+                        st.metric("Recall", f"{metrics.get('recall', 0):.4f}")
                     
                     # Add confusion matrix if available
                     if "confusion_matrix" in metrics:
@@ -1723,10 +1723,17 @@ def classification_page():
                                 best_temp = best_result.get('temperature')
                                 best_conf = best_result.get('confidence')
                                 
+                                if 'final_class' in trial_df.columns:
+                                    trial_df = trial_df.dropna(subset=['final_class'])
+                                    trial_df['final_class'] = trial_df['final_class'].astype(str)
+                                    tooltip_fields = ['temperature', 'confidence', 'final_class']
+                                else:
+                                    tooltip_fields = ['temperature', 'confidence']
+
                                 chart = alt.Chart(trial_df).mark_line().encode(
                                     x=alt.X('temperature:Q', title='Temperature'),
                                     y=alt.Y('confidence:Q', title='Confidence'),
-                                    tooltip=['temperature', 'confidence', 'final_class']
+                                    tooltip=tooltip_fields
                                 ).properties(title="Temperature vs Confidence", height=300)
                                 
                                 # Add a marker for the best point
@@ -1799,6 +1806,8 @@ def classification_page():
                 st.error(f"Error running classification consortium: {str(e)}")
                 import traceback
                 st.code(traceback.format_exc(), language="python")
+
+
 def text2sql_ui():
     import os
     import matplotlib.pyplot as plt

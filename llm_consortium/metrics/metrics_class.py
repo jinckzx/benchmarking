@@ -6,7 +6,7 @@ import os
 venv_site_packages = os.path.join(os.path.dirname(sys.executable), 'Lib', 'site-packages')
 if venv_site_packages not in sys.path:
     sys.path.insert(0, venv_site_packages)
-from typing import List, Dict
+from typing import List, Dict, Union
 import pandas as pd
 from sklearn.metrics import classification_report
 from deepeval.metrics import HallucinationMetric, ContextualRelevancyMetric
@@ -32,9 +32,21 @@ class ClassificationMetricsHandler:
         self.test_cases = test_cases
         return test_cases
 
-    def calculate_metrics(self, results_df: pd.DataFrame) -> Dict:
+    def calculate_metrics(self, results: Union[pd.DataFrame, List[Dict]]) -> Dict:
         """Calculate traditional classification metrics"""
         metrics = {}
+
+        # Convert list to DataFrame if needed
+        if isinstance(results, list):
+            results_df = pd.DataFrame([{
+                'question': r["question"],
+                'ground_truth': r["ground_truth"],
+                **{f'model_{i}': resp["predicted_class"] 
+                   for i, resp in enumerate(r["raw_responses"])},
+                'arbiter': r["best"]["final_class"]
+            } for r in results])
+        else:
+            results_df = results
         
         # Model-level metrics
         model_cols = [col for col in results_df.columns if col.startswith("model_")]
@@ -80,8 +92,8 @@ class ClassificationMetricsHandler:
             'question': r["question"],
             'ground_truth': r["ground_truth"],
             **{f'model_{i}': resp["predicted_class"] 
-               for i, resp in enumerate(r["model_responses"])},
-            'arbiter': r["arbiter_decision"]["predicted_class"]
+               for i, resp in enumerate(r["raw_responses"])},
+            'arbiter': r["best"]["final_class"]
         } for r in results])
         
         # Create test cases

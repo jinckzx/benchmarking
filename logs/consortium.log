@@ -4773,3 +4773,36 @@
 2025-04-29 14:23:44 - llm_consortium - ERROR - sql_model_runner:385 - Query failed
 2025-04-29 14:24:03 - llm_consortium - ERROR - sql_model_runner:385 - Query failed
 2025-04-29 14:24:08 - llm_consortium - INFO - sql_model_runner:551 - Tuned model evaluation complete. Execution match rate: 70.59%, Exact match rate: 0.00%
+2025-04-29 16:32:46 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-29 16:32:50 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.61, Confidence: 0.95
+2025-04-29 16:32:50 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-29 16:32:54 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.64, Confidence: 0.95
+2025-04-29 16:32:54 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-29 16:32:57 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.70, Confidence: 0.75
+2025-04-29 16:32:57 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-29 16:33:01 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.20, Confidence: 0.85
+2025-04-29 16:33:01 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-29 16:33:09 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.78, Confidence: 0.95
+2025-04-29 16:33:09 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-29 16:33:12 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.44, Confidence: 0.95
+2025-04-29 16:33:12 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-29 16:33:17 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.75, Confidence: 0.90
+2025-04-29 16:33:17 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-29 16:33:22 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.37, Confidence: 0.90
+2025-04-29 16:33:22 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-29 16:33:26 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.54, Confidence: 0.98
+2025-04-29 16:33:26 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-29 16:33:30 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.61, Confidence: 0.90
+2025-04-29 16:33:30 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-29 16:37:10 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-29 16:37:15 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.80, Confidence: 0.95
+2025-04-29 16:37:15 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-29 16:37:19 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.42, Confidence: 0.90
+2025-04-29 16:37:19 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-29 16:37:23 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.48, Confidence: 0.90
+2025-04-29 16:37:23 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-29 16:37:26 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.87, Confidence: 0.95
+2025-04-29 16:37:26 - llm_consortium - INFO - runner_class:114 - Iteration 1/1 for question
+2025-04-29 16:37:30 - llm_consortium - INFO - runner_class:162 - Iteration 1 Best Synthesis - Temp: 0.40, Confidence: 0.95
+2025-04-29 16:37:30 - llm_consortium - INFO - runner_class:229 - Results exported to classification_results_20250429163710.csv
+2025-04-29 16:37:30 - llm_consortium - INFO - runner_class:235 - Metrics exported to classification_results_20250429163710_metrics.csv
