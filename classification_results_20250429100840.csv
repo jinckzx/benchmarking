@@ -1,0 +1,148 @@
+question,predicted_class,confidence,iterations,temperature,reasoning,true_class,is_correct
+Find the last names of the students in third grade that are not taught by COVIN JEROME.,student,1.0,1,0.47,"The question's context clearly revolves around student data in a specific grade level, particularly focusing on last names and teacher information. Given the unanimous agreement among the models and the strong alignment of the question with student-related data, the most appropriate database category is 'student.'
+
+### Final Class:
+student
+
+### Confidence Score:
+1.00",student,True
+How many unique labels are there for albums?,music_musical_theme,0.95,1,0.48,"The consensus between the two models on categorizing the question under ""music_musical_theme"" is strong. The direct association of albums with music and the concept of unique labels in the context of music albums make this classification the most appropriate choice.
+
+### Final Class:
+music_musical_theme
+
+### Confidence Score:
+0.95",music_musical_theme,True
+What is the number of distinct publication dates?,book,0.95,1,0.1,"Given the unanimous agreement between the models and the strong reasoning provided for the 'book' category's relevance to publication dates, it is clear that this is the most appropriate classification for the question.
+
+### Final Class:
+book
+
+### Confidence Score:
+0.95",book,True
+List the writers who have written more than one book.,book,0.95,1,0.52,"The question specifically focuses on identifying writers based on the number of books they have written, making it a clear fit for the 'book' category. The relationship between writers and their works aligns with the domain of books, as indicated by the models' reasoning.
+
+### Final Class:
+book
+
+### Confidence Score:
+0.95",book,True
+"What are the names of all songs produced by the artist with the first name ""Marianne""?",music_musical_theme,1.0,1,0.6,"The models' reasoning aligns well with the question requirements, focusing on songs produced by an artist named ""Marianne."" The classification ""music_musical_theme"" accurately captures the essence of the query, emphasizing the connection between the artist's name and the songs produced.
+
+### Final Class:
+music_musical_theme
+
+### Confidence Score:
+1.00",music_musical_theme,True
+How many songs use drums as an instrument?,music_musical_theme,1.0,1,0.17,"Both models correctly interpret the question and identify the most suitable category, ""music_musical_theme,"" based on the context provided. The question's clear focus on songs and drums as musical instruments aligns well with this classification.
+
+### Final Class:
+music_musical_theme
+
+### Confidence Score:
+1.00",music_musical_theme,True
+Find the ids and names of stations from which at least 200 trips started.,bike,0.95,1,0.27,"The strong alignment between the terms ""trips,"" ""stations,"" and the operational context of bike-sharing systems supports the classification under the 'bike' category. The emphasis on trips starting from stations further solidifies the relevance of bike-sharing databases in this context.
+
+### Final Class:
+bike
+
+### Confidence Score:
+0.95",bike,True
+Find distinct cities of address of students?,student,0.98,1,0.67,"Considering the explicit mention of students and their addresses in the question, as well as the emphasis on finding distinct cities, the most appropriate database classification is 'student.'
+
+### Final Class:
+student
+
+### Confidence Score:
+0.98",student,True
+Find all the vocal types.,music_musical_theme,1.0,1,0.38,"The consensus among the models is strong, as they correctly associate the question with music and vocal classifications. The question's context clearly indicates a connection to music theory and performance, making 'music_musical_theme' the most suitable database category.
+
+### Final Class:
+music_musical_theme
+
+### Confidence Score:
+1.00",music_musical_theme,True
+"For each trip, return its ending station's installation date.",bike,0.95,1,0.26,"The consensus among the models, gpt-4o-mini-0 and gpt-3.5-turbo-0, on categorizing the question under the 'bike' database classification based on the context of tracking bike trips and station infrastructure supports the choice of 'bike' as the most appropriate category.
+
+### Final Class:
+bike
+
+### Confidence Score:
+0.95",bike,True
+"What are the names and year of joining for artists that do not have the country ""United States""?",music_musical_theme,0.95,1,0.31,"The consensus among the models regarding the classification under 'music_musical_theme' is strong. The question's focus on artists and their details aligns well with this category, indicating a clear connection to the music industry.
+
+### Final Class:
+music_musical_theme
+
+### Confidence Score:
+0.95",music_musical_theme,True
+What is the most common status across all cities?,Farm,0.85,1,0.18,"The consensus among the models on interpreting the term ""status across all cities"" in the context of farm-related metrics like crop or livestock statuses provides a strong basis for the classification as a ""farm"" database. The mention of different locations (cities) further supports this interpretation.
+
+### Final Class:
+Farm
+
+### Confidence Score:
+0.85",farm,False
+How many courses do the student whose id is 171 attend?,student,1.0,1,0.21,"The question's clear reference to a student with a specific ID attending courses indicates a direct association with student information and course enrollment. Therefore, the most appropriate database category is 'student'.
+
+### Final Class:
+student
+
+### Confidence Score:
+1.00",student,True
+What are the ids of the students who registered course statistics by order of registration date?,student,1.0,1,0.24,"The consistent emphasis on students, course statistics, and registration date in the question aligns well with the 'student' database category. The clear connection between student registration and course data makes 'student' the most appropriate classification for this scenario.
+
+### Final Class:
+student
+
+### Confidence Score:
+1.00",student,True
+Find the name of songs that does not have a back vocal.,music_musical_theme,1.0,1,0.53,"Given the unanimous agreement between the models on the classification of 'music_musical_theme' and the strong reasoning provided by both models, it is clear that this category is the most appropriate for the question at hand.
+
+### Final Class:
+music_musical_theme
+
+### Confidence Score:
+1.00",music_musical_theme,True
+What are the different cities where people live?,student,0.75,1,0.18,"While both models provide valid reasoning, the focus of the question is on cities where people live in general, not specifically in relation to students or rural areas. Therefore, the most appropriate database category is 'student' as suggested by gpt-4o-mini-0, as cities where people live are commonly associated with demographic data in student databases.
+
+### Final Class:
+student
+
+### Confidence Score:
+0.75",student,True
+What are the different cities where people live?,Population,0.8,2,0.74,"While both 'student' and 'farm' databases could be relevant in certain contexts, the question's general scope of cities where people live is broader and may encompass a wide range of demographics beyond just students or farming communities. Therefore, a more suitable classification would be a general 'population' database category, which accounts for various types of residents in cities.
+
+### Final Class:
+Population
+
+### Confidence Score:
+0.80",student,False
+List the total number of horses on farms in ascending order.,farm,0.95,1,0.33,"The consensus among the models on categorizing the question under 'farm' is strong. The explicit reference to horses on farms in the question makes 'farm' the most appropriate classification, aligning closely with agricultural or farm-related data.
+
+### Final Class:
+farm
+
+### Confidence Score:
+0.95",farm,True
+What is the maximum and minimum resolution of all songs that are approximately 3 minutes long?,music_musical_theme,0.95,1,0.5,"Given the unanimous agreement between the models and the logical reasoning provided, the most appropriate database category for the question about the maximum and minimum resolution of songs approximately 3 minutes long is 'music_musical_theme.'
+
+### Final Class:
+music_musical_theme
+
+### Confidence Score:
+0.95",music_musical_theme,True
+Find the names of the artists who are from Bangladesh and have never received rating higher than 7.,music_musical_theme,1.0,1,0.78,"Given the unanimous agreement between the two models that the question pertains to artists and their ratings, the most appropriate database category is 'music_musical_theme.'
+
+### Final Class:
+music_musical_theme
+
+### Confidence Score:
+1.00",music_musical_theme,True
+Show theme and year for all exhibitions in an descending order of ticket price.,music_musical_theme,0.9,1,0.38,"Considering the strong alignment between the mention of exhibitions, themes, and ticket prices with music events, and the coherent reasoning provided by both models, the most appropriate classification is **music_musical_theme**.
+
+### Final Class:
+music_musical_theme
+
+### Confidence Score:
+0.90",music_musical_theme,True
