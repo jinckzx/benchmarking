@@ -1,4 +1,11 @@
-# metrics.py
+# # metrics.py
+import sys
+import os
+
+# Add the venv site-packages manually if needed
+venv_site_packages = os.path.join(os.path.dirname(sys.executable), 'Lib', 'site-packages')
+if venv_site_packages not in sys.path:
+    sys.path.insert(0, venv_site_packages)
 from typing import List, Dict
 import pandas as pd
 from sklearn.metrics import classification_report
