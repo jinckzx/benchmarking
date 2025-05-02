@@ -1,0 +1,21 @@
+question,ground_truth
+Find the last names of the students in third grade that are not taught by COVIN JEROME.,student
+How many unique labels are there for albums?,music_musical_theme
+What is the number of distinct publication dates?,book
+List the writers who have written more than one book.,book
+"What are the names of all songs produced by the artist with the first name ""Marianne""?",music_musical_theme
+How many songs use drums as an instrument?,music_musical_theme
+Find the ids and names of stations from which at least 200 trips started.,bike
+Find distinct cities of address of students?,student
+Find all the vocal types.,music_musical_theme
+"For each trip, return its ending station's installation date.",bike
+"What are the names and year of joining for artists that do not have the country ""United States""?",music_musical_theme
+What is the most common status across all cities?,farm
+How many courses do the student whose id is 171 attend?,student
+What are the ids of the students who registered course statistics by order of registration date?,student
+Find the name of songs that does not have a back vocal.,music_musical_theme
+What are the different cities where people live?,student
+List the total number of horses on farms in ascending order.,farm
+What is the maximum and minimum resolution of all songs that are approximately 3 minutes long?,music_musical_theme
+Find the names of the artists who are from Bangladesh and have never received rating higher than 7.,music_musical_theme
+Show theme and year for all exhibitions in an descending order of ticket price.,music_musical_theme

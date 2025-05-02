@@ -1,0 +1,421 @@
+{
+  "model_evaluations": {
+    "gpt-4o-mini": {
+      "metrics": {
+        "model": "gpt-4o-mini",
+        "accuracy": 0.9,
+        "precision": 1.0,
+        "recall": 0.9,
+        "f1": 0.9333333333333332,
+        "total_samples": 20
+      },
+      "responses": [
+        {
+          "question": "Find the last names of the students in third grade that are not taught by COVIN JEROME.",
+          "ground_truth": "student",
+          "predicted_class": "student",
+          "confidence": 0.95,
+          "latency": 3.156418,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "How many unique labels are there for albums?",
+          "ground_truth": "music_musical_theme",
+          "predicted_class": "music_musical_theme",
+          "confidence": 0.95,
+          "latency": 3.041885,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "What is the number of distinct publication dates?",
+          "ground_truth": "book",
+          "predicted_class": "book",
+          "confidence": 0.85,
+          "latency": 1.989196,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "List the writers who have written more than one book.",
+          "ground_truth": "book",
+          "predicted_class": "",
+          "confidence": 0.95,
+          "latency": 1.840678,
+          "correct": false,
+          "error": ""
+        },
+        {
+          "question": "What are the names of all songs produced by the artist with the first name \"Marianne\"?",
+          "ground_truth": "music_musical_theme",
+          "predicted_class": "music_musical_theme",
+          "confidence": 0.95,
+          "latency": 2.289342,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "How many songs use drums as an instrument?",
+          "ground_truth": "music_musical_theme",
+          "predicted_class": "music_musical_theme",
+          "confidence": 0.95,
+          "latency": 6.848919,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "Find the ids and names of stations from which at least 200 trips started.",
+          "ground_truth": "bike",
+          "predicted_class": "bike",
+          "confidence": 0.85,
+          "latency": 1.624734,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "Find distinct cities of address of students?",
+          "ground_truth": "student",
+          "predicted_class": "student",
+          "confidence": 0.95,
+          "latency": 2.540798,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "Find all the vocal types.",
+          "ground_truth": "music_musical_theme",
+          "predicted_class": "music_musical_theme",
+          "confidence": 0.95,
+          "latency": 2.114235,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "For each trip, return its ending station's installation date.",
+          "ground_truth": "bike",
+          "predicted_class": "bike",
+          "confidence": 0.85,
+          "latency": 1.93984,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "What are the names and year of joining for artists that do not have the country \"United States\"?",
+          "ground_truth": "music_musical_theme",
+          "predicted_class": "music_musical_theme",
+          "confidence": 0.95,
+          "latency": 2.480753,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "What is the most common status across all cities?",
+          "ground_truth": "farm",
+          "predicted_class": "",
+          "confidence": 0.75,
+          "latency": 3.680197,
+          "correct": false,
+          "error": ""
+        },
+        {
+          "question": "How many courses do the student whose id is 171 attend?",
+          "ground_truth": "student",
+          "predicted_class": "student",
+          "confidence": 0.95,
+          "latency": 1.962466,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "What are the ids of the students who registered course statistics by order of registration date?",
+          "ground_truth": "student",
+          "predicted_class": "student",
+          "confidence": 0.95,
+          "latency": 1.687275,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "Find the name of songs that does not have a back vocal.",
+          "ground_truth": "music_musical_theme",
+          "predicted_class": "music_musical_theme",
+          "confidence": 0.95,
+          "latency": 2.153387,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "What are the different cities where people live?",
+          "ground_truth": "student",
+          "predicted_class": "student",
+          "confidence": 0.75,
+          "latency": 3.280825,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "List the total number of horses on farms in ascending order.",
+          "ground_truth": "farm",
+          "predicted_class": "farm",
+          "confidence": 0.95,
+          "latency": 3.12826,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "What is the maximum and minimum resolution of all songs that are approximately 3 minutes long?",
+          "ground_truth": "music_musical_theme",
+          "predicted_class": "music_musical_theme",
+          "confidence": 0.95,
+          "latency": 2.24186,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "Find the names of the artists who are from Bangladesh and have never received rating higher than 7.",
+          "ground_truth": "music_musical_theme",
+          "predicted_class": "music_musical_theme",
+          "confidence": 0.95,
+          "latency": 2.032034,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "Show theme and year for all exhibitions in an descending order of ticket price.",
+          "ground_truth": "music_musical_theme",
+          "predicted_class": "music_musical_theme",
+          "confidence": 0.85,
+          "latency": 3.177874,
+          "correct": true,
+          "error": ""
+        }
+      ]
+    },
+    "gpt-3.5-turbo": {
+      "metrics": {
+        "model": "gpt-3.5-turbo",
+        "accuracy": 0.85,
+        "precision": 0.9666666666666666,
+        "recall": 0.85,
+        "f1": 0.8728571428571428,
+        "total_samples": 20
+      },
+      "responses": [
+        {
+          "question": "Find the last names of the students in third grade that are not taught by COVIN JEROME.",
+          "ground_truth": "student",
+          "predicted_class": "",
+          "confidence": 0.95,
+          "latency": 1.245168,
+          "correct": false,
+          "error": ""
+        },
+        {
+          "question": "How many unique labels are there for albums?",
+          "ground_truth": "music_musical_theme",
+          "predicted_class": "music_musical_theme",
+          "confidence": 0.95,
+          "latency": 1.215498,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "What is the number of distinct publication dates?",
+          "ground_truth": "book",
+          "predicted_class": "book",
+          "confidence": 0.9,
+          "latency": 1.222765,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "List the writers who have written more than one book.",
+          "ground_truth": "book",
+          "predicted_class": "book",
+          "confidence": 0.95,
+          "latency": 1.410387,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "What are the names of all songs produced by the artist with the first name \"Marianne\"?",
+          "ground_truth": "music_musical_theme",
+          "predicted_class": "music_musical_theme",
+          "confidence": 0.95,
+          "latency": 1.148848,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "How many songs use drums as an instrument?",
+          "ground_truth": "music_musical_theme",
+          "predicted_class": "music_musical_theme",
+          "confidence": 0.95,
+          "latency": 1.15961,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "Find the ids and names of stations from which at least 200 trips started.",
+          "ground_truth": "bike",
+          "predicted_class": "bike",
+          "confidence": 0.85,
+          "latency": 1.007152,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "Find distinct cities of address of students?",
+          "ground_truth": "student",
+          "predicted_class": "",
+          "confidence": 0.95,
+          "latency": 1.057812,
+          "correct": false,
+          "error": ""
+        },
+        {
+          "question": "Find all the vocal types.",
+          "ground_truth": "music_musical_theme",
+          "predicted_class": "music_musical_theme",
+          "confidence": 0.95,
+          "latency": 1.173051,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "For each trip, return its ending station's installation date.",
+          "ground_truth": "bike",
+          "predicted_class": "bike",
+          "confidence": 0.85,
+          "latency": 1.174678,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "What are the names and year of joining for artists that do not have the country \"United States\"?",
+          "ground_truth": "music_musical_theme",
+          "predicted_class": "music_musical_theme",
+          "confidence": 0.95,
+          "latency": 1.121635,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "What is the most common status across all cities?",
+          "ground_truth": "farm",
+          "predicted_class": "farm",
+          "confidence": 0.85,
+          "latency": 1.167043,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "How many courses do the student whose id is 171 attend?",
+          "ground_truth": "student",
+          "predicted_class": "student",
+          "confidence": 0.95,
+          "latency": 1.040454,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "What are the ids of the students who registered course statistics by order of registration date?",
+          "ground_truth": "student",
+          "predicted_class": "student",
+          "confidence": 0.95,
+          "latency": 1.037645,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "Find the name of songs that does not have a back vocal.",
+          "ground_truth": "music_musical_theme",
+          "predicted_class": "music_musical_theme",
+          "confidence": 0.95,
+          "latency": 1.185413,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "What are the different cities where people live?",
+          "ground_truth": "student",
+          "predicted_class": "farm",
+          "confidence": 0.7,
+          "latency": 1.316972,
+          "correct": false,
+          "error": ""
+        },
+        {
+          "question": "List the total number of horses on farms in ascending order.",
+          "ground_truth": "farm",
+          "predicted_class": "farm",
+          "confidence": 0.95,
+          "latency": 1.151297,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "What is the maximum and minimum resolution of all songs that are approximately 3 minutes long?",
+          "ground_truth": "music_musical_theme",
+          "predicted_class": "music_musical_theme",
+          "confidence": 0.95,
+          "latency": 1.73983,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "Find the names of the artists who are from Bangladesh and have never received rating higher than 7.",
+          "ground_truth": "music_musical_theme",
+          "predicted_class": "music_musical_theme",
+          "confidence": 0.95,
+          "latency": 1.160894,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "Show theme and year for all exhibitions in an descending order of ticket price.",
+          "ground_truth": "music_musical_theme",
+          "predicted_class": "music_musical_theme",
+          "confidence": 0.85,
+          "latency": 1.282682,
+          "correct": true,
+          "error": ""
+        }
+      ]
+    }
+  },
+  "best_model": "gpt-4o-mini",
+  "best_params": {
+    "temperature": 0.2,
+    "accuracy": 0.9,
+    "f1": 0.9333333333333332,
+    "combined_score": 0.9166666666666666
+  },
+  "model_metrics": {
+    "gpt-4o-mini": {
+      "model": "gpt-4o-mini",
+      "accuracy": 0.9,
+      "precision": 1.0,
+      "recall": 0.9,
+      "f1": 0.9333333333333332,
+      "total_samples": 20
+    },
+    "gpt-3.5-turbo": {
+      "model": "gpt-3.5-turbo",
+      "accuracy": 0.85,
+      "precision": 0.9666666666666666,
+      "recall": 0.85,
+      "f1": 0.8728571428571428,
+      "total_samples": 20
+    }
+  },
+  "sample_size": 20,
+  "valid_classes": [
+    "student",
+    "music_musical_theme",
+    "book",
+    "bike",
+    "farm"
+  ]
+}

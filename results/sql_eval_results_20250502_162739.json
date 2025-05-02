@@ -1,0 +1,244 @@
+{
+  "model_evaluations": {
+    "gpt-4o-mini": {
+      "metrics": {
+        "exact_match_count": "0",
+        "execution_match_count": "6",
+        "exact_match_rate": 0.0,
+        "execution_match_rate": 60.0,
+        "total": 10
+      },
+      "responses": [
+        {
+          "question": "What are the payment method codes that have been used by more than 3 parties?",
+          "db_id": "e_government",
+          "generated_sql": "SELECT payment_method_code\nFROM Parties\nGROUP BY payment_method_code\nHAVING COUNT(party_id) > 3;",
+          "gold_sql": "SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 1.0,
+          "latency": 2.211086
+        },
+        {
+          "question": "What is the average latitude and longitude of the starting points of all trips?",
+          "db_id": "bike_1",
+          "generated_sql": "BadRequestError: Error code: 400 - {'error': {'message': \"This model's maximum context length is 128000 tokens. However, your messages resulted in 1059599 tokens. Please reduce the length of the messages.\", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'context_length_exceeded'}}",
+          "gold_sql": "SELECT avg(T1.lat) ,  avg(T1.long) FROM station AS T1 JOIN trip AS T2 ON T1.id  =  T2.start_station_id",
+          "exact_match": false,
+          "execution_match": false,
+          "confidence": 0.0,
+          "latency": 4.267975
+        },
+        {
+          "question": "Find the first names of students with age above 22.",
+          "db_id": "voter_2",
+          "generated_sql": "SELECT Fname FROM Student WHERE Age > 22;",
+          "gold_sql": "SELECT Fname FROM STUDENT WHERE Age  >  22",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 1.0,
+          "latency": 1.221951
+        },
+        {
+          "question": "What are the invoice numbers created before 1989-09-03 or after 2007-12-25?",
+          "db_id": "tracking_orders",
+          "generated_sql": "SELECT invoice_number \nFROM Invoices \nWHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25';",
+          "gold_sql": "SELECT invoice_number FROM invoices WHERE invoice_date < \"1989-09-03\" OR invoice_date > \"2007-12-25\"",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 1.0,
+          "latency": 1.670935
+        },
+        {
+          "question": "What are the names of the artists who sang the shortest song?",
+          "db_id": "music_1",
+          "generated_sql": "SELECT artist_name \nFROM song \nWHERE duration = (SELECT MIN(duration) FROM song);",
+          "gold_sql": "SELECT T1.artist_name FROM song AS T1 JOIN files AS T2 ON T1.f_id  =  T2.f_id ORDER BY T2.duration LIMIT 1",
+          "exact_match": false,
+          "execution_match": false,
+          "confidence": 0.95,
+          "latency": 1.513957
+        },
+        {
+          "question": "Please show the categories of the music festivals with count more than 1.",
+          "db_id": "music_4",
+          "generated_sql": "SELECT Category, COUNT(*) as Count\nFROM music_festival\nGROUP BY Category\nHAVING COUNT(*) > 1;",
+          "gold_sql": "SELECT Category FROM music_festival GROUP BY Category HAVING COUNT(*)  >  1",
+          "exact_match": false,
+          "execution_match": false,
+          "confidence": 1.0,
+          "latency": 1.826489
+        },
+        {
+          "question": "What are the distinct names of nurses on call?",
+          "db_id": "hospital_1",
+          "generated_sql": "SELECT DISTINCT N.Name\nFROM Nurse N\nJOIN On_Call OC ON N.EmployeeID = OC.Nurse;",
+          "gold_sql": "SELECT DISTINCT T1.name FROM nurse AS T1 JOIN on_call AS T2 ON T1.EmployeeID  =  T2.nurse",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 1.0,
+          "latency": 1.602261
+        },
+        {
+          "question": "What are the grapes, appelations, and wines with scores above 93, sorted by Name?",
+          "db_id": "wine_1",
+          "generated_sql": "FileNotFoundError: Schema file not found: D:\\data_sci\\benchmarking_tool\\dataset\\spider_data\\spider_data\\database\\wine_1\\schema.sql",
+          "gold_sql": "SELECT Grape ,  Appelation ,  Name FROM WINE WHERE Score  >  93 ORDER BY Name",
+          "exact_match": false,
+          "execution_match": false,
+          "confidence": 0.0,
+          "latency": 0.001653
+        },
+        {
+          "question": "What are the ids of all songs that are available on mp4 or have a higher resolution than 720?",
+          "db_id": "music_1",
+          "generated_sql": "SELECT s.f_id \nFROM song s \nJOIN files f ON s.f_id = f.f_id \nWHERE f.formats = 'mp4' OR s.resolution > 720;",
+          "gold_sql": "SELECT f_id FROM files WHERE formats  =  \"mp4\" UNION SELECT f_id FROM song WHERE resolution  >  720",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 1.0,
+          "latency": 1.651412
+        },
+        {
+          "question": "Find the purchase time, age and address of each member, and show the results in the order of purchase time.",
+          "db_id": "coffee_shop",
+          "generated_sql": "SELECT Time_of_purchase, Age, Address \nFROM member \nORDER BY Time_of_purchase;",
+          "gold_sql": "SELECT Time_of_purchase ,  age ,  address FROM member ORDER BY Time_of_purchase",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 1.0,
+          "latency": 1.260955
+        }
+      ]
+    },
+    "gpt-3.5-turbo": {
+      "metrics": {
+        "exact_match_count": "0",
+        "execution_match_count": "6",
+        "exact_match_rate": 0.0,
+        "execution_match_rate": 60.0,
+        "total": 10
+      },
+      "responses": [
+        {
+          "question": "What are the payment method codes that have been used by more than 3 parties?",
+          "db_id": "e_government",
+          "generated_sql": "SELECT payment_method_code\nFROM Parties\nGROUP BY payment_method_code\nHAVING COUNT(DISTINCT party_id) > 3;",
+          "gold_sql": "SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 0.95,
+          "latency": 1.14864
+        },
+        {
+          "question": "What is the average latitude and longitude of the starting points of all trips?",
+          "db_id": "bike_1",
+          "generated_sql": "BadRequestError: Error code: 400 - {'error': {'message': \"This model's maximum context length is 16385 tokens. However, your messages resulted in 1061462 tokens. Please reduce the length of the messages.\", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'context_length_exceeded'}}",
+          "gold_sql": "SELECT avg(T1.lat) ,  avg(T1.long) FROM station AS T1 JOIN trip AS T2 ON T1.id  =  T2.start_station_id",
+          "exact_match": false,
+          "execution_match": false,
+          "confidence": 0.0,
+          "latency": 2.093005
+        },
+        {
+          "question": "Find the first names of students with age above 22.",
+          "db_id": "voter_2",
+          "generated_sql": "SELECT Fname\nFROM Student\nWHERE Age > 22;",
+          "gold_sql": "SELECT Fname FROM STUDENT WHERE Age  >  22",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 0.95,
+          "latency": 0.892193
+        },
+        {
+          "question": "What are the invoice numbers created before 1989-09-03 or after 2007-12-25?",
+          "db_id": "tracking_orders",
+          "generated_sql": "SELECT invoice_number\nFROM Invoices\nWHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25';",
+          "gold_sql": "SELECT invoice_number FROM invoices WHERE invoice_date < \"1989-09-03\" OR invoice_date > \"2007-12-25\"",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 0.95,
+          "latency": 1.085295
+        },
+        {
+          "question": "What are the names of the artists who sang the shortest song?",
+          "db_id": "music_1",
+          "generated_sql": "SELECT artist_name\nFROM song\nWHERE duration = (SELECT MIN(duration) FROM files);",
+          "gold_sql": "SELECT T1.artist_name FROM song AS T1 JOIN files AS T2 ON T1.f_id  =  T2.f_id ORDER BY T2.duration LIMIT 1",
+          "exact_match": false,
+          "execution_match": false,
+          "confidence": 0.85,
+          "latency": 0.979116
+        },
+        {
+          "question": "Please show the categories of the music festivals with count more than 1.",
+          "db_id": "music_4",
+          "generated_sql": "SELECT \"Category\", COUNT(\"Category\") AS \"Category_Count\"\nFROM \"music_festival\"\nGROUP BY \"Category\"\nHAVING COUNT(\"Category\") > 1;",
+          "gold_sql": "SELECT Category FROM music_festival GROUP BY Category HAVING COUNT(*)  >  1",
+          "exact_match": false,
+          "execution_match": false,
+          "confidence": 0.95,
+          "latency": 1.095234
+        },
+        {
+          "question": "What are the distinct names of nurses on call?",
+          "db_id": "hospital_1",
+          "generated_sql": "SELECT DISTINCT Name\nFROM Nurse\nWHERE EmployeeID IN (\n    SELECT Nurse\n    FROM On_Call\n);",
+          "gold_sql": "SELECT DISTINCT T1.name FROM nurse AS T1 JOIN on_call AS T2 ON T1.EmployeeID  =  T2.nurse",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 0.95,
+          "latency": 1.192933
+        },
+        {
+          "question": "What are the grapes, appelations, and wines with scores above 93, sorted by Name?",
+          "db_id": "wine_1",
+          "generated_sql": "FileNotFoundError: Schema file not found: D:\\data_sci\\benchmarking_tool\\dataset\\spider_data\\spider_data\\database\\wine_1\\schema.sql",
+          "gold_sql": "SELECT Grape ,  Appelation ,  Name FROM WINE WHERE Score  >  93 ORDER BY Name",
+          "exact_match": false,
+          "execution_match": false,
+          "confidence": 0.0,
+          "latency": 0.000982
+        },
+        {
+          "question": "What are the ids of all songs that are available on mp4 or have a higher resolution than 720?",
+          "db_id": "music_1",
+          "generated_sql": "SELECT f_id\nFROM song\nWHERE f_id IN (SELECT f_id FROM files WHERE formats = 'mp4') OR resolution > 720;",
+          "gold_sql": "SELECT f_id FROM files WHERE formats  =  \"mp4\" UNION SELECT f_id FROM song WHERE resolution  >  720",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 0.95,
+          "latency": 1.13691
+        },
+        {
+          "question": "Find the purchase time, age and address of each member, and show the results in the order of purchase time.",
+          "db_id": "coffee_shop",
+          "generated_sql": "SELECT \"Time_of_purchase\", \"Age\", \"Address\" FROM \"member\" ORDER BY \"Time_of_purchase\";",
+          "gold_sql": "SELECT Time_of_purchase ,  age ,  address FROM member ORDER BY Time_of_purchase",
+          "exact_match": false,
+          "execution_match": true,
+          "confidence": 0.95,
+          "latency": 1.075727
+        }
+      ]
+    }
+  },
+  "best_model": "gpt-3.5-turbo",
+  "best_params": {
+    "temperature": 0.0,
+    "execution_match_rate": 60.0
+  },
+  "model_metrics": {
+    "gpt-4o-mini": {
+      "execution_match_rate": 60.0,
+      "exact_match_rate": 0.0,
+      "avg_latency": 1.7228674000000002
+    },
+    "gpt-3.5-turbo": {
+      "execution_match_rate": 60.0,
+      "exact_match_rate": 0.0,
+      "avg_latency": 1.0700034999999999
+    }
+  },
+  "sample_size": 10
+}

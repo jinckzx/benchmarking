@@ -1,4 +1,4 @@
-class,question
+ground_truth,question
 student,Find the last names of the students in third grade that are not taught by COVIN JEROME.
 music_musical_theme,How many unique labels are there for albums?
 book,What is the number of distinct publication dates?

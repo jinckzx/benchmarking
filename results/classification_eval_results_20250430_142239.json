@@ -1,0 +1,121 @@
+{
+  "model_evaluations": {
+    "gpt-4o-mini": {
+      "metrics": {
+        "model": "gpt-4o-mini",
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "total_samples": 5
+      },
+      "responses": [
+        {
+          "question": "Find the last names of the students in third grade that are not taught by COVIN JEROME.",
+          "ground_truth": "student",
+          "predicted_class": "",
+          "confidence": 0.0,
+          "latency": 0.0,
+          "correct": false
+        },
+        {
+          "question": "How many unique labels are there for albums?",
+          "ground_truth": "music_musical_theme",
+          "predicted_class": "",
+          "confidence": 0.0,
+          "latency": 0.0,
+          "correct": false
+        },
+        {
+          "question": "What is the number of distinct publication dates?",
+          "ground_truth": "book",
+          "predicted_class": "",
+          "confidence": 0.0,
+          "latency": 0.0,
+          "correct": false
+        },
+        {
+          "question": "List the writers who have written more than one book.",
+          "ground_truth": "book",
+          "predicted_class": "",
+          "confidence": 0.0,
+          "latency": 0.007673,
+          "correct": false
+        },
+        {
+          "question": "What are the names of all songs produced by the artist with the first name \"Marianne\"?",
+          "ground_truth": "music_musical_theme",
+          "predicted_class": "",
+          "confidence": 0.0,
+          "latency": 0.002009,
+          "correct": false
+        }
+      ]
+    },
+    "gpt-3.5-turbo": {
+      "metrics": {
+        "model": "gpt-3.5-turbo",
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "total_samples": 5
+      },
+      "responses": [
+        {
+          "question": "Find the last names of the students in third grade that are not taught by COVIN JEROME.",
+          "ground_truth": "student",
+          "predicted_class": "",
+          "confidence": 0.0,
+          "latency": 0.002007,
+          "correct": false
+        },
+        {
+          "question": "How many unique labels are there for albums?",
+          "ground_truth": "music_musical_theme",
+          "predicted_class": "",
+          "confidence": 0.0,
+          "latency": 0.001994,
+          "correct": false
+        },
+        {
+          "question": "What is the number of distinct publication dates?",
+          "ground_truth": "book",
+          "predicted_class": "",
+          "confidence": 0.0,
+          "latency": 0.002001,
+          "correct": false
+        },
+        {
+          "question": "List the writers who have written more than one book.",
+          "ground_truth": "book",
+          "predicted_class": "",
+          "confidence": 0.0,
+          "latency": 0.000996,
+          "correct": false
+        },
+        {
+          "question": "What are the names of all songs produced by the artist with the first name \"Marianne\"?",
+          "ground_truth": "music_musical_theme",
+          "predicted_class": "",
+          "confidence": 0.0,
+          "latency": 0.00192,
+          "correct": false
+        }
+      ]
+    }
+  },
+  "best_model": "gpt-4o-mini",
+  "best_params": {
+    "temperature": 0.0,
+    "accuracy": 0.0,
+    "f1": 0.0,
+    "combined_score": 0.0
+  },
+  "valid_classes": [
+    "book",
+    "music_musical_theme",
+    "student"
+  ],
+  "sample_size": 5
+}

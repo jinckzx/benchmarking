@@ -4,7 +4,7 @@ Context: You are an expert database classifier. Given a natural language questio
        
 Your job is to carefully analyze the question and return the **most relevant database category** from the above list.
 The predicted category must be only from the provided list of classes.
-#### Question: {question}
+#### Question: {prompt}
 
 Must provide your response in this exact given format below:
 

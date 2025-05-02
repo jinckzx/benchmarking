@@ -1,0 +1,11 @@
+question,ground_truth
+Find the last names of the students in third grade that are not taught by COVIN JEROME.,student
+What is the maximum and minimum resolution of all songs that are approximately 3 minutes long?,music_musical_theme
+What are the different cities where people live?,student
+How many unique labels are there for albums?,music_musical_theme
+Find all the vocal types.,music_musical_theme
+How many songs use drums as an instrument?,music_musical_theme
+What is the most common status across all cities?,farm
+List the writers who have written more than one book.,book
+Find the names of the artists who are from Bangladesh and have never received rating higher than 7.,music_musical_theme
+List the total number of horses on farms in ascending order.,farm
