@@ -396,71 +396,178 @@ class SQLModelRunner:
                 error=error_msg,
                 temperature=temperature
             )
-            
+  
     async def evaluate_models(self, config: ModelConfig, csv_path: str) -> Dict[str, Any]:
-        """Run and evaluate each model against gold standard"""
+        """Run and evaluate models in parallel with concurrent query processing"""
         models_results = {}
         queries = self.ingest_csv(csv_path)
         
-        try:
-            for model_name in config.models:
-                model_responses = []
+        async def evaluate_single_model(model_name: str):
+            """Process one model with parallel query execution"""
+            try:
+                logger.info(f"Starting parallel evaluation for {model_name}")
                 
-                logger.info(f"Evaluating model: {model_name}")
+                # Create all query tasks for this model
+                query_tasks = [
+                    self._process_single_query(model_name, query, config.base_temperature)
+                    for query in queries
+                ]
                 
-                for query in queries:
-                    db_id = query["db_id"]
-                    prompt = query["question"]
-                    gold_sql = query["gold_sql"]
-                    
-                    entry = await self._query_model(
-                        model_name, 
-                        prompt, 
-                        0,  # Single instance 
-                        0,  # Single iteration
-                        db_id, 
-                        config.base_temperature
-                    )
-                    
-                    # Evaluate against gold standard
-                    eval_result = self.metrics.evaluate_query(
-                        entry.response, 
-                        gold_sql, 
-                        db_id
-                    )
-                    
-                    response_with_metrics = {
-                        "question": prompt,
-                        "db_id": db_id,
-                        "generated_sql": entry.response,
-                        "gold_sql": gold_sql,
-                        "exact_match": eval_result["exact_match"],
-                        "execution_match": eval_result["execution_match"],
-                        "confidence": entry.confidence,
-                        "latency": entry.latency
-                    }
-                    
-                    model_responses.append(response_with_metrics)
+                # Run all queries concurrently
+                query_results = await asyncio.gather(*query_tasks)
                 
-                # Calculate aggregate metrics
+                # Extract and format results
+                model_responses = [result for result in query_results if result]
                 df = pd.DataFrame(model_responses)
-                metrics = self.metrics.compute_metrics(df)
                 
-                # Store results for this model
-                models_results[model_name] = {
-                    "metrics": metrics,
-                    "responses": model_responses
+                # Calculate metrics
+                metrics = self.metrics.compute_metrics(df) if not df.empty else {
+                    "exact_match_rate": 0.0,
+                    "execution_match_rate": 0.0,
+                    "average_confidence": 0.0,
+                    "average_latency": 0.0
                 }
                 
                 logger.info(f"Model {model_name} evaluation complete. "
-                         f"Execution match rate: {metrics['execution_match_rate']:.2f}%, "
-                         f"Exact match rate: {metrics['exact_match_rate']:.2f}%")
-            
-            return models_results
+                           f"Execution match: {metrics['execution_match_rate']:.2f}%")
                 
+                return (model_name, metrics, model_responses)
+            
+            except Exception as e:
+                logger.error(f"Model {model_name} evaluation failed: {str(e)}")
+                return (model_name, {
+                    "exact_match_rate": 0.0,
+                    "execution_match_rate": 0.0,
+                    "average_confidence": 0.0,
+                    "average_latency": 0.0,
+                    "error": str(e)
+                }, [])
+
+        # Create and run all model evaluation tasks concurrently
+        model_tasks = [evaluate_single_model(model) for model in config.models]
+        results = await asyncio.gather(*model_tasks)
+        
+        # Organize results
+        for model_name, metrics, responses in results:
+            models_results[model_name] = {
+                "metrics": metrics,
+                "responses": responses
+            }
+            
+        return models_results
+
+    async def _process_single_query(self, model_name: str, query: Dict, temperature: float) -> Optional[Dict]:
+        """Process individual query with error handling"""
+        try:
+            db_id = query["db_id"]
+            prompt = query["question"]
+            gold_sql = query["gold_sql"]
+            
+            entry = await self._query_model(
+                model_name, 
+                prompt, 
+                0,  # instance
+                0,  # iteration
+                db_id, 
+                temperature
+            )
+            
+            eval_result = self.metrics.evaluate_query(
+                entry.response, 
+                gold_sql, 
+                db_id
+            )
+            
+            return {
+                "question": prompt,
+                "db_id": db_id,
+                "generated_sql": entry.response,
+                "gold_sql": gold_sql,
+                "exact_match": eval_result["exact_match"],
+                "execution_match": eval_result["execution_match"],
+                "confidence": entry.confidence,
+                "latency": entry.latency
+            }
+        except KeyError as e:
+            logger.error(f"Skipping invalid query: {str(e)}")
+            return None
         except Exception as e:
-            logger.error(f"Error in model evaluation: {str(e)}")
-            raise
+            logger.error(f"Query processing failed: {str(e)}")
+            return {
+                "question": prompt,
+                "db_id": db_id,
+                "generated_sql": str(e),
+                "gold_sql": gold_sql,
+                "exact_match": False,
+                "execution_match": False,
+                "confidence": 0.0,
+                "latency": 0.0
+            }
+
+    # async def evaluate_models(self, config: ModelConfig, csv_path: str) -> Dict[str, Any]:
+    #     """Run and evaluate each model against gold standard"""
+    #     models_results = {}
+    #     queries = self.ingest_csv(csv_path)
+        
+    #     try:
+    #         for model_name in config.models:
+    #             model_responses = []
+                
+    #             logger.info(f"Evaluating model: {model_name}")
+                
+    #             for query in queries:
+    #                 db_id = query["db_id"]
+    #                 prompt = query["question"]
+    #                 gold_sql = query["gold_sql"]
+                    
+    #                 entry = await self._query_model(
+    #                     model_name, 
+    #                     prompt, 
+    #                     0,  # Single instance 
+    #                     0,  # Single iteration
+    #                     db_id, 
+    #                     config.base_temperature
+    #                 )
+                    
+    #                 # Evaluate against gold standard
+    #                 eval_result = self.metrics.evaluate_query(
+    #                     entry.response, 
+    #                     gold_sql, 
+    #                     db_id
+    #                 )
+                    
+    #                 response_with_metrics = {
+    #                     "question": prompt,
+    #                     "db_id": db_id,
+    #                     "generated_sql": entry.response,
+    #                     "gold_sql": gold_sql,
+    #                     "exact_match": eval_result["exact_match"],
+    #                     "execution_match": eval_result["execution_match"],
+    #                     "confidence": entry.confidence,
+    #                     "latency": entry.latency
+    #                 }
+                    
+    #                 model_responses.append(response_with_metrics)
+                
+    #             # Calculate aggregate metrics
+    #             df = pd.DataFrame(model_responses)
+    #             metrics = self.metrics.compute_metrics(df)
+                
+    #             # Store results for this model
+    #             models_results[model_name] = {
+    #                 "metrics": metrics,
+    #                 "responses": model_responses
+    #             }
+                
+    #             logger.info(f"Model {model_name} evaluation complete. "
+    #                      f"Execution match rate: {metrics['execution_match_rate']:.2f}%, "
+    #                      f"Exact match rate: {metrics['exact_match_rate']:.2f}%")
+            
+    #         return models_results
+                
+    #     except Exception as e:
+    #         logger.error(f"Error in model evaluation: {str(e)}")
+    #         raise
             
     async def tune_best_model(self, model: str, csv_path: str, config: ModelConfig) -> Dict[str, Any]:
         """Tune hyperparameters for the best performing model using the already sampled dataset"""

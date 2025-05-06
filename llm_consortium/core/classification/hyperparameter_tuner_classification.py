@@ -67,56 +67,7 @@ class ClassificationHyperparameterTuner:
             "combined_score": combined_score,
             "results": results
         }    
-    # async def evaluate_temperature(
-    #     self, 
-    #     model: str,
-    #     temperature: float,
-    #     queries: List[Dict],
-    #     query_func: Callable,
-    #     metrics_func: Any,
-    #     valid_classes: List[str]
-    # ) -> Dict:
-    #     """Evaluate model performance at a specific temperature for classification"""
-    #     results = []
-        
-    #     for i, query in enumerate(queries):
-    #         if 'question' not in query or 'ground_truth' not in query:
-    #             logger.error(f"Skipping invalid query in tuning: {query}")
-    #             continue
-
-    #         # Run model with this temperature
-    #         entry = await query_func(
-    #             model,
-    #             query["question"],
-    #             0,  # instance
-    #             0,  # iteration 
-    #             valid_classes,
-    #             temperature
-    #         )
-            
-    #         # Store result for metrics calculation
-    #         results.append({
-    #             "question": query["question"],
-    #             "ground_truth": query["ground_truth"],
-    #             "predicted_class": entry.predicted_class,
-    #             "confidence": entry.confidence,
-    #             "correct": entry.predicted_class == query["ground_truth"]
-    #         })
-        
-    #     # Calculate metrics using the metrics handler
-    #     df = pd.DataFrame(results)
-    #     metrics = metrics_func.calculate_metrics_single_model(df, model)
-        
-    #     # Calculate combined score (average of accuracy and F1)
-    #     combined_score = (metrics["accuracy"] + metrics["f1"]) / 2
-        
-    #     return {
-    #         "temperature": temperature,
-    #         "accuracy": metrics["accuracy"],
-    #         "f1": metrics["f1"],
-    #         "combined_score": combined_score,
-    #         "results": results
-    #     }
+    
     
     async def tune_model(
         self,

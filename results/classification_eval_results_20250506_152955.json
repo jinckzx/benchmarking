@@ -1,0 +1,149 @@
+{
+  "model_evaluations": {
+    "gpt-4o-mini": {
+      "metrics": {
+        "model": "gpt-4o-mini",
+        "accuracy": 0.8,
+        "precision": 1.0,
+        "recall": 0.8,
+        "f1": 0.8666666666666666,
+        "total_samples": 5
+      },
+      "responses": [
+        {
+          "question": "Find the last names of the students in third grade that are not taught by COVIN JEROME.",
+          "ground_truth": "student",
+          "predicted_class": "student",
+          "confidence": 0.95,
+          "latency": 2.087733,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "How many unique labels are there for albums?",
+          "ground_truth": "music_musical_theme",
+          "predicted_class": "music_musical_theme",
+          "confidence": 0.95,
+          "latency": 2.39819,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "What is the number of distinct publication dates?",
+          "ground_truth": "book",
+          "predicted_class": "book",
+          "confidence": 0.85,
+          "latency": 1.723403,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "List the writers who have written more than one book.",
+          "ground_truth": "book",
+          "predicted_class": "",
+          "confidence": 0.95,
+          "latency": 2.229439,
+          "correct": false,
+          "error": ""
+        },
+        {
+          "question": "What are the names of all songs produced by the artist with the first name \"Marianne\"?",
+          "ground_truth": "music_musical_theme",
+          "predicted_class": "music_musical_theme",
+          "confidence": 0.95,
+          "latency": 2.650823,
+          "correct": true,
+          "error": ""
+        }
+      ]
+    },
+    "gpt-3.5-turbo": {
+      "metrics": {
+        "model": "gpt-3.5-turbo",
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "total_samples": 5
+      },
+      "responses": [
+        {
+          "question": "Find the last names of the students in third grade that are not taught by COVIN JEROME.",
+          "ground_truth": "student",
+          "predicted_class": "student",
+          "confidence": 0.95,
+          "latency": 1.927474,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "How many unique labels are there for albums?",
+          "ground_truth": "music_musical_theme",
+          "predicted_class": "music_musical_theme",
+          "confidence": 0.95,
+          "latency": 2.121473,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "What is the number of distinct publication dates?",
+          "ground_truth": "book",
+          "predicted_class": "book",
+          "confidence": 0.9,
+          "latency": 1.90666,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "List the writers who have written more than one book.",
+          "ground_truth": "book",
+          "predicted_class": "book",
+          "confidence": 0.95,
+          "latency": 1.172135,
+          "correct": true,
+          "error": ""
+        },
+        {
+          "question": "What are the names of all songs produced by the artist with the first name \"Marianne\"?",
+          "ground_truth": "music_musical_theme",
+          "predicted_class": "music_musical_theme",
+          "confidence": 0.95,
+          "latency": 2.169088,
+          "correct": true,
+          "error": ""
+        }
+      ]
+    }
+  },
+  "best_model": "gpt-3.5-turbo",
+  "best_params": {
+    "temperature": 0.0,
+    "accuracy": 1.0,
+    "f1": 1.0,
+    "combined_score": 1.0
+  },
+  "model_metrics": {
+    "gpt-4o-mini": {
+      "model": "gpt-4o-mini",
+      "accuracy": 0.8,
+      "precision": 1.0,
+      "recall": 0.8,
+      "f1": 0.8666666666666666,
+      "total_samples": 5
+    },
+    "gpt-3.5-turbo": {
+      "model": "gpt-3.5-turbo",
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "total_samples": 5
+    }
+  },
+  "sample_size": 5,
+  "valid_classes": [
+    "student",
+    "music_musical_theme",
+    "book"
+  ]
+}

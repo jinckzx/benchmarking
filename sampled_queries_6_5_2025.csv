@@ -1,0 +1,13 @@
+db_id,question,gold_sql
+e_government,What are the payment method codes that have been used by more than 3 parties?,SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3
+bike_1,What is the average latitude and longitude of the starting points of all trips?,"SELECT avg(T1.lat) ,  avg(T1.long) FROM station AS T1 JOIN trip AS T2 ON T1.id  =  T2.start_station_id"
+music_1,What are the ids of all songs that are available on mp4 or have a higher resolution than 720?,"SELECT f_id FROM files WHERE formats  =  ""mp4"" UNION SELECT f_id FROM song WHERE resolution  >  720"
+college_2,How many students are in each department?,"SELECT count(*) ,  dept_name FROM student GROUP BY dept_name"
+soccer_2,Find the names of either colleges in LA with greater than 15000 size or in state AZ with less than 13000 enrollment.,"SELECT cName FROM College WHERE enr  <  13000 AND state = ""AZ"" UNION SELECT cName FROM College WHERE enr  >  15000 AND state = ""LA"""
+department_store,List the name and phone number of all suppliers in the alphabetical order of their addresses.,"SELECT T1.supplier_name ,  T1.supplier_phone FROM Suppliers AS T1 JOIN supplier_addresses AS T2 ON T1.supplier_id  =  T2.supplier_id JOIN addresses AS T3 ON T2.address_id  =  T3.address_id ORDER BY T3.address_details"
+voter_2,Find the first names of students with age above 22.,SELECT Fname FROM STUDENT WHERE Age  >  22
+company_employee,How many companies are headquartered in the US?,SELECT count(*) FROM company WHERE Headquarters  =  'USA'
+decoration_competition,"Show the distinct leader names of colleges associated with members from country ""Canada"".","SELECT DISTINCT T1.Leader_Name FROM college AS T1 JOIN member AS T2 ON T1.College_ID  =  T2.College_ID WHERE T2.Country  =  ""Canada"""
+hospital_1,What are the distinct names of nurses on call?,SELECT DISTINCT T1.name FROM nurse AS T1 JOIN on_call AS T2 ON T1.EmployeeID  =  T2.nurse
+coffee_shop,"Find the purchase time, age and address of each member, and show the results in the order of purchase time.","SELECT Time_of_purchase ,  age ,  address FROM member ORDER BY Time_of_purchase"
+cre_Doc_Tracking_DB,What is the name and description for document type code RV?,"SELECT document_type_name ,  document_type_description FROM Ref_document_types WHERE document_type_code  =  ""RV"""

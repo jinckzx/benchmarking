@@ -1826,7 +1826,7 @@ def classification_ui():
     from sklearn.metrics import confusion_matrix
     import numpy as np
     import seaborn as sns
-    
+    from llm_consortium.utils.pricing import calculate_cost
     try:
         from deepeval.metrics import HallucinationMetric, ContextualRelevanceMetric, FactualConsistencyMetric
         DEEPEVAL_AVAILABLE = True
@@ -2224,7 +2224,7 @@ def classification_ui():
         
         # Display tabs for results
         if st.session_state.classification_running or st.session_state.classification_evaluation_results:
-            tabs = st.tabs(["Evaluation Results", "Model Comparison", "Best Model", "Best Parameters", "Sample Examples", "LLM Judge", "Confusion Matrix", "DeepEval Metrics"])
+            tabs = st.tabs(["Evaluation Results", "Model Comparison", "Best Model", "Best Parameters", "Sample Examples", "LLM Judge", "Confusion Matrix", "DeepEval Metrics", "Cost Estimation"])
             # Add this new tab section
             with tabs[7]:  # DeepEval Metrics tab
                 if st.session_state.classification_evaluation_results:
@@ -2381,7 +2381,85 @@ def classification_ui():
                         st.success(f"Best model: {st.session_state.classification_best_model}")
                 else:
                     st.info("Running evaluation..." if st.session_state.classification_running else "Run evaluation to see results")
+            with tabs[8]:  # Cost Estimation tab
+                if st.session_state.classification_evaluation_results:
+                    st.header("Cost Estimation")
+                    
+                    # Display sampling information if dataset was sampled
+                    if st.session_state.get('classification_sampled_dataset'):
+                        st.info(f"Cost estimates based on sampled dataset ({sample_size} records)")
+                    
+                    # Import pricing module
+                    
+                    
+                    # Get the number of records from the uploaded CSV file
+                    if uploaded_file is not None:
+                        # Reset the file position to the beginning
+                        uploaded_file.seek(0)
+                        df = pd.read_csv(uploaded_file)
+                        total_records = len(df)
+                        
+                        # Display the total number of records
+                        st.write(f"**Total Records in Dataset:** {total_records}")
+                        
+                        # Get the actual number of records used (sampled or full)
+                        records_used = sample_size if st.session_state.get('classification_enable_sampling', False) else total_records
+                        st.write(f"**Records Used for Evaluation:** {records_used}")
+                        
+                        # Get the models being used
+                        if selected_models:
+                            # Prepare model data for cost calculation
+                            model_instances = [(model, 1) for model in selected_models]
+                            
+                            # Add judge model if used
+                            if selected_judge and judge_criteria:
+                                model_instances.append((selected_judge, 1))
+                            
+                            # Calculate cost
+                            total_cost, cost_breakdown = calculate_cost(model_instances, records_used)
+                            
+                            # Display cost breakdown
+                            st.subheader("Cost Breakdown")
+                            st.dataframe(cost_breakdown, use_container_width=True)
+                            
+                            # Display total cost with formatted currency
+                            st.metric("Total Estimated Cost", f"${total_cost:.2f}")
+                            
+                            # Add cost per record
+                            if records_used > 0:
+                                cost_per_record = total_cost / records_used
+                                st.metric("Cost Per Record", f"${cost_per_record:.4f}")
+                            
+                            # Add information about the estimation approach
+                            with st.expander("Cost Estimation Details"):
+                                st.write("""
+                                **How costs are estimated:**
+                                - Input tokens: Average of 500 tokens per request
+                                - Output tokens: Average of 300 tokens per response
+                                - Costs are calculated based on current model pricing
                                 
+                                **Factors affecting actual costs:**
+                                - Actual token usage may vary based on prompt length and complexity
+                                - Response length variation
+                                - Additional API calls for tuning and judge evaluation
+                                """)
+                                
+                                # Display pricing table
+                                st.subheader("Model Pricing (per 1K tokens)")
+                                pricing_data = []
+                                for model, prices in MODEL_PRICING.items():
+                                    pricing_data.append({
+                                        "Model": model,
+                                        "Input Cost": f"${prices['input']:.5f}",
+                                        "Output Cost": f"${prices['output']:.5f}"
+                                    })
+                                st.dataframe(pd.DataFrame(pricing_data))
+                        else:
+                            st.warning("No models selected. Please select models for evaluation.")
+                    else:
+                        st.warning("Please upload a CSV file to estimate costs.")
+                else:
+                    st.info("Run evaluation to see cost estimation.")                
             # Tab 2: Model Comparison Charts
             with tabs[1]:
                 if st.session_state.classification_evaluation_results:
@@ -2942,142 +3020,7 @@ def classification_ui():
 
                 else:
                     st.info("Use the 'Evaluate Using LLM Judge' button in the Evaluation Results tab to see judge results")
-            # with tabs[5]:
-            #     if st.session_state.classification_judge_results:
-            #         st.header("LLM Judge Evaluation")
-                    
-            #         # Debug raw results
-            #         if debug_mode:
-            #             with st.expander("Raw Judge Results (Debug)"):
-            #                 st.json(st.session_state.classification_judge_results)
 
-            #         # Display overall scores
-            #         st.subheader("Overall Model Scores")
-                    
-            #         # Create a DataFrame for model scores
-            #         judge_scores = []
-                    
-            #         for model_name, model_results in st.session_state.classification_judge_results.items():
-            #             # Handle nested structure
-            #             qual_eval = model_results.get("qualitative_evaluation", {})
-            #             if isinstance(qual_eval, dict):
-            #                 evaluation = qual_eval.get("evaluation", {})
-            #                 raw_response = qual_eval.get("raw_response", "")
-            #             else:
-            #                 evaluation = {}
-            #                 raw_response = str(qual_eval)
-
-            #             # Handle different response formats
-            #             final_score = evaluation.get("final_score") or evaluation.get("score") or 0
-            #             criteria_scores = evaluation.get("criteria_scores", {})
-                        
-            #             row = {
-            #                 "Model": model_name,
-            #                 "Overall Score": final_score
-            #             }
-                        
-            #             # Add individual criteria scores
-            #             for criterion in judge_criteria:
-            #                 score_data = criteria_scores.get(criterion.lower(), {})
-            #                 if isinstance(score_data, dict):
-            #                     row[criterion] = score_data.get("score", 0)
-            #                 else:
-            #                     row[criterion] = score_data  # Handle different formats
-                                
-            #             judge_scores.append(row)
-                    
-            #         # Display as a table
-            #         if judge_scores:
-            #             try:
-            #                 judge_df = pd.DataFrame(judge_scores)
-                            
-            #                 # Clean column names and fill missing values
-            #                 judge_df = judge_df.fillna(0).rename(columns=lambda x: x.replace("_", " ").title())
-                            
-            #                 # Identify numeric columns (excluding 'Model')
-            #                 numeric_cols = judge_df.select_dtypes(include=[np.number]).columns.tolist()
-                            
-            #                 # Format only numeric columns
-            #                 st.dataframe(
-            #                     judge_df.style.format(
-            #                         "{:.2f}", 
-            #                         subset=numeric_cols,
-            #                         na_rep="-"
-            #                     ),
-            #                     use_container_width=True
-            #                 )
-                            
-            #                 # Visualization section
-            #                 st.subheader("Visual Comparison")
-                            
-            #                 # Convert to long format for plotting
-            #                 melt_df = judge_df.melt(id_vars=["Model"], 
-            #                                     var_name="Metric", 
-            #                                     value_name="Score")
-                            
-            #                 # Create interactive bar chart
-            #                 chart = alt.Chart(melt_df).mark_bar().encode(
-            #                     x=alt.X('Metric:N', title='', axis=alt.Axis(labelAngle=0)),
-            #                     y=alt.Y('Score:Q', title='Score'),
-            #                     color='Metric:N',
-            #                     column=alt.Column('Model:N', header=alt.Header(title=""))
-            #                 ).properties(
-            #                     width=150,
-            #                     height=300
-            #                 ).configure_axis(
-            #                     labelFontSize=12,
-            #                     titleFontSize=14
-            #                 )
-                            
-            #                 st.altair_chart(chart)
-                            
-            #             except Exception as e:
-            #                 st.error(f"Error displaying judge scores: {str(e)}")
-            #                 if debug_mode:
-            #                     st.error(traceback.format_exc())
-
-            #         # Detailed qualitative analysis
-            #         st.subheader("Detailed Analysis")
-            #         for model_name, model_results in st.session_state.classification_judge_results.items():
-            #             qual_eval = model_results.get("qualitative_evaluation", {})
-            #             evaluation = qual_eval.get("evaluation", {}) if isinstance(qual_eval, dict) else {}
-            #             raw_response = qual_eval.get("raw_response", "")
-                        
-            #             with st.expander(f"{model_name} Analysis"):
-            #                 # Show raw response if debug mode
-            #                 if debug_mode:
-            #                     with st.expander("Raw Judge Response (Debug)"):
-            #                         st.text(raw_response)
-                            
-            #                 # Handle different response formats
-            #                 summary = evaluation.get("summary") or evaluation.get("text_analysis") or "No summary available"
-            #                 st.markdown(f"**Summary:** {summary}")
-                            
-            #                 # Strengths
-            #                 strengths = evaluation.get("strengths") or []
-            #                 if isinstance(strengths, str):
-            #                     strengths = [s.strip() for s in strengths.split("\n") if s.strip()]
-            #                 st.markdown("**Strengths:**")
-            #                 for strength in strengths[:5]:  # Limit to top 5
-            #                     st.markdown(f"- {strength}")
-                            
-            #                 # Weaknesses
-            #                 weaknesses = evaluation.get("weaknesses") or []
-            #                 if isinstance(weaknesses, str):
-            #                     weaknesses = [w.strip() for w in weaknesses.split("\n") if w.strip()]
-            #                 st.markdown("**Weaknesses:**")
-            #                 for weakness in weaknesses[:5]:  # Limit to top 5
-            #                     st.markdown(f"- {weakness}")
-                            
-            #                 # Recommendations
-            #                 recommendations = evaluation.get("recommendations") or []
-            #                 if isinstance(recommendations, str):
-            #                     recommendations = [r.strip() for r in recommendations.split("\n") if r.strip()]
-            #                 st.markdown("**Recommendations:**")
-            #                 for rec in recommendations[:5]:  # Limit to top 5
-            #                     st.markdown(f"- {rec}")
-            #     else:
-            #         st.info("Use the 'Evaluate Using LLM Judge' button in the Evaluation Results tab to see judge results")
             # Tab 7: Confusion Matrix
             with tabs[6]:
                 if st.session_state.classification_evaluation_results:
@@ -3262,6 +3205,7 @@ def text2sql_ui():
     from datetime import datetime
     from llm_consortium.utils.pricing import calculate_cost
     from llm_consortium.core.client_init import llm
+    
 
     # Initialize judge
     judge = SQLJudge(llm)
@@ -3527,7 +3471,7 @@ def text2sql_ui():
                 
                 # Pass to judge
                 judge_results = await judge.evaluate_model_outputs(
-                    st.session_state.classification_evaluation_results,
+                    st.session_state.sql_evaluation_results,
                     criteria=judge_criteria
         )
                 # if not st.session_state.sql_evaluation_results:
@@ -3627,8 +3571,156 @@ def text2sql_ui():
         
         # Display tabs for results (rest of your UI code remains mostly unchanged)
         if st.session_state.sql_running or st.session_state.sql_evaluation_results:
-            tabs = st.tabs(["Evaluation Results", "Model Comparison", "Best Model", "Best Parameter", "Sample Queries", "LLM Judge"])
-            
+            tabs = st.tabs(["Evaluation Results", "Model Comparison", "Best Model", "Best Parameter", "Sample Queries", "LLM Judge", "Cost Estimation"])
+            # Tab for Cost Estimation
+            with tabs[6]:  # Assuming this is the seventh tab (index 6)
+                st.header("Cost Estimation")
+                
+                if st.session_state.sql_evaluation_results:
+                    # Calculate cost based on actual completed evaluation
+                    selected_models = list(st.session_state.sql_evaluation_results.keys())
+                    
+                    # Count number of queries processed per model
+                    query_counts = {}
+                    for model, eval_data in st.session_state.sql_evaluation_results.items():
+                        query_counts[model] = len(eval_data["responses"])
+                    
+                    # Prepare model data for cost calculation
+                    model_instances = [(model, 1) for model in selected_models]
+                    
+                    # Calculate cost for all iterations
+                    total_iterations = sum(query_counts.values())
+                    total_cost, cost_breakdown = calculate_cost(model_instances, total_iterations)
+                    
+                    # Display summary
+                    st.subheader("Evaluation Cost Summary")
+                    col1, col2 = st.columns(2)
+                    col1.metric("Total Models", len(selected_models))
+                    col2.metric("Total Queries", total_iterations)
+                    
+                    st.metric("Estimated Total Cost", f"${total_cost:.4f}")
+                    
+                    # Display cost breakdown table
+                    st.subheader("Cost Breakdown by Model")
+                    st.dataframe(cost_breakdown, use_container_width=True)
+                    
+                    # Create a bar chart of costs by model
+                    cost_data = []
+                    for model in selected_models:
+                        row = cost_breakdown[cost_breakdown['Model'] == model]
+                        if not row.empty:
+                            cost_val = float(row['Total'].iloc[0].replace('$', ''))
+                            cost_data.append({"Model": model, "Cost": cost_val})
+                    
+                    if cost_data:
+                        cost_df = pd.DataFrame(cost_data)
+                        fig, ax = plt.subplots(figsize=(10, 5))
+                        ax.bar(cost_df['Model'], cost_df['Cost'], color='green')
+                        ax.set_xlabel('Model')
+                        ax.set_ylabel('Cost ($)')
+                        ax.set_title('Cost by Model')
+                        ax.grid(True, linestyle='--', alpha=0.7)
+                        plt.xticks(rotation=45, ha='right')
+                        plt.tight_layout()
+                        st.pyplot(fig)
+                        
+                else:
+                    # If no evaluation has been run, show cost estimator
+                    st.subheader("Cost Estimator")
+                    st.markdown("""
+                    This tool helps you estimate the cost of running your SQL evaluation based on:
+                    - Selected models
+                    - Number of test queries
+                    - Whether parameter tuning is enabled
+                    """)
+                    
+                    # Get user inputs for estimation
+                    estimation_models = st.multiselect(
+                        "Select Models for Estimation",
+                        ["gpt-4o-mini", "gpt-3.5-turbo", "gemini-2", "o3-mini"],
+                        default=["gpt-4o-mini"] if "sql_models" not in st.session_state else st.session_state.sql_models
+                    )
+                    
+                    num_queries = st.slider(
+                        "Number of Test Queries",
+                        min_value=10,
+                        max_value=500,
+                        value=50,
+                        step=10,
+                        help="Estimated number of queries to evaluate"
+                    )
+                    
+                    enable_est_tuning = st.checkbox(
+                        "Include Parameter Tuning",
+                        value=True,
+                        help="Parameter tuning runs additional evaluations with different temperatures"
+                    )
+                    
+                    if enable_est_tuning:
+                        num_trials = st.slider(
+                            "Number of Tuning Trials",
+                            min_value=3,
+                            max_value=10,
+                            value=5,
+                            step=1,
+                            help="Number of different parameter configurations to try"
+                        )
+                    else:
+                        num_trials = 1
+                        
+                    # Calculate estimated cost
+                    if estimation_models:
+                        # Prepare model data for cost calculation
+                        model_instances = [(model, 1) for model in estimation_models]
+                        
+                        # Basic evaluation cost (one run per model)
+                        base_iterations = num_queries * len(estimation_models)
+                        
+                        # Add tuning iterations if enabled
+                        tuning_iterations = 0
+                        if enable_est_tuning and estimation_models:
+                            # For each trial, we run a subset of queries with one model
+                            tuning_iterations = num_queries * num_trials
+                            
+                        total_iterations = base_iterations + tuning_iterations
+                        
+                        # Calculate cost
+                        total_cost, cost_breakdown = calculate_cost(model_instances, total_iterations)
+                        
+                        # Display results
+                        cost_col1, cost_col2, cost_col3 = st.columns(3)
+                        cost_col1.metric("Base Evaluation Queries", base_iterations)
+                        cost_col2.metric("Tuning Queries", tuning_iterations)
+                        cost_col3.metric("Total Queries", total_iterations)
+                        
+                        st.metric("Estimated Total Cost", f"${total_cost:.4f}")
+                        
+                        # Display cost breakdown
+                        st.subheader("Cost Breakdown")
+                        st.dataframe(cost_breakdown, use_container_width=True)
+                        
+                        # Show model pricing information
+                        st.subheader("Model Pricing (per 1K tokens)")
+                        pricing_data = []
+                        for model, prices in MODEL_PRICING.items():
+                            pricing_data.append({
+                                "Model": model,
+                                "Input Cost (per 1K tokens)": f"${prices['input']}",
+                                "Output Cost (per 1K tokens)": f"${prices['output']}"
+                            })
+                        
+                        st.dataframe(pd.DataFrame(pricing_data), use_container_width=True)
+                        
+                        # Display assumptions
+                        st.subheader("Calculation Assumptions")
+                        st.markdown(f"""
+                        - Average input tokens per query: {AVG_INPUT_TOKENS}
+                        - Average output tokens per query: {AVG_OUTPUT_TOKENS}
+                        - Base evaluation: All models process all queries once
+                        - Tuning: Best model processes queries {num_trials} times with different parameters
+                        """)
+                    else:
+                        st.warning("Please select at least one model for cost estimation")
             # Tab 1: Evaluation Results Table
             with tabs[0]:
                 if st.session_state.sql_evaluation_results:

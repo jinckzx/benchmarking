@@ -99,10 +99,9 @@ class ClassificationModelRunner:
                 error=str(e),
                 temperature=temperature
             )
-
     async def evaluate_models(self, config: ModelConfig, csv_path: str, 
-                         valid_classes: List[str]) -> Dict[str, Any]:
-        """Run evaluation with comprehensive validation"""
+                        valid_classes: List[str]) -> Dict[str, Any]:
+        """Run evaluation with models and queries in parallel"""
         models_results = {}
         queries = self.ingest_csv(csv_path)
         
@@ -112,80 +111,162 @@ class ClassificationModelRunner:
             
         if not valid_classes:
             raise ValueError("Valid classes list cannot be empty")
-            
-        for model_name in config.models:
+
+        async def evaluate_single_model(model_name: str):
+            """Process one model with parallel queries"""
             try:
+                logger.info(f"Starting parallel evaluation for {model_name}")
+                
+                # Create all query tasks
+                query_tasks = [
+                    self._query_model(
+                        model_name,
+                        query["question"],
+                        0,  # instance
+                        0,  # iteration
+                        valid_classes,
+                        config.base_temperature
+                    )
+                    for query in queries
+                ]
+                
+                # Run all queries concurrently
+                entries = await asyncio.gather(*query_tasks)
+                
                 model_responses = []
-                logger.info(f"Starting evaluation for {model_name} with {len(queries)} queries")
-                
-                for query in queries:
-                    try:
-                        entry = await self._query_model(
-                            model_name,
-                            query["question"],
-                            0,  # instance
-                            0,  # iteration
-                            valid_classes,
-                            config.base_temperature
-                        )
-                        
-                        response_with_metrics = {
-                            "question": query["question"],
-                            "ground_truth": query["ground_truth"],
-                            "predicted_class": entry.predicted_class,
-                            "confidence": float(entry.confidence),
-                            "latency": float(entry.latency),
-                            "correct": entry.predicted_class == query["ground_truth"],
-                            "error": entry.error
-                        }
-                        model_responses.append(response_with_metrics)
-                    except KeyError as e:
-                        logger.error(f"Skipping invalid query: {str(e)}")
-                        continue
-                
-                # Calculate metrics with enhanced validation
-                try:
-                    df = pd.DataFrame(model_responses)
-                    if df.empty:
-                        raise ValueError("No valid responses collected")
-                        
-                    # Convert types explicitly
-                    df = df.convert_dtypes()
-                    df['correct'] = df['correct'].astype(bool)
-                    df['confidence'] = pd.to_numeric(df['confidence'], errors='coerce').fillna(0.0)
-                    
-                    metrics = self.metrics.calculate_metrics_single_model(df, model_name)
-                except Exception as e:
-                    logger.error(f"Metrics calculation failed for {model_name}: {str(e)}")
-                    metrics = {
-                        "model": model_name,
-                        "accuracy": 0.0,
-                        "precision": 0.0,
-                        "recall": 0.0,
-                        "f1": 0.0,
-                        "error": str(e)
+                for entry, query in zip(entries, queries):
+                    response_with_metrics = {
+                        "question": query["question"],
+                        "ground_truth": query["ground_truth"],
+                        "predicted_class": entry.predicted_class,
+                        "confidence": float(entry.confidence),
+                        "latency": float(entry.latency),
+                        "correct": entry.predicted_class == query["ground_truth"],
+                        "error": entry.error
                     }
+                    model_responses.append(response_with_metrics)
+
+                # Calculate metrics
+                df = pd.DataFrame(model_responses)
+                if df.empty:
+                    raise ValueError("No valid responses collected")
+                    
+                df = df.convert_dtypes()
+                df['correct'] = df['correct'].astype(bool)
+                df['confidence'] = pd.to_numeric(df['confidence'], errors='coerce').fillna(0.0)
                 
-                models_results[model_name] = {
-                    "metrics": metrics,
-                    "responses": model_responses
-                }
-                
+                metrics = self.metrics.calculate_metrics_single_model(df, model_name)
+                return (model_name, metrics, model_responses)
+
             except Exception as e:
                 logger.error(f"Model {model_name} evaluation failed: {str(e)}")
-                models_results[model_name] = {
-                    "metrics": {
-                        "model": model_name,
-                        "accuracy": 0.0,
-                        "precision": 0.0,
-                        "recall": 0.0,
-                        "f1": 0.0,
-                        "error": str(e)
-                    },
-                    "responses": []
-                }
-        
+                return (model_name, {
+                    "model": model_name,
+                    "accuracy": 0.0,
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "error": str(e)
+                }, [])
+
+        # Create and run all model tasks concurrently
+        model_tasks = [evaluate_single_model(model) for model in config.models]
+        results = await asyncio.gather(*model_tasks)
+
+        # Process results
+        for model_name, metrics, responses in results:
+            models_results[model_name] = {
+                "metrics": metrics,
+                "responses": responses
+            }
+
         return models_results
+    # async def evaluate_models(self, config: ModelConfig, csv_path: str, 
+    #                      valid_classes: List[str]) -> Dict[str, Any]:
+    #     """Run evaluation with comprehensive validation"""
+    #     models_results = {}
+    #     queries = self.ingest_csv(csv_path)
+        
+    #     if not queries:
+    #         logger.error("No valid queries to process")
+    #         return models_results
+            
+    #     if not valid_classes:
+    #         raise ValueError("Valid classes list cannot be empty")
+            
+    #     for model_name in config.models:
+    #         try:
+    #             model_responses = []
+    #             logger.info(f"Starting evaluation for {model_name} with {len(queries)} queries")
+                
+    #             for query in queries:
+    #                 try:
+    #                     entry = await self._query_model(
+    #                         model_name,
+    #                         query["question"],
+    #                         0,  # instance
+    #                         0,  # iteration
+    #                         valid_classes,
+    #                         config.base_temperature
+    #                     )
+                        
+    #                     response_with_metrics = {
+    #                         "question": query["question"],
+    #                         "ground_truth": query["ground_truth"],
+    #                         "predicted_class": entry.predicted_class,
+    #                         "confidence": float(entry.confidence),
+    #                         "latency": float(entry.latency),
+    #                         "correct": entry.predicted_class == query["ground_truth"],
+    #                         "error": entry.error
+    #                     }
+    #                     model_responses.append(response_with_metrics)
+    #                 except KeyError as e:
+    #                     logger.error(f"Skipping invalid query: {str(e)}")
+    #                     continue
+                
+    #             # Calculate metrics with enhanced validation
+    #             try:
+    #                 df = pd.DataFrame(model_responses)
+    #                 if df.empty:
+    #                     raise ValueError("No valid responses collected")
+                        
+    #                 # Convert types explicitly
+    #                 df = df.convert_dtypes()
+    #                 df['correct'] = df['correct'].astype(bool)
+    #                 df['confidence'] = pd.to_numeric(df['confidence'], errors='coerce').fillna(0.0)
+                    
+    #                 metrics = self.metrics.calculate_metrics_single_model(df, model_name)
+    #             except Exception as e:
+    #                 logger.error(f"Metrics calculation failed for {model_name}: {str(e)}")
+    #                 metrics = {
+    #                     "model": model_name,
+    #                     "accuracy": 0.0,
+    #                     "precision": 0.0,
+    #                     "recall": 0.0,
+    #                     "f1": 0.0,
+    #                     "error": str(e)
+    #                 }
+                
+    #             models_results[model_name] = {
+    #                 "metrics": metrics,
+    #                 "responses": model_responses
+    #             }
+                
+    #         except Exception as e:
+    #             logger.error(f"Model {model_name} evaluation failed: {str(e)}")
+    #             models_results[model_name] = {
+    #                 "metrics": {
+    #                     "model": model_name,
+    #                     "accuracy": 0.0,
+    #                     "precision": 0.0,
+    #                     "recall": 0.0,
+    #                     "f1": 0.0,
+    #                     "error": str(e)
+    #                 },
+    #                 "responses": []
+    #             }
+        
+    #     return models_results
 
     def find_best_model(self, evaluation_results: Dict) -> str:
         """Find the best model with validation"""
@@ -255,15 +336,7 @@ class ClassificationModelRunner:
         except Exception as e:
             logger.error(f"Hyperparameter tuning failed: {str(e)}")
             raise
-        #     if not best_params.get('temperature'):
-        #         raise ValueError("Tuning failed to find optimal parameters")
-                
-        #     logger.info(f"Tuning complete. Best params: {best_params}")
-        #     return best_params
-            
-        # except Exception as e:
-        #     logger.error(f"Hyperparameter tuning failed: {str(e)}")
-        #     raise
+
 
     async def evaluate_with_params(self, model: str, params: Dict[str, Any], 
                               csv_path: str, valid_classes: List[str]) -> Dict[str, Any]:
