@@ -338,23 +338,24 @@ def main():
         st.header("Evaluation Types")
         app_mode = st.radio(
             "Select Evaluation Mode",
-            ["Non-RAG_eval", "RAG_eval", "Text2SQL_eval","Classification_Eval", "new_sql", "classification new"],
+            ["Non-RAG_eval", "new_sql", "classification new", "sql metrics module"], # ["RAG_eval", "Text2SQL_eval","Classification_Eval"]
             index=0
         )
 
     if app_mode == "Non-RAG_eval":
         prompt_eval_page()
-    elif app_mode == "RAG_eval":
-        rag_eval_page()
-    elif app_mode == "Text2SQL_eval":
-        spider_eval_page()
-    elif app_mode == "Classification_Eval":
-        classification_page()
+    # elif app_mode == "RAG_eval":
+    #     rag_eval_page()
+    # elif app_mode == "Text2SQL_eval":
+    #     spider_eval_page()
+    # elif app_mode == "Classification_Eval":
+    #     classification_page()
     elif app_mode == "new_sql":
         text2sql_ui()
     elif app_mode == "classification new":
         classification_ui()
-
+    elif app_mode =="sql metrics module":
+        text2sql_ui_mm()
 def prompt_eval_page():
     # st.title("GenAI App Tuner")
 
@@ -3188,6 +3189,1098 @@ def classification_ui():
 
     return None
 
+def text2sql_ui_mm():
+    
+    # Import necessary libraries for visualization
+    import plotly.express as px
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+    import os
+    import matplotlib.pyplot as plt
+    import streamlit as st
+    from llm_consortium.core.sql_with_mm.sql_model_runner import SQLModelRunner
+    from llm_consortium.core.sql.sql_judge import SQLJudge 
+    from llm_consortium.config.models_sql_mm import ModelConfig
+    from llm_consortium.metrics.registry import MetricRegistry
+    import asyncio
+    import json
+    import tempfile
+    import pandas as pd
+    import altair as alt
+    import uuid
+    from llm_consortium.utils.logging import logger
+    from datetime import datetime
+    from llm_consortium.utils.pricing import calculate_cost
+    from llm_consortium.core.client_init import llm
+    
+
+    # Initialize judge and metric registry
+    judge = SQLJudge(llm)
+    metric_registry = MetricRegistry()
+    
+    # Get available SQL metrics dynamically
+    available_metrics = metric_registry.get_metrics_for_task("sql")
+
+    # Title and description
+    st.title("SQL Model Evaluation and Tuning")
+    st.markdown("""
+    This tool evaluates different LLM models for SQL query generation and tunes parameters for the best performer.
+    Upload your test dataset, select models to evaluate, and configure evaluation parameters.
+    """)
+
+    # Initialize session state for storing results between reruns
+    if 'sql_evaluation_results' not in st.session_state:
+        st.session_state.sql_evaluation_results = None
+    if 'sql_best_model' not in st.session_state:
+        st.session_state.sql_best_model = None
+    if 'sql_best_params' not in st.session_state:
+        st.session_state.sql_best_params = None
+    if 'sql_tuning_results' not in st.session_state:
+        st.session_state.sql_tuning_results = None
+    if 'sql_running' not in st.session_state:
+        st.session_state.sql_running = False
+    if 'sql_progress' not in st.session_state:
+        st.session_state.sql_progress = 0
+    if 'sql_judge_results' not in st.session_state:
+        st.session_state.sql_judge_results = None
+    if 'sql_judge_running' not in st.session_state:
+        st.session_state.sql_judge_running = False
+    if 'sql_tuning_comparison' not in st.session_state:
+        st.session_state.sql_tuning_comparison = None
+    if 'sql_sampled_dataset' not in st.session_state:
+        st.session_state.sql_sampled_dataset = None
+    if 'sql_tuning_trials' not in st.session_state:
+        st.session_state.sql_tuning_trials = None
+
+    def reset_results():
+        st.session_state.sql_evaluation_results = None
+        st.session_state.sql_best_model = None
+        st.session_state.sql_best_params = None
+        st.session_state.sql_tuning_results = None
+        st.session_state.sql_running = False
+        st.session_state.sql_progress = 0
+        st.session_state.sql_judge_results = None
+        st.session_state.sql_judge_running = False
+        st.session_state.sql_tuning_comparison = None
+        st.session_state.sql_sampled_dataset = None
+        st.session_state.sql_tuning_trials = None
+
+    # Layout with two columns - config panel and results
+    col1, col2 = st.columns([1, 3])
+
+    # Configuration panel
+    with col1:
+        st.header("Configuration")
+        
+        # File uploader
+        uploaded_file = st.file_uploader("Upload Test Dataset (CSV)", type=["csv"], key="sql_csv_upload")
+        
+        # Add dataset sampling option
+        if uploaded_file is not None:
+            # Read the uploaded file to get the number of rows
+            df = pd.read_csv(uploaded_file)
+            total_rows = len(df)
+            
+            st.subheader("Dataset Sampling")
+            enable_sampling = st.checkbox("Enable Dataset Sampling", value=False, key="sql_enable_sampling")
+            
+            if enable_sampling:
+                sample_size = st.slider(
+                    "Sample Size", 
+                    min_value=min(10, total_rows),
+                    max_value=total_rows,
+                    value=min(50, total_rows),
+                    step=10,
+                    help=f"Select number of samples to use from your dataset of {total_rows} records"
+                )
+                
+                # Display percentage of total
+                st.caption(f"Selected {sample_size} samples ({(sample_size/total_rows*100):.1f}% of total)")
+            else:
+                # If sampling is not enabled, use all rows
+                sample_size = total_rows
+            
+            # Reset file position to beginning for later use
+            uploaded_file.seek(0)
+        
+        # Model selection (with default models)
+        default_models = ["gpt-4o-mini", "gpt-4o"]
+        available_models = ["gpt-4o-mini", "gpt-4o", "gpt-3.5-turbo", "claude-3-opus", "claude-3-sonnet", "claude-3-haiku"]
+        selected_models = st.multiselect(
+            "Select Models to Evaluate", 
+            available_models,
+            default=default_models,
+            key="sql_models"
+        )
+        
+        # Judge model selection
+        judge_models = ["gpt-4o-mini", "claude-3-opus", "claude-3-sonnet"] 
+        selected_judge = st.selectbox(
+            "LLM Judge Model",
+            judge_models,
+            index=0,
+            key="sql_judge_model"
+        )
+        
+        # Metrics selection - dynamically populated from the registry
+        st.subheader("Metrics Selection")
+        
+        # Format available metrics for display
+        metric_options = {name: metric.description for name, metric in available_metrics.items()}
+        
+        # Default to select all metrics if none are defined
+        default_metrics = list(metric_options.keys()) if metric_options else []
+        
+        selected_metrics = st.multiselect(
+            "Select Evaluation Metrics",
+            options=list(metric_options.keys()),
+            format_func=lambda x: f"{x} - {metric_options[x]}" if x in metric_options else x,
+            default=default_metrics[:2] if len(default_metrics) > 1 else default_metrics,
+            help="Select metrics to use for evaluation"
+        )
+        
+        if not selected_metrics:
+            st.warning("Please select at least one metric for evaluation")
+            
+        st.session_state.selected_metrics = selected_metrics
+        
+        # Base configuration
+        st.subheader("Base Settings")
+        base_temperature = st.slider("Base Temperature", 0.0, 1.0, 0.2, 0.05, key="sql_base_temp")
+        
+        # Tuning settings
+        st.subheader("Parameter Tuning")
+        enable_tuning = st.checkbox("Enable Parameter Tuning", value=True, key="sql_enable_tuning")
+        
+        min_temp = st.slider("Min Temperature", 0.0, 1.0, 0.0, 0.05, key="sql_min_temp")
+        max_temp = st.slider("Max Temperature", 0.0, 1.0, 0.8, 0.05, key="sql_max_temp")
+        num_trials = st.slider("Number of Trials", 3, 10, 5, key="sql_num_trials")
+        
+        # Get available judge criteria - dynamically defined
+        default_judge_criteria = [
+            "Column name accuracy",
+            "Table usage correctness",
+            "Query structure", 
+            "Intent understanding"
+        ]
+        
+        all_judge_criteria = [
+            "Column name accuracy",
+            "Table usage correctness",
+            "Join quality",
+            "Condition correctness",
+            "Query structure",
+            "SQL syntax correctness",
+            "Query optimization",
+            "Intent understanding"
+        ]
+        
+        # Judge settings
+        st.subheader("Judge Settings")
+        judge_criteria = st.multiselect(
+            "Judge Criteria",
+            all_judge_criteria,
+            default=default_judge_criteria,
+            key="sql_judge_criteria"
+        )
+        
+        # Output settings
+        st.subheader("Output Settings")
+        output_dir = st.text_input("Output Directory", "results", key="sql_output_dir")
+        save_results = st.checkbox("Save Results to File", value=True, key="sql_save_results")
+        
+        # Run button - disabled if no metrics or models selected
+        run_button = st.button(
+            "Run Evaluation", 
+            type="primary", 
+            key="sql_run_button", 
+            disabled=len(selected_models) == 0 or uploaded_file is None or len(selected_metrics) == 0
+        )
+
+    # Main content area in the second column
+    with col2:
+        async def run_evaluation_async(config, csv_path, sampled_csv_path=None):
+            """Run the evaluation and tuning pipeline asynchronously"""
+            try:
+                # Initialize runner with selected metrics
+                runner = SQLModelRunner(selected_metrics=config.metrics)
+                
+                # Step 1: Evaluate all models
+                st.session_state.sql_progress = 10
+                evaluation_progress.progress(st.session_state.sql_progress/100, "Evaluating models...")
+                
+                # Use the sampled dataset if available
+                eval_csv_path = sampled_csv_path if sampled_csv_path else csv_path
+                
+                # Run evaluation
+                evaluation_results = await runner.evaluate_models(config, eval_csv_path)
+                st.session_state.sql_evaluation_results = evaluation_results
+                st.session_state.sql_progress = 50
+                evaluation_progress.progress(st.session_state.sql_progress/100, "Evaluation complete, processing results...")
+                
+                # Calculate metrics for each model
+                model_metrics = {}
+                
+                # Track which metric to use for ranking (use first selected metric)
+                primary_metric = f"{config.metrics[0]}_rate" if config.metrics else None
+                
+                for model_name, eval_data in evaluation_results.items():
+                    metrics = eval_data["metrics"]
+                    responses = eval_data["responses"]
+                    
+                    # Calculate average latency (not directly provided in metrics)
+                    latencies = [r.get("latency", 0) for r in responses]
+                    avg_latency = sum(latencies) / len(latencies) if latencies else 0
+                    
+                    # Add all available metrics to the results
+                    model_metrics[model_name] = {"avg_latency": avg_latency}
+                    
+                    # Add all rate metrics from the evaluation
+                    for key, value in metrics.items():
+                        if key.endswith("_rate") and isinstance(value, (int, float)):
+                            model_metrics[model_name][key] = value
+                
+                # Find best model based on primary metric (first selected), breaking ties with latency
+                if primary_metric and model_metrics:
+                    best_model = max(
+                        model_metrics.items(),
+                        key=lambda x: (x[1].get(primary_metric, 0), -x[1]["avg_latency"])
+                    )[0]
+                    
+                    st.session_state.sql_best_model = best_model
+                    st.session_state.sql_progress = 60
+                    evaluation_progress.progress(st.session_state.sql_progress/100, f"Best model identified: {best_model}")
+                else:
+                    st.warning("Could not determine best model - no valid metrics available")
+                    st.session_state.sql_best_model = selected_models[0] if selected_models else None
+                    st.session_state.sql_progress = 60
+                    evaluation_progress.progress(st.session_state.sql_progress/100, "Evaluation complete")
+                
+                # Step 3: Tune the best model if enabled
+                if config.enable_tuning and st.session_state.sql_best_model:
+                    best_model = st.session_state.sql_best_model
+                    evaluation_progress.progress(st.session_state.sql_progress/100, f"Tuning {best_model}...")
+                    
+                    # Tune the best model
+                    best_params = await runner.tune_best_model(
+                        best_model,
+                        eval_csv_path,  # Use the already sampled dataset
+                        config
+                    )
+                    st.session_state.sql_best_params = best_params
+                    
+                    # Capture the temperature trial results if available from the tuner
+                    if hasattr(runner.hyperparameter_tuner, 'trial_results'):
+                        st.session_state.sql_tuning_trials = runner.hyperparameter_tuner.trial_results
+                    
+                    st.session_state.sql_progress = 80
+                    evaluation_progress.progress(st.session_state.sql_progress/100, "Tuning complete")
+                
+                    # Step 4: Evaluate with tuned parameters
+                    if config.run_final_evaluation:
+                        evaluation_progress.progress(st.session_state.sql_progress/100, f"Final evaluation with tuned parameters...")
+                        final_results = await runner.evaluate_with_params(
+                            best_model, 
+                            best_params, 
+                            eval_csv_path  # Use the already sampled dataset
+                        )
+                        st.session_state.sql_tuning_results = final_results
+                        
+                # Save results if requested
+                if save_results:
+                    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                    os.makedirs(output_dir, exist_ok=True)
+                    output_file = os.path.join(output_dir, f"sql_eval_results_{timestamp}.json")
+                    
+                    with open(output_file, "w") as f:
+                        json.dump({
+                            "model_evaluations": evaluation_results,
+                            "best_model": st.session_state.sql_best_model,
+                            "best_params": st.session_state.sql_best_params if config.enable_tuning else None,
+                            "model_metrics": model_metrics,
+                            "sample_size": sample_size if 'sample_size' in locals() else "full dataset",
+                            "selected_metrics": config.metrics
+                        }, f, indent=2, default=str)
+                        
+                st.session_state.sql_progress = 100
+                evaluation_progress.progress(st.session_state.sql_progress/100, "Complete!")
+                return model_metrics
+                
+            except Exception as e:
+                st.error(f"Error during evaluation: {str(e)}")
+                logger.error(f"Evaluation error: {str(e)}")
+                return None
+            finally:
+                st.session_state.sql_running = False
+        
+        # Judge evaluation function
+        async def run_judge_evaluation_async(judge_criteria):
+            """Run the judge evaluation asynchronously"""
+            try:
+                # Ensure criteria is always a list of strings
+                if isinstance(judge_criteria, str):
+                    judge_criteria = [judge_criteria]
+                    
+                if not isinstance(judge_criteria, list):
+                    raise ValueError("Judge criteria must be a list")
+                    
+                # Validate each criterion is a string
+                judge_criteria = [str(c) for c in judge_criteria]
+                
+                # Pass to judge
+                judge_results = await judge.evaluate_model_outputs(
+                    st.session_state.sql_evaluation_results,
+                    criteria=judge_criteria,
+                    model=st.session_state.get('sql_judge_model', 'gpt-4o-mini')  # Use the selected judge model
+                )
+                
+                # Store results
+                st.session_state.sql_judge_results = judge_results
+                
+                # If we have before/after tuning results, compare those too
+                if st.session_state.sql_best_model and st.session_state.sql_tuning_results:
+                    best_model = st.session_state.sql_best_model
+                    before_data = st.session_state.sql_evaluation_results[best_model]
+                    after_data = st.session_state.sql_tuning_results
+                    
+                    tuning_comparison = await judge.before_after_tuning_comparison(
+                        best_model,
+                        before_data,
+                        after_data,
+                        model=st.session_state.get('sql_judge_model', 'gpt-4o-mini')  # Use the selected judge model
+                    )
+                    
+                    st.session_state.sql_tuning_comparison = tuning_comparison
+                
+                return judge_results
+                
+            except Exception as e:
+                st.error(f"Error during judge evaluation: {str(e)}")
+                logger.error(f"Judge evaluation error: {str(e)}")
+                return None
+            finally:
+                st.session_state.sql_judge_running = False
+        
+        # Handle run button click
+        if run_button and not st.session_state.sql_running:
+            sampled_csv_path = None
+            
+            # Validate at least one metric is selected
+            if not selected_metrics:
+                st.error("Please select at least one metric for evaluation")
+            else:
+                # Create sampled dataset if sampling is enabled
+                if st.session_state.get('sql_enable_sampling', False) and uploaded_file is not None:
+                    # Read the full dataset
+                    df = pd.read_csv(uploaded_file)
+                    total_rows = len(df)
+                    
+                    # Check if sampling is actually needed
+                    if sample_size < total_rows:
+                        # Sample the dataset
+                        sampled_df = df.sample(n=sample_size, random_state=42)
+                        
+                        # Save the sampled dataset to a temporary file
+                        sampled_csv_path = "temp_sampled_dataset.csv"
+                        sampled_df.to_csv(sampled_csv_path, index=False)
+                        st.session_state.sql_sampled_dataset = sampled_csv_path
+                        
+                        # Display info about sampling
+                        st.info(f"Using {sample_size} samples out of {total_rows} records ({(sample_size/total_rows*100):.1f}%)")
+                
+                # Create config
+                config = ModelConfig(
+                    models=selected_models,
+                    metrics=selected_metrics,
+                    base_temperature=base_temperature,
+                    enable_tuning=enable_tuning,
+                    min_temp=min_temp,
+                    max_temp=max_temp,
+                    num_trials=num_trials,
+                    run_final_evaluation=True
+                )
+                
+                # Save uploaded file temporarily
+                temp_csv = "temp_dataset.csv"
+                with open(temp_csv, "wb") as f:
+                    f.write(uploaded_file.getvalue())
+                
+                # Reset previous results
+                reset_results()
+                
+                # Show progress bar
+                evaluation_progress = st.progress(0, "Starting evaluation...")
+                st.session_state.sql_running = True
+                
+                # Method 1: Using a synchronous wrapper function
+                def run_evaluation(config, csv_path, sampled_csv_path):
+                    """Synchronous wrapper for the async evaluation function"""
+                    loop = asyncio.new_event_loop()
+                    asyncio.set_event_loop(loop)
+                    try:
+                        return loop.run_until_complete(run_evaluation_async(config, csv_path, sampled_csv_path))
+                    finally:
+                        loop.close()
+                
+                # Run the evaluation in the current thread (this will block the UI until complete)
+                run_evaluation(config, temp_csv, sampled_csv_path)
+        # Display tabs for results (rest of your UI code remains mostly unchanged
+
+        if st.session_state.sql_running or st.session_state.sql_evaluation_results:
+            # Define tabs configuration with properties
+            tab_config = {
+                "evaluation_results": {
+                    "title": "Evaluation Results",
+                    "icon": "📊"
+                },
+                "model_comparison": {
+                    "title": "Model Comparison",
+                    "icon": "📈"
+                },
+                "best_model": {
+                    "title": "Best Model",
+                    "icon": "🥇"
+                },
+                "best_parameter": {
+                    "title": "Best Parameter",
+                    "icon": "⚙️"
+                },
+                "sample_queries": {
+                    "title": "Sample Queries",
+                    "icon": "📝"
+                },
+                "llm_judge": {
+                    "title": "LLM Judge",
+                    "icon": "👨‍⚖️"
+                },
+                "cost_estimation": {
+                    "title": "Cost Estimation",
+                    "icon": "💰"
+                }
+            }
+            
+            # Create tabs dynamically
+            tab_titles = [f"{config['icon']} {config['title']}" for tab_id, config in tab_config.items()]
+            tabs = st.tabs(tab_titles)
+            
+            # Store tab mapping for easy access
+            tab_mapping = {tab_id: idx for idx, tab_id in enumerate(tab_config.keys())}
+            
+            # Tab for Evaluation Results
+            with tabs[tab_mapping["evaluation_results"]]:
+                if st.session_state.sql_evaluation_results:
+                    st.header("Model Evaluation Results")
+                    
+                    # Display sampling information if dataset was sampled
+                    if st.session_state.sql_sampled_dataset:
+                        st.info(f"Results based on sampled dataset ({sample_size} records)")
+                    
+                    # Add LLM Judge button
+                    judge_col1, judge_col2 = st.columns([1, 3])
+                    with judge_col1:
+                        judge_button = st.button(
+                            "Evaluate Using LLM Judge", 
+                            type="primary", 
+                            key="sql_judge_button",
+                            disabled=st.session_state.sql_judge_running
+                        )
+                    
+                    if judge_button and not st.session_state.sql_judge_running:
+                        st.session_state.sql_judge_running = True
+                        
+                        # Run judge evaluation
+                        def run_judge():
+                            """Synchronous wrapper for the async judge evaluation function"""
+                            loop = asyncio.new_event_loop()
+                            asyncio.set_event_loop(loop)
+                            try:
+                                return loop.run_until_complete(run_judge_evaluation_async(judge_criteria))
+                            finally:
+                                loop.close()
+                        
+                        # Show a spinner during evaluation
+                        with st.spinner("LLM Judge evaluating models..."):
+                            run_judge()
+                        
+                        # Show completion message
+                        st.success("LLM Judge evaluation complete! See the 'LLM Judge' tab for results.")
+                        
+                    # Dynamic metrics table
+                    metrics_data = []
+                    
+                    for model_name, eval_data in st.session_state.sql_evaluation_results.items():
+                        metrics = eval_data["metrics"]
+                        responses = eval_data["responses"]
+                        
+                        # Base model info
+                        model_metrics = {
+                            "Model": model_name,
+                            "Samples": len(responses),
+                            "Avg. Latency (s)": round(sum(r["latency"] for r in responses) / len(responses), 3)
+                        }
+                        
+                        # Add selected metrics
+                        for metric in selected_metrics:
+                            if metric in metrics:
+                                value = metrics[metric]
+                                # Convert any objects to string to prevent type errors
+                                if not isinstance(value, (str, int, float, bool)):
+                                    value = str(value)
+                                if isinstance(value, float):
+                                    model_metrics[available_metrics[metric]] = f"{value:.2f}%"
+                                else:
+                                    model_metrics[available_metrics[metric]] = str(value)
+                        
+                        metrics_data.append(model_metrics)
+                    
+                    # Create DataFrame with dynamic columns
+                    columns_order = ["Model"] + [available_metrics[m] for m in selected_metrics] + ["Avg. Latency (s)", "Samples"]
+                    
+                    # Filter columns to only those that exist in the dataframe
+                    metrics_df = pd.DataFrame(metrics_data)
+                    existing_columns = [col for col in columns_order if col in metrics_df.columns]
+                    metrics_df = metrics_df[existing_columns]
+
+                    st.dataframe(metrics_df, use_container_width=True)
+                    
+                    if st.session_state.sql_best_model:
+                        st.success(f"Best model: {st.session_state.sql_best_model}")
+
+                else:
+                    st.info("Running evaluation..." if st.session_state.sql_running else "Run evaluation to see results")
+                    
+            # Tab for Model Comparison Charts
+            with tabs[tab_mapping["model_comparison"]]:
+                if st.session_state.sql_evaluation_results:
+                    st.header("Model Comparison")
+                    
+                    # Prepare data for visualization
+                    comparison_data = []
+                    
+                    for model_name, eval_data in st.session_state.sql_evaluation_results.items():
+                        metrics = eval_data["metrics"]
+                        entry = {
+                            "Model": model_name,
+                            "Avg. Latency (s)": sum(r["latency"] for r in eval_data["responses"]) / len(eval_data["responses"])
+                        }
+                        
+                        # Add selected metrics using rate keys
+                        for metric in selected_metrics:
+                            rate_key = f"{metric}_rate"
+                            if rate_key in metrics:
+                                # Ensure the value is a float or convert it
+                                if isinstance(metrics[rate_key], (int, float)):
+                                    entry[rate_key] = metrics[rate_key]
+                                else:
+                                    # Try to convert to float if possible, otherwise use 0
+                                    try:
+                                        entry[rate_key] = float(metrics[rate_key])
+                                    except (ValueError, TypeError):
+                                        entry[rate_key] = 0.0
+                            else:
+                                entry[rate_key] = 0.0
+                        
+                        comparison_data.append(entry)
+                    
+                    # Create DataFrame and rename columns
+                    df = pd.DataFrame(comparison_data)
+                    rename_dict = {f"{metric}_rate": available_metrics[metric] for metric in selected_metrics}
+                    df.rename(columns=rename_dict, inplace=True)
+                    
+                    # Plotting
+                    if len(selected_metrics) > 0 and not df.empty:
+                        try:
+                            fig, ax = plt.subplots(figsize=(12, 6))
+                            metric_cols = [available_metrics[m] for m in selected_metrics if f"{m}_rate" in df.columns or available_metrics[m] in df.columns]
+                            
+                            # Only proceed if we have valid metric columns
+                            if metric_cols:
+                                # Make sure DataFrame has all required columns
+                                for col in metric_cols:
+                                    if col not in df.columns:
+                                        df[col] = 0.0
+                                
+                                df.set_index("Model")[metric_cols].plot.bar(ax=ax)
+                                ax.set_title("Model Performance Comparison")
+                                ax.set_ylabel("Score (%)")
+                                ax.grid(True, linestyle='--', alpha=0.7)
+                                plt.xticks(rotation=45, ha='right')
+                                st.pyplot(fig)
+                            else:
+                                st.warning("No valid metrics available for plotting")
+                        except Exception as e:
+                            st.error(f"Error generating plot: {str(e)}")
+                            st.write("Comparison data:", df)
+                    else:
+                        st.warning("No metrics selected for comparison or no data available")
+                else:
+                    st.info("Complete evaluation to view model comparison charts")
+
+            # Tab for Best Model Details
+            with tabs[tab_mapping["best_model"]]:
+                if st.session_state.sql_best_model:
+                    st.header(f"Best Model: {st.session_state.sql_best_model}")
+                    
+                    best_model_data = st.session_state.sql_evaluation_results[st.session_state.sql_best_model]
+                    metrics = best_model_data["metrics"]
+                    responses = best_model_data["responses"]
+                    
+                    # Create dynamic columns based on selected metrics
+                    num_cols = len(selected_metrics) + 1  # +1 for latency
+                    cols = st.columns(num_cols)
+                    
+                    # Add selected metrics
+                    for idx, metric in enumerate(selected_metrics):
+                        if idx < len(cols):  # Safety check
+                            rate_key = f"{metric}_rate"
+                            if rate_key in metrics:
+                                # Ensure value is a number or convert to string
+                                try:
+                                    value = float(metrics[rate_key])
+                                    cols[idx].metric(
+                                        str(available_metrics[metric]), 
+                                        f"{value:.2f}%"
+                                    )
+                                except (ValueError, TypeError):
+                                    cols[idx].metric(
+                                        str(available_metrics[metric]), 
+                                        str(metrics[rate_key])
+                                    )
+                            elif metric in metrics:
+                                # Always convert to string to avoid type errors
+                                cols[idx].metric(
+                                    str(available_metrics[metric]), 
+                                    str(metrics[metric])
+                                )
+                    
+                    # Add latency in last column
+                    if len(cols) > 0:  # Safety check
+                        avg_latency = sum(r["latency"] for r in responses) / len(responses)
+                        cols[-1].metric("Average Latency", f"{avg_latency:.3f}s")
+                else:
+                    st.info("Complete evaluation to view best model details")
+
+            # Tab for Parameter Tuning Results
+            with tabs[tab_mapping["best_parameter"]]:
+                if st.session_state.sql_best_params:
+                    st.header("Best Parameter")
+                    
+                    # Dynamic display based on primary metric
+                    primary_metric = available_metrics[selected_metrics[0]] if selected_metrics else "Performance"
+                    
+                    col1, col2 = st.columns(2)
+                    col1.metric("Best Temperature", f"{st.session_state.sql_best_params['temperature']:.2f}")
+                    col2.metric(f"{primary_metric} Improvement", 
+                            f"{st.session_state.sql_best_params.get('improvement', 0):.2f}%")
+                    
+                    if 'sql_tuning_trials' in st.session_state:
+                        st.subheader("Parameter Trial Results")
+                        trials_data = []
+                        for trial in st.session_state.sql_tuning_trials:
+                            trial_data = {"Temperature": f"{trial['temperature']:.2f}"}
+                            for metric in selected_metrics:
+                                rate_key = f"{metric}_rate"
+                                if rate_key in trial:
+                                    # Ensure value is a number
+                                    try:
+                                        value = float(trial[rate_key])
+                                        trial_data[str(available_metrics[metric])] = f"{value:.2f}%"
+                                    except (ValueError, TypeError):
+                                        trial_data[str(available_metrics[metric])] = str(trial[rate_key])
+                            trials_data.append(trial_data)
+                        
+                        # Create DataFrame only if there's data
+                        if trials_data:
+                            st.dataframe(pd.DataFrame(trials_data), use_container_width=True)
+                        else:
+                            st.info("No tuning trial data available")
+                else:
+                    st.info("Enable parameter tuning and complete evaluation to view tuning results")
+
+            # Tab for Sample Queries
+            with tabs[tab_mapping["sample_queries"]]:
+                if st.session_state.sql_evaluation_results:
+                    st.header("Sample Query Results")
+                    
+                    # Model selector for viewing samples
+                    model_to_view = st.selectbox(
+                        "Select model to view samples",
+                        list(st.session_state.sql_evaluation_results.keys()),
+                        key="sql_model_selector"
+                    )
+                    
+                    if model_to_view:
+                        responses = st.session_state.sql_evaluation_results[model_to_view]["responses"]
+                        
+                        # Filter options
+                        filter_col1, filter_col2 = st.columns(2)
+                        show_correct = filter_col1.checkbox("Show Correct Queries", value=True, key="sql_show_correct")
+                        show_incorrect = filter_col2.checkbox("Show Incorrect Queries", value=True, key="sql_show_incorrect")
+                        
+                        # Make sure execution_match is a boolean, not an object
+                        filtered_responses = []
+                        for r in responses:
+                            # Convert execution_match to boolean if it's an object
+                            if not isinstance(r["execution_match"], bool):
+                                r["execution_match"] = bool(r["execution_match"])
+                            
+                            if (show_correct and r["execution_match"]) or (show_incorrect and not r["execution_match"]):
+                                filtered_responses.append(r)
+                        
+                        # Show samples
+                        if filtered_responses:
+                            for i, response in enumerate(filtered_responses[:10]):  # Limit to 10 samples
+                                with st.expander(
+                                    f"Query {i+1}: {'✅' if response['execution_match'] else '❌'} " + 
+                                    response["question"][:100] + ("..." if len(response["question"]) > 100 else "")
+                                ):
+                                    st.markdown("**Question:**")
+                                    st.write(response["question"])
+                                    
+                                    st.markdown("**Generated SQL:**")
+                                    st.code(response["generated_sql"], language="sql")
+                                    
+                                    st.markdown("**Gold SQL:**")
+                                    st.code(response["gold_sql"], language="sql")
+                                    
+                                    col1, col2, col3 = st.columns(3)
+                                    # Convert to string for display
+                                    exec_match = "✅" if response["execution_match"] else "❌"
+                                    exact_match = "✅" if response["exact_match"] else "❌"
+                                    
+                                    col1.metric("Execution Match", exec_match)
+                                    col2.metric("Exact Match", exact_match)
+                                    col3.metric("Confidence", f"{response['confidence']:.2f}")
+                        else:
+                            st.info("No queries matching your filter criteria")
+                else:
+                    st.info("Running evaluation..." if st.session_state.sql_running else "Run evaluation to see sample queries")
+            
+            # Tab for LLM Judge Results
+            with tabs[tab_mapping["llm_judge"]]:
+                st.header("LLM Judge Evaluation")
+                
+                if st.session_state.sql_judge_running:
+                    st.info("LLM judge evaluation in progress...")
+                elif st.session_state.sql_judge_results:
+                    # Display judge results
+                    
+                    # Model selection for viewing judge results
+                    judge_model_to_view = st.selectbox(
+                        "Select model to view judge evaluation",
+                        list(st.session_state.sql_judge_results.keys()),
+                        key="sql_judge_model_selector"
+                    )
+                    
+                    if judge_model_to_view:
+                        judge_result = st.session_state.sql_judge_results[judge_model_to_view]
+                        
+                        # Display any errors if present
+                        if "error" in judge_result:
+                            st.error(f"Judge evaluation error: {judge_result['error']}")
+                        else:
+                            st.subheader(f"Judge Evaluation for {judge_model_to_view}")
+                            
+                            # If the response has structured evaluation data
+                            if "evaluation" in judge_result and isinstance(judge_result["evaluation"], dict):
+                                evaluation = judge_result["evaluation"]
+                                
+                                # Display scores if available
+                                if "criteria_scores" in evaluation:
+                                    st.subheader("Criteria Scores")
+                                    
+                                    # Create score visualization
+                                    criteria_scores = evaluation["criteria_scores"]
+                                    score_data = []
+                                    for criterion, data in criteria_scores.items():
+                                        score_data.append({
+                                            "Criterion": criterion,
+                                            "Score": data["score"],
+                                            "Comments": data["comments"]
+                                        })
+                                    
+                                    # Display as a table
+                                    st.table(pd.DataFrame(score_data))
+                                    
+                                    # Create radar chart for scores
+                                    labels = [item["Criterion"] for item in score_data]
+                                    scores = [item["Score"] for item in score_data]
+                                    if labels and scores:
+                                        fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(polar=True))
+                                        
+                                        # Compute angles for each axis
+                                        angles = [n / float(len(labels)) * 2 * np.pi for n in range(len(labels))]
+                                        scores += scores[:1]  # close the loop
+                                        angles += angles[:1]
+
+                                        # Draw the outline of the radar chart
+                                        ax.plot(angles, scores, linewidth=2, linestyle='solid')
+                                        ax.fill(angles, scores, alpha=0.4)
+
+                                        ax.set_xticks(angles[:-1])
+                                        ax.set_xticklabels(labels)
+
+                                        ax.set_yticklabels([])
+                                        ax.set_title("LLM Judge Criteria Radar Chart")
+                                        st.pyplot(fig)
+                                    else:
+                                        st.info("No criteria scores available for visualization.")
+
+                                    # # Only create chart if we have data
+                                    # if labels and scores:
+                                    #     fig = plt.figure(figsize=(8, 8))
+                                    #     ax = fig.add_subplot(111, polar=True)
+                                        
+                                    #     # Set the angles for each criterion
+                                    #     angles = [n / float(len(labels)) * 2 * 3.14159 for n in range(len(labels))]
+                                    #     angles += angles[:1]  # Close the loop
+                                        
+                                    #     # Add the scores
+                                    #     scores += scores[:1]  # Close the loop
+                                        
+                                    #     # Plot
+                                    #     ax.plot(angles, scores, linewidth=2, linestyle='solid')
+                                    #     ax.fill(angles, scores, alpha=0.25)
+                                        
+                                    #     # Set labels and ticks
+                                    #     ax.set_xticks(angles[:-1])
+                                    #     ax.set_xticklabels(labels)
+                                    #     ax.set_yticks([2, 4, 6, 8, 10])
+                                    #     ax.set_yticklabels(['2', '4', '6', '8', '10'])
+                                    #     ax.set_ylim(0, 10)
+                                        
+                                    #     plt.title(f'Judge Scores for {judge_model_to_view}')
+                                    #     st.pyplot(fig)
+                                
+                                # Display strengths and weaknesses
+                                if "strengths" in evaluation:
+                                    st.subheader("Strengths")
+                                    for strength in evaluation["strengths"]:
+                                        st.markdown(f"- {strength}")
+                                
+                                if "weaknesses" in evaluation:
+                                    st.subheader("Weaknesses")
+                                    for weakness in evaluation["weaknesses"]:
+                                        st.markdown(f"- {weakness}")
+                                
+                                # Display summary and final score
+                                if "summary" in evaluation:
+                                    st.subheader("Summary")
+                                    st.write(evaluation["summary"])
+                                
+                                if "final_score" in evaluation:
+                                    st.metric("Final Score", f"{evaluation['final_score']}/100")
+                            else:
+                                # Display raw evaluation text
+                                st.markdown("### Judge Evaluation")
+                                st.write(judge_result.get("raw_response", "No detailed evaluation available"))
+                    
+                    # Show tuning comparison if available
+                    if st.session_state.sql_tuning_comparison:
+                        st.markdown("---")
+                        st.header("Before vs After Tuning Analysis")
+                        
+                        tuning_comp = st.session_state.sql_tuning_comparison
+                        model_name = tuning_comp.get("model_name")
+                        
+                        if "error" in tuning_comp:
+                            st.error(f"Tuning comparison error: {tuning_comp['error']}")
+                        else:
+                            st.subheader(f"Tuning Impact Analysis for {model_name}")
+                            
+                            # Display the analysis
+                            st.markdown(tuning_comp.get("tuning_impact_analysis", "No tuning analysis available"))
+                
+                else:
+                    # Show instructions for using the judge
+                    st.info("""
+                    To get an LLM judge evaluation of your models:
+                    1. Complete a model evaluation run
+                    2. Go to the "Evaluation Results" tab
+                    3. Click the "Evaluate Using LLM Judge" button
+                    
+                    The judge will evaluate each model's SQL generation quality and provide detailed feedback.
+                    """)
+                    
+                    # If we have evaluation results but no judge results, show reminder
+                    if st.session_state.sql_evaluation_results:
+                        st.markdown("#### Ready for Judge Evaluation")
+                        st.markdown("You have evaluation results ready to be analyzed by the LLM judge.")
+                        judge_reminder_button = st.button(
+                            "Start Judge Evaluation", 
+                            type="primary", 
+                            key="sql_judge_reminder_button"
+                        )
+                        
+                        if judge_reminder_button:
+                            st.session_state.sql_judge_running = True
+                            
+                            # Run judge evaluation
+                            def run_judge():
+                                """Synchronous wrapper for the async judge evaluation function"""
+                                loop = asyncio.new_event_loop()
+                                asyncio.set_event_loop(loop)
+                                try:
+                                    return loop.run_until_complete(run_judge_evaluation_async(judge_criteria))
+                                finally:
+                                    loop.close()
+                            
+                            # Show a spinner during evaluation
+                            with st.spinner("LLM Judge evaluating models..."):
+                                run_judge()
+                            
+                            # Rerun to show the results
+                            st.rerun()
+            
+            # Tab for Cost Estimation
+            with tabs[tab_mapping["cost_estimation"]]:
+                st.header("Cost Estimation")
+                
+                if st.session_state.sql_evaluation_results:
+                    # Calculate cost based on actual completed evaluation
+                    selected_models = list(st.session_state.sql_evaluation_results.keys())
+                    
+                    # Count number of queries processed per model
+                    query_counts = {}
+                    for model, eval_data in st.session_state.sql_evaluation_results.items():
+                        query_counts[model] = len(eval_data["responses"])
+                    
+                    # Prepare model data for cost calculation
+                    model_instances = [(model, 1) for model in selected_models]
+                    
+                    # Calculate cost for all iterations
+                    total_iterations = sum(query_counts.values())
+                    total_cost, cost_breakdown = calculate_cost(model_instances, total_iterations)
+                    
+                    # Display summary
+                    st.subheader("Evaluation Cost Summary")
+                    col1, col2 = st.columns(2)
+                    col1.metric("Total Models", len(selected_models))
+                    col2.metric("Total Queries", total_iterations)
+                    
+                    st.metric("Estimated Total Cost", f"${total_cost:.4f}")
+                    
+                    # Display cost breakdown table
+                    st.subheader("Cost Breakdown by Model")
+                    st.dataframe(cost_breakdown, use_container_width=True)
+                    
+                    # Create a bar chart of costs by model
+                    cost_data = []
+                    for model in selected_models:
+                        row = cost_breakdown[cost_breakdown['Model'] == model]
+                        if not row.empty:
+                            cost_val = float(row['Total'].iloc[0].replace('$', ''))
+                            cost_data.append({"Model": model, "Cost": cost_val})
+                    
+                    if cost_data:
+                        cost_df = pd.DataFrame(cost_data)
+                        fig, ax = plt.subplots(figsize=(10, 5))
+                        ax.bar(cost_df['Model'], cost_df['Cost'], color='green')
+                        ax.set_xlabel('Model')
+                        ax.set_ylabel('Cost ($)')
+                        ax.set_title('Cost by Model')
+                        ax.grid(True, linestyle='--', alpha=0.7)
+                        plt.xticks(rotation=45, ha='right')
+                        plt.tight_layout()
+                        st.pyplot(fig)
+                        
+                else:
+                    # If no evaluation has been run, show cost estimator
+                    st.subheader("Cost Estimator")
+                    st.markdown("""
+                    This tool helps you estimate the cost of running your SQL evaluation based on:
+                    - Selected models
+                    - Number of test queries
+                    - Whether parameter tuning is enabled
+                    """)
+                    
+                    # Get user inputs for estimation
+                    estimation_models = st.multiselect(
+                        "Select Models for Estimation",
+                        ["gpt-4o-mini", "gpt-3.5-turbo", "gemini-2", "o3-mini"],
+                        default=["gpt-4o-mini"] if "sql_models" not in st.session_state else st.session_state.sql_models
+                    )
+                    
+                    num_queries = st.slider(
+                        "Number of Test Queries",
+                        min_value=10,
+                        max_value=500,
+                        value=50,
+                        step=10,
+                        help="Estimated number of queries to evaluate"
+                    )
+                    
+                    enable_est_tuning = st.checkbox(
+                        "Include Parameter Tuning",
+                        value=True,
+                        help="Parameter tuning runs additional evaluations with different temperatures"
+                    )
+                    
+                    if enable_est_tuning:
+                        num_trials = st.slider(
+                            "Number of Tuning Trials",
+                            min_value=3,
+                            max_value=10,
+                            value=5,
+                            step=1,
+                            help="Number of different parameter configurations to try"
+                        )
+                    else:
+                        num_trials = 1
+                        
+                    # Calculate estimated cost
+                    if estimation_models:
+                        # Prepare model data for cost calculation
+                        model_instances = [(model, 1) for model in estimation_models]
+                        
+                        # Basic evaluation cost (one run per model)
+                        base_iterations = num_queries * len(estimation_models)
+                        
+                        # Add tuning iterations if enabled
+                        tuning_iterations = 0
+                        if enable_est_tuning and estimation_models:
+                            # For each trial, we run a subset of queries with one model
+                            tuning_iterations = num_queries * num_trials
+                            
+                        total_iterations = base_iterations + tuning_iterations
+                        
+                        # Calculate cost
+                        total_cost, cost_breakdown = calculate_cost(model_instances, total_iterations)
+                        
+                        # Display results
+                        cost_col1, cost_col2, cost_col3 = st.columns(3)
+                        cost_col1.metric("Base Evaluation Queries", base_iterations)
+                        cost_col2.metric("Tuning Queries", tuning_iterations)
+                        cost_col3.metric("Total Queries", total_iterations)
+                        
+                        st.metric("Estimated Total Cost", f"${total_cost:.4f}")
+                        
+                        # Display cost breakdown
+                        st.subheader("Cost Breakdown")
+                        st.dataframe(cost_breakdown, use_container_width=True)
+                        
+                        # Show model pricing information
+                        st.subheader("Model Pricing (per 1K tokens)")
+                        pricing_data = []
+                        for model, prices in MODEL_PRICING.items():
+                            pricing_data.append({
+                                "Model": model,
+                                "Input Cost (per 1K tokens)": f"${prices['input']}",
+                                "Output Cost (per 1K tokens)": f"${prices['output']}"
+                            })
+                        
+                        st.dataframe(pd.DataFrame(pricing_data), use_container_width=True)
+                        
+                        # Display assumptions
+                        st.subheader("Calculation Assumptions")
+                        st.markdown(f"""
+                        - Average input tokens per query: {AVG_INPUT_TOKENS}
+                        - Average output tokens per query: {AVG_OUTPUT_TOKENS}
+                        - Base evaluation: All models process all queries once
+                        - Tuning: Best model processes queries {num_trials} times with different parameters
+                        """)
+                    else:
+                        st.warning("Please select at least one model for cost estimation")
 def text2sql_ui():
     import os
     import matplotlib.pyplot as plt

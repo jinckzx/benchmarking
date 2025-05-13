@@ -22,3 +22,6 @@ matplotlib
 scikit-learn
 ipykernel
 deepeval==2.7.5
+plotly
+seaborn
+llama.index.embeddings.azure_openai

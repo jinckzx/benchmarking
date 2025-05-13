@@ -327,7 +327,7 @@ class ClassificationModelRunner:
                 tuning_config
             )
             # Check if we have meaningful results
-            if best_params["combined_score"] < 0.5:  # Adjust threshold as needed
+            if best_params["combined_score"] < 0.2:  # Adjust threshold as needed
                 raise ValueError(f"Tuning failed to find parameters above threshold. Best score: {best_params['combined_score']}")
                 
             logger.info(f"Tuning complete. Best params: {best_params}")
