@@ -1,0 +1,1395 @@
+{
+  "model_evaluations": {
+    "gpt-4o-mini": {
+      "metrics": {
+        "total": 17,
+        "exact_match": 0.0,
+        "execution_match": 0.7333333333333333
+      },
+      "responses": [
+        {
+          "question": "What are the payment method codes that have been used by more than 3 parties?",
+          "db_id": "e_government",
+          "generated_sql": "SELECT payment_method_code\nFROM Parties\nGROUP BY payment_method_code\nHAVING COUNT(party_id) > 3;",
+          "gold_sql": "SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3",
+          "confidence": 1.0,
+          "latency": 2.654421,
+          "execution_match": true,
+          "exact_match": false,
+          "generated_result": [
+            [
+              "Cash"
+            ],
+            [
+              "Cheque"
+            ],
+            [
+              "Credit Card"
+            ]
+          ],
+          "gold_result": [
+            [
+              "Cash"
+            ],
+            [
+              "Cheque"
+            ],
+            [
+              "Credit Card"
+            ]
+          ]
+        },
+        {
+          "question": "What is the average latitude and longitude of the starting points of all trips?",
+          "db_id": "bike_1",
+          "generated_sql": "BadRequestError: Error code: 400 - {'error': {'message': \"This model's maximum context length is 128000 tokens. However, your messages resulted in 1059599 tokens. Please reduce the length of the messages.\", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'context_length_exceeded'}}",
+          "gold_sql": "SELECT avg(T1.lat) ,  avg(T1.long) FROM station AS T1 JOIN trip AS T2 ON T1.id  =  T2.start_station_id",
+          "confidence": 0.0,
+          "latency": 5.343192
+        },
+        {
+          "question": "What are the ids of all songs that are available on mp4 or have a higher resolution than 720?",
+          "db_id": "music_1",
+          "generated_sql": "SELECT s.f_id \nFROM song s \nJOIN files f ON s.f_id = f.f_id \nWHERE f.formats = 'mp4' OR s.resolution > 720;",
+          "gold_sql": "SELECT f_id FROM files WHERE formats  =  \"mp4\" UNION SELECT f_id FROM song WHERE resolution  >  720",
+          "confidence": 1.0,
+          "latency": 2.713583,
+          "execution_match": true,
+          "exact_match": false,
+          "generated_result": [
+            [
+              1
+            ],
+            [
+              3
+            ],
+            [
+              4
+            ],
+            [
+              6
+            ]
+          ],
+          "gold_result": [
+            [
+              1
+            ],
+            [
+              3
+            ],
+            [
+              4
+            ],
+            [
+              6
+            ]
+          ]
+        },
+        {
+          "question": "Find the names of either colleges in LA with greater than 15000 size or in state AZ with less than 13000 enrollment.",
+          "db_id": "soccer_2",
+          "generated_sql": "SELECT cName \nFROM College \nWHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000);",
+          "gold_sql": "SELECT cName FROM College WHERE enr  <  13000 AND state = \"AZ\" UNION SELECT cName FROM College WHERE enr  >  15000 AND state = \"LA\"",
+          "confidence": 1.0,
+          "latency": 3.524526,
+          "execution_match": false,
+          "exact_match": false,
+          "generated_result": [
+            [
+              "LSU"
+            ],
+            [
+              "ASU"
+            ]
+          ],
+          "gold_result": [
+            [
+              "ASU"
+            ],
+            [
+              "LSU"
+            ]
+          ]
+        },
+        {
+          "question": "List the name and phone number of all suppliers in the alphabetical order of their addresses.",
+          "db_id": "department_store",
+          "generated_sql": "SELECT s.supplier_name, s.supplier_phone\nFROM Suppliers s\nJOIN Supplier_Addresses sa ON s.supplier_id = sa.supplier_id\nJOIN Addresses a ON sa.address_id = a.address_id\nORDER BY a.address_details;",
+          "gold_sql": "SELECT T1.supplier_name ,  T1.supplier_phone FROM Suppliers AS T1 JOIN supplier_addresses AS T2 ON T1.supplier_id  =  T2.supplier_id JOIN addresses AS T3 ON T2.address_id  =  T3.address_id ORDER BY T3.address_details",
+          "confidence": 1.0,
+          "latency": 3.955625,
+          "execution_match": true,
+          "exact_match": false,
+          "generated_result": [
+            [
+              "AB Store",
+              "1-483-283-4742"
+            ],
+            [
+              "Tesco",
+              "287-071-1153x254"
+            ],
+            [
+              "Audi",
+              "1-432-960-2402x1734"
+            ],
+            [
+              "Tesco",
+              "287-071-1153x254"
+            ]
+          ],
+          "gold_result": [
+            [
+              "AB Store",
+              "1-483-283-4742"
+            ],
+            [
+              "Tesco",
+              "287-071-1153x254"
+            ],
+            [
+              "Audi",
+              "1-432-960-2402x1734"
+            ],
+            [
+              "Tesco",
+              "287-071-1153x254"
+            ]
+          ]
+        },
+        {
+          "question": "Find the first names of students with age above 22.",
+          "db_id": "voter_2",
+          "generated_sql": "SELECT Fname FROM Student WHERE Age > 22;",
+          "gold_sql": "SELECT Fname FROM STUDENT WHERE Age  >  22",
+          "confidence": 1.0,
+          "latency": 2.387794,
+          "execution_match": true,
+          "exact_match": false,
+          "generated_result": [
+            [
+              "Paul"
+            ],
+            [
+              "Bruce"
+            ],
+            [
+              "Sarah"
+            ]
+          ],
+          "gold_result": [
+            [
+              "Paul"
+            ],
+            [
+              "Bruce"
+            ],
+            [
+              "Sarah"
+            ]
+          ]
+        },
+        {
+          "question": "How many companies are headquartered in the US?",
+          "db_id": "company_employee",
+          "generated_sql": "SELECT COUNT(*) \nFROM company \nWHERE Headquarters = 'USA';",
+          "gold_sql": "SELECT count(*) FROM company WHERE Headquarters  =  'USA'",
+          "confidence": 1.0,
+          "latency": 1.986012,
+          "execution_match": true,
+          "exact_match": false,
+          "generated_result": [
+            [
+              8
+            ]
+          ],
+          "gold_result": [
+            [
+              8
+            ]
+          ]
+        },
+        {
+          "question": "Show the distinct leader names of colleges associated with members from country \"Canada\".",
+          "db_id": "decoration_competition",
+          "generated_sql": "SELECT DISTINCT c.Leader_Name\nFROM college c\nJOIN member m ON c.College_ID = m.College_ID\nWHERE m.Country = 'Canada';",
+          "gold_sql": "SELECT DISTINCT T1.Leader_Name FROM college AS T1 JOIN member AS T2 ON T1.College_ID  =  T2.College_ID WHERE T2.Country  =  \"Canada\"",
+          "confidence": 1.0,
+          "latency": 2.493485,
+          "execution_match": true,
+          "exact_match": false,
+          "generated_result": [
+            [
+              "Samir Chahine"
+            ],
+            [
+              "Roger Dunbrack"
+            ]
+          ],
+          "gold_result": [
+            [
+              "Samir Chahine"
+            ],
+            [
+              "Roger Dunbrack"
+            ]
+          ]
+        },
+        {
+          "question": "What are the distinct names of nurses on call?",
+          "db_id": "hospital_1",
+          "generated_sql": "SELECT DISTINCT N.Name \nFROM Nurse N\nJOIN On_Call OC ON N.EmployeeID = OC.Nurse;",
+          "gold_sql": "SELECT DISTINCT T1.name FROM nurse AS T1 JOIN on_call AS T2 ON T1.EmployeeID  =  T2.nurse",
+          "confidence": 0.95,
+          "latency": 2.285474,
+          "execution_match": true,
+          "exact_match": false,
+          "generated_result": [
+            [
+              "Carla Espinosa"
+            ],
+            [
+              "Laverne Roberts"
+            ],
+            [
+              "Paul Flowers"
+            ]
+          ],
+          "gold_result": [
+            [
+              "Carla Espinosa"
+            ],
+            [
+              "Laverne Roberts"
+            ],
+            [
+              "Paul Flowers"
+            ]
+          ]
+        },
+        {
+          "question": "Find the purchase time, age and address of each member, and show the results in the order of purchase time.",
+          "db_id": "coffee_shop",
+          "generated_sql": "SELECT Time_of_purchase, Age, Address \nFROM member \nORDER BY Time_of_purchase;",
+          "gold_sql": "SELECT Time_of_purchase ,  age ,  address FROM member ORDER BY Time_of_purchase",
+          "confidence": 1.0,
+          "latency": 2.08923,
+          "execution_match": true,
+          "exact_match": false,
+          "generated_result": [
+            [
+              18,
+              29,
+              "Hartford"
+            ],
+            [
+              18,
+              35,
+              "Waterbury"
+            ],
+            [
+              20,
+              34,
+              "Hartford"
+            ],
+            [
+              24,
+              45,
+              "Waterbury"
+            ],
+            [
+              26,
+              33,
+              "Cheshire"
+            ],
+            [
+              26,
+              42,
+              "Bridgeport"
+            ],
+            [
+              27,
+              51,
+              "Waterbury"
+            ],
+            [
+              27,
+              51,
+              "Hartford"
+            ],
+            [
+              41,
+              67,
+              "Waterbury"
+            ],
+            [
+              44,
+              50,
+              "Cheshire"
+            ]
+          ],
+          "gold_result": [
+            [
+              18,
+              29,
+              "Hartford"
+            ],
+            [
+              18,
+              35,
+              "Waterbury"
+            ],
+            [
+              20,
+              34,
+              "Hartford"
+            ],
+            [
+              24,
+              45,
+              "Waterbury"
+            ],
+            [
+              26,
+              33,
+              "Cheshire"
+            ],
+            [
+              26,
+              42,
+              "Bridgeport"
+            ],
+            [
+              27,
+              51,
+              "Waterbury"
+            ],
+            [
+              27,
+              51,
+              "Hartford"
+            ],
+            [
+              41,
+              67,
+              "Waterbury"
+            ],
+            [
+              44,
+              50,
+              "Cheshire"
+            ]
+          ]
+        },
+        {
+          "question": "What is the name and description for document type code RV?",
+          "db_id": "cre_Doc_Tracking_DB",
+          "generated_sql": "SELECT Document_Type_Name, Document_Type_Description \nFROM Ref_Document_Types \nWHERE Document_Type_Code = 'RV';",
+          "gold_sql": "SELECT document_type_name ,  document_type_description FROM Ref_document_types WHERE document_type_code  =  \"RV\"",
+          "confidence": 1.0,
+          "latency": 2.179862,
+          "execution_match": true,
+          "exact_match": false,
+          "generated_result": [
+            [
+              "Review",
+              ""
+            ]
+          ],
+          "gold_result": [
+            [
+              "Review",
+              ""
+            ]
+          ]
+        },
+        {
+          "question": "What are the names of the artists who sang the shortest song?",
+          "db_id": "music_1",
+          "generated_sql": "SELECT artist_name \nFROM song \nWHERE duration = (SELECT MIN(duration) FROM song);",
+          "gold_sql": "SELECT T1.artist_name FROM song AS T1 JOIN files AS T2 ON T1.f_id  =  T2.f_id ORDER BY T2.duration LIMIT 1",
+          "confidence": 0.9,
+          "latency": 2.096167,
+          "execution_match": false,
+          "exact_match": false,
+          "error": "no such column: duration"
+        },
+        {
+          "question": "Who are the different players, what season do they play in, and what is the name of the team they are on?",
+          "db_id": "match_season",
+          "generated_sql": "SELECT p.Player, ms.Season, t.Name AS Team\nFROM player p\nJOIN team t ON p.Team = t.Team_id\nJOIN match_season ms ON p.Team = ms.Team;",
+          "gold_sql": "SELECT T1.Season ,  T1.Player ,  T2.Name FROM match_season AS T1 JOIN team AS T2 ON T1.Team  =  T2.Team_id",
+          "confidence": 1.0,
+          "latency": 2.371124,
+          "execution_match": false,
+          "exact_match": false,
+          "generated_result": [
+            [
+              "Cho Soong-Jae (630)",
+              1996.0,
+              "Columbus Crew"
+            ],
+            [
+              "Chung Hong (717)",
+              1996.0,
+              "Columbus Crew"
+            ],
+            [
+              "Im Kyu-tae (492)",
+              1996.0,
+              "Columbus Crew"
+            ],
+            [
+              "Jeong Suk-Young (793)",
+              1996.0,
+              "Columbus Crew"
+            ],
+            [
+              "Kim Hyun-Joon (908)",
+              1997.0,
+              "Evalyn Feil"
+            ],
+            [
+              "Kim Hyun-Joon (908)",
+              2003.0,
+              "Evalyn Feil"
+            ],
+            [
+              "Kim Young-Jun (474)",
+              1999.0,
+              "Miami Fusion"
+            ],
+            [
+              "Kim Young-Jun (474)",
+              2005.0,
+              "Miami Fusion"
+            ],
+            [
+              "Seol Jae-Min (none)",
+              1996.0,
+              "Columbus Crew"
+            ],
+            [
+              "An Jae-Sung",
+              1996.0,
+              "Columbus Crew"
+            ]
+          ],
+          "gold_result": [
+            [
+              1996.0,
+              "Steve Ralston Category:Articles with hCards",
+              "Columbus Crew"
+            ],
+            [
+              1997.0,
+              "Mike Duhaney Category:Articles with hCards",
+              "Evalyn Feil"
+            ],
+            [
+              1998.0,
+              "Ben Olsen Category:Articles with hCards",
+              "Anais VonRueden"
+            ],
+            [
+              1999.0,
+              "Jay Heaps Category:Articles with hCards",
+              "Miami Fusion"
+            ],
+            [
+              2000.0,
+              "Carlos Bocanegra Category:Articles with hCards",
+              "Enrique Osinski"
+            ],
+            [
+              2001.0,
+              "Rodrigo Faria Category:Articles with hCards",
+              "Enrique Osinski"
+            ],
+            [
+              2002.0,
+              "Kyle Martino Category:Articles with hCards",
+              "Anais VonRueden"
+            ],
+            [
+              2003.0,
+              "Damani Ralph Category:Articles with hCards",
+              "Evalyn Feil"
+            ],
+            [
+              2004.0,
+              "Clint Dempsey Category:Articles with hCards",
+              "Anais VonRueden"
+            ],
+            [
+              2005.0,
+              "Michael Parkhurst Category:Articles with hCards",
+              "Miami Fusion"
+            ],
+            [
+              2006.0,
+              "Jonathan Bornstein Category:Articles with hCards",
+              "D.C. United"
+            ],
+            [
+              2007.0,
+              "Maurice Edu Category:Articles with hCards",
+              "Ryley Goldner"
+            ],
+            [
+              2008.0,
+              "Sean Franklin Category:Articles with hCards",
+              "Enrique Osinski"
+            ],
+            [
+              2009.0,
+              "Omar Gonzalez Category:Articles with hCards",
+              "Enrique Osinski"
+            ],
+            [
+              2010.0,
+              "Andy Najar Category:Articles with hCards",
+              "Enrique Osinski"
+            ],
+            [
+              2011.0,
+              "C. J. Sapong Category:Articles with hCards",
+              "Anais VonRueden"
+            ]
+          ]
+        },
+        {
+          "question": "What are the grapes, appelations, and wines with scores above 93, sorted by Name?",
+          "db_id": "wine_1",
+          "generated_sql": "FileNotFoundError: Schema file not found: D:\\data_sci\\benchmarking_tool\\dataset\\spider_data\\spider_data\\database\\wine_1\\schema.sql",
+          "gold_sql": "SELECT Grape ,  Appelation ,  Name FROM WINE WHERE Score  >  93 ORDER BY Name",
+          "confidence": 0.0,
+          "latency": 0.011298
+        },
+        {
+          "question": "Please show the categories of the music festivals with count more than 1.",
+          "db_id": "music_4",
+          "generated_sql": "SELECT Category, COUNT(*) as Count\nFROM music_festival\nGROUP BY Category\nHAVING COUNT(*) > 1;",
+          "gold_sql": "SELECT Category FROM music_festival GROUP BY Category HAVING COUNT(*)  >  1",
+          "confidence": 1.0,
+          "latency": 2.247992,
+          "execution_match": false,
+          "exact_match": false,
+          "generated_result": [
+            [
+              "Best Lyrics",
+              3
+            ],
+            [
+              "Best Song",
+              5
+            ]
+          ],
+          "gold_result": [
+            [
+              "Best Lyrics"
+            ],
+            [
+              "Best Song"
+            ]
+          ]
+        },
+        {
+          "question": "What are the invoice numbers created before 1989-09-03 or after 2007-12-25?",
+          "db_id": "tracking_orders",
+          "generated_sql": "SELECT invoice_number \nFROM Invoices \nWHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25';",
+          "gold_sql": "SELECT invoice_number FROM invoices WHERE invoice_date < \"1989-09-03\" OR invoice_date > \"2007-12-25\"",
+          "confidence": 1.0,
+          "latency": 2.369102,
+          "execution_match": true,
+          "exact_match": false,
+          "generated_result": [
+            [
+              4
+            ],
+            [
+              5
+            ],
+            [
+              6
+            ],
+            [
+              8
+            ],
+            [
+              9
+            ],
+            [
+              11
+            ],
+            [
+              12
+            ],
+            [
+              13
+            ],
+            [
+              15
+            ]
+          ],
+          "gold_result": [
+            [
+              4
+            ],
+            [
+              5
+            ],
+            [
+              6
+            ],
+            [
+              8
+            ],
+            [
+              9
+            ],
+            [
+              11
+            ],
+            [
+              12
+            ],
+            [
+              13
+            ],
+            [
+              15
+            ]
+          ]
+        },
+        {
+          "question": "Find the total account balance of each customer from Utah or Texas.",
+          "db_id": "loan_1",
+          "generated_sql": "SELECT SUM(acc_bal) AS total_account_balance\nFROM customer\nWHERE state IN ('Utah', 'Texas');",
+          "gold_sql": "SELECT sum(acc_bal) FROM customer WHERE state  =  'Utah' OR state  =  'Texas'",
+          "confidence": 1.0,
+          "latency": 2.075516,
+          "execution_match": true,
+          "exact_match": false,
+          "generated_result": [
+            [
+              3000
+            ]
+          ],
+          "gold_result": [
+            [
+              3000
+            ]
+          ]
+        }
+      ]
+    },
+    "gpt-3.5-turbo": {
+      "metrics": {
+        "total": 17,
+        "exact_match": 0.0,
+        "execution_match": 0.6666666666666666
+      },
+      "responses": [
+        {
+          "question": "What are the payment method codes that have been used by more than 3 parties?",
+          "db_id": "e_government",
+          "generated_sql": "SELECT payment_method_code\nFROM Parties\nGROUP BY payment_method_code\nHAVING COUNT(DISTINCT party_id) > 3;",
+          "gold_sql": "SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3",
+          "confidence": 0.95,
+          "latency": 2.042009,
+          "execution_match": true,
+          "exact_match": false,
+          "generated_result": [
+            [
+              "Cash"
+            ],
+            [
+              "Cheque"
+            ],
+            [
+              "Credit Card"
+            ]
+          ],
+          "gold_result": [
+            [
+              "Cash"
+            ],
+            [
+              "Cheque"
+            ],
+            [
+              "Credit Card"
+            ]
+          ]
+        },
+        {
+          "question": "What is the average latitude and longitude of the starting points of all trips?",
+          "db_id": "bike_1",
+          "generated_sql": "BadRequestError: Error code: 400 - {'error': {'message': \"This model's maximum context length is 16385 tokens. However, your messages resulted in 1061462 tokens. Please reduce the length of the messages.\", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'context_length_exceeded'}}",
+          "gold_sql": "SELECT avg(T1.lat) ,  avg(T1.long) FROM station AS T1 JOIN trip AS T2 ON T1.id  =  T2.start_station_id",
+          "confidence": 0.0,
+          "latency": 4.632621
+        },
+        {
+          "question": "What are the ids of all songs that are available on mp4 or have a higher resolution than 720?",
+          "db_id": "music_1",
+          "generated_sql": "SELECT f_id\nFROM files\nWHERE formats = 'mp4'\nUNION\nSELECT f_id\nFROM song\nWHERE resolution > 720;",
+          "gold_sql": "SELECT f_id FROM files WHERE formats  =  \"mp4\" UNION SELECT f_id FROM song WHERE resolution  >  720",
+          "confidence": 0.95,
+          "latency": 1.820757,
+          "execution_match": true,
+          "exact_match": false,
+          "generated_result": [
+            [
+              1
+            ],
+            [
+              3
+            ],
+            [
+              4
+            ],
+            [
+              6
+            ]
+          ],
+          "gold_result": [
+            [
+              1
+            ],
+            [
+              3
+            ],
+            [
+              4
+            ],
+            [
+              6
+            ]
+          ]
+        },
+        {
+          "question": "Find the names of either colleges in LA with greater than 15000 size or in state AZ with less than 13000 enrollment.",
+          "db_id": "soccer_2",
+          "generated_sql": "SELECT cName\nFROM College\nWHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000);",
+          "gold_sql": "SELECT cName FROM College WHERE enr  <  13000 AND state = \"AZ\" UNION SELECT cName FROM College WHERE enr  >  15000 AND state = \"LA\"",
+          "confidence": 0.95,
+          "latency": 1.778774,
+          "execution_match": false,
+          "exact_match": false,
+          "generated_result": [
+            [
+              "LSU"
+            ],
+            [
+              "ASU"
+            ]
+          ],
+          "gold_result": [
+            [
+              "ASU"
+            ],
+            [
+              "LSU"
+            ]
+          ]
+        },
+        {
+          "question": "List the name and phone number of all suppliers in the alphabetical order of their addresses.",
+          "db_id": "department_store",
+          "generated_sql": "SELECT supplier_name, supplier_phone\nFROM Suppliers\nJOIN Supplier_Addresses ON Suppliers.supplier_id = Supplier_Addresses.supplier_id\nJOIN Addresses ON Supplier_Addresses.address_id = Addresses.address_id\nORDER BY Addresses.address_details;",
+          "gold_sql": "SELECT T1.supplier_name ,  T1.supplier_phone FROM Suppliers AS T1 JOIN supplier_addresses AS T2 ON T1.supplier_id  =  T2.supplier_id JOIN addresses AS T3 ON T2.address_id  =  T3.address_id ORDER BY T3.address_details",
+          "confidence": 0.95,
+          "latency": 2.069161,
+          "execution_match": true,
+          "exact_match": false,
+          "generated_result": [
+            [
+              "AB Store",
+              "1-483-283-4742"
+            ],
+            [
+              "Tesco",
+              "287-071-1153x254"
+            ],
+            [
+              "Audi",
+              "1-432-960-2402x1734"
+            ],
+            [
+              "Tesco",
+              "287-071-1153x254"
+            ]
+          ],
+          "gold_result": [
+            [
+              "AB Store",
+              "1-483-283-4742"
+            ],
+            [
+              "Tesco",
+              "287-071-1153x254"
+            ],
+            [
+              "Audi",
+              "1-432-960-2402x1734"
+            ],
+            [
+              "Tesco",
+              "287-071-1153x254"
+            ]
+          ]
+        },
+        {
+          "question": "Find the first names of students with age above 22.",
+          "db_id": "voter_2",
+          "generated_sql": "SELECT Fname\nFROM Student\nWHERE Age > 22;",
+          "gold_sql": "SELECT Fname FROM STUDENT WHERE Age  >  22",
+          "confidence": 0.95,
+          "latency": 1.75346,
+          "execution_match": true,
+          "exact_match": false,
+          "generated_result": [
+            [
+              "Paul"
+            ],
+            [
+              "Bruce"
+            ],
+            [
+              "Sarah"
+            ]
+          ],
+          "gold_result": [
+            [
+              "Paul"
+            ],
+            [
+              "Bruce"
+            ],
+            [
+              "Sarah"
+            ]
+          ]
+        },
+        {
+          "question": "How many companies are headquartered in the US?",
+          "db_id": "company_employee",
+          "generated_sql": "SELECT COUNT(*) FROM company WHERE Headquarters = 'USA';",
+          "gold_sql": "SELECT count(*) FROM company WHERE Headquarters  =  'USA'",
+          "confidence": 0.95,
+          "latency": 1.716163,
+          "execution_match": true,
+          "exact_match": false,
+          "generated_result": [
+            [
+              8
+            ]
+          ],
+          "gold_result": [
+            [
+              8
+            ]
+          ]
+        },
+        {
+          "question": "Show the distinct leader names of colleges associated with members from country \"Canada\".",
+          "db_id": "decoration_competition",
+          "generated_sql": "SELECT DISTINCT c.Leader_Name\nFROM college c\nJOIN member m ON c.College_ID = m.College_ID\nWHERE m.Country = 'Canada';",
+          "gold_sql": "SELECT DISTINCT T1.Leader_Name FROM college AS T1 JOIN member AS T2 ON T1.College_ID  =  T2.College_ID WHERE T2.Country  =  \"Canada\"",
+          "confidence": 0.95,
+          "latency": 2.031496,
+          "execution_match": true,
+          "exact_match": false,
+          "generated_result": [
+            [
+              "Samir Chahine"
+            ],
+            [
+              "Roger Dunbrack"
+            ]
+          ],
+          "gold_result": [
+            [
+              "Samir Chahine"
+            ],
+            [
+              "Roger Dunbrack"
+            ]
+          ]
+        },
+        {
+          "question": "What are the distinct names of nurses on call?",
+          "db_id": "hospital_1",
+          "generated_sql": "SELECT DISTINCT Name\nFROM Nurse\nWHERE EmployeeID IN (SELECT Nurse\n                     FROM On_Call);",
+          "gold_sql": "SELECT DISTINCT T1.name FROM nurse AS T1 JOIN on_call AS T2 ON T1.EmployeeID  =  T2.nurse",
+          "confidence": 0.95,
+          "latency": 1.761265,
+          "execution_match": true,
+          "exact_match": false,
+          "generated_result": [
+            [
+              "Carla Espinosa"
+            ],
+            [
+              "Laverne Roberts"
+            ],
+            [
+              "Paul Flowers"
+            ]
+          ],
+          "gold_result": [
+            [
+              "Carla Espinosa"
+            ],
+            [
+              "Laverne Roberts"
+            ],
+            [
+              "Paul Flowers"
+            ]
+          ]
+        },
+        {
+          "question": "Find the purchase time, age and address of each member, and show the results in the order of purchase time.",
+          "db_id": "coffee_shop",
+          "generated_sql": "SELECT \"Time_of_purchase\", \"Age\", \"Address\" FROM \"member\" ORDER BY \"Time_of_purchase\";",
+          "gold_sql": "SELECT Time_of_purchase ,  age ,  address FROM member ORDER BY Time_of_purchase",
+          "confidence": 0.95,
+          "latency": 1.793382,
+          "execution_match": true,
+          "exact_match": false,
+          "generated_result": [
+            [
+              18,
+              29,
+              "Hartford"
+            ],
+            [
+              18,
+              35,
+              "Waterbury"
+            ],
+            [
+              20,
+              34,
+              "Hartford"
+            ],
+            [
+              24,
+              45,
+              "Waterbury"
+            ],
+            [
+              26,
+              33,
+              "Cheshire"
+            ],
+            [
+              26,
+              42,
+              "Bridgeport"
+            ],
+            [
+              27,
+              51,
+              "Waterbury"
+            ],
+            [
+              27,
+              51,
+              "Hartford"
+            ],
+            [
+              41,
+              67,
+              "Waterbury"
+            ],
+            [
+              44,
+              50,
+              "Cheshire"
+            ]
+          ],
+          "gold_result": [
+            [
+              18,
+              29,
+              "Hartford"
+            ],
+            [
+              18,
+              35,
+              "Waterbury"
+            ],
+            [
+              20,
+              34,
+              "Hartford"
+            ],
+            [
+              24,
+              45,
+              "Waterbury"
+            ],
+            [
+              26,
+              33,
+              "Cheshire"
+            ],
+            [
+              26,
+              42,
+              "Bridgeport"
+            ],
+            [
+              27,
+              51,
+              "Waterbury"
+            ],
+            [
+              27,
+              51,
+              "Hartford"
+            ],
+            [
+              41,
+              67,
+              "Waterbury"
+            ],
+            [
+              44,
+              50,
+              "Cheshire"
+            ]
+          ]
+        },
+        {
+          "question": "What is the name and description for document type code RV?",
+          "db_id": "cre_Doc_Tracking_DB",
+          "generated_sql": "SELECT Document_Type_Name, Document_Type_Description\nFROM Ref_Document_Types\nWHERE Document_Type_Code = 'RV';",
+          "gold_sql": "SELECT document_type_name ,  document_type_description FROM Ref_document_types WHERE document_type_code  =  \"RV\"",
+          "confidence": 0.95,
+          "latency": 1.836228,
+          "execution_match": true,
+          "exact_match": false,
+          "generated_result": [
+            [
+              "Review",
+              ""
+            ]
+          ],
+          "gold_result": [
+            [
+              "Review",
+              ""
+            ]
+          ]
+        },
+        {
+          "question": "What are the names of the artists who sang the shortest song?",
+          "db_id": "music_1",
+          "generated_sql": "SELECT artist_name\nFROM song\nWHERE duration = (SELECT MIN(duration) FROM files);",
+          "gold_sql": "SELECT T1.artist_name FROM song AS T1 JOIN files AS T2 ON T1.f_id  =  T2.f_id ORDER BY T2.duration LIMIT 1",
+          "confidence": 0.85,
+          "latency": 1.729452,
+          "execution_match": false,
+          "exact_match": false,
+          "error": "no such column: duration"
+        },
+        {
+          "question": "Who are the different players, what season do they play in, and what is the name of the team they are on?",
+          "db_id": "match_season",
+          "generated_sql": "SELECT player.Player, match_season.Season, team.Name\nFROM player\nJOIN match_season ON player.Team = match_season.Team\nJOIN team ON player.Team = team.Team_id;",
+          "gold_sql": "SELECT T1.Season ,  T1.Player ,  T2.Name FROM match_season AS T1 JOIN team AS T2 ON T1.Team  =  T2.Team_id",
+          "confidence": 0.85,
+          "latency": 1.838235,
+          "execution_match": false,
+          "exact_match": false,
+          "generated_result": [
+            [
+              "Cho Soong-Jae (630)",
+              1996.0,
+              "Columbus Crew"
+            ],
+            [
+              "Chung Hong (717)",
+              1996.0,
+              "Columbus Crew"
+            ],
+            [
+              "Im Kyu-tae (492)",
+              1996.0,
+              "Columbus Crew"
+            ],
+            [
+              "Jeong Suk-Young (793)",
+              1996.0,
+              "Columbus Crew"
+            ],
+            [
+              "Kim Hyun-Joon (908)",
+              1997.0,
+              "Evalyn Feil"
+            ],
+            [
+              "Kim Hyun-Joon (908)",
+              2003.0,
+              "Evalyn Feil"
+            ],
+            [
+              "Kim Young-Jun (474)",
+              1999.0,
+              "Miami Fusion"
+            ],
+            [
+              "Kim Young-Jun (474)",
+              2005.0,
+              "Miami Fusion"
+            ],
+            [
+              "Seol Jae-Min (none)",
+              1996.0,
+              "Columbus Crew"
+            ],
+            [
+              "An Jae-Sung",
+              1996.0,
+              "Columbus Crew"
+            ]
+          ],
+          "gold_result": [
+            [
+              1996.0,
+              "Steve Ralston Category:Articles with hCards",
+              "Columbus Crew"
+            ],
+            [
+              1997.0,
+              "Mike Duhaney Category:Articles with hCards",
+              "Evalyn Feil"
+            ],
+            [
+              1998.0,
+              "Ben Olsen Category:Articles with hCards",
+              "Anais VonRueden"
+            ],
+            [
+              1999.0,
+              "Jay Heaps Category:Articles with hCards",
+              "Miami Fusion"
+            ],
+            [
+              2000.0,
+              "Carlos Bocanegra Category:Articles with hCards",
+              "Enrique Osinski"
+            ],
+            [
+              2001.0,
+              "Rodrigo Faria Category:Articles with hCards",
+              "Enrique Osinski"
+            ],
+            [
+              2002.0,
+              "Kyle Martino Category:Articles with hCards",
+              "Anais VonRueden"
+            ],
+            [
+              2003.0,
+              "Damani Ralph Category:Articles with hCards",
+              "Evalyn Feil"
+            ],
+            [
+              2004.0,
+              "Clint Dempsey Category:Articles with hCards",
+              "Anais VonRueden"
+            ],
+            [
+              2005.0,
+              "Michael Parkhurst Category:Articles with hCards",
+              "Miami Fusion"
+            ],
+            [
+              2006.0,
+              "Jonathan Bornstein Category:Articles with hCards",
+              "D.C. United"
+            ],
+            [
+              2007.0,
+              "Maurice Edu Category:Articles with hCards",
+              "Ryley Goldner"
+            ],
+            [
+              2008.0,
+              "Sean Franklin Category:Articles with hCards",
+              "Enrique Osinski"
+            ],
+            [
+              2009.0,
+              "Omar Gonzalez Category:Articles with hCards",
+              "Enrique Osinski"
+            ],
+            [
+              2010.0,
+              "Andy Najar Category:Articles with hCards",
+              "Enrique Osinski"
+            ],
+            [
+              2011.0,
+              "C. J. Sapong Category:Articles with hCards",
+              "Anais VonRueden"
+            ]
+          ]
+        },
+        {
+          "question": "What are the grapes, appelations, and wines with scores above 93, sorted by Name?",
+          "db_id": "wine_1",
+          "generated_sql": "FileNotFoundError: Schema file not found: D:\\data_sci\\benchmarking_tool\\dataset\\spider_data\\spider_data\\database\\wine_1\\schema.sql",
+          "gold_sql": "SELECT Grape ,  Appelation ,  Name FROM WINE WHERE Score  >  93 ORDER BY Name",
+          "confidence": 0.0,
+          "latency": 0.0
+        },
+        {
+          "question": "Please show the categories of the music festivals with count more than 1.",
+          "db_id": "music_4",
+          "generated_sql": "SELECT \"Category\", COUNT(\"Category\") AS \"Category_Count\"\nFROM \"music_festival\"\nGROUP BY \"Category\"\nHAVING COUNT(\"Category\") > 1;",
+          "gold_sql": "SELECT Category FROM music_festival GROUP BY Category HAVING COUNT(*)  >  1",
+          "confidence": 0.95,
+          "latency": 2.085034,
+          "execution_match": false,
+          "exact_match": false,
+          "generated_result": [
+            [
+              "Best Lyrics",
+              3
+            ],
+            [
+              "Best Song",
+              5
+            ]
+          ],
+          "gold_result": [
+            [
+              "Best Lyrics"
+            ],
+            [
+              "Best Song"
+            ]
+          ]
+        },
+        {
+          "question": "What are the invoice numbers created before 1989-09-03 or after 2007-12-25?",
+          "db_id": "tracking_orders",
+          "generated_sql": "SELECT invoice_number\nFROM Invoices\nWHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25';",
+          "gold_sql": "SELECT invoice_number FROM invoices WHERE invoice_date < \"1989-09-03\" OR invoice_date > \"2007-12-25\"",
+          "confidence": 0.95,
+          "latency": 2.068308,
+          "execution_match": true,
+          "exact_match": false,
+          "generated_result": [
+            [
+              4
+            ],
+            [
+              5
+            ],
+            [
+              6
+            ],
+            [
+              8
+            ],
+            [
+              9
+            ],
+            [
+              11
+            ],
+            [
+              12
+            ],
+            [
+              13
+            ],
+            [
+              15
+            ]
+          ],
+          "gold_result": [
+            [
+              4
+            ],
+            [
+              5
+            ],
+            [
+              6
+            ],
+            [
+              8
+            ],
+            [
+              9
+            ],
+            [
+              11
+            ],
+            [
+              12
+            ],
+            [
+              13
+            ],
+            [
+              15
+            ]
+          ]
+        },
+        {
+          "question": "Find the total account balance of each customer from Utah or Texas.",
+          "db_id": "loan_1",
+          "generated_sql": "SELECT cust_name, SUM(acc_bal) AS total_account_balance\nFROM customer\nWHERE state IN ('Utah', 'Texas')\nGROUP BY cust_name;",
+          "gold_sql": "SELECT sum(acc_bal) FROM customer WHERE state  =  'Utah' OR state  =  'Texas'",
+          "confidence": 0.95,
+          "latency": 2.09772,
+          "execution_match": false,
+          "exact_match": false,
+          "generated_result": [
+            [
+              "Jack",
+              1000
+            ],
+            [
+              "Mary",
+              2000
+            ]
+          ],
+          "gold_result": [
+            [
+              3000
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  "best_model": "gpt-3.5-turbo",
+  "best_params": {
+    "temperature": 0.0,
+    "exact_match_rate": 0.0
+  },
+  "model_metrics": {
+    "gpt-4o-mini": {
+      "avg_latency": 2.516729588235294
+    },
+    "gpt-3.5-turbo": {
+      "avg_latency": 1.9443567647058824
+    }
+  },
+  "sample_size": 17,
+  "selected_metrics": [
+    "exact_match",
+    "execution_match"
+  ]
+}

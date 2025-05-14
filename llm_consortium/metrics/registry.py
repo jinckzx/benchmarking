@@ -3,6 +3,7 @@ from .exact_match import SQLExactMatch
 from .execution_match import SQLExecutionMatch
 from typing import Dict, List
 from .base_metrics import BaseMetric
+from .component_match import SQLComponentMatch
 
 class MetricRegistry:
     """Registry for available metrics with validation"""
@@ -13,7 +14,8 @@ class MetricRegistry:
                 "exact_match": SQLExactMatch(),
                 "execution_match": SQLExecutionMatch(
                     db_root_path="D:/data_sci/benchmarking_tool/dataset/spider_data/spider_data/database"
-                )
+                ),
+                "component_match": SQLComponentMatch()
             }
         }
     

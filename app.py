@@ -3190,7 +3190,7 @@ def classification_ui():
     return None
 
 def text2sql_ui_mm():
-    
+    import numpy as np
     # Import necessary libraries for visualization
     import plotly.express as px
     import plotly.graph_objects as go
@@ -3321,28 +3321,127 @@ def text2sql_ui_mm():
             index=0,
             key="sql_judge_model"
         )
-        
-        # Metrics selection - dynamically populated from the registry
-        st.subheader("Metrics Selection")
-        
-        # Format available metrics for display
-        metric_options = {name: metric.description for name, metric in available_metrics.items()}
-        
-        # Default to select all metrics if none are defined
-        default_metrics = list(metric_options.keys()) if metric_options else []
-        
-        selected_metrics = st.multiselect(
-            "Select Evaluation Metrics",
-            options=list(metric_options.keys()),
-            format_func=lambda x: f"{x} - {metric_options[x]}" if x in metric_options else x,
-            default=default_metrics[:2] if len(default_metrics) > 1 else default_metrics,
-            help="Select metrics to use for evaluation"
-        )
-        
-        if not selected_metrics:
-            st.warning("Please select at least one metric for evaluation")
+        # Create a container for metrics selection and custom metrics UI
+        metrics_container = st.container()
+
+        # All metric selection functionality goes inside this container
+        with metrics_container:
+            # Metrics selection - dynamically populated from the registry
+            st.subheader("Metrics Selection")
+
+            # Format available metrics for display
+            metric_options = {name: metric.description for name, metric in available_metrics.items()}
+
+            # Default to select all metrics if none are defined
+            default_metrics = list(metric_options.keys()) if metric_options else []
+
+            selected_metrics = st.multiselect(
+                "Select Evaluation Metrics",
+                options=list(metric_options.keys()),
+                format_func=lambda x: f"{x} - {metric_options[x]}" if x in metric_options else x,
+                default=default_metrics[:2] if len(default_metrics) > 1 else default_metrics,
+                help="Select metrics to use for evaluation"
+            )
+
+            if not selected_metrics:
+                st.warning("Please select at least one metric for evaluation")
+
+            st.session_state.selected_metrics = selected_metrics
             
-        st.session_state.selected_metrics = selected_metrics
+            # Track the state of custom metrics
+            if "show_custom_metric_section" not in st.session_state:
+                st.session_state.show_custom_metric_section = False
+
+            # Trigger to show custom metric section
+            if st.button("➕ Add Custom Metric"):
+                st.session_state.show_custom_metric_section = True
+
+            # Layout with single column to place custom metric content in the center
+            column1, column2, column3 = st.columns([1, 3, 1])
+
+            # Use the central column (col2) for the custom metric section
+            with column2:
+                if st.session_state.show_custom_metric_section:
+                    st.markdown("### 🧩 Define Custom Metric")
+
+                    # Start the form
+                    with st.form("custom_metric_form"):
+                        # Tabs for custom metric input
+                        tabs = st.tabs(["🔮 Prompt (LLM-as-Judge)", "🐍 Python Metric Class"])
+
+                        with tabs[0]:
+                            st.text_area(
+                                "Prompt for LLM-as-Judge",
+                                key="sql_custom_prompt",
+                                height=200,
+                                placeholder="e.g., Evaluate SQL queries for semantic similarity and execution correctness..."
+                            )
+
+                        with tabs[1]:
+                            st.code('''from .base_metrics import BaseMetric
+            from typing import Dict, Any
+
+            class SQLExactMatch(BaseMetric):
+                """Exact match comparison for SQL queries"""
+                def __init__(self):
+                    super().__init__(
+                        name="exact_match",
+                        description="Exact string match between generated and reference SQL",
+                        csv_requires=["gold_sql"],
+                        runtime_requires=["generated_sql", "gold_sql"]
+                    )
+
+                def calculate(self, generated_sql: str, gold_sql: str) -> Dict[str, Any]:
+                    try:
+                        generated_norm = generated_sql.lower().strip()
+                        gold_norm = gold_sql.lower().strip()
+                        return {"exact_match": generated_norm == gold_norm}
+                    except AttributeError:
+                        return {"exact_match": False, "error": "Invalid SQL inputs"}
+            ''', language="python")
+
+                            st.text_area(
+                                "Paste your custom metric class code here",
+                                key="sql_custom_metric_code",
+                                height=300,
+                                placeholder="Write your BaseMetric-compatible class code here..."
+                            )
+
+                        # Form submission button to save the custom metric
+                        submit_button = st.form_submit_button("💾 Save Metric")
+                        
+                        # Check if the form was submitted
+                        if submit_button:
+                            # Add your save logic here (e.g., validate and save the custom metric)
+                            st.success("Metric saved!")
+
+                    # Close button to hide section
+                    if st.button("❌ Close"):
+                        st.session_state.show_custom_metric_section = False
+
+
+        # # Metrics selection - dynamically populated from the registry
+        # st.subheader("Metrics Selection")
+        
+        # # Format available metrics for display
+        # metric_options = {name: metric.description for name, metric in available_metrics.items()}
+        
+        # # Default to select all metrics if none are defined
+        # default_metrics = list(metric_options.keys()) if metric_options else []
+        
+        # selected_metrics = st.multiselect(
+        #     "Select Evaluation Metrics",
+        #     options=list(metric_options.keys()),
+        #     format_func=lambda x: f"{x} - {metric_options[x]}" if x in metric_options else x,
+        #     default=default_metrics[:2] if len(default_metrics) > 1 else default_metrics,
+        #     help="Select metrics to use for evaluation"
+        # )
+        
+        # if not selected_metrics:
+        #     st.warning("Please select at least one metric for evaluation")
+            
+        # st.session_state.selected_metrics = selected_metrics
+        
         
         # Base configuration
         st.subheader("Base Settings")
@@ -3625,7 +3724,7 @@ def text2sql_ui_mm():
                 # Run the evaluation in the current thread (this will block the UI until complete)
                 run_evaluation(config, temp_csv, sampled_csv_path)
         # Display tabs for results (rest of your UI code remains mostly unchanged
-
+  
         if st.session_state.sql_running or st.session_state.sql_evaluation_results:
             # Define tabs configuration with properties
             tab_config = {
@@ -3665,6 +3764,8 @@ def text2sql_ui_mm():
             
             # Store tab mapping for easy access
             tab_mapping = {tab_id: idx for idx, tab_id in enumerate(tab_config.keys())}
+            
+            # Tab for Evaluation Results
             
             # Tab for Evaluation Results
             with tabs[tab_mapping["evaluation_results"]]:
@@ -3721,9 +3822,18 @@ def text2sql_ui_mm():
                         
                         # Add selected metrics
                         for metric in selected_metrics:
-                            if metric in metrics:
-                                value = metrics[metric]
+                            rate_key = f"{metric}_rate"
+                            if rate_key in metrics:
+                                value = metrics[rate_key]
                                 # Convert any objects to string to prevent type errors
+                                if not isinstance(value, (str, int, float, bool)):
+                                    value = str(value)
+                                if isinstance(value, float):
+                                    model_metrics[available_metrics[metric]] = f"{value:.2f}%"
+                                else:
+                                    model_metrics[available_metrics[metric]] = str(value)
+                            elif metric in metrics:
+                                value = metrics[metric]
                                 if not isinstance(value, (str, int, float, bool)):
                                     value = str(value)
                                 if isinstance(value, float):
@@ -3777,6 +3887,12 @@ def text2sql_ui_mm():
                                         entry[rate_key] = float(metrics[rate_key])
                                     except (ValueError, TypeError):
                                         entry[rate_key] = 0.0
+                            elif metric in metrics:
+                                # Try to use the metric directly if rate not available
+                                try:
+                                    entry[rate_key] = float(metrics[metric])
+                                except (ValueError, TypeError):
+                                    entry[rate_key] = 0.0
                             else:
                                 entry[rate_key] = 0.0
                         
@@ -3790,7 +3906,8 @@ def text2sql_ui_mm():
                     # Plotting
                     if len(selected_metrics) > 0 and not df.empty:
                         try:
-                            fig, ax = plt.subplots(figsize=(12, 6))
+                            # Create individual bar charts for each metric
+                            st.subheader("Individual Metric Performance")
                             metric_cols = [available_metrics[m] for m in selected_metrics if f"{m}_rate" in df.columns or available_metrics[m] in df.columns]
                             
                             # Only proceed if we have valid metric columns
@@ -3800,11 +3917,37 @@ def text2sql_ui_mm():
                                     if col not in df.columns:
                                         df[col] = 0.0
                                 
+                                # Create a separate chart for each metric
+                                for metric_col in metric_cols:
+                                    fig, ax = plt.subplots(figsize=(10, 5))
+                                    df.plot.bar(x='Model', y=metric_col, ax=ax, color='skyblue', legend=False)
+                                    ax.set_title(f"{metric_col} by Model")
+                                    ax.set_ylabel(f"{metric_col} Score (%)")
+                                    ax.grid(True, linestyle='--', alpha=0.7)
+                                    plt.xticks(rotation=45, ha='right')
+                                    plt.tight_layout()
+                                    st.pyplot(fig)
+                                
+                                # Combined view
+                                st.subheader("Combined Metrics View")
+                                fig, ax = plt.subplots(figsize=(12, 6))
                                 df.set_index("Model")[metric_cols].plot.bar(ax=ax)
                                 ax.set_title("Model Performance Comparison")
                                 ax.set_ylabel("Score (%)")
                                 ax.grid(True, linestyle='--', alpha=0.7)
                                 plt.xticks(rotation=45, ha='right')
+                                plt.tight_layout()
+                                st.pyplot(fig)
+                                
+                                # Latency comparison chart
+                                st.subheader("Latency Comparison")
+                                fig, ax = plt.subplots(figsize=(10, 5))
+                                df.plot.bar(x='Model', y='Avg. Latency (s)', ax=ax, color='coral', legend=False)
+                                ax.set_title("Average Latency by Model")
+                                ax.set_ylabel("Time (seconds)")
+                                ax.grid(True, linestyle='--', alpha=0.7)
+                                plt.xticks(rotation=45, ha='right')
+                                plt.tight_layout()
                                 st.pyplot(fig)
                             else:
                                 st.warning("No valid metrics available for plotting")
@@ -3825,8 +3968,25 @@ def text2sql_ui_mm():
                     metrics = best_model_data["metrics"]
                     responses = best_model_data["responses"]
                     
-                    # Create dynamic columns based on selected metrics
-                    num_cols = len(selected_metrics) + 1  # +1 for latency
+                    # Calculate combined score
+                    metric_scores = []
+                    for metric in selected_metrics:
+                        rate_key = f"{metric}_rate"
+                        if rate_key in metrics and isinstance(metrics[rate_key], (int, float)):
+                            metric_scores.append(metrics[rate_key])
+                        elif metric in metrics and isinstance(metrics[metric], (int, float)):
+                            metric_scores.append(metrics[metric])
+                    
+                    combined_score = sum(metric_scores) / len(metric_scores) if metric_scores else 0
+                    
+                    # Display combined score prominently
+                    st.metric("Combined Score", f"{combined_score:.2f}%")
+                    
+                    # Display a radar chart for different metrics
+                    st.subheader("Performance Overview")
+                    
+                    # Create metrics for individual scores
+                    num_cols = min(4, len(selected_metrics) + 1)  # +1 for latency
                     cols = st.columns(num_cols)
                     
                     # Add selected metrics
@@ -3848,439 +4008,295 @@ def text2sql_ui_mm():
                                     )
                             elif metric in metrics:
                                 # Always convert to string to avoid type errors
-                                cols[idx].metric(
-                                    str(available_metrics[metric]), 
-                                    str(metrics[metric])
-                                )
+                                try:
+                                    value = float(metrics[metric])
+                                    cols[idx].metric(
+                                        str(available_metrics[metric]), 
+                                        f"{value:.2f}%"
+                                    )
+                                except (ValueError, TypeError):
+                                    cols[idx].metric(
+                                        str(available_metrics[metric]), 
+                                        str(metrics[metric])
+                                    )
                     
                     # Add latency in last column
-                    if len(cols) > 0:  # Safety check
+                    if len(cols) > 0 and len(selected_metrics) < len(cols):  # Safety check
                         avg_latency = sum(r["latency"] for r in responses) / len(responses)
-                        cols[-1].metric("Average Latency", f"{avg_latency:.3f}s")
+                        cols[len(selected_metrics)].metric("Average Latency", f"{avg_latency:.3f}s")
+                    
+                    # Create radar chart if we have enough metrics
+                    if len(selected_metrics) >= 3:
+                        st.subheader("Metrics Radar Chart")
+                        
+                        # Prepare data for radar chart
+                        labels = []
+                        values = []
+                        
+                        for metric in selected_metrics:
+                            rate_key = f"{metric}_rate"
+                            if rate_key in metrics and isinstance(metrics[rate_key], (int, float)):
+                                labels.append(available_metrics[metric])
+                                values.append(metrics[rate_key])
+                            elif metric in metrics and isinstance(metrics[metric], (int, float)):
+                                labels.append(available_metrics[metric])
+                                values.append(metrics[metric])
+                        
+                        if labels and values:
+                            fig = plt.figure(figsize=(8, 8))
+                            ax = fig.add_subplot(111, polar=True)
+                            
+                            # Set the angles for each criterion
+                            angles = [n / float(len(labels)) * 2 * np.pi for n in range(len(labels))]
+                            angles += angles[:1]  # Close the loop
+                            
+                            # Add the scores
+                            values += values[:1]  # Close the loop
+                            
+                            # Plot
+                            ax.plot(angles, values, linewidth=2, linestyle='solid')
+                            ax.fill(angles, values, alpha=0.25)
+                            
+                            # Set labels and ticks
+                            ax.set_xticks(angles[:-1])
+                            ax.set_xticklabels(labels)
+                            
+                            # Set y ticks based on the range of values
+                            max_val = max(values) * 1.1  # Add 10% headroom
+                            step = max_val / 5
+                            ax.set_yticks([step, step*2, step*3, step*4, step*5])
+                            ax.set_yticklabels([f"{step:.1f}", f"{step*2:.1f}", f"{step*3:.1f}", f"{step*4:.1f}", f"{step*5:.1f}"])
+                            ax.set_ylim(0, max_val)
+                            
+                            plt.title(f'Performance Metrics for {st.session_state.sql_best_model}')
+                            st.pyplot(fig)
+                        else:
+                            st.info("Not enough numerical metrics available for radar chart visualization")
+                    
+                    # Sample responses section
+                    st.subheader("Sample Responses")
+                    with st.expander("View Sample Queries", expanded=False):
+                        for i, response in enumerate(responses[:5]):  # Show 5 samples
+                            st.markdown(f"**Query {i+1}:** {response['question'][:100]}...")
+                            
+                            col1, col2 = st.columns(2)
+                            with col1:
+                                st.markdown("**Generated SQL:**")
+                                st.code(response["generated_sql"], language="sql")
+                            
+                            with col2:
+                                st.markdown("**Gold SQL:**")
+                                st.code(response["gold_sql"], language="sql")
+                            
+                            st.markdown("---")
                 else:
                     st.info("Complete evaluation to view best model details")
 
             # Tab for Parameter Tuning Results
             with tabs[tab_mapping["best_parameter"]]:
                 if st.session_state.sql_best_params:
-                    st.header("Best Parameter")
+                    st.header("Parameter Tuning Results")
                     
-                    # Dynamic display based on primary metric
-                    primary_metric = available_metrics[selected_metrics[0]] if selected_metrics else "Performance"
+                    # Show best parameters found
+                    st.subheader("Best Parameters")
+                    best_temp = st.session_state.sql_best_params.get('temperature', 'N/A')
                     
                     col1, col2 = st.columns(2)
-                    col1.metric("Best Temperature", f"{st.session_state.sql_best_params['temperature']:.2f}")
-                    col2.metric(f"{primary_metric} Improvement", 
-                            f"{st.session_state.sql_best_params.get('improvement', 0):.2f}%")
+                    col1.metric("Best Temperature", f"{best_temp:.2f}" if isinstance(best_temp, (int, float)) else best_temp)
                     
-                    if 'sql_tuning_trials' in st.session_state:
-                        st.subheader("Parameter Trial Results")
+                    # Get improvement if available
+                    improvement = st.session_state.sql_best_params.get('improvement', 0)
+                    col2.metric("Performance Improvement", f"{improvement:.2f}%" if isinstance(improvement, (int, float)) else improvement)
+                    
+                    # Display trials data if available
+                    if 'sql_tuning_trials' in st.session_state and st.session_state.sql_tuning_trials:
+                        st.subheader("Temperature Trial Results")
+                        
+                        # Convert tuning trials to DataFrame for better display
                         trials_data = []
                         for trial in st.session_state.sql_tuning_trials:
-                            trial_data = {"Temperature": f"{trial['temperature']:.2f}"}
+                            trial_data = {"Temperature": f"{trial.get('temperature', 0):.2f}"}
+                            
+                            # Add metric scores
                             for metric in selected_metrics:
                                 rate_key = f"{metric}_rate"
                                 if rate_key in trial:
-                                    # Ensure value is a number
-                                    try:
-                                        value = float(trial[rate_key])
-                                        trial_data[str(available_metrics[metric])] = f"{value:.2f}%"
-                                    except (ValueError, TypeError):
-                                        trial_data[str(available_metrics[metric])] = str(trial[rate_key])
+                                    value = trial[rate_key]
+                                    if isinstance(value, (int, float)):
+                                        trial_data[available_metrics[metric]] = value
+                                    else:
+                                        # Try to convert to float if possible
+                                        try:
+                                            trial_data[available_metrics[metric]] = float(value)
+                                        except (ValueError, TypeError):
+                                            trial_data[available_metrics[metric]] = str(value)
+                            
+                            # Calculate combined score for each trial
+                            metric_values = [v for k, v in trial_data.items() if k != "Temperature" and isinstance(v, (int, float))]
+                            if metric_values:
+                                trial_data["Combined Score"] = sum(metric_values) / len(metric_values)
+                            
                             trials_data.append(trial_data)
                         
-                        # Create DataFrame only if there's data
+                        # Create DataFrame
                         if trials_data:
-                            st.dataframe(pd.DataFrame(trials_data), use_container_width=True)
+                            trials_df = pd.DataFrame(trials_data)
+                            
+                            # Display the data table
+                            st.dataframe(trials_df, use_container_width=True)
+                            
+                            # Create tabs for metric-specific temperature optimization
+                            if len(selected_metrics) > 0:
+                                st.subheader("Metric-Specific Temperature Optimization")
+                                
+                                # Create tabs for each metric plus combined score
+                                metric_tabs = [f"{available_metrics[m]}" for m in selected_metrics] + ["Combined Score"]
+                                tabs_metric = st.tabs(metric_tabs)
+                                
+                                # In each tab, show the best temperature for that metric
+                                for i, metric_name in enumerate(selected_metrics):
+                                    with tabs_metric[i]:
+                                        metric_display_name = available_metrics[metric_name]
+                                        
+                                        # Find best temperature for this metric
+                                        best_for_metric = None
+                                        best_score = -1
+                                        
+                                        for trial in trials_data:
+                                            if metric_display_name in trial and isinstance(trial[metric_display_name], (int, float)):
+                                                if trial[metric_display_name] > best_score:
+                                                    best_score = trial[metric_display_name]
+                                                    best_for_metric = trial["Temperature"]
+                                        
+                                        if best_for_metric:
+                                            st.success(f"Best temperature for {metric_display_name}: {best_for_metric} (Score: {best_score:.2f}%)")
+                                            
+                                            # Plot temperature vs. this metric
+                                            fig, ax = plt.subplots(figsize=(10, 5))
+                                            
+                                            # Extract data for plotting
+                                            temps = [float(t["Temperature"]) for t in trials_data if metric_display_name in t]
+                                            scores = [t[metric_display_name] for t in trials_data if metric_display_name in t]
+                                            
+                                            if temps and scores:
+                                                # Sort by temperature for proper line chart
+                                                temp_score = sorted(zip(temps, scores), key=lambda x: x[0])
+                                                temps = [t[0] for t in temp_score]
+                                                scores = [t[1] for t in temp_score]
+                                                
+                                                ax.plot(temps, scores, 'o-', linewidth=2, markersize=8)
+                                                ax.set_xlabel('Temperature')
+                                                ax.set_ylabel(f'{metric_display_name} Score (%)')
+                                                ax.set_title(f'Temperature vs. {metric_display_name}')
+                                                ax.grid(True, linestyle='--', alpha=0.7)
+                                                
+                                                # Highlight best point
+                                                best_temp_val = float(best_for_metric)
+                                                if best_temp_val in temps:
+                                                    idx = temps.index(best_temp_val)
+                                                    ax.plot(best_temp_val, scores[idx], 'ro', markersize=10)
+                                                    ax.annotate(f'Best: {best_temp_val}',
+                                                            xy=(best_temp_val, scores[idx]),
+                                                            xytext=(10, 10),
+                                                            textcoords='offset points',
+                                                            arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=.2'))
+                                                
+                                                st.pyplot(fig)
+                                            else:
+                                                st.warning(f"No valid data to plot for {metric_display_name}")
+                                        else:
+                                            st.info(f"No best temperature found for {metric_display_name}")
+                                
+                                # Handle combined score tab
+                                with tabs_metric[-1]:
+                                    # Find best temperature for combined score
+                                    best_for_combined = None
+                                    best_combined_score = -1
+                                    
+                                    for trial in trials_data:
+                                        if "Combined Score" in trial and isinstance(trial["Combined Score"], (int, float)):
+                                            if trial["Combined Score"] > best_combined_score:
+                                                best_combined_score = trial["Combined Score"]
+                                                best_for_combined = trial["Temperature"]
+                                    
+                                    if best_for_combined:
+                                        st.success(f"Best temperature for Combined Score: {best_for_combined} (Score: {best_combined_score:.2f}%)")
+                                        
+                                        # Plot temperature vs. combined score
+                                        fig, ax = plt.subplots(figsize=(10, 5))
+                                        
+                                        # Extract data for plotting
+                                        temps = [float(t["Temperature"]) for t in trials_data if "Combined Score" in t]
+                                        scores = [t["Combined Score"] for t in trials_data if "Combined Score" in t]
+                                        
+                                        if temps and scores:
+                                            # Sort by temperature for proper line chart
+                                            temp_score = sorted(zip(temps, scores), key=lambda x: x[0])
+                                            temps = [t[0] for t in temp_score]
+                                            scores = [t[1] for t in temp_score]
+                                            
+                                            ax.plot(temps, scores, 'o-', linewidth=2, markersize=8)
+                                            ax.set_xlabel('Temperature')
+                                            ax.set_ylabel('Combined Score (%)')
+                                            ax.set_title('Temperature vs. Combined Score')
+                                            ax.grid(True, linestyle='--', alpha=0.7)
+                                            
+                                            # Highlight best point
+                                            best_temp_val = float(best_for_combined)
+                                            if best_temp_val in temps:
+                                                idx = temps.index(best_temp_val)
+                                                ax.plot(best_temp_val, scores[idx], 'ro', markersize=10)
+                                                ax.annotate(f'Best: {best_temp_val}',
+                                                        xy=(best_temp_val, scores[idx]),
+                                                        xytext=(10, 10),
+                                                        textcoords='offset points',
+                                                        arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=.2'))
+                                            
+                                            st.pyplot(fig)
+                                        else:
+                                            st.warning("No valid data to plot for Combined Score")
+                                    else:
+                                        st.info("No best temperature found for Combined Score")
+                            
+                            # Create a line chart showing all metrics vs temperature
+                            st.subheader("All Metrics vs Temperature")
+                            try:
+                                # Convert to proper format for plotting
+                                plot_data = trials_df.melt('Temperature', var_name='Metric', value_name='Score')
+                                
+                                # Filter out non-numeric values and Combined Score
+                                plot_data = plot_data[plot_data['Metric'] != 'Combined Score']
+                                plot_data['Score'] = pd.to_numeric(plot_data['Score'], errors='coerce')
+                                plot_data = plot_data.dropna(subset=['Score'])
+                                
+                                if not plot_data.empty:
+                                    fig, ax = plt.subplots(figsize=(12, 6))
+                                    
+                                    # Convert temperature to numeric for proper plotting
+                                    plot_data['Temperature'] = pd.to_numeric(plot_data['Temperature'], errors='coerce')
+                                    
+                                    for metric in plot_data['Metric'].unique():
+                                        metric_data = plot_data[plot_data['Metric'] == metric]
+                                        metric_data = metric_data.sort_values('Temperature')
+                                        ax.plot(metric_data['Temperature'], metric_data['Score'], 'o-', linewidth=2, label=metric)
+                                    
+                                    ax.set_xlabel('Temperature')
+                                    ax.set_ylabel('Score (%)')
+                                    ax.set_title('Temperature Impact on All Metrics')
+                                    ax.grid(True, linestyle='--', alpha=0.7)
+                                    ax.legend(loc='best')
+                                    
+                                    st.pyplot(fig)
+                                else:
+                                    st.warning("No valid numeric data for plotting")
+                            except Exception as e:
+                                st.error(f"Error generating combined plot: {str(e)}")
                         else:
                             st.info("No tuning trial data available")
+                    else:
+                        st.info("No parameter tuning trials data available. Make sure tuning is enabled in the configuration.")
                 else:
                     st.info("Enable parameter tuning and complete evaluation to view tuning results")
-
-            # Tab for Sample Queries
-            with tabs[tab_mapping["sample_queries"]]:
-                if st.session_state.sql_evaluation_results:
-                    st.header("Sample Query Results")
-                    
-                    # Model selector for viewing samples
-                    model_to_view = st.selectbox(
-                        "Select model to view samples",
-                        list(st.session_state.sql_evaluation_results.keys()),
-                        key="sql_model_selector"
-                    )
-                    
-                    if model_to_view:
-                        responses = st.session_state.sql_evaluation_results[model_to_view]["responses"]
-                        
-                        # Filter options
-                        filter_col1, filter_col2 = st.columns(2)
-                        show_correct = filter_col1.checkbox("Show Correct Queries", value=True, key="sql_show_correct")
-                        show_incorrect = filter_col2.checkbox("Show Incorrect Queries", value=True, key="sql_show_incorrect")
-                        
-                        # Make sure execution_match is a boolean, not an object
-                        filtered_responses = []
-                        for r in responses:
-                            # Convert execution_match to boolean if it's an object
-                            if not isinstance(r["execution_match"], bool):
-                                r["execution_match"] = bool(r["execution_match"])
-                            
-                            if (show_correct and r["execution_match"]) or (show_incorrect and not r["execution_match"]):
-                                filtered_responses.append(r)
-                        
-                        # Show samples
-                        if filtered_responses:
-                            for i, response in enumerate(filtered_responses[:10]):  # Limit to 10 samples
-                                with st.expander(
-                                    f"Query {i+1}: {'✅' if response['execution_match'] else '❌'} " + 
-                                    response["question"][:100] + ("..." if len(response["question"]) > 100 else "")
-                                ):
-                                    st.markdown("**Question:**")
-                                    st.write(response["question"])
-                                    
-                                    st.markdown("**Generated SQL:**")
-                                    st.code(response["generated_sql"], language="sql")
-                                    
-                                    st.markdown("**Gold SQL:**")
-                                    st.code(response["gold_sql"], language="sql")
-                                    
-                                    col1, col2, col3 = st.columns(3)
-                                    # Convert to string for display
-                                    exec_match = "✅" if response["execution_match"] else "❌"
-                                    exact_match = "✅" if response["exact_match"] else "❌"
-                                    
-                                    col1.metric("Execution Match", exec_match)
-                                    col2.metric("Exact Match", exact_match)
-                                    col3.metric("Confidence", f"{response['confidence']:.2f}")
-                        else:
-                            st.info("No queries matching your filter criteria")
-                else:
-                    st.info("Running evaluation..." if st.session_state.sql_running else "Run evaluation to see sample queries")
-            
-            # Tab for LLM Judge Results
-            with tabs[tab_mapping["llm_judge"]]:
-                st.header("LLM Judge Evaluation")
-                
-                if st.session_state.sql_judge_running:
-                    st.info("LLM judge evaluation in progress...")
-                elif st.session_state.sql_judge_results:
-                    # Display judge results
-                    
-                    # Model selection for viewing judge results
-                    judge_model_to_view = st.selectbox(
-                        "Select model to view judge evaluation",
-                        list(st.session_state.sql_judge_results.keys()),
-                        key="sql_judge_model_selector"
-                    )
-                    
-                    if judge_model_to_view:
-                        judge_result = st.session_state.sql_judge_results[judge_model_to_view]
-                        
-                        # Display any errors if present
-                        if "error" in judge_result:
-                            st.error(f"Judge evaluation error: {judge_result['error']}")
-                        else:
-                            st.subheader(f"Judge Evaluation for {judge_model_to_view}")
-                            
-                            # If the response has structured evaluation data
-                            if "evaluation" in judge_result and isinstance(judge_result["evaluation"], dict):
-                                evaluation = judge_result["evaluation"]
-                                
-                                # Display scores if available
-                                if "criteria_scores" in evaluation:
-                                    st.subheader("Criteria Scores")
-                                    
-                                    # Create score visualization
-                                    criteria_scores = evaluation["criteria_scores"]
-                                    score_data = []
-                                    for criterion, data in criteria_scores.items():
-                                        score_data.append({
-                                            "Criterion": criterion,
-                                            "Score": data["score"],
-                                            "Comments": data["comments"]
-                                        })
-                                    
-                                    # Display as a table
-                                    st.table(pd.DataFrame(score_data))
-                                    
-                                    # Create radar chart for scores
-                                    labels = [item["Criterion"] for item in score_data]
-                                    scores = [item["Score"] for item in score_data]
-                                    if labels and scores:
-                                        fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(polar=True))
-                                        
-                                        # Compute angles for each axis
-                                        angles = [n / float(len(labels)) * 2 * np.pi for n in range(len(labels))]
-                                        scores += scores[:1]  # close the loop
-                                        angles += angles[:1]
-
-                                        # Draw the outline of the radar chart
-                                        ax.plot(angles, scores, linewidth=2, linestyle='solid')
-                                        ax.fill(angles, scores, alpha=0.4)
-
-                                        ax.set_xticks(angles[:-1])
-                                        ax.set_xticklabels(labels)
-
-                                        ax.set_yticklabels([])
-                                        ax.set_title("LLM Judge Criteria Radar Chart")
-                                        st.pyplot(fig)
-                                    else:
-                                        st.info("No criteria scores available for visualization.")
-
-                                    # # Only create chart if we have data
-                                    # if labels and scores:
-                                    #     fig = plt.figure(figsize=(8, 8))
-                                    #     ax = fig.add_subplot(111, polar=True)
-                                        
-                                    #     # Set the angles for each criterion
-                                    #     angles = [n / float(len(labels)) * 2 * 3.14159 for n in range(len(labels))]
-                                    #     angles += angles[:1]  # Close the loop
-                                        
-                                    #     # Add the scores
-                                    #     scores += scores[:1]  # Close the loop
-                                        
-                                    #     # Plot
-                                    #     ax.plot(angles, scores, linewidth=2, linestyle='solid')
-                                    #     ax.fill(angles, scores, alpha=0.25)
-                                        
-                                    #     # Set labels and ticks
-                                    #     ax.set_xticks(angles[:-1])
-                                    #     ax.set_xticklabels(labels)
-                                    #     ax.set_yticks([2, 4, 6, 8, 10])
-                                    #     ax.set_yticklabels(['2', '4', '6', '8', '10'])
-                                    #     ax.set_ylim(0, 10)
-                                        
-                                    #     plt.title(f'Judge Scores for {judge_model_to_view}')
-                                    #     st.pyplot(fig)
-                                
-                                # Display strengths and weaknesses
-                                if "strengths" in evaluation:
-                                    st.subheader("Strengths")
-                                    for strength in evaluation["strengths"]:
-                                        st.markdown(f"- {strength}")
-                                
-                                if "weaknesses" in evaluation:
-                                    st.subheader("Weaknesses")
-                                    for weakness in evaluation["weaknesses"]:
-                                        st.markdown(f"- {weakness}")
-                                
-                                # Display summary and final score
-                                if "summary" in evaluation:
-                                    st.subheader("Summary")
-                                    st.write(evaluation["summary"])
-                                
-                                if "final_score" in evaluation:
-                                    st.metric("Final Score", f"{evaluation['final_score']}/100")
-                            else:
-                                # Display raw evaluation text
-                                st.markdown("### Judge Evaluation")
-                                st.write(judge_result.get("raw_response", "No detailed evaluation available"))
-                    
-                    # Show tuning comparison if available
-                    if st.session_state.sql_tuning_comparison:
-                        st.markdown("---")
-                        st.header("Before vs After Tuning Analysis")
-                        
-                        tuning_comp = st.session_state.sql_tuning_comparison
-                        model_name = tuning_comp.get("model_name")
-                        
-                        if "error" in tuning_comp:
-                            st.error(f"Tuning comparison error: {tuning_comp['error']}")
-                        else:
-                            st.subheader(f"Tuning Impact Analysis for {model_name}")
-                            
-                            # Display the analysis
-                            st.markdown(tuning_comp.get("tuning_impact_analysis", "No tuning analysis available"))
-                
-                else:
-                    # Show instructions for using the judge
-                    st.info("""
-                    To get an LLM judge evaluation of your models:
-                    1. Complete a model evaluation run
-                    2. Go to the "Evaluation Results" tab
-                    3. Click the "Evaluate Using LLM Judge" button
-                    
-                    The judge will evaluate each model's SQL generation quality and provide detailed feedback.
-                    """)
-                    
-                    # If we have evaluation results but no judge results, show reminder
-                    if st.session_state.sql_evaluation_results:
-                        st.markdown("#### Ready for Judge Evaluation")
-                        st.markdown("You have evaluation results ready to be analyzed by the LLM judge.")
-                        judge_reminder_button = st.button(
-                            "Start Judge Evaluation", 
-                            type="primary", 
-                            key="sql_judge_reminder_button"
-                        )
-                        
-                        if judge_reminder_button:
-                            st.session_state.sql_judge_running = True
-                            
-                            # Run judge evaluation
-                            def run_judge():
-                                """Synchronous wrapper for the async judge evaluation function"""
-                                loop = asyncio.new_event_loop()
-                                asyncio.set_event_loop(loop)
-                                try:
-                                    return loop.run_until_complete(run_judge_evaluation_async(judge_criteria))
-                                finally:
-                                    loop.close()
-                            
-                            # Show a spinner during evaluation
-                            with st.spinner("LLM Judge evaluating models..."):
-                                run_judge()
-                            
-                            # Rerun to show the results
-                            st.rerun()
-            
-            # Tab for Cost Estimation
-            with tabs[tab_mapping["cost_estimation"]]:
-                st.header("Cost Estimation")
-                
-                if st.session_state.sql_evaluation_results:
-                    # Calculate cost based on actual completed evaluation
-                    selected_models = list(st.session_state.sql_evaluation_results.keys())
-                    
-                    # Count number of queries processed per model
-                    query_counts = {}
-                    for model, eval_data in st.session_state.sql_evaluation_results.items():
-                        query_counts[model] = len(eval_data["responses"])
-                    
-                    # Prepare model data for cost calculation
-                    model_instances = [(model, 1) for model in selected_models]
-                    
-                    # Calculate cost for all iterations
-                    total_iterations = sum(query_counts.values())
-                    total_cost, cost_breakdown = calculate_cost(model_instances, total_iterations)
-                    
-                    # Display summary
-                    st.subheader("Evaluation Cost Summary")
-                    col1, col2 = st.columns(2)
-                    col1.metric("Total Models", len(selected_models))
-                    col2.metric("Total Queries", total_iterations)
-                    
-                    st.metric("Estimated Total Cost", f"${total_cost:.4f}")
-                    
-                    # Display cost breakdown table
-                    st.subheader("Cost Breakdown by Model")
-                    st.dataframe(cost_breakdown, use_container_width=True)
-                    
-                    # Create a bar chart of costs by model
-                    cost_data = []
-                    for model in selected_models:
-                        row = cost_breakdown[cost_breakdown['Model'] == model]
-                        if not row.empty:
-                            cost_val = float(row['Total'].iloc[0].replace('$', ''))
-                            cost_data.append({"Model": model, "Cost": cost_val})
-                    
-                    if cost_data:
-                        cost_df = pd.DataFrame(cost_data)
-                        fig, ax = plt.subplots(figsize=(10, 5))
-                        ax.bar(cost_df['Model'], cost_df['Cost'], color='green')
-                        ax.set_xlabel('Model')
-                        ax.set_ylabel('Cost ($)')
-                        ax.set_title('Cost by Model')
-                        ax.grid(True, linestyle='--', alpha=0.7)
-                        plt.xticks(rotation=45, ha='right')
-                        plt.tight_layout()
-                        st.pyplot(fig)
-                        
-                else:
-                    # If no evaluation has been run, show cost estimator
-                    st.subheader("Cost Estimator")
-                    st.markdown("""
-                    This tool helps you estimate the cost of running your SQL evaluation based on:
-                    - Selected models
-                    - Number of test queries
-                    - Whether parameter tuning is enabled
-                    """)
-                    
-                    # Get user inputs for estimation
-                    estimation_models = st.multiselect(
-                        "Select Models for Estimation",
-                        ["gpt-4o-mini", "gpt-3.5-turbo", "gemini-2", "o3-mini"],
-                        default=["gpt-4o-mini"] if "sql_models" not in st.session_state else st.session_state.sql_models
-                    )
-                    
-                    num_queries = st.slider(
-                        "Number of Test Queries",
-                        min_value=10,
-                        max_value=500,
-                        value=50,
-                        step=10,
-                        help="Estimated number of queries to evaluate"
-                    )
-                    
-                    enable_est_tuning = st.checkbox(
-                        "Include Parameter Tuning",
-                        value=True,
-                        help="Parameter tuning runs additional evaluations with different temperatures"
-                    )
-                    
-                    if enable_est_tuning:
-                        num_trials = st.slider(
-                            "Number of Tuning Trials",
-                            min_value=3,
-                            max_value=10,
-                            value=5,
-                            step=1,
-                            help="Number of different parameter configurations to try"
-                        )
-                    else:
-                        num_trials = 1
-                        
-                    # Calculate estimated cost
-                    if estimation_models:
-                        # Prepare model data for cost calculation
-                        model_instances = [(model, 1) for model in estimation_models]
-                        
-                        # Basic evaluation cost (one run per model)
-                        base_iterations = num_queries * len(estimation_models)
-                        
-                        # Add tuning iterations if enabled
-                        tuning_iterations = 0
-                        if enable_est_tuning and estimation_models:
-                            # For each trial, we run a subset of queries with one model
-                            tuning_iterations = num_queries * num_trials
-                            
-                        total_iterations = base_iterations + tuning_iterations
-                        
-                        # Calculate cost
-                        total_cost, cost_breakdown = calculate_cost(model_instances, total_iterations)
-                        
-                        # Display results
-                        cost_col1, cost_col2, cost_col3 = st.columns(3)
-                        cost_col1.metric("Base Evaluation Queries", base_iterations)
-                        cost_col2.metric("Tuning Queries", tuning_iterations)
-                        cost_col3.metric("Total Queries", total_iterations)
-                        
-                        st.metric("Estimated Total Cost", f"${total_cost:.4f}")
-                        
-                        # Display cost breakdown
-                        st.subheader("Cost Breakdown")
-                        st.dataframe(cost_breakdown, use_container_width=True)
-                        
-                        # Show model pricing information
-                        st.subheader("Model Pricing (per 1K tokens)")
-                        pricing_data = []
-                        for model, prices in MODEL_PRICING.items():
-                            pricing_data.append({
-                                "Model": model,
-                                "Input Cost (per 1K tokens)": f"${prices['input']}",
-                                "Output Cost (per 1K tokens)": f"${prices['output']}"
-                            })
-                        
-                        st.dataframe(pd.DataFrame(pricing_data), use_container_width=True)
-                        
-                        # Display assumptions
-                        st.subheader("Calculation Assumptions")
-                        st.markdown(f"""
-                        - Average input tokens per query: {AVG_INPUT_TOKENS}
-                        - Average output tokens per query: {AVG_OUTPUT_TOKENS}
-                        - Base evaluation: All models process all queries once
-                        - Tuning: Best model processes queries {num_trials} times with different parameters
-                        """)
-                    else:
-                        st.warning("Please select at least one model for cost estimation")
 def text2sql_ui():
     import os
     import matplotlib.pyplot as plt
