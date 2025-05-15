@@ -4,6 +4,17 @@ from .execution_match import SQLExecutionMatch
 from typing import Dict, List
 from .base_metrics import BaseMetric
 from .component_match import SQLComponentMatch
+from .anmol import SQLAnmol
+from .abcabc import SQLabcabc
+from .xyz import SQLxyz
+from .ooo import SQLooo
+from .ppp import SQLppp
+
+from .ccc import SQLccc
+from .select_check import Select_checkMetric
+
+
+
 
 class MetricRegistry:
     """Registry for available metrics with validation"""
@@ -15,7 +26,17 @@ class MetricRegistry:
                 "execution_match": SQLExecutionMatch(
                     db_root_path="D:/data_sci/benchmarking_tool/dataset/spider_data/spider_data/database"
                 ),
-                "component_match": SQLComponentMatch()
+                "component_match":SQLComponentMatch(),
+                "anmol": SQLAnmol(),
+                
+                
+                "abcabc": SQLabcabc(),
+                "xyz": SQLxyz(),
+                "ooo": SQLooo(),
+                "ppp": SQLppp(),
+                
+                "ccc": SQLccc(),
+                "select_check": Select_checkMetric(),
             }
         }
     

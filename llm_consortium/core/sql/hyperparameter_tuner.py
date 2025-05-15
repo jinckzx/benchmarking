@@ -133,7 +133,7 @@ class HyperparameterTuner:
         
     def generate_temperature_values(self, min_temp: float, max_temp: float, num_trials: int) -> List[float]:
         """Generate a range of temperature values to test"""
-        # Linear spacing between min and max
+        # temps = np.random.uniform(min_temp, max_temp, num_trials) #FOR RANDOM SEARCH
         temps = np.linspace(min_temp, max_temp, num_trials)
         return np.round(temps, 2).tolist()
     

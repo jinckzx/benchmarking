@@ -3212,8 +3212,14 @@ def text2sql_ui_mm():
     from datetime import datetime
     from llm_consortium.utils.pricing import calculate_cost
     from llm_consortium.core.client_init import llm
-    
+    from llm_consortium.ui_utils.custom_metric_utils import (
+    extract_class_name,
+    save_custom_metric_to_file,
+    register_custom_metric,
+    extract_metric_name
 
+    )
+    from llm_consortium.ui_utils.components import render_custom_metric_tabs
     # Initialize judge and metric registry
     judge = SQLJudge(llm)
     metric_registry = MetricRegistry()
@@ -3251,6 +3257,18 @@ def text2sql_ui_mm():
         st.session_state.sql_sampled_dataset = None
     if 'sql_tuning_trials' not in st.session_state:
         st.session_state.sql_tuning_trials = None
+    from streamlit_modal import Modal
+
+    # Initialize session state variables
+    if "open_metrics_modal" not in st.session_state:
+        st.session_state.open_metrics_modal = False
+    if "last_uploaded_filename" not in st.session_state:
+        st.session_state.last_uploaded_filename = None
+    if "show_custom_metric_section" not in st.session_state:
+        st.session_state.show_custom_metric_section = False
+    if "selected_metrics" not in st.session_state:
+        st.session_state.selected_metrics = []
+
 
     def reset_results():
         st.session_state.sql_evaluation_results = None
@@ -3266,7 +3284,7 @@ def text2sql_ui_mm():
         st.session_state.sql_tuning_trials = None
 
     # Layout with two columns - config panel and results
-    col1, col2 = st.columns([1, 3])
+    col1, col2 = st.columns([2, 3])
 
     # Configuration panel
     with col1:
@@ -3312,7 +3330,6 @@ def text2sql_ui_mm():
             default=default_models,
             key="sql_models"
         )
-        
         # Judge model selection
         judge_models = ["gpt-4o-mini", "claude-3-opus", "claude-3-sonnet"] 
         selected_judge = st.selectbox(
@@ -3321,18 +3338,14 @@ def text2sql_ui_mm():
             index=0,
             key="sql_judge_model"
         )
-        # Create a container for metrics selection and custom metrics UI
+
+        # In your app.py metrics_container section:
         metrics_container = st.container()
 
-        # All metric selection functionality goes inside this container
+
         with metrics_container:
-            # Metrics selection - dynamically populated from the registry
             st.subheader("Metrics Selection")
-
-            # Format available metrics for display
             metric_options = {name: metric.description for name, metric in available_metrics.items()}
-
-            # Default to select all metrics if none are defined
             default_metrics = list(metric_options.keys()) if metric_options else []
 
             selected_metrics = st.multiselect(
@@ -3347,100 +3360,97 @@ def text2sql_ui_mm():
                 st.warning("Please select at least one metric for evaluation")
 
             st.session_state.selected_metrics = selected_metrics
-            
-            # Track the state of custom metrics
+
             if "show_custom_metric_section" not in st.session_state:
                 st.session_state.show_custom_metric_section = False
 
-            # Trigger to show custom metric section
             if st.button("➕ Add Custom Metric"):
                 st.session_state.show_custom_metric_section = True
 
-            # Layout with single column to place custom metric content in the center
-            column1, column2, column3 = st.columns([1, 3, 1])
+        # ⛔ DON'T call render_custom_metric_tabs inside itself
+        # ✅ Instead, do this just once in the main flow:
+        if st.session_state.show_custom_metric_section:
+            st.markdown("### 🧩 Define Custom Metric")
+            render_custom_metric_tabs()  # only render once here
 
-            # Use the central column (col2) for the custom metric section
-            with column2:
-                if st.session_state.show_custom_metric_section:
-                    st.markdown("### 🧩 Define Custom Metric")
+            if st.button("❌ Close Custom Metrics"):
+                st.session_state.show_custom_metric_section = False
+                st.session_state.sql_custom_metric_code = ""
+                st.rerun()
 
-                    # Start the form
-                    with st.form("custom_metric_form"):
-                        # Tabs for custom metric input
-                        tabs = st.tabs(["🔮 Prompt (LLM-as-Judge)", "🐍 Python Metric Class"])
+        # # All metric selection functionality goes inside this container
+        # with metrics_container:
+        #     # Metrics selection - dynamically populated from the registry
+        #     st.subheader("Metrics Selection")
 
-                        with tabs[0]:
-                            st.text_area(
-                                "Prompt for LLM-as-Judge",
-                                key="sql_custom_prompt",
-                                height=200,
-                                placeholder="e.g., Evaluate SQL queries for semantic similarity and execution correctness..."
-                            )
+        #     # Format available metrics for display
+        #     metric_options = {name: metric.description for name, metric in available_metrics.items()}
 
-                        with tabs[1]:
-                            st.code('''from .base_metrics import BaseMetric
-            from typing import Dict, Any
+        #     # Default to select all metrics if none are defined
+        #     default_metrics = list(metric_options.keys()) if metric_options else []
 
-            class SQLExactMatch(BaseMetric):
-                """Exact match comparison for SQL queries"""
-                def __init__(self):
-                    super().__init__(
-                        name="exact_match",
-                        description="Exact string match between generated and reference SQL",
-                        csv_requires=["gold_sql"],
-                        runtime_requires=["generated_sql", "gold_sql"]
-                    )
+        #     selected_metrics = st.multiselect(
+        #         "Select Evaluation Metrics",
+        #         options=list(metric_options.keys()),
+        #         format_func=lambda x: f"{x} - {metric_options[x]}" if x in metric_options else x,
+        #         default=default_metrics[:2] if len(default_metrics) > 1 else default_metrics,
+        #         help="Select metrics to use for evaluation"
+        #     )
 
-                def calculate(self, generated_sql: str, gold_sql: str) -> Dict[str, Any]:
-                    try:
-                        generated_norm = generated_sql.lower().strip()
-                        gold_norm = gold_sql.lower().strip()
-                        return {"exact_match": generated_norm == gold_norm}
-                    except AttributeError:
-                        return {"exact_match": False, "error": "Invalid SQL inputs"}
-            ''', language="python")
+        #     if not selected_metrics:
+        #         st.warning("Please select at least one metric for evaluation")
 
-                            st.text_area(
-                                "Paste your custom metric class code here",
-                                key="sql_custom_metric_code",
-                                height=300,
-                                placeholder="Write your BaseMetric-compatible class code here..."
-                            )
-
-                        # Form submission button to save the custom metric
-                        submit_button = st.form_submit_button("💾 Save Metric")
-                        
-                        # Check if the form was submitted
-                        if submit_button:
-                            # Add your save logic here (e.g., validate and save the custom metric)
-                            st.success("Metric saved!")
-
-                    # Close button to hide section
-                    if st.button("❌ Close"):
-                        st.session_state.show_custom_metric_section = False
-
-
-        # # Metrics selection - dynamically populated from the registry
-        # st.subheader("Metrics Selection")
-        
-        # # Format available metrics for display
-        # metric_options = {name: metric.description for name, metric in available_metrics.items()}
-        
-        # # Default to select all metrics if none are defined
-        # default_metrics = list(metric_options.keys()) if metric_options else []
-        
-        # selected_metrics = st.multiselect(
-        #     "Select Evaluation Metrics",
-        #     options=list(metric_options.keys()),
-        #     format_func=lambda x: f"{x} - {metric_options[x]}" if x in metric_options else x,
-        #     default=default_metrics[:2] if len(default_metrics) > 1 else default_metrics,
-        #     help="Select metrics to use for evaluation"
-        # )
-        
-        # if not selected_metrics:
-        #     st.warning("Please select at least one metric for evaluation")
+        #     st.session_state.selected_metrics = selected_metrics
             
-        # st.session_state.selected_metrics = selected_metrics
+            
+        #     # Track the state of custom metrics
+        #     if "show_custom_metric_section" not in st.session_state:
+        #         st.session_state.show_custom_metric_section = False
+
+        #     # Trigger to show custom metric section
+        #     if st.button("➕ Add Custom Metric"):
+        #         st.session_state.show_custom_metric_section = True
+
+        #     # Layout with single column to place custom metric content in the center
+        #     column1, column2, column3 = st.columns([1, 100, 1])
+
+        #     with column2:
+        #         if st.session_state.show_custom_metric_section:
+        #             st.markdown("### 🧩 Define Custom Metric")
+        #             with st.form("custom_metric_form"):
+        #                 # Render tabbed interface
+        #                 render_custom_metric_tabs()
+
+        #                 # Save button
+        #                 submit_button = st.form_submit_button("💾 Save Metric")
+
+        #                 if submit_button:
+        #                     try:
+        #                         custom_code = st.session_state.sql_custom_metric_code
+        #                         class_name = extract_class_name(custom_code)
+        
+        #                         # Try to extract metric name from the code
+        #                         try:
+        #                             metric_name = extract_metric_name(custom_code)
+        #                         except ValueError:
+        #                             # Fall back to class name if extraction fails
+        #                             metric_name = class_name.lower()
+                                
+        #                         # Save file using the metric_name for the filename
+        #                         file_path = save_custom_metric_to_file(custom_code, metric_name)
+                                
+        #                         # Register the metric with both class_name and metric_name
+        #                         register_custom_metric(file_path, class_name, metric_name)
+                                
+        #                         st.success(f"✅ Custom metric '{metric_name}' saved and registered successfully!")
+        #                     except Exception as e:
+        #                         st.error(f"❌ Error saving metric: {e}")
+
+
+        #             if st.button("❌ Close"):
+        #                 st.session_state.show_custom_metric_section = False
+            
+
         
         
         # Base configuration
@@ -3630,7 +3640,7 @@ def text2sql_ui_mm():
                 judge_results = await judge.evaluate_model_outputs(
                     st.session_state.sql_evaluation_results,
                     criteria=judge_criteria,
-                    model=st.session_state.get('sql_judge_model', 'gpt-4o-mini')  # Use the selected judge model
+                   
                 )
                 
                 # Store results
@@ -3646,7 +3656,7 @@ def text2sql_ui_mm():
                         best_model,
                         before_data,
                         after_data,
-                        model=st.session_state.get('sql_judge_model', 'gpt-4o-mini')  # Use the selected judge model
+                        
                     )
                     
                     st.session_state.sql_tuning_comparison = tuning_comparison
@@ -3766,7 +3776,148 @@ def text2sql_ui_mm():
             tab_mapping = {tab_id: idx for idx, tab_id in enumerate(tab_config.keys())}
             
             # Tab for Evaluation Results
-            
+            # Tab: LLM Judge Results
+            with tabs[tab_mapping["llm_judge"]]:
+                st.header("LLM Judge Evaluation")
+                
+                if st.session_state.get('sql_judge_running', False):
+                    st.info("LLM judge evaluation in progress...")
+                elif st.session_state.get('sql_judge_results', None):
+                    # Display judge results
+                    
+                    # Model selection for viewing judge results
+                    judge_model_to_view = st.selectbox(
+                        "Select model to view judge evaluation",
+                        list(st.session_state.sql_judge_results.keys()),
+                        key="sql_judge_model_selector"
+                    )
+                    
+                    if judge_model_to_view:
+                        judge_result = st.session_state.sql_judge_results[judge_model_to_view]
+                        
+                        # Display any errors if present
+                        if "error" in judge_result:
+                            st.error(f"Judge evaluation error: {judge_result['error']}")
+                        else:
+                            st.subheader(f"Judge Evaluation for {judge_model_to_view}")
+                            
+                            # If the response has structured evaluation data
+                            if "evaluation" in judge_result and isinstance(judge_result["evaluation"], dict):
+                                evaluation = judge_result["evaluation"]
+                                
+                                # Display scores if available
+                                if "criteria_scores" in evaluation:
+                                    st.subheader("Criteria Scores")
+                                    
+                                    # Create score visualization
+                                    criteria_scores = evaluation["criteria_scores"]
+                                    score_data = []
+                                    for criterion, data in criteria_scores.items():
+                                        score_data.append({
+                                            "Criterion": criterion,
+                                            "Score": data["score"],
+                                            "Comments": data["comments"]
+                                        })
+                                    
+                                    # Display as a table
+                                    st.table(pd.DataFrame(score_data))
+                                    
+                                    # Create radar chart for scores
+                                    labels = [item["Criterion"] for item in score_data]
+                                    scores = [item["Score"] for item in score_data]
+                                    
+                                    fig = plt.figure(figsize=(8, 8))
+                                    ax = fig.add_subplot(111, polar=True)
+                                    
+                                    # Set the angles for each criterion
+                                    angles = [n / float(len(labels)) * 2 * 3.14159 for n in range(len(labels))]
+                                    angles += angles[:1]  # Close the loop
+                                    
+                                    # Add the scores
+                                    scores += scores[:1]  # Close the loop
+                                    
+                                    # Plot
+                                    ax.plot(angles, scores, linewidth=2, linestyle='solid')
+                                    ax.fill(angles, scores, alpha=0.25)
+                                    
+                                    # Set labels and ticks
+                                    ax.set_xticks(angles[:-1])
+                                    ax.set_xticklabels(labels)
+                                    ax.set_yticks([2, 4, 6, 8, 10])
+                                    ax.set_yticklabels(['2', '4', '6', '8', '10'])
+                                    ax.set_ylim(0, 10)
+                                    
+                                    plt.title(f'Judge Scores for {judge_model_to_view}')
+                                    st.pyplot(fig)
+                                
+                                # Display strengths and weaknesses
+                                if "strengths" in evaluation:
+                                    st.subheader("Strengths")
+                                    for strength in evaluation["strengths"]:
+                                        st.markdown(f"- {strength}")
+                                
+                                if "weaknesses" in evaluation:
+                                    st.subheader("Weaknesses")
+                                    for weakness in evaluation["weaknesses"]:
+                                        st.markdown(f"- {weakness}")
+                                
+                                # Display summary and final score
+                                if "summary" in evaluation:
+                                    st.subheader("Summary")
+                                    st.write(evaluation["summary"])
+                                
+                                if "final_score" in evaluation:
+                                    st.metric("Final Score", f"{evaluation['final_score']}/100")
+                            else:
+                                # Display raw evaluation text
+                                st.markdown("### Judge Evaluation")
+                                st.write(judge_result.get("raw_response", "No detailed evaluation available"))
+                    
+                    # Show tuning comparison if available
+                    if st.session_state.get('sql_tuning_comparison', None):
+                        st.markdown("---")
+                        st.header("Before vs After Tuning Analysis")
+                        
+                        tuning_comp = st.session_state.sql_tuning_comparison
+                        model_name = tuning_comp.get("model_name")
+                        
+                        if "error" in tuning_comp:
+                            st.error(f"Tuning comparison error: {tuning_comp['error']}")
+                        else:
+                            st.subheader(f"Tuning Impact Analysis for {model_name}")
+                            
+                            # Display the analysis
+                            st.markdown(tuning_comp.get("tuning_impact_analysis", "No tuning analysis available"))
+                
+                else:
+                    # Show instructions for using the judge
+                    st.info("""
+                    To get an LLM judge evaluation of your models:
+                    1. Complete a model evaluation run
+                    2. Go to the "Evaluation Results" tab
+                    3. Click the "Evaluate Using LLM Judge" button
+                    
+                    The judge will evaluate each model's SQL generation quality and provide detailed feedback.
+                    """)
+                    
+                    # If we have evaluation results but no judge results, show reminder
+                    if st.session_state.get('sql_evaluation_results', None):
+                        st.markdown("#### Ready for Judge Evaluation")
+                        st.markdown("You have evaluation results ready to be analyzed by the LLM judge.")
+                        judge_reminder_button = st.button(
+                            "Start Judge Evaluation", 
+                            type="primary", 
+                            key="sql_judge_reminder_button"
+                        )
+                        
+                        if judge_reminder_button:
+                            st.session_state.sql_judge_running = True
+                            
+                            # Run judge evaluation asynchronously
+                            run_judge_task = asyncio.create_task(run_judge_evaluation_async())
+                            
+                            # Rerun to show the spinner
+                            st.rerun()
             # Tab for Evaluation Results
             with tabs[tab_mapping["evaluation_results"]]:
                 if st.session_state.sql_evaluation_results:
