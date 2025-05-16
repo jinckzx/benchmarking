@@ -7,5 +7,3 @@ music_1,What are the names of the artists who sang the shortest song?,SELECT T1.
 music_4,Please show the categories of the music festivals with count more than 1.,SELECT Category FROM music_festival GROUP BY Category HAVING COUNT(*)  >  1
 hospital_1,What are the distinct names of nurses on call?,SELECT DISTINCT T1.name FROM nurse AS T1 JOIN on_call AS T2 ON T1.EmployeeID  =  T2.nurse
 wine_1,"What are the grapes, appelations, and wines with scores above 93, sorted by Name?","SELECT Grape ,  Appelation ,  Name FROM WINE WHERE Score  >  93 ORDER BY Name"
-music_1,What are the ids of all songs that are available on mp4 or have a higher resolution than 720?,"SELECT f_id FROM files WHERE formats  =  ""mp4"" UNION SELECT f_id FROM song WHERE resolution  >  720"
-coffee_shop,"Find the purchase time, age and address of each member, and show the results in the order of purchase time.","SELECT Time_of_purchase ,  age ,  address FROM member ORDER BY Time_of_purchase"

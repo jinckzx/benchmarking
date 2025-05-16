@@ -333,7 +333,8 @@ class HyperparameterTuner:
             "temperature": best_temp,
             primary_metric: best_result.get(primary_metric, 0.0)
         }
-        
+     # Updated _calculate_average_metrics in HyperparameterTuner
+       
     def _calculate_average_metrics(self, results: List[Dict[str, Any]]) -> Dict[str, float]:
         """Calculate average metrics across all results."""
         # Create a DataFrame with all results

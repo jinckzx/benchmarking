@@ -543,7 +543,8 @@ class SQLModelRunner:
             return {**result_template, "generated_sql": f"Error: {str(e)}"}
 
     # FIXED: Make evaluate_query as an instance method, not a callable function
-        
+    
+    
     async def evaluate_query_async(self, generated_sql: str, gold_sql: str, db_id: str) -> Dict[str, Any]:
         """Async version of evaluate_query that handles LLM-based metrics"""
         metric_inputs = {
@@ -589,46 +590,7 @@ class SQLModelRunner:
                     metric_results.update(llm_results[i])
         
         return metric_results
-    # async def evaluate_query_async(self, generated_sql: str, gold_sql: str, db_id: str) -> Dict[str, Any]:
-    #     """Async version of evaluate_query that handles LLM-based metrics"""
-    #     metric_inputs = {
-    #         "gold_sql": gold_sql,
-    #         "db_id": db_id, 
-    #         "generated_sql": generated_sql
-    #     }
-        
-    #     metric_results = {}
-    #     llm_metric_tasks = {}
-        
-    #     # Process metrics - separate LLM and non-LLM metrics
-    #     for metric in self.selected_metrics:
-    #         try:
-    #             required_fields = metric.runtime_requires
-    #             if all(field in metric_inputs for field in required_fields):
-    #                 filtered_inputs = {k: metric_inputs[k] for k in required_fields}
-                    
-    #                 # Check if metric requires LLM
-    #                 if hasattr(metric, 'requires_llm') and metric.requires_llm and hasattr(metric, 'calculate_async'):
-    #                     llm_metric_tasks[metric.name] = metric.calculate_async(**filtered_inputs)
-    #                 else:
-    #                     # Process non-LLM metrics synchronously
-    #                     result = metric.calculate(**filtered_inputs)
-    #                     metric_results.update(result)
-    #         except Exception as e:
-    #             logger.error(f"Metric {metric.name} failed: {str(e)}")
-        
-    #     # Await LLM-based metrics if any
-    #     if llm_metric_tasks:
-    #         llm_results = await asyncio.gather(*llm_metric_tasks.values(), return_exceptions=True)
-            
-    #         # Add LLM results to the result dict
-    #         for i, metric_name in enumerate(llm_metric_tasks.keys()):
-    #             if isinstance(llm_results[i], Exception):
-    #                 logger.error(f"LLM metric {metric_name} failed: {str(llm_results[i])}")
-    #             else:
-    #                 metric_results.update(llm_results[i])
-        
-    #     return metric_results
+    
 
     # Keep the original evaluate_query for backward compatibility
     def evaluate_query(self, generated_sql: str, gold_sql: str, db_id: str) -> Dict[str, Any]:
@@ -700,6 +662,8 @@ class SQLModelRunner:
         return models_results
 
     # FIXED: Update hyperparameter tuning to use bound methods instead of functions
+    # Updated tune_best_model method in SQLModelRunner
+    
     async def tune_best_model(self, model: str, csv_path: str, config: ModelConfig) -> Dict[str, Any]:
         """Tune hyperparameters using selected metrics"""
         try:
@@ -742,36 +706,7 @@ class SQLModelRunner:
             import traceback
             logger.error(f"Traceback: {traceback.format_exc()}")
             raise
-    # async def tune_best_model(self, model: str, csv_path: str, config: ModelConfig) -> Dict[str, Any]:
-    #     """Tune hyperparameters using selected metrics"""
-    #     try:
-    #         logger.info(f"Tuning hyperparameters for {model}")
-    #         queries = self.ingest_csv(csv_path)
-            
-    #         # Configure tuning based on selected metrics
-    #         primary_metric = self.selected_metrics[0].name
-    #         tuning_config = {
-    #             "temp_range": (config.min_temp, config.max_temp),
-    #             "num_trials": config.num_trials,
-    #             "primary_metric": f"{primary_metric}_rate"
-    #         }
-            
-    #         # FIXED: Pass the bound instance methods instead of function references
-    #         # This ensures 'self' is properly included when they're called
-    #         best_params = await self.hyperparameter_tuner.tune_model(
-    #             model,
-    #             queries,
-    #             self._query_model,  # This is a bound method
-    #             self.evaluate_query_async,  # This is a bound method now
-    #             tuning_config
-    #         )
-            
-    #         logger.info(f"Tuning complete. Best params: {best_params}")
-    #         return best_params
-            
-    #     except Exception as e:
-    #         logger.error(f"Tuning failed: {str(e)}")
-    #         raise
+    
 
     async def evaluate_with_params(self, model: str, params: Dict[str, Any], csv_path: str) -> Dict[str, Any]:
         """Final evaluation with tuned parameters"""

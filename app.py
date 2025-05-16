@@ -3268,7 +3268,149 @@ def text2sql_ui_mm():
         st.session_state.show_custom_metric_section = False
     if "selected_metrics" not in st.session_state:
         st.session_state.selected_metrics = []
+    if "show_detailed_metrics" not in st.session_state:
+        st.session_state.show_detailed_metrics = False
 
+#data loader modal
+    if "open_modal" not in st.session_state:
+        st.session_state.open_modal = False
+    if "last_file_bytes" not in st.session_state:
+        st.session_state.last_file_bytes = None
+    if "column_mapping" not in st.session_state:
+        st.session_state.column_mapping = {}
+    if "df_new" not in st.session_state:
+        st.session_state.df_new = None
+    if "sampled_df" not in st.session_state:
+        st.session_state.sampled_df = None
+    if "selected_percent" not in st.session_state:
+        st.session_state.selected_percent = 50
+    if "sample_size" not in st.session_state:
+        st.session_state.sample_size = None
+    if "total_rows" not in st.session_state:
+        st.session_state.total_rows = None
+    if "original_df" not in st.session_state:
+        st.session_state.original_df = None
+        
+    uploaded_file = st.file_uploader(
+            "Choose a CSV or Excel file", 
+            type=["csv", "xls", "xlsx"],
+            accept_multiple_files=False
+        )
+
+    if uploaded_file:
+        if st.button("Upload File"):
+            file_bytes = uploaded_file.getvalue()
+
+            st.session_state.open_modal = True
+            st.session_state.last_file_bytes = file_bytes
+
+            try:
+                if uploaded_file.name.endswith(".csv"):
+                    df = pd.read_csv(uploaded_file)
+                else:
+                    df = pd.read_excel(uploaded_file)
+
+                st.session_state.original_df = df  # optional: preserve original
+
+            except Exception as e:
+                st.error(f"Error reading the file: {e}")
+
+    # Now the modal logic
+    if st.session_state.open_modal and "original_df" in st.session_state:
+        modal = Modal(key="demo_modal", title="File Content")
+        with modal.container():
+            df = st.session_state.original_df
+
+            st.markdown("""
+            <style>
+                .modal-content {
+                    width: 90% !important;
+                    max-width: none !important;
+                }
+            </style>
+            """, unsafe_allow_html=True)
+
+            st.write("File content:")
+            st.dataframe(df.head(3))
+
+            column_mapping = {}
+            categories = ["Input Query", "Expected Output", "Metadata", "Exclude"]
+            assigned_categories = []
+
+            for column in df.columns:
+                available_categories = [cat for cat in categories if cat != "Exclude" and cat not in assigned_categories]
+                options = available_categories + ["Exclude"]
+
+                selected_category = st.radio(
+                    label=f"**{column}**",
+                    options=options,
+                    index=options.index("Exclude"),
+                    key=column,
+                    horizontal=True
+                )
+                column_mapping[column] = selected_category
+                if selected_category != "Exclude":
+                    assigned_categories.append(selected_category)
+
+            st.session_state.column_mapping = column_mapping  # ✅ Save mapping
+
+            category_to_new_name = {
+                "Metadata": "db_id",
+                "Input Query": "question",
+                "Expected Output": "gold_sql"
+            }
+
+            new_columns = {
+                col: category_to_new_name[cat]
+                for col, cat in column_mapping.items()
+                if cat in category_to_new_name
+            }
+
+            df_new = df[list(new_columns.keys())].rename(columns=new_columns)
+            st.session_state.df_new = df_new  # Save new dataframe
+
+            total_rows = len(df_new)
+            st.session_state.total_rows = total_rows
+            st.write(f"Total number of rows: {total_rows}")
+
+            percent = st.slider("Select percentage of rows to sample", 0, 100, st.session_state.selected_percent)
+            st.session_state.selected_percent = percent  # Save slider value
+
+            num_rows_to_select = int((percent / 100) * total_rows)
+            st.write(f"Sampling {num_rows_to_select} rows ({percent}%)")
+
+            if num_rows_to_select > 0:
+                sampled_df = df_new.sample(n=num_rows_to_select, random_state=42)
+                st.session_state.sampled_df = sampled_df  # Save sampled_df
+                st.write("Sampled DataFrame:")
+                st.dataframe(sampled_df)
+                sample_size = num_rows_to_select
+            else:
+                sample_size = total_rows
+                st.info("Move the slider to more than 0% to see sampled rows.")
+
+            st.session_state.sample_size = sample_size
+            if st.button("Close"):
+                
+                st.session_state.open_modal = False
+
+    if not st.session_state.open_modal:
+        if st.session_state.df_new is not None:
+            df = st.session_state.original_df
+            new_df = st.session_state.df_new
+            # st.dataframe(df)
+            # st.dataframe(st.session_state.df_new)
+
+        if st.session_state.sampled_df is not None:
+            # st.subheader("Last Sampled DataFrame")
+            sampled_df = st.session_state.sampled_df
+            # st.dataframe(st.session_state.sampled_df)
+
+            
+            sample_size = st.session_state.sample_size
+            total_rows = st.session_state.total_rows
+            st.markdown(f"**Sample Size:** {sample_size}")
+            st.markdown(f"**total rows:** {total_rows}")
 
     def reset_results():
         st.session_state.sql_evaluation_results = None
@@ -3290,36 +3432,36 @@ def text2sql_ui_mm():
     with col1:
         st.header("Configuration")
         
-        # File uploader
-        uploaded_file = st.file_uploader("Upload Test Dataset (CSV)", type=["csv"], key="sql_csv_upload")
+        # # File uploader
+        # uploaded_file = st.file_uploader("Upload Test Dataset (CSV)", type=["csv"], key="sql_csv_upload")
         
-        # Add dataset sampling option
-        if uploaded_file is not None:
-            # Read the uploaded file to get the number of rows
-            df = pd.read_csv(uploaded_file)
-            total_rows = len(df)
+        # # Add dataset sampling option
+        # if uploaded_file is not None:
+        #     # Read the uploaded file to get the number of rows
+        #     df = pd.read_csv(uploaded_file)
+        #     total_rows = len(df)
             
-            st.subheader("Dataset Sampling")
-            enable_sampling = st.checkbox("Enable Dataset Sampling", value=False, key="sql_enable_sampling")
+        #     st.subheader("Dataset Sampling")
+        #     enable_sampling = st.checkbox("Enable Dataset Sampling", value=False, key="sql_enable_sampling")
             
-            if enable_sampling:
-                sample_size = st.slider(
-                    "Sample Size", 
-                    min_value=min(10, total_rows),
-                    max_value=total_rows,
-                    value=min(50, total_rows),
-                    step=10,
-                    help=f"Select number of samples to use from your dataset of {total_rows} records"
-                )
+        #     if enable_sampling:
+        #         sample_size = st.slider(
+        #             "Sample Size", 
+        #             min_value=min(10, total_rows),
+        #             max_value=total_rows,
+        #             value=min(50, total_rows),
+        #             step=10,
+        #             help=f"Select number of samples to use from your dataset of {total_rows} records"
+        #         )
                 
-                # Display percentage of total
-                st.caption(f"Selected {sample_size} samples ({(sample_size/total_rows*100):.1f}% of total)")
-            else:
-                # If sampling is not enabled, use all rows
-                sample_size = total_rows
+        #         # Display percentage of total
+        #         st.caption(f"Selected {sample_size} samples ({(sample_size/total_rows*100):.1f}% of total)")
+        #     else:
+        #         # If sampling is not enabled, use all rows
+        #         sample_size = total_rows
             
-            # Reset file position to beginning for later use
-            uploaded_file.seek(0)
+        #     # Reset file position to beginning for later use
+        #     uploaded_file.seek(0)
         
         # Model selection (with default models)
         default_models = ["gpt-4o-mini", "gpt-4o"]
@@ -3378,77 +3520,7 @@ def text2sql_ui_mm():
                 st.session_state.sql_custom_metric_code = ""
                 st.rerun()
 
-        # # All metric selection functionality goes inside this container
-        # with metrics_container:
-        #     # Metrics selection - dynamically populated from the registry
-        #     st.subheader("Metrics Selection")
-
-        #     # Format available metrics for display
-        #     metric_options = {name: metric.description for name, metric in available_metrics.items()}
-
-        #     # Default to select all metrics if none are defined
-        #     default_metrics = list(metric_options.keys()) if metric_options else []
-
-        #     selected_metrics = st.multiselect(
-        #         "Select Evaluation Metrics",
-        #         options=list(metric_options.keys()),
-        #         format_func=lambda x: f"{x} - {metric_options[x]}" if x in metric_options else x,
-        #         default=default_metrics[:2] if len(default_metrics) > 1 else default_metrics,
-        #         help="Select metrics to use for evaluation"
-        #     )
-
-        #     if not selected_metrics:
-        #         st.warning("Please select at least one metric for evaluation")
-
-        #     st.session_state.selected_metrics = selected_metrics
-            
-            
-        #     # Track the state of custom metrics
-        #     if "show_custom_metric_section" not in st.session_state:
-        #         st.session_state.show_custom_metric_section = False
-
-        #     # Trigger to show custom metric section
-        #     if st.button("➕ Add Custom Metric"):
-        #         st.session_state.show_custom_metric_section = True
-
-        #     # Layout with single column to place custom metric content in the center
-        #     column1, column2, column3 = st.columns([1, 100, 1])
-
-        #     with column2:
-        #         if st.session_state.show_custom_metric_section:
-        #             st.markdown("### 🧩 Define Custom Metric")
-        #             with st.form("custom_metric_form"):
-        #                 # Render tabbed interface
-        #                 render_custom_metric_tabs()
-
-        #                 # Save button
-        #                 submit_button = st.form_submit_button("💾 Save Metric")
-
-        #                 if submit_button:
-        #                     try:
-        #                         custom_code = st.session_state.sql_custom_metric_code
-        #                         class_name = extract_class_name(custom_code)
         
-        #                         # Try to extract metric name from the code
-        #                         try:
-        #                             metric_name = extract_metric_name(custom_code)
-        #                         except ValueError:
-        #                             # Fall back to class name if extraction fails
-        #                             metric_name = class_name.lower()
-                                
-        #                         # Save file using the metric_name for the filename
-        #                         file_path = save_custom_metric_to_file(custom_code, metric_name)
-                                
-        #                         # Register the metric with both class_name and metric_name
-        #                         register_custom_metric(file_path, class_name, metric_name)
-                                
-        #                         st.success(f"✅ Custom metric '{metric_name}' saved and registered successfully!")
-        #                     except Exception as e:
-        #                         st.error(f"❌ Error saving metric: {e}")
-
-
-        #             if st.button("❌ Close"):
-        #                 st.session_state.show_custom_metric_section = False
             
 
         
@@ -3679,15 +3751,15 @@ def text2sql_ui_mm():
                 st.error("Please select at least one metric for evaluation")
             else:
                 # Create sampled dataset if sampling is enabled
-                if st.session_state.get('sql_enable_sampling', False) and uploaded_file is not None:
+                if uploaded_file is not None: 
                     # Read the full dataset
-                    df = pd.read_csv(uploaded_file)
+                    # df = pd.read_csv(uploaded_file)
                     total_rows = len(df)
                     
                     # Check if sampling is actually needed
                     if sample_size < total_rows:
                         # Sample the dataset
-                        sampled_df = df.sample(n=sample_size, random_state=42)
+                        # sampled_df = df.sample(n=sample_size, random_state=42)
                         
                         # Save the sampled dataset to a temporary file
                         sampled_csv_path = "temp_sampled_dataset.csv"
@@ -3696,7 +3768,10 @@ def text2sql_ui_mm():
                         
                         # Display info about sampling
                         st.info(f"Using {sample_size} samples out of {total_rows} records ({(sample_size/total_rows*100):.1f}%)")
-                
+                    else:
+                        
+                        st.info(f"Using {sample_size} all the samples {total_rows} records ({(sample_size/total_rows*100):.1f}%)")
+                        sampled_df = sampled_df
                 # Create config
                 config = ModelConfig(
                     models=selected_models,
@@ -3918,6 +3993,198 @@ def text2sql_ui_mm():
                             
                             # Rerun to show the spinner
                             st.rerun()
+            with tabs[tab_mapping["cost_estimation"]]:  # Assuming this is the seventh tab (index 6)
+                st.header("Cost Estimation")
+                
+                if st.session_state.sql_evaluation_results:
+                    # Calculate cost based on actual completed evaluation
+                    selected_models = list(st.session_state.sql_evaluation_results.keys())
+                    
+                    # Count number of queries processed per model
+                    query_counts = {}
+                    for model, eval_data in st.session_state.sql_evaluation_results.items():
+                        query_counts[model] = len(eval_data["responses"])
+                    
+                    # Prepare model data for cost calculation
+                    model_instances = [(model, 1) for model in selected_models]
+                    
+                    # Calculate cost for all iterations
+                    total_iterations = sum(query_counts.values())
+                    total_cost, cost_breakdown = calculate_cost(model_instances, total_iterations)
+                    
+                    # Display summary
+                    st.subheader("Evaluation Cost Summary")
+                    col1, col2 = st.columns(2)
+                    col1.metric("Total Models", len(selected_models))
+                    col2.metric("Total Queries", total_iterations)
+                    
+                    st.metric("Estimated Total Cost", f"${total_cost:.4f}")
+                    
+                    # Display cost breakdown table
+                    st.subheader("Cost Breakdown by Model")
+                    st.dataframe(cost_breakdown, use_container_width=True)
+                    
+                    # Create a bar chart of costs by model
+                    cost_data = []
+                    for model in selected_models:
+                        row = cost_breakdown[cost_breakdown['Model'] == model]
+                        if not row.empty:
+                            cost_val = float(row['Total'].iloc[0].replace('$', ''))
+                            cost_data.append({"Model": model, "Cost": cost_val})
+                    
+                    if cost_data:
+                        cost_df = pd.DataFrame(cost_data)
+                        fig, ax = plt.subplots(figsize=(10, 5))
+                        ax.bar(cost_df['Model'], cost_df['Cost'], color='green')
+                        ax.set_xlabel('Model')
+                        ax.set_ylabel('Cost ($)')
+                        ax.set_title('Cost by Model')
+                        ax.grid(True, linestyle='--', alpha=0.7)
+                        plt.xticks(rotation=45, ha='right')
+                        plt.tight_layout()
+                        st.pyplot(fig)
+                        
+                else:
+                    # If no evaluation has been run, show cost estimator
+                    st.subheader("Cost Estimator")
+                    st.markdown("""
+                    This tool helps you estimate the cost of running your SQL evaluation based on:
+                    - Selected models
+                    - Number of test queries
+                    - Whether parameter tuning is enabled
+                    """)
+                    
+                    # Get user inputs for estimation
+                    estimation_models = st.multiselect(
+                        "Select Models for Estimation",
+                        ["gpt-4o-mini", "gpt-3.5-turbo", "gemini-2", "o3-mini"],
+                        default=["gpt-4o-mini"] if "sql_models" not in st.session_state else st.session_state.sql_models
+                    )
+                    
+                    num_queries = st.slider(
+                        "Number of Test Queries",
+                        min_value=10,
+                        max_value=500,
+                        value=50,
+                        step=10,
+                        help="Estimated number of queries to evaluate"
+                    )
+                    
+                    enable_est_tuning = st.checkbox(
+                        "Include Parameter Tuning",
+                        value=True,
+                        help="Parameter tuning runs additional evaluations with different temperatures"
+                    )
+                    
+                    if enable_est_tuning:
+                        num_trials = st.slider(
+                            "Number of Tuning Trials",
+                            min_value=3,
+                            max_value=10,
+                            value=5,
+                            step=1,
+                            help="Number of different parameter configurations to try"
+                        )
+                    else:
+                        num_trials = 1
+                        
+                    # Calculate estimated cost
+                    if estimation_models:
+                        # Prepare model data for cost calculation
+                        model_instances = [(model, 1) for model in estimation_models]
+                        
+                        # Basic evaluation cost (one run per model)
+                        base_iterations = num_queries * len(estimation_models)
+                        
+                        # Add tuning iterations if enabled
+                        tuning_iterations = 0
+                        if enable_est_tuning and estimation_models:
+                            # For each trial, we run a subset of queries with one model
+                            tuning_iterations = num_queries * num_trials
+                            
+                        total_iterations = base_iterations + tuning_iterations
+                        
+                        # Calculate cost
+                        total_cost, cost_breakdown = calculate_cost(model_instances, total_iterations)
+                        
+                        # Display results
+                        cost_col1, cost_col2, cost_col3 = st.columns(3)
+                        cost_col1.metric("Base Evaluation Queries", base_iterations)
+                        cost_col2.metric("Tuning Queries", tuning_iterations)
+                        cost_col3.metric("Total Queries", total_iterations)
+                        
+                        st.metric("Estimated Total Cost", f"${total_cost:.4f}")
+                        
+                        # Display cost breakdown
+                        st.subheader("Cost Breakdown")
+                        st.dataframe(cost_breakdown, use_container_width=True)
+                        
+                        # Show model pricing information
+                        st.subheader("Model Pricing (per 1K tokens)")
+                        pricing_data = []
+                        for model, prices in MODEL_PRICING.items():
+                            pricing_data.append({
+                                "Model": model,
+                                "Input Cost (per 1K tokens)": f"${prices['input']}",
+                                "Output Cost (per 1K tokens)": f"${prices['output']}"
+                            })
+                        
+                        st.dataframe(pd.DataFrame(pricing_data), use_container_width=True)
+                        
+                        # Display assumptions
+                        st.subheader("Calculation Assumptions")
+                        st.markdown(f"""
+                        - Average input tokens per query: {AVG_INPUT_TOKENS}
+                        - Average output tokens per query: {AVG_OUTPUT_TOKENS}
+                        - Base evaluation: All models process all queries once
+                        - Tuning: Best model processes queries {num_trials} times with different parameters
+                        """)
+                    else:
+                        st.warning("Please select at least one model for cost estimation")
+            with tabs[tab_mapping["sample_queries"]]:
+                if "sample_queries" in st.session_state and st.session_state.sample_queries:
+                    st.subheader("Sampled Queries with Per-Query Metrics")
+                    
+                    for i, response in enumerate(st.session_state.sample_queries):
+                        st.markdown(f"### Query {i + 1}")
+                        st.markdown(f"**Question:** {response['question']}")
+
+                        col1, col2 = st.columns(2)
+                        with col1:
+                            st.markdown("**Generated SQL:**")
+                            st.code(response.get("generated_sql", "N/A"), language="sql")
+
+                        with col2:
+                            st.markdown("**Gold SQL:**")
+                            st.code(response.get("gold_sql", "N/A"), language="sql")
+
+                        # Display latency and confidence (if present)
+                        extra_cols = st.columns(2)
+                        if "latency" in response:
+                            extra_cols[0].metric("Latency", f"{response['latency']:.3f}s")
+                        if "confidence" in response:
+                            extra_cols[1].metric("Confidence", f"{response['confidence']:.2f}")
+
+                        # Display selected metrics
+                        st.markdown("**Evaluation Metrics:**")
+                        metric_cols = st.columns(len(selected_metrics))
+                        for idx, metric in enumerate(selected_metrics):
+                            display_name = available_metrics.get(metric, metric)
+                            score = response.get(f"{metric}_rate") or response.get(metric)
+                            if score is not None:
+                                try:
+                                    value = float(score)
+                                    metric_cols[idx].metric(display_name, f"{value:.2f}%")
+                                except (ValueError, TypeError):
+                                    metric_cols[idx].metric(display_name, str(score))
+                            else:
+                                metric_cols[idx].metric(display_name, "N/A")
+
+                        st.markdown("---")
+                else:
+                    st.info("No sampled queries available. Please run the evaluation.")
+
+
             # Tab for Evaluation Results
             with tabs[tab_mapping["evaluation_results"]]:
                 if st.session_state.sql_evaluation_results:
@@ -4009,7 +4276,9 @@ def text2sql_ui_mm():
 
                 else:
                     st.info("Running evaluation..." if st.session_state.sql_running else "Run evaluation to see results")
-                    
+            # Tab for Model Comparison Charts
+            
+                
             # Tab for Model Comparison Charts
             with tabs[tab_mapping["model_comparison"]]:
                 if st.session_state.sql_evaluation_results:
@@ -4068,16 +4337,22 @@ def text2sql_ui_mm():
                                     if col not in df.columns:
                                         df[col] = 0.0
                                 
-                                # Create a separate chart for each metric
-                                for metric_col in metric_cols:
-                                    fig, ax = plt.subplots(figsize=(10, 5))
-                                    df.plot.bar(x='Model', y=metric_col, ax=ax, color='skyblue', legend=False)
-                                    ax.set_title(f"{metric_col} by Model")
-                                    ax.set_ylabel(f"{metric_col} Score (%)")
-                                    ax.grid(True, linestyle='--', alpha=0.7)
-                                    plt.xticks(rotation=45, ha='right')
-                                    plt.tight_layout()
-                                    st.pyplot(fig)
+                                
+                                toggle_label = "Hide Detailed Metrics" if st.session_state.show_detailed_metrics else "See All Metrics in Detail"
+                                if st.button(toggle_label):
+                                    st.session_state.show_detailed_metrics = not st.session_state.show_detailed_metrics
+
+                                if st.session_state.show_detailed_metrics:
+                                    # Create a separate chart for each metric
+                                    for metric_col in metric_cols:
+                                        fig, ax = plt.subplots(figsize=(10, 5))
+                                        df.plot.bar(x='Model', y=metric_col, ax=ax, color='skyblue', legend=False)
+                                        ax.set_title(f"{metric_col} by Model")
+                                        ax.set_ylabel(f"{metric_col} Score (%)")
+                                        ax.grid(True, linestyle='--', alpha=0.7)
+                                        plt.xticks(rotation=45, ha='right')
+                                        plt.tight_layout()
+                                        st.pyplot(fig)
                                 
                                 # Combined view
                                 st.subheader("Combined Metrics View")

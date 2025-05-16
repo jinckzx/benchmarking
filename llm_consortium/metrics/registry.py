@@ -16,6 +16,11 @@ from .joinclause_check import Joinclause_checkMetric
 from .where_clause import Where_clauseMetric
 from .custom123 import Custom123Metric
 from .custom321 import Custom321Metric
+from .llmbased_clause_match import Llmbased_clause_matchMetric
+from .check1_join import Check1_joinMetric
+from .check2_execute import Check2_executeMetric
+from .from_clause import From_clauseMetric
+from .join123_check import Join123_checkMetric
 
 
 
@@ -48,6 +53,11 @@ class MetricRegistry:
                 "where_clause": Where_clauseMetric(),
                 "custom123": Custom123Metric(),
                 "custom321": Custom321Metric(),
+                "llmbased_clause_match": Llmbased_clause_matchMetric(),
+                "check1_join": Check1_joinMetric(),
+                "check2_execute": Check2_executeMetric(),
+                "from_clause": From_clauseMetric(),
+                "join123_check": Join123_checkMetric(),
             }
         }
     
