@@ -175,10 +175,13 @@ class HyperparameterTuner:
         queries: List[Dict],
         query_func: Callable,
         metrics_func: Callable[[str, str, str], Awaitable[Dict[str, Any]]],
-        primary_metric: str
+        primary_metric: str,
+        base_params: Dict
     ) -> Dict:
         """Evaluate model performance at a specific temperature"""
         results = []
+        params = base_params.copy()
+        params["temperature"] = temperature
         
         # For simplicity, use a subset of queries if there are many
         sample_queries = queries
@@ -194,7 +197,7 @@ class HyperparameterTuner:
                     0,  # instance
                     0,  # iteration
                     query["db_id"],
-                    temperature
+                    params
                 )
                 
                 # Evaluate against gold standard using the metrics function
@@ -262,7 +265,8 @@ class HyperparameterTuner:
         queries: List[Dict],
         query_func: Callable,
         metrics_func: Callable[[str, str, str], Awaitable[Dict[str, Any]]],
-        tuning_config: Dict
+        tuning_config: Dict,
+        base_params: Dict
     ) -> Dict:
         """Find optimal hyperparameters for the model"""
         logger.info(f"Starting hyperparameter tuning for {model}")
@@ -288,7 +292,8 @@ class HyperparameterTuner:
                 queries,
                 query_func,
                 metrics_func,
-                primary_metric
+                primary_metric,
+                base_params
             )
             tasks.append(task)
         

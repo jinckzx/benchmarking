@@ -68,12 +68,29 @@ else:
     client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
     class OpenAIWrapper:
-        async def chat(self, model: str, messages: list, temperature: float = 0.2):
+            
+
+        # async def chat(self, model: str, messages: list, temperature: float = 0.2):
+        #     response = await client.chat.completions.create(
+        #         model=model,
+        #         messages=messages,
+        #         temperature=temperature,
+        #     )
+
+
+        async def chat(self, model, messages, **kwargs):
+            """Example client implementation"""
             response = await client.chat.completions.create(
                 model=model,
                 messages=messages,
-                temperature=temperature,
+                temperature=kwargs.get("temperature", 0.2),
+                top_p=kwargs.get("top_p", 1.0),
+                max_tokens=kwargs.get("max_tokens", 1024),
+                frequency_penalty=kwargs.get("frequency_penalty", 0.0),
+                presence_penalty=kwargs.get("presence_penalty", 0.0)
             )
+
+            
             return {"content": response.choices[0].message.content}
 
     llm = OpenAIWrapper()

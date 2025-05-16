@@ -3472,6 +3472,110 @@ def text2sql_ui_mm():
             default=default_models,
             key="sql_models"
         )
+
+
+
+
+        # Model configuration
+        st.subheader("Model Configuration")
+
+        # Create a dictionary to store model configurations
+        model_configs = {}
+
+        for model in selected_models:
+            with st.expander(f"Parameters for {model}", expanded=False):
+                # All parameters in one column
+                
+                temperature = st.slider(
+                    "Temperature",
+                    min_value=0.0,
+                    max_value=1.0,
+                    value=0.2,
+                    step=0.05,
+                    key=f"{model}_temp",
+                    help="Controls randomness: Lower = more deterministic, Higher = more random"
+                )
+                
+                top_p = st.slider(
+                    "Top P",
+                    min_value=0.0,
+                    max_value=1.0,
+                    value=1.0,
+                    step=0.05,
+                    key=f"{model}_top_p",
+                    help="Nucleus sampling: Only consider top tokens with cumulative probability >= top_p"
+                )
+                
+                max_tokens = st.number_input(
+                    "Max Tokens",
+                    min_value=1,
+                    max_value=4096,
+                    value=1024,
+                    step=100,
+                    key=f"{model}_max_tokens",
+                    help="Maximum number of tokens to generate"
+                )
+                
+                frequency_penalty = st.slider(
+                    "Frequency Penalty",
+                    min_value=0.0,
+                    max_value=2.0,
+                    value=0.0,
+                    step=0.1,
+                    key=f"{model}_freq_penalty",
+                    help="Penalize new tokens based on their existing frequency in the text"
+                )
+                
+                presence_penalty = st.slider(
+                    "Presence Penalty",
+                    min_value=0.0,
+                    max_value=2.0,
+                    value=0.0,
+                    step=0.1,
+                    key=f"{model}_pres_penalty",
+                    help="Penalize new tokens based on whether they appear in the text"
+                )
+                
+                stop_sequences = st.text_input(
+                    "Stop Sequences",
+                    value="",
+                    key=f"{model}_stop_seq",
+                    help="Comma-separated sequences where generation should stop (e.g. '\\n,###')"
+                )
+                
+                tool_choice = st.selectbox(
+                    "Tool Choice",
+                    options=["None", "auto", "specific_function"],
+                    index=0,
+                    key=f"{model}_tool_choice",
+                    help="Control which tool (if any) the model should use"
+                )
+                
+                use_cache = st.checkbox(
+                    "Use Cache",
+                    value=True,
+                    key=f"{model}_use_cache",
+                    help="Enable response caching for identical inputs"
+                )
+        
+                # Store the configuration for this model
+                model_configs[model] = {
+                    "temperature": temperature,
+                    "top_p": top_p,
+                    "max_tokens": max_tokens,
+                    "frequency_penalty": frequency_penalty,
+                    "presence_penalty": presence_penalty,
+                    "stop": [s.strip() for s in stop_sequences.split(",")] if stop_sequences else None,
+                    "tool_choice": tool_choice if tool_choice != "None" else None,
+                    "use_cache": use_cache
+                }
+
+
+
+
+
+
+
         # Judge model selection
         judge_models = ["gpt-4o-mini", "claude-3-opus", "claude-3-sonnet"] 
         selected_judge = st.selectbox(
@@ -3525,9 +3629,9 @@ def text2sql_ui_mm():
 
         
         
-        # Base configuration
-        st.subheader("Base Settings")
-        base_temperature = st.slider("Base Temperature", 0.0, 1.0, 0.2, 0.05, key="sql_base_temp")
+        # # Base configuration
+        # st.subheader("Base Settings")
+        # base_temperature = st.slider("Base Temperature", 0.0, 1.0, 0.2, 0.05, key="sql_base_temp")
         
         # Tuning settings
         st.subheader("Parameter Tuning")
@@ -3776,7 +3880,7 @@ def text2sql_ui_mm():
                 config = ModelConfig(
                     models=selected_models,
                     metrics=selected_metrics,
-                    base_temperature=base_temperature,
+                    model_params=model_configs,
                     enable_tuning=enable_tuning,
                     min_temp=min_temp,
                     max_temp=max_temp,
@@ -4234,6 +4338,7 @@ def text2sql_ui_mm():
                         # Base model info
                         model_metrics = {
                             "Model": model_name,
+                            "Temperature": model_configs[model_name]["temperature"],
                             "Samples": len(responses),
                             "Avg. Latency (s)": round(sum(r["latency"] for r in responses) / len(responses), 3)
                         }
@@ -4262,7 +4367,7 @@ def text2sql_ui_mm():
                         metrics_data.append(model_metrics)
                     
                     # Create DataFrame with dynamic columns
-                    columns_order = ["Model"] + [available_metrics[m] for m in selected_metrics] + ["Avg. Latency (s)", "Samples"]
+                    columns_order = ["Model","Temperature"] + [available_metrics[m] for m in selected_metrics] + ["Avg. Latency (s)", "Samples"]
                     
                     # Filter columns to only those that exist in the dataframe
                     metrics_df = pd.DataFrame(metrics_data)
@@ -4291,6 +4396,7 @@ def text2sql_ui_mm():
                         metrics = eval_data["metrics"]
                         entry = {
                             "Model": model_name,
+                            "Temperature": model_configs[model_name]["temperature"],
                             "Avg. Latency (s)": sum(r["latency"] for r in eval_data["responses"]) / len(eval_data["responses"])
                         }
                         

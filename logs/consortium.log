@@ -28061,3 +28061,508 @@ WHERE state IN ('Utah', 'Texas')
 GROUP BY cust_name; matches with SELECT sum(acc_bal) FROM customer WHERE state  =  'Utah' OR state  =  'Texas'. Return in Yes or No. Strictly.
 2025-05-16 12:31:17 - llm_consortium - INFO - join123_check:98 - LLM response: no.
 2025-05-16 12:31:17 - llm_consortium - INFO - llmbased_clause_match:97 - LLM response: no.
+2025-05-16 12:50:20 - llm_consortium - INFO - sql_model_runner:368 - Initialized with metrics: ['exact_match', 'execution_match']
+2025-05-16 12:50:20 - llm_consortium - INFO - sql_model_runner:628 - Starting evaluation for gpt-4o-mini
+2025-05-16 12:50:20 - llm_consortium - INFO - sql_model_runner:628 - Starting evaluation for gpt-3.5-turbo
+2025-05-16 12:50:20 - llm_consortium - INFO - sql_model_runner:644 - Model gpt-4o-mini evaluation complete
+2025-05-16 12:50:20 - llm_consortium - INFO - sql_model_runner:644 - Model gpt-3.5-turbo evaluation complete
+2025-05-16 12:50:20 - llm_consortium - INFO - sql_model_runner:670 - Tuning hyperparameters for gpt-4o-mini
+2025-05-16 12:50:20 - llm_consortium - INFO - sql_model_runner:679 - Primary metric exact_match is not a boolean success metric, defaulting to execution_match
+2025-05-16 12:50:20 - llm_consortium - INFO - hyperparameter_tuner:268 - Starting hyperparameter tuning for gpt-4o-mini
+2025-05-16 12:50:20 - llm_consortium - INFO - hyperparameter_tuner:280 - Testing temperatures: [0.0, 0.4, 0.8]
+2025-05-16 12:50:20 - llm_consortium - INFO - hyperparameter_tuner:224 - Temperature 0.0: Collected 0 valid results
+2025-05-16 12:50:20 - llm_consortium - WARNING - hyperparameter_tuner:252 - Temperature 0.0: No valid metrics calculated, returning 0.0
+2025-05-16 12:50:20 - llm_consortium - INFO - hyperparameter_tuner:224 - Temperature 0.4: Collected 0 valid results
+2025-05-16 12:50:20 - llm_consortium - WARNING - hyperparameter_tuner:252 - Temperature 0.4: No valid metrics calculated, returning 0.0
+2025-05-16 12:50:20 - llm_consortium - INFO - hyperparameter_tuner:224 - Temperature 0.8: Collected 0 valid results
+2025-05-16 12:50:20 - llm_consortium - WARNING - hyperparameter_tuner:252 - Temperature 0.8: No valid metrics calculated, returning 0.0
+2025-05-16 12:50:20 - llm_consortium - INFO - hyperparameter_tuner:309 - Trial result: temp=0.0, execution_match_rate=0.0
+2025-05-16 12:50:20 - llm_consortium - INFO - hyperparameter_tuner:309 - Trial result: temp=0.4, execution_match_rate=0.0
+2025-05-16 12:50:20 - llm_consortium - INFO - hyperparameter_tuner:309 - Trial result: temp=0.8, execution_match_rate=0.0
+2025-05-16 12:50:20 - llm_consortium - ERROR - hyperparameter_tuner:313 - No results contain primary metric 'execution_match_rate'
+2025-05-16 12:50:20 - llm_consortium - INFO - sql_model_runner:701 - Tuning complete. Best params: {'temperature': 0.4, 'execution_match_rate': 0.0}
+2025-05-16 12:55:48 - llm_consortium - INFO - sql_model_runner:370 - Initialized with metrics: ['exact_match', 'execution_match']
+2025-05-16 12:55:48 - llm_consortium - INFO - sql_model_runner:630 - Starting evaluation for gpt-4o-mini
+2025-05-16 12:55:48 - llm_consortium - INFO - sql_model_runner:630 - Starting evaluation for gpt-3.5-turbo
+2025-05-16 12:55:52 - llm_consortium - INFO - sql_model_runner:646 - Model gpt-3.5-turbo evaluation complete
+2025-05-16 12:55:53 - llm_consortium - INFO - sql_model_runner:646 - Model gpt-4o-mini evaluation complete
+2025-05-16 12:55:53 - llm_consortium - INFO - sql_model_runner:672 - Tuning hyperparameters for gpt-3.5-turbo
+2025-05-16 12:55:53 - llm_consortium - INFO - sql_model_runner:681 - Primary metric exact_match is not a boolean success metric, defaulting to execution_match
+2025-05-16 12:55:53 - llm_consortium - INFO - hyperparameter_tuner:268 - Starting hyperparameter tuning for gpt-3.5-turbo
+2025-05-16 12:55:53 - llm_consortium - INFO - hyperparameter_tuner:280 - Testing temperatures: [0.0, 0.4, 0.8]
+2025-05-16 12:55:57 - llm_consortium - INFO - hyperparameter_tuner:224 - Temperature 0.4: Collected 4 valid results
+2025-05-16 12:55:57 - llm_consortium - INFO - hyperparameter_tuner:230 - Temperature 0.4: Metrics: {'exact_match': np.float64(0.0), 'execution_match': np.float64(0.0), 'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(0.0)}
+2025-05-16 12:55:58 - llm_consortium - INFO - hyperparameter_tuner:224 - Temperature 0.8: Collected 5 valid results
+2025-05-16 12:55:58 - llm_consortium - INFO - hyperparameter_tuner:230 - Temperature 0.8: Metrics: {'exact_match': np.float64(0.0), 'execution_match': np.float64(0.0), 'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(0.0)}
+2025-05-16 12:55:59 - llm_consortium - INFO - hyperparameter_tuner:224 - Temperature 0.0: Collected 4 valid results
+2025-05-16 12:55:59 - llm_consortium - INFO - hyperparameter_tuner:230 - Temperature 0.0: Metrics: {'exact_match': np.float64(0.0), 'execution_match': np.float64(0.0), 'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(0.0)}
+2025-05-16 12:55:59 - llm_consortium - INFO - hyperparameter_tuner:309 - Trial result: temp=0.0, execution_match_rate=0.0
+2025-05-16 12:55:59 - llm_consortium - INFO - hyperparameter_tuner:309 - Trial result: temp=0.4, execution_match_rate=0.0
+2025-05-16 12:55:59 - llm_consortium - INFO - hyperparameter_tuner:309 - Trial result: temp=0.8, execution_match_rate=0.0
+2025-05-16 12:55:59 - llm_consortium - INFO - hyperparameter_tuner:324 - Temperature tuning results:
+2025-05-16 12:55:59 - llm_consortium - INFO - hyperparameter_tuner:328 -   Temperature 0.0: 0.00%
+2025-05-16 12:55:59 - llm_consortium - INFO - hyperparameter_tuner:328 -   Temperature 0.4: 0.00%
+2025-05-16 12:55:59 - llm_consortium - INFO - hyperparameter_tuner:328 -   Temperature 0.8: 0.00%
+2025-05-16 12:55:59 - llm_consortium - INFO - sql_model_runner:703 - Tuning complete. Best params: {'temperature': 0.0, 'execution_match_rate': np.float64(0.0)}
+2025-05-16 13:00:54 - llm_consortium - INFO - sql_model_runner:370 - Initialized with metrics: ['exact_match', 'execution_match']
+2025-05-16 13:00:54 - llm_consortium - INFO - sql_model_runner:630 - Starting evaluation for gpt-4o-mini
+2025-05-16 13:00:54 - llm_consortium - INFO - sql_model_runner:630 - Starting evaluation for gpt-3.5-turbo
+2025-05-16 13:00:59 - llm_consortium - INFO - sql_model_runner:646 - Model gpt-3.5-turbo evaluation complete
+2025-05-16 13:01:00 - llm_consortium - INFO - sql_model_runner:646 - Model gpt-4o-mini evaluation complete
+2025-05-16 13:01:00 - llm_consortium - INFO - sql_model_runner:672 - Tuning hyperparameters for gpt-3.5-turbo
+2025-05-16 13:01:00 - llm_consortium - INFO - sql_model_runner:681 - Primary metric exact_match is not a boolean success metric, defaulting to execution_match
+2025-05-16 13:01:00 - llm_consortium - INFO - hyperparameter_tuner:268 - Starting hyperparameter tuning for gpt-3.5-turbo
+2025-05-16 13:01:00 - llm_consortium - INFO - hyperparameter_tuner:280 - Testing temperatures: [0.0, 0.4, 0.8]
+2025-05-16 13:01:04 - llm_consortium - INFO - hyperparameter_tuner:224 - Temperature 0.4: Collected 5 valid results
+2025-05-16 13:01:04 - llm_consortium - INFO - hyperparameter_tuner:230 - Temperature 0.4: Metrics: {'exact_match': np.float64(0.0), 'execution_match': np.float64(0.0), 'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(0.0)}
+2025-05-16 13:01:05 - llm_consortium - INFO - hyperparameter_tuner:224 - Temperature 0.8: Collected 4 valid results
+2025-05-16 13:01:05 - llm_consortium - INFO - hyperparameter_tuner:230 - Temperature 0.8: Metrics: {'exact_match': np.float64(0.0), 'execution_match': np.float64(0.0), 'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(0.0)}
+2025-05-16 13:01:06 - llm_consortium - INFO - hyperparameter_tuner:224 - Temperature 0.0: Collected 4 valid results
+2025-05-16 13:01:06 - llm_consortium - INFO - hyperparameter_tuner:230 - Temperature 0.0: Metrics: {'exact_match': np.float64(0.0), 'execution_match': np.float64(0.0), 'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(0.0)}
+2025-05-16 13:01:06 - llm_consortium - INFO - hyperparameter_tuner:309 - Trial result: temp=0.0, execution_match_rate=0.0
+2025-05-16 13:01:06 - llm_consortium - INFO - hyperparameter_tuner:309 - Trial result: temp=0.4, execution_match_rate=0.0
+2025-05-16 13:01:06 - llm_consortium - INFO - hyperparameter_tuner:309 - Trial result: temp=0.8, execution_match_rate=0.0
+2025-05-16 13:01:06 - llm_consortium - INFO - hyperparameter_tuner:324 - Temperature tuning results:
+2025-05-16 13:01:06 - llm_consortium - INFO - hyperparameter_tuner:328 -   Temperature 0.0: 0.00%
+2025-05-16 13:01:06 - llm_consortium - INFO - hyperparameter_tuner:328 -   Temperature 0.4: 0.00%
+2025-05-16 13:01:06 - llm_consortium - INFO - hyperparameter_tuner:328 -   Temperature 0.8: 0.00%
+2025-05-16 13:01:06 - llm_consortium - INFO - sql_model_runner:703 - Tuning complete. Best params: {'temperature': 0.0, 'execution_match_rate': np.float64(0.0)}
+2025-05-16 13:13:03 - llm_consortium - INFO - sql_model_runner:370 - Initialized with metrics: ['exact_match', 'execution_match']
+2025-05-16 13:13:03 - llm_consortium - INFO - sql_model_runner:630 - Starting evaluation for gpt-4o-mini
+2025-05-16 13:13:03 - llm_consortium - INFO - sql_model_runner:630 - Starting evaluation for gpt-3.5-turbo
+2025-05-16 13:13:08 - llm_consortium - INFO - sql_model_runner:646 - Model gpt-3.5-turbo evaluation complete
+2025-05-16 13:13:08 - llm_consortium - INFO - sql_model_runner:646 - Model gpt-4o-mini evaluation complete
+2025-05-16 13:13:08 - llm_consortium - INFO - sql_model_runner:672 - Tuning hyperparameters for gpt-3.5-turbo
+2025-05-16 13:13:08 - llm_consortium - INFO - sql_model_runner:681 - Primary metric exact_match is not a boolean success metric, defaulting to execution_match
+2025-05-16 13:13:08 - llm_consortium - INFO - hyperparameter_tuner:268 - Starting hyperparameter tuning for gpt-3.5-turbo
+2025-05-16 13:13:08 - llm_consortium - INFO - hyperparameter_tuner:280 - Testing temperatures: [0.0, 0.4, 0.8]
+2025-05-16 13:13:13 - llm_consortium - INFO - hyperparameter_tuner:224 - Temperature 0.8: Collected 4 valid results
+2025-05-16 13:13:13 - llm_consortium - INFO - hyperparameter_tuner:230 - Temperature 0.8: Metrics: {'exact_match': np.float64(0.0), 'execution_match': np.float64(0.0), 'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(0.0)}
+2025-05-16 13:13:13 - llm_consortium - INFO - hyperparameter_tuner:224 - Temperature 0.4: Collected 4 valid results
+2025-05-16 13:13:13 - llm_consortium - INFO - hyperparameter_tuner:230 - Temperature 0.4: Metrics: {'exact_match': np.float64(0.0), 'execution_match': np.float64(0.0), 'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(0.0)}
+2025-05-16 13:13:14 - llm_consortium - INFO - hyperparameter_tuner:224 - Temperature 0.0: Collected 5 valid results
+2025-05-16 13:13:14 - llm_consortium - INFO - hyperparameter_tuner:230 - Temperature 0.0: Metrics: {'exact_match': np.float64(0.0), 'execution_match': np.float64(0.0), 'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(0.0)}
+2025-05-16 13:13:14 - llm_consortium - INFO - hyperparameter_tuner:309 - Trial result: temp=0.0, execution_match_rate=0.0
+2025-05-16 13:13:14 - llm_consortium - INFO - hyperparameter_tuner:309 - Trial result: temp=0.4, execution_match_rate=0.0
+2025-05-16 13:13:14 - llm_consortium - INFO - hyperparameter_tuner:309 - Trial result: temp=0.8, execution_match_rate=0.0
+2025-05-16 13:13:14 - llm_consortium - INFO - hyperparameter_tuner:324 - Temperature tuning results:
+2025-05-16 13:13:14 - llm_consortium - INFO - hyperparameter_tuner:328 -   Temperature 0.0: 0.00%
+2025-05-16 13:13:14 - llm_consortium - INFO - hyperparameter_tuner:328 -   Temperature 0.4: 0.00%
+2025-05-16 13:13:14 - llm_consortium - INFO - hyperparameter_tuner:328 -   Temperature 0.8: 0.00%
+2025-05-16 13:13:14 - llm_consortium - INFO - sql_model_runner:703 - Tuning complete. Best params: {'temperature': 0.0, 'execution_match_rate': np.float64(0.0)}
+2025-05-16 13:17:00 - llm_consortium - INFO - sql_model_runner:370 - Initialized with metrics: ['exact_match', 'execution_match']
+2025-05-16 13:17:00 - llm_consortium - INFO - sql_model_runner:630 - Starting evaluation for gpt-4o-mini
+2025-05-16 13:17:00 - llm_consortium - INFO - sql_model_runner:630 - Starting evaluation for gpt-3.5-turbo
+2025-05-16 13:17:03 - llm_consortium - INFO - sql_model_runner:646 - Model gpt-3.5-turbo evaluation complete
+2025-05-16 13:17:03 - llm_consortium - INFO - sql_model_runner:646 - Model gpt-4o-mini evaluation complete
+2025-05-16 13:17:03 - llm_consortium - INFO - sql_model_runner:672 - Tuning hyperparameters for gpt-3.5-turbo
+2025-05-16 13:17:03 - llm_consortium - INFO - sql_model_runner:681 - Primary metric exact_match is not a boolean success metric, defaulting to execution_match
+2025-05-16 13:17:03 - llm_consortium - INFO - hyperparameter_tuner:268 - Starting hyperparameter tuning for gpt-3.5-turbo
+2025-05-16 13:17:03 - llm_consortium - INFO - hyperparameter_tuner:280 - Testing temperatures: [0.0, 0.4, 0.8]
+2025-05-16 13:17:08 - llm_consortium - INFO - hyperparameter_tuner:224 - Temperature 0.8: Collected 5 valid results
+2025-05-16 13:17:08 - llm_consortium - INFO - hyperparameter_tuner:230 - Temperature 0.8: Metrics: {'exact_match': np.float64(0.0), 'execution_match': np.float64(60.0), 'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(60.0)}
+2025-05-16 13:17:09 - llm_consortium - INFO - hyperparameter_tuner:224 - Temperature 0.4: Collected 5 valid results
+2025-05-16 13:17:09 - llm_consortium - INFO - hyperparameter_tuner:230 - Temperature 0.4: Metrics: {'exact_match': np.float64(0.0), 'execution_match': np.float64(40.0), 'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(40.0)}
+2025-05-16 13:17:10 - llm_consortium - INFO - hyperparameter_tuner:224 - Temperature 0.0: Collected 4 valid results
+2025-05-16 13:17:10 - llm_consortium - INFO - hyperparameter_tuner:230 - Temperature 0.0: Metrics: {'exact_match': np.float64(0.0), 'execution_match': np.float64(25.0), 'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(25.0)}
+2025-05-16 13:17:10 - llm_consortium - INFO - hyperparameter_tuner:309 - Trial result: temp=0.0, execution_match_rate=25.0
+2025-05-16 13:17:10 - llm_consortium - INFO - hyperparameter_tuner:309 - Trial result: temp=0.4, execution_match_rate=40.0
+2025-05-16 13:17:10 - llm_consortium - INFO - hyperparameter_tuner:309 - Trial result: temp=0.8, execution_match_rate=60.0
+2025-05-16 13:17:10 - llm_consortium - INFO - hyperparameter_tuner:324 - Temperature tuning results:
+2025-05-16 13:17:10 - llm_consortium - INFO - hyperparameter_tuner:328 -   Temperature 0.0: 25.00%
+2025-05-16 13:17:10 - llm_consortium - INFO - hyperparameter_tuner:328 -   Temperature 0.4: 40.00%
+2025-05-16 13:17:10 - llm_consortium - INFO - hyperparameter_tuner:328 -   Temperature 0.8: 60.00%
+2025-05-16 13:17:10 - llm_consortium - INFO - sql_model_runner:703 - Tuning complete. Best params: {'temperature': 0.8, 'execution_match_rate': np.float64(60.0)}
+2025-05-16 15:29:44 - llm_consortium - INFO - sql_model_runner:370 - Initialized with metrics: ['exact_match', 'execution_match']
+2025-05-16 15:29:44 - llm_consortium - INFO - sql_model_runner:649 - Starting evaluation for gpt-4o-mini
+2025-05-16 15:29:44 - llm_consortium - INFO - sql_model_runner:649 - Starting evaluation for gpt-3.5-turbo
+2025-05-16 15:29:47 - llm_consortium - INFO - sql_model_runner:668 - Model gpt-3.5-turbo evaluation complete
+2025-05-16 15:29:49 - llm_consortium - INFO - sql_model_runner:668 - Model gpt-4o-mini evaluation complete
+2025-05-16 15:49:33 - llm_consortium - INFO - sql_model_runner:370 - Initialized with metrics: ['exact_match', 'execution_match']
+2025-05-16 15:49:33 - llm_consortium - INFO - sql_model_runner:649 - Starting evaluation for gpt-4o-mini
+2025-05-16 15:49:33 - llm_consortium - INFO - sql_model_runner:649 - Starting evaluation for gpt-3.5-turbo
+2025-05-16 15:49:37 - llm_consortium - INFO - sql_model_runner:668 - Model gpt-3.5-turbo evaluation complete
+2025-05-16 15:49:38 - llm_consortium - INFO - sql_model_runner:668 - Model gpt-4o-mini evaluation complete
+2025-05-16 15:49:38 - llm_consortium - INFO - sql_model_runner:694 - Tuning hyperparameters for gpt-3.5-turbo
+2025-05-16 15:49:38 - llm_consortium - INFO - sql_model_runner:703 - Primary metric exact_match is not a boolean success metric, defaulting to execution_match
+2025-05-16 15:49:38 - llm_consortium - INFO - hyperparameter_tuner:272 - Starting hyperparameter tuning for gpt-3.5-turbo
+2025-05-16 15:49:38 - llm_consortium - INFO - hyperparameter_tuner:284 - Testing temperatures: [0.0, 0.4, 0.8]
+2025-05-16 15:49:43 - llm_consortium - INFO - hyperparameter_tuner:227 - Temperature 0.8: Collected 5 valid results
+2025-05-16 15:49:43 - llm_consortium - INFO - hyperparameter_tuner:233 - Temperature 0.8: Metrics: {'exact_match': np.float64(0.0), 'execution_match': np.float64(40.0), 'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(40.0)}
+2025-05-16 15:49:43 - llm_consortium - INFO - hyperparameter_tuner:227 - Temperature 0.0: Collected 3 valid results
+2025-05-16 15:49:43 - llm_consortium - INFO - hyperparameter_tuner:233 - Temperature 0.0: Metrics: {'exact_match': np.float64(0.0), 'execution_match': np.float64(33.33333333333333), 'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(33.33333333333333)}
+2025-05-16 15:49:44 - llm_consortium - INFO - hyperparameter_tuner:227 - Temperature 0.4: Collected 5 valid results
+2025-05-16 15:49:44 - llm_consortium - INFO - hyperparameter_tuner:233 - Temperature 0.4: Metrics: {'exact_match': np.float64(0.0), 'execution_match': np.float64(80.0), 'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(80.0)}
+2025-05-16 15:49:44 - llm_consortium - INFO - hyperparameter_tuner:314 - Trial result: temp=0.0, execution_match_rate=33.33333333333333
+2025-05-16 15:49:44 - llm_consortium - INFO - hyperparameter_tuner:314 - Trial result: temp=0.4, execution_match_rate=80.0
+2025-05-16 15:49:44 - llm_consortium - INFO - hyperparameter_tuner:314 - Trial result: temp=0.8, execution_match_rate=40.0
+2025-05-16 15:49:44 - llm_consortium - INFO - hyperparameter_tuner:329 - Temperature tuning results:
+2025-05-16 15:49:44 - llm_consortium - INFO - hyperparameter_tuner:333 -   Temperature 0.0: 33.33%
+2025-05-16 15:49:44 - llm_consortium - INFO - hyperparameter_tuner:333 -   Temperature 0.4: 80.00%
+2025-05-16 15:49:44 - llm_consortium - INFO - hyperparameter_tuner:333 -   Temperature 0.8: 40.00%
+2025-05-16 15:49:44 - llm_consortium - INFO - sql_model_runner:726 - Tuning complete. Best params: {'temperature': 0.4, 'execution_match_rate': np.float64(80.0)}
+2025-05-16 15:49:44 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:49:44 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:49:44 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:49:44 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:49:44 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:49:44 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:49:44 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:49:44 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:49:44 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:49:44 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:49:44 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:49:44 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:49:44 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:49:44 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:49:44 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:49:44 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:49:44 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:54:37 - llm_consortium - INFO - sql_model_runner:370 - Initialized with metrics: ['exact_match', 'execution_match']
+2025-05-16 15:54:37 - llm_consortium - INFO - sql_model_runner:649 - Starting evaluation for gpt-4o-mini
+2025-05-16 15:54:37 - llm_consortium - INFO - sql_model_runner:649 - Starting evaluation for gpt-3.5-turbo
+2025-05-16 15:54:40 - llm_consortium - INFO - sql_model_runner:668 - Model gpt-3.5-turbo evaluation complete
+2025-05-16 15:54:41 - llm_consortium - INFO - sql_model_runner:668 - Model gpt-4o-mini evaluation complete
+2025-05-16 15:54:41 - llm_consortium - INFO - sql_model_runner:694 - Tuning hyperparameters for gpt-3.5-turbo
+2025-05-16 15:54:41 - llm_consortium - INFO - sql_model_runner:703 - Primary metric exact_match is not a boolean success metric, defaulting to execution_match
+2025-05-16 15:54:41 - llm_consortium - INFO - hyperparameter_tuner:272 - Starting hyperparameter tuning for gpt-3.5-turbo
+2025-05-16 15:54:41 - llm_consortium - INFO - hyperparameter_tuner:284 - Testing temperatures: [0.0, 0.4, 0.8]
+2025-05-16 15:54:46 - llm_consortium - INFO - hyperparameter_tuner:227 - Temperature 0.0: Collected 5 valid results
+2025-05-16 15:54:46 - llm_consortium - INFO - hyperparameter_tuner:233 - Temperature 0.0: Metrics: {'exact_match': np.float64(0.0), 'execution_match': np.float64(40.0), 'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(40.0)}
+2025-05-16 15:54:47 - llm_consortium - INFO - hyperparameter_tuner:227 - Temperature 0.8: Collected 5 valid results
+2025-05-16 15:54:47 - llm_consortium - INFO - hyperparameter_tuner:233 - Temperature 0.8: Metrics: {'exact_match': np.float64(0.0), 'execution_match': np.float64(80.0), 'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(80.0)}
+2025-05-16 15:54:48 - llm_consortium - INFO - hyperparameter_tuner:227 - Temperature 0.4: Collected 4 valid results
+2025-05-16 15:54:48 - llm_consortium - INFO - hyperparameter_tuner:233 - Temperature 0.4: Metrics: {'exact_match': np.float64(0.0), 'execution_match': np.float64(75.0), 'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(75.0)}
+2025-05-16 15:54:48 - llm_consortium - INFO - hyperparameter_tuner:314 - Trial result: temp=0.0, execution_match_rate=40.0
+2025-05-16 15:54:48 - llm_consortium - INFO - hyperparameter_tuner:314 - Trial result: temp=0.4, execution_match_rate=75.0
+2025-05-16 15:54:48 - llm_consortium - INFO - hyperparameter_tuner:314 - Trial result: temp=0.8, execution_match_rate=80.0
+2025-05-16 15:54:48 - llm_consortium - INFO - hyperparameter_tuner:329 - Temperature tuning results:
+2025-05-16 15:54:48 - llm_consortium - INFO - hyperparameter_tuner:333 -   Temperature 0.0: 40.00%
+2025-05-16 15:54:48 - llm_consortium - INFO - hyperparameter_tuner:333 -   Temperature 0.4: 75.00%
+2025-05-16 15:54:48 - llm_consortium - INFO - hyperparameter_tuner:333 -   Temperature 0.8: 80.00%
+2025-05-16 15:54:48 - llm_consortium - INFO - sql_model_runner:726 - Tuning complete. Best params: {'temperature': 0.8, 'execution_match_rate': np.float64(80.0)}
+2025-05-16 15:54:48 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:54:48 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:54:48 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:54:48 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:54:48 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:54:48 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:54:48 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:54:48 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:54:48 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:54:48 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:54:48 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:54:48 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:54:48 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:54:48 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:54:48 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:54:48 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 15:54:48 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:17:46 - llm_consortium - INFO - sql_model_runner:370 - Initialized with metrics: ['exact_match', 'execution_match']
+2025-05-16 16:17:46 - llm_consortium - INFO - sql_model_runner:649 - Starting evaluation for gpt-4o-mini
+2025-05-16 16:17:46 - llm_consortium - INFO - sql_model_runner:649 - Starting evaluation for gpt-3.5-turbo
+2025-05-16 16:17:59 - llm_consortium - INFO - sql_model_runner:668 - Model gpt-3.5-turbo evaluation complete
+2025-05-16 16:17:59 - llm_consortium - INFO - sql_model_runner:668 - Model gpt-4o-mini evaluation complete
+2025-05-16 16:17:59 - llm_consortium - INFO - sql_model_runner:694 - Tuning hyperparameters for gpt-3.5-turbo
+2025-05-16 16:17:59 - llm_consortium - INFO - sql_model_runner:703 - Primary metric exact_match is not a boolean success metric, defaulting to execution_match
+2025-05-16 16:17:59 - llm_consortium - INFO - hyperparameter_tuner:272 - Starting hyperparameter tuning for gpt-3.5-turbo
+2025-05-16 16:17:59 - llm_consortium - INFO - hyperparameter_tuner:284 - Testing temperatures: [0.0, 0.2, 0.4, 0.6, 0.8]
+2025-05-16 16:18:06 - llm_consortium - INFO - hyperparameter_tuner:227 - Temperature 0.0: Collected 5 valid results
+2025-05-16 16:18:06 - llm_consortium - INFO - hyperparameter_tuner:233 - Temperature 0.0: Metrics: {'exact_match': np.float64(0.0), 'execution_match': np.float64(80.0), 'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(80.0)}
+2025-05-16 16:18:07 - llm_consortium - INFO - hyperparameter_tuner:227 - Temperature 0.2: Collected 4 valid results
+2025-05-16 16:18:07 - llm_consortium - INFO - hyperparameter_tuner:233 - Temperature 0.2: Metrics: {'exact_match': np.float64(0.0), 'execution_match': np.float64(100.0), 'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(100.0)}
+2025-05-16 16:18:08 - llm_consortium - INFO - hyperparameter_tuner:227 - Temperature 0.6: Collected 4 valid results
+2025-05-16 16:18:08 - llm_consortium - INFO - hyperparameter_tuner:233 - Temperature 0.6: Metrics: {'exact_match': np.float64(0.0), 'execution_match': np.float64(50.0), 'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(50.0)}
+2025-05-16 16:18:11 - llm_consortium - INFO - hyperparameter_tuner:227 - Temperature 0.8: Collected 4 valid results
+2025-05-16 16:18:11 - llm_consortium - INFO - hyperparameter_tuner:233 - Temperature 0.8: Metrics: {'exact_match': np.float64(0.0), 'execution_match': np.float64(50.0), 'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(50.0)}
+2025-05-16 16:18:15 - llm_consortium - INFO - hyperparameter_tuner:227 - Temperature 0.4: Collected 4 valid results
+2025-05-16 16:18:15 - llm_consortium - INFO - hyperparameter_tuner:233 - Temperature 0.4: Metrics: {'exact_match': np.float64(0.0), 'execution_match': np.float64(75.0), 'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(75.0)}
+2025-05-16 16:18:15 - llm_consortium - INFO - hyperparameter_tuner:314 - Trial result: temp=0.0, execution_match_rate=80.0
+2025-05-16 16:18:15 - llm_consortium - INFO - hyperparameter_tuner:314 - Trial result: temp=0.2, execution_match_rate=100.0
+2025-05-16 16:18:15 - llm_consortium - INFO - hyperparameter_tuner:314 - Trial result: temp=0.4, execution_match_rate=75.0
+2025-05-16 16:18:15 - llm_consortium - INFO - hyperparameter_tuner:314 - Trial result: temp=0.6, execution_match_rate=50.0
+2025-05-16 16:18:15 - llm_consortium - INFO - hyperparameter_tuner:314 - Trial result: temp=0.8, execution_match_rate=50.0
+2025-05-16 16:18:15 - llm_consortium - INFO - hyperparameter_tuner:329 - Temperature tuning results:
+2025-05-16 16:18:15 - llm_consortium - INFO - hyperparameter_tuner:333 -   Temperature 0.0: 80.00%
+2025-05-16 16:18:15 - llm_consortium - INFO - hyperparameter_tuner:333 -   Temperature 0.2: 100.00%
+2025-05-16 16:18:15 - llm_consortium - INFO - hyperparameter_tuner:333 -   Temperature 0.4: 75.00%
+2025-05-16 16:18:15 - llm_consortium - INFO - hyperparameter_tuner:333 -   Temperature 0.6: 50.00%
+2025-05-16 16:18:15 - llm_consortium - INFO - hyperparameter_tuner:333 -   Temperature 0.8: 50.00%
+2025-05-16 16:18:15 - llm_consortium - INFO - sql_model_runner:726 - Tuning complete. Best params: {'temperature': 0.2, 'execution_match_rate': np.float64(100.0)}
+2025-05-16 16:18:15 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:18:15 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:18:15 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:18:15 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:18:15 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:18:15 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:18:15 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:18:15 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:18:15 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:18:15 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:18:15 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:18:15 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:18:15 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:18:15 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:18:15 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:18:15 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:18:15 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:24:37 - llm_consortium - INFO - sql_model_runner:370 - Initialized with metrics: ['execution_match', 'abc1234', 'vaibhav']
+2025-05-16 16:24:37 - llm_consortium - INFO - sql_model_runner:649 - Starting evaluation for gpt-4o-mini
+2025-05-16 16:24:37 - llm_consortium - INFO - sql_model_runner:649 - Starting evaluation for gpt-3.5-turbo
+2025-05-16 16:24:38 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT COUNT(*) 
+FROM company 
+WHERE Headquarters = 'USA'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:38 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT cName
+FROM College
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:38 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT m."Time_of_purchase", m."Age", m."Address"
+FROM "member" m
+ORDER BY m."Time_of_purchase"; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:38 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT cust_name, SUM(acc_bal) AS total_account_balance
+FROM customer
+WHERE state IN ('Utah', 'Texas')
+GROUP BY cust_name; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:38 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT Fname
+FROM Student
+WHERE Age > 22; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:38 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT Time_of_purchase, Age, Address 
+FROM member 
+ORDER BY Time_of_purchase; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:38 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the No SQL detected is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:38 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT DISTINCT c.Leader_Name
+FROM college c
+JOIN member m ON c.College_ID = m.College_ID
+WHERE m.Country = 'Canada'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:38 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT invoice_number
+FROM Invoices
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:38 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT Document_Type_Name, Document_Type_Description
+FROM Ref_Document_Types
+WHERE Document_Type_Code = 'RV'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:38 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT "Category", COUNT("Category") AS "Category_Count"
+FROM "music_festival"
+GROUP BY "Category"
+HAVING COUNT("Category") > 1; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:38 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT Fname FROM Student WHERE Age > 22; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:38 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT cName 
+FROM College 
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:38 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(DISTINCT party_id) > 3; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:38 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT artist_name
+FROM song
+WHERE duration = (SELECT MIN(duration) FROM files); is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:38 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT f_id
+FROM files
+WHERE formats = 'mp4'
+UNION
+SELECT f_id
+FROM song
+WHERE resolution > 720; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:38 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT artist_name 
+FROM song 
+WHERE duration = (SELECT MIN(duration) FROM song); is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:38 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT "Player", "Season", t."Name" AS "Team_Name"
+FROM "match_season" ms
+JOIN "team" t ON ms."Team" = t."Team_id"; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:38 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT DISTINCT N.Name
+FROM Nurse N
+JOIN On_Call OC ON N.EmployeeID = OC.Nurse; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:38 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT SUM(acc_bal) AS total_account_balance
+FROM customer
+WHERE state IN ('Utah', 'Texas'); is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:38 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT s.f_id 
+FROM song s 
+JOIN files f ON s.f_id = f.f_id 
+WHERE f.formats = 'mp4' OR s.resolution > 720; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:38 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT supplier_name, supplier_phone
+FROM Suppliers
+JOIN Supplier_Addresses ON Suppliers.supplier_id = Supplier_Addresses.supplier_id
+JOIN Addresses ON Supplier_Addresses.address_id = Addresses.address_id
+ORDER BY Addresses.address_details; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:38 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT Category, COUNT(*) as Count
+FROM music_festival
+GROUP BY Category
+HAVING COUNT(*) > 1; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT COUNT(*) 
+FROM company 
+WHERE Headquarters = 'USA'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(party_id) > 3; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT DISTINCT c.Leader_Name
+FROM college c
+JOIN member m ON c.College_ID = m.College_ID
+WHERE m.Country = 'Canada'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT invoice_number 
+FROM Invoices 
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT Document_Type_Name, Document_Type_Description 
+FROM Ref_Document_Types 
+WHERE Document_Type_Code = 'RV'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: yes.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT p.Player, ms.Season, t.Name AS Team
+FROM player p
+JOIN team t ON p.Team = t.Team_id
+JOIN match_season ms ON p.Team = ms.Team; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:39 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:40 - llm_consortium - INFO - abc1234:97 - LLM response: yes.
+2025-05-16 16:24:40 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT s.supplier_name, s.supplier_phone
+FROM Suppliers s
+JOIN Supplier_Addresses sa ON s.supplier_id = sa.supplier_id
+JOIN Addresses a ON sa.address_id = a.address_id
+ORDER BY a.address_details; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:40 - llm_consortium - INFO - sql_model_runner:668 - Model gpt-3.5-turbo evaluation complete
+2025-05-16 16:24:40 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:40 - llm_consortium - INFO - sql_model_runner:668 - Model gpt-4o-mini evaluation complete
+2025-05-16 16:24:40 - llm_consortium - INFO - sql_model_runner:694 - Tuning hyperparameters for gpt-3.5-turbo
+2025-05-16 16:24:40 - llm_consortium - INFO - sql_model_runner:703 - Primary metric execution_match is not a boolean success metric, defaulting to execution_match
+2025-05-16 16:24:40 - llm_consortium - INFO - hyperparameter_tuner:272 - Starting hyperparameter tuning for gpt-3.5-turbo
+2025-05-16 16:24:40 - llm_consortium - INFO - hyperparameter_tuner:284 - Testing temperatures: [0.0, 0.2, 0.4, 0.6, 0.8]
+2025-05-16 16:24:41 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT m."Time_of_purchase", m."Age", m."Address"
+FROM "member" m
+ORDER BY m."Time_of_purchase"; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:41 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT cName
+FROM College
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:41 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT "Time_of_purchase", "Age", "Address" FROM "member" ORDER BY "Time_of_purchase"; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:41 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT DISTINCT invoice_number
+FROM Invoices
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:42 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT cName
+FROM College
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:42 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:42 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:42 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:42 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:42 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT artist_name
+FROM song
+WHERE duration = (SELECT MIN(duration) FROM files); is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT cust_name, SUM(acc_bal) AS total_account_balance
+FROM customer
+WHERE state IN ('Utah', 'Texas')
+GROUP BY cust_name; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(DISTINCT party_id) > 3; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT supplier_name, supplier_phone
+FROM Suppliers
+JOIN Supplier_Addresses ON Suppliers.supplier_id = Supplier_Addresses.supplier_id
+JOIN Addresses ON Supplier_Addresses.address_id = Addresses.address_id
+ORDER BY Addresses.address_details; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:43 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:43 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT f_id
+FROM song
+WHERE formats = 'mp4' OR resolution > 720; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:44 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:44 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:44 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:44 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT DISTINCT c.Leader_Name
+FROM college c
+JOIN member m ON c.College_ID = m.College_ID
+WHERE m.Country = 'Canada'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:44 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT Document_Type_Name, Document_Type_Description FROM Ref_Document_Types WHERE Document_Type_Code = 'RV'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:44 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT Fname
+FROM Student
+WHERE Age > 22; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:45 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:45 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT COUNT(*) FROM "company" WHERE "Headquarters" = 'USA'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:45 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:45 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:45 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(DISTINCT party_id) > 3; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:45 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:46 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:46 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT Document_Type_Name, Document_Type_Description
+FROM Ref_Document_Types
+WHERE Document_Type_Code = 'RV'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:46 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT artist_name
+FROM song
+WHERE duration = (SELECT MIN(duration) FROM files); is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:47 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:47 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT artist_name
+FROM song
+WHERE duration = (SELECT MIN(duration) FROM files); is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:47 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:47 - llm_consortium - INFO - hyperparameter_tuner:227 - Temperature 0.8: Collected 4 valid results
+2025-05-16 16:24:47 - llm_consortium - INFO - hyperparameter_tuner:233 - Temperature 0.8: Metrics: {'execution_match': np.float64(25.0), 'select_match': np.float64(0.25), 'where_match': np.float64(0.0), 'group_by_match': np.float64(1.0), 'order_by_match': np.float64(0.75), 'vaibhav': np.float64(0.5), 'abc1234': np.float64(0.0), 'execution_match_rate': np.float64(25.0)}
+2025-05-16 16:24:48 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:48 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT s.f_id
+FROM song s
+JOIN files f ON s.f_id = f.f_id
+WHERE f.formats = 'mp4' OR s.resolution > 720; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:48 - llm_consortium - INFO - abc1234:97 - LLM response: yes.
+2025-05-16 16:24:48 - llm_consortium - INFO - hyperparameter_tuner:227 - Temperature 0.2: Collected 5 valid results
+2025-05-16 16:24:48 - llm_consortium - INFO - hyperparameter_tuner:233 - Temperature 0.2: Metrics: {'execution_match': np.float64(60.0), 'select_match': np.float64(0.0), 'where_match': np.float64(0.0), 'group_by_match': np.float64(0.8), 'order_by_match': np.float64(1.0), 'vaibhav': np.float64(0.45), 'abc1234': np.float64(0.2), 'execution_match_rate': np.float64(60.0)}
+2025-05-16 16:24:48 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT COUNT(*) FROM company WHERE Headquarters = 'USA'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-16 16:24:48 - llm_consortium - INFO - hyperparameter_tuner:227 - Temperature 0.0: Collected 3 valid results
+2025-05-16 16:24:48 - llm_consortium - INFO - hyperparameter_tuner:233 - Temperature 0.0: Metrics: {'execution_match': np.float64(100.0), 'select_match': np.float64(0.0), 'where_match': np.float64(0.6666666666666666), 'group_by_match': np.float64(0.6666666666666666), 'order_by_match': np.float64(0.6666666666666666), 'vaibhav': np.float64(0.5), 'abc1234': np.float64(0.0), 'execution_match_rate': np.float64(100.0)}
+2025-05-16 16:24:49 - llm_consortium - INFO - hyperparameter_tuner:227 - Temperature 0.4: Collected 3 valid results
+2025-05-16 16:24:49 - llm_consortium - INFO - hyperparameter_tuner:233 - Temperature 0.4: Metrics: {'execution_match': np.float64(66.66666666666666), 'select_match': np.float64(0.3333333333333333), 'where_match': np.float64(0.3333333333333333), 'group_by_match': np.float64(1.0), 'order_by_match': np.float64(0.3333333333333333), 'vaibhav': np.float64(0.5), 'abc1234': np.float64(0.0), 'execution_match_rate': np.float64(66.66666666666666)}
+2025-05-16 16:24:49 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-16 16:24:49 - llm_consortium - INFO - hyperparameter_tuner:227 - Temperature 0.6: Collected 5 valid results
+2025-05-16 16:24:49 - llm_consortium - INFO - hyperparameter_tuner:233 - Temperature 0.6: Metrics: {'execution_match': np.float64(80.0), 'select_match': np.float64(0.2), 'where_match': np.float64(0.4), 'group_by_match': np.float64(0.8), 'order_by_match': np.float64(0.6), 'vaibhav': np.float64(0.5), 'abc1234': np.float64(0.0), 'execution_match_rate': np.float64(80.0)}
+2025-05-16 16:24:49 - llm_consortium - INFO - hyperparameter_tuner:314 - Trial result: temp=0.0, execution_match_rate=100.0
+2025-05-16 16:24:49 - llm_consortium - INFO - hyperparameter_tuner:314 - Trial result: temp=0.2, execution_match_rate=60.0
+2025-05-16 16:24:49 - llm_consortium - INFO - hyperparameter_tuner:314 - Trial result: temp=0.4, execution_match_rate=66.66666666666666
+2025-05-16 16:24:49 - llm_consortium - INFO - hyperparameter_tuner:314 - Trial result: temp=0.6, execution_match_rate=80.0
+2025-05-16 16:24:49 - llm_consortium - INFO - hyperparameter_tuner:314 - Trial result: temp=0.8, execution_match_rate=25.0
+2025-05-16 16:24:49 - llm_consortium - INFO - hyperparameter_tuner:329 - Temperature tuning results:
+2025-05-16 16:24:49 - llm_consortium - INFO - hyperparameter_tuner:333 -   Temperature 0.0: 100.00%
+2025-05-16 16:24:49 - llm_consortium - INFO - hyperparameter_tuner:333 -   Temperature 0.2: 60.00%
+2025-05-16 16:24:49 - llm_consortium - INFO - hyperparameter_tuner:333 -   Temperature 0.4: 66.67%
+2025-05-16 16:24:49 - llm_consortium - INFO - hyperparameter_tuner:333 -   Temperature 0.6: 80.00%
+2025-05-16 16:24:49 - llm_consortium - INFO - hyperparameter_tuner:333 -   Temperature 0.8: 25.00%
+2025-05-16 16:24:49 - llm_consortium - INFO - sql_model_runner:726 - Tuning complete. Best params: {'temperature': 0.0, 'execution_match_rate': np.float64(100.0)}
+2025-05-16 16:24:49 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:24:49 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:24:49 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:24:49 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:24:49 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:24:49 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:24:49 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:24:49 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:24:49 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:24:49 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:24:49 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:24:49 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:24:49 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:24:49 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:24:49 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:24:49 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable
+2025-05-16 16:24:49 - llm_consortium - ERROR - sql_model_runner:563 - Query processing failed: 'float' object is not subscriptable

@@ -351,7 +351,9 @@ from ..client_init import llm
 import inspect
 
 load_dotenv()
-SCHEMA_PATH = "D:\\data_sci\\benchmarking_tool\\dataset\\spider_data\\spider_data\\database\\{db_id}\\schema.sql"
+# SCHEMA_PATH = "D:\\data_sci\\benchmarking_tool\\dataset\\spider_data\\spider_data\\database\\{db_id}\\schema.sql"
+
+SCHEMA_PATH = "C:/Users/NikhilJain/OneDrive - Info Origin Technologies Pvt Ltd/Desktop/Info Origin/LLM_Benchmarking/04_updated/benchmarking_tool/dataset/spider_data/spider_data/database/{db_id}/schema.sql"
 
 class SQLModelRunner:
     def __init__(self, selected_metrics: List[str]):
@@ -407,8 +409,20 @@ class SQLModelRunner:
             return f.read()
             
     async def _query_model(self, model: str, prompt: str, instance: int, 
-                      iteration: int, db_id: str, temperature: float = 0.2) -> LogEntry:
+                      iteration: int, db_id: str, params: Dict = None) -> LogEntry:
         """Execute model query with specific temperature"""
+        if params is None:
+            params = {
+                "temperature": 0.2,
+                "top_p": 1.0,
+                "max_tokens": 1024,
+                "frequency_penalty": 0.0,
+                "presence_penalty": 0.0,
+                "stop": None,
+                "tool_choice": None,
+                "use_cache": True
+            }
+
         start_time = datetime.now()
         try:
             context = self.get_schema(db_id)
@@ -424,7 +438,14 @@ class SQLModelRunner:
             response = await self.client.chat(
                 model=model,
                 messages=messages,
-                temperature=temperature
+                temperature=params["temperature"],
+                top_p=params["top_p"],
+                max_tokens=params["max_tokens"],
+                frequency_penalty=params["frequency_penalty"],
+                presence_penalty=params["presence_penalty"],
+                stop=params["stop"],
+                tool_choice=params["tool_choice"],
+                use_cache=params["use_cache"]
             )
             
             content = response["content"]
@@ -440,10 +461,10 @@ class SQLModelRunner:
                 intent=self.extractor.extract_intent(content),
                 db_id=db_id,
                 raw_response=content,
-                temperature=temperature
+                temperature=params["temperature"]
             )
             
-            self.db_handler.log_interaction(entry, temperature)
+            self.db_handler.log_interaction(entry)
             return entry
             
         except Exception as e:
@@ -458,10 +479,10 @@ class SQLModelRunner:
                 intent="",
                 db_id=db_id,
                 error=error_msg,
-                temperature=temperature
+                temperature=params["temperature"]
             )
 
-    async def _process_single_query(self, model_name: str, query: Dict, temperature: float) -> Optional[Dict]:
+    async def _process_single_query(self, model_name: str, query: Dict, params: Dict) -> Optional[Dict]:
         """Process individual query with error handling"""
         result_template = {
             "question": query["question"],
@@ -480,7 +501,7 @@ class SQLModelRunner:
                 0,  # instance
                 0,  # iteration
                 query["db_id"], 
-                temperature
+                params
             )
             
             # Prepare base result
@@ -626,10 +647,13 @@ class SQLModelRunner:
             """Process one model with parallel query execution"""
             try:
                 logger.info(f"Starting evaluation for {model_name}")
+
+                # Get model-specific parameters
+                model_params = config.get_model_params(model_name)
                 
                 # Create all query tasks for this model
                 query_tasks = [
-                    self._process_single_query(model_name, query, config.base_temperature)
+                    self._process_single_query(model_name, query, model_params)
                     for query in queries
                 ]
                 
@@ -695,7 +719,8 @@ class SQLModelRunner:
                 queries,
                 self._query_model,  # This is a bound method
                 evaluate_query_wrapper,  # This wraps the bound method properly
-                tuning_config
+                tuning_config,
+                config.get_model_params(model)
             )
             
             logger.info(f"Tuning complete. Best params: {best_params}")

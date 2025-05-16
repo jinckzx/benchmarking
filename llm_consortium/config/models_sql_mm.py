@@ -4,21 +4,60 @@ from datetime import datetime
 from pydantic import BaseModel, Field
 from typing import Dict, List, Optional, Any 
 
-class ModelConfig(BaseModel):
-    """Configuration for model evaluation and tuning"""
-    # Models to evaluate (no instances, just names)
-    models: List[str] = ["gpt-4o-mini", "gpt-3.5-turbo"]
-    metrics: List[str]
-    # Base evaluation settings
-    base_temperature: float = 0.2
+# class ModelConfig(BaseModel):
+#     """Configuration for model evaluation and tuning"""
+#     # Models to evaluate (no instances, just names)
+#     models: List[str] = ["gpt-4o-mini", "gpt-3.5-turbo"]
+#     metrics: List[str]
+#     # Base evaluation settings
+#     base_temperature: float = 0.2
     
-    # Hyperparameter tuning settings
-    enable_tuning: bool = True
-    min_temp: float = 0.0
-    max_temp: float = 0.8
-    num_trials: int = 5
-    tuning_sample_size: int = 10  # Number of queries to use for tuning
-    run_final_evaluation: bool = True  # Whether to run evaluation with tuned params
+#     # Hyperparameter tuning settings
+#     enable_tuning: bool = True
+#     min_temp: float = 0.0
+#     max_temp: float = 0.8
+#     num_trials: int = 5
+#     tuning_sample_size: int = 10  # Number of queries to use for tuning
+#     run_final_evaluation: bool = True  # Whether to run evaluation with tuned params
+
+
+
+
+
+class ModelConfig:
+    def __init__(self, models, model_params, metrics, enable_tuning=True, 
+                 min_temp=0.0, max_temp=1.0, num_trials=5, run_final_evaluation=True,
+                 base_temperature=0.2, tuning_sample_size=10):
+        self.models = models  # List of model names
+        self.model_params = model_params  # Dict of {model_name: params_dict}
+        self.metrics = metrics
+        self.enable_tuning = enable_tuning
+        self.min_temp = min_temp
+        self.max_temp = max_temp
+        self.num_trials = num_trials
+        self.run_final_evaluation = run_final_evaluation
+        self.base_temperature = base_temperature
+        self.tuning_sample_size = tuning_sample_size
+        
+    def get_model_params(self, model_name):
+        """Get parameters for a specific model"""
+        return self.model_params.get(model_name, {
+            "temperature": self.base_temperature,
+            "top_p": 1.0,
+            "max_tokens": 1024,
+            "frequency_penalty": 0.0,
+            "presence_penalty": 0.0,
+            "stop": None,
+            "tool_choice": None,
+            "use_cache": True
+        })
+
+
+
+
+
+
+
 class LogEntry(BaseModel):
     """Log entry for tracking model responses and evaluation metrics"""
     # Basic information

@@ -7,3 +7,10 @@ music_1,What are the names of the artists who sang the shortest song?,SELECT T1.
 music_4,Please show the categories of the music festivals with count more than 1.,SELECT Category FROM music_festival GROUP BY Category HAVING COUNT(*)  >  1
 hospital_1,What are the distinct names of nurses on call?,SELECT DISTINCT T1.name FROM nurse AS T1 JOIN on_call AS T2 ON T1.EmployeeID  =  T2.nurse
 wine_1,"What are the grapes, appelations, and wines with scores above 93, sorted by Name?","SELECT Grape ,  Appelation ,  Name FROM WINE WHERE Score  >  93 ORDER BY Name"
+music_1,What are the ids of all songs that are available on mp4 or have a higher resolution than 720?,"SELECT f_id FROM files WHERE formats  =  ""mp4"" UNION SELECT f_id FROM song WHERE resolution  >  720"
+coffee_shop,"Find the purchase time, age and address of each member, and show the results in the order of purchase time.","SELECT Time_of_purchase ,  age ,  address FROM member ORDER BY Time_of_purchase"
+loan_1,Find the total account balance of each customer from Utah or Texas.,SELECT sum(acc_bal) FROM customer WHERE state  =  'Utah' OR state  =  'Texas'
+department_store,List the name and phone number of all suppliers in the alphabetical order of their addresses.,"SELECT T1.supplier_name ,  T1.supplier_phone FROM Suppliers AS T1 JOIN supplier_addresses AS T2 ON T1.supplier_id  =  T2.supplier_id JOIN addresses AS T3 ON T2.address_id  =  T3.address_id ORDER BY T3.address_details"
+decoration_competition,"Show the distinct leader names of colleges associated with members from country ""Canada"".","SELECT DISTINCT T1.Leader_Name FROM college AS T1 JOIN member AS T2 ON T1.College_ID  =  T2.College_ID WHERE T2.Country  =  ""Canada"""
+cre_Doc_Tracking_DB,What is the name and description for document type code RV?,"SELECT document_type_name ,  document_type_description FROM Ref_document_types WHERE document_type_code  =  ""RV"""
+match_season,"Who are the different players, what season do they play in, and what is the name of the team they are on?","SELECT T1.Season ,  T1.Player ,  T2.Name FROM match_season AS T1 JOIN team AS T2 ON T1.Team  =  T2.Team_id"
