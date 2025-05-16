@@ -12,7 +12,12 @@ from .ppp import SQLppp
 from .ccc import SQLccc
 from .select_check import Select_checkMetric
 from .vaibhav import SQLVaibhav
-from .join_clausee import Join_clauseeMetric
+from .joinclause_check import Joinclause_checkMetric
+from .where_clause import Where_clauseMetric
+from .custom123 import Custom123Metric
+from .custom321 import Custom321Metric
+
+
 
 class MetricRegistry:
     """Registry for available metrics with validation"""
@@ -37,7 +42,12 @@ class MetricRegistry:
                 "select_check": Select_checkMetric(),
                 
                 "vaibhav": SQLVaibhav(),
-                "join_clausee": Join_clauseeMetric(),
+                
+                
+                "joinclause_check": Joinclause_checkMetric(),
+                "where_clause": Where_clauseMetric(),
+                "custom123": Custom123Metric(),
+                "custom321": Custom321Metric(),
             }
         }
     
