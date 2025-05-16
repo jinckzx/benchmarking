@@ -9408,3 +9408,848 @@ ValueError: Tuning failed to find optimal parameters
 2025-05-15 22:27:18 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.6: 0.00%
 2025-05-15 22:27:18 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.8: 0.00%
 2025-05-15 22:27:18 - llm_consortium - INFO - sql_model_runner:302 - Tuning complete. Best params: {'temperature': 0.0, 'exact_match_rate': np.float64(0.0)}
+2025-05-15 23:00:19 - llm_consortium - INFO - sql_model_runner:32 - Initialized with metrics: ['execution_match', 'Vaibhav', 'anmol']
+2025-05-15 23:00:19 - llm_consortium - INFO - sql_model_runner:244 - Starting evaluation for gpt-4o-mini
+2025-05-15 23:00:19 - llm_consortium - INFO - sql_model_runner:244 - Starting evaluation for gpt-3.5-turbo
+2025-05-15 23:00:25 - llm_consortium - INFO - sql_model_runner:260 - Model gpt-3.5-turbo evaluation complete
+2025-05-15 23:00:25 - llm_consortium - INFO - sql_model_runner:260 - Model gpt-4o-mini evaluation complete
+2025-05-15 23:00:25 - llm_consortium - INFO - sql_model_runner:283 - Tuning hyperparameters for gpt-3.5-turbo
+2025-05-15 23:00:25 - llm_consortium - INFO - hyperparameter_tuner:104 - Testing temperatures: [0.0, 0.2, 0.4, 0.6, 0.8]
+2025-05-15 23:00:46 - llm_consortium - INFO - hyperparameter_tuner:132 - Temperature tuning results:
+2025-05-15 23:00:46 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.0: 58.82%
+2025-05-15 23:00:46 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.2: 58.82%
+2025-05-15 23:00:46 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.4: 58.82%
+2025-05-15 23:00:46 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.6: 58.82%
+2025-05-15 23:00:46 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.8: 52.94%
+2025-05-15 23:00:46 - llm_consortium - INFO - sql_model_runner:302 - Tuning complete. Best params: {'temperature': 0.0, 'execution_match_rate': np.float64(58.82352941176471)}
+2025-05-15 23:02:16 - llm_consortium - INFO - sql_model_runner:32 - Initialized with metrics: ['execution_match', 'anmol', 'vaibhav']
+2025-05-15 23:02:16 - llm_consortium - INFO - sql_model_runner:244 - Starting evaluation for gpt-4o-mini
+2025-05-15 23:02:16 - llm_consortium - INFO - sql_model_runner:244 - Starting evaluation for gpt-3.5-turbo
+2025-05-15 23:02:20 - llm_consortium - INFO - sql_model_runner:260 - Model gpt-3.5-turbo evaluation complete
+2025-05-15 23:02:20 - llm_consortium - INFO - sql_model_runner:260 - Model gpt-4o-mini evaluation complete
+2025-05-15 23:02:20 - llm_consortium - INFO - sql_model_runner:283 - Tuning hyperparameters for gpt-3.5-turbo
+2025-05-15 23:02:20 - llm_consortium - INFO - hyperparameter_tuner:104 - Testing temperatures: [0.0, 0.2, 0.4, 0.6, 0.8]
+2025-05-15 23:02:41 - llm_consortium - INFO - hyperparameter_tuner:132 - Temperature tuning results:
+2025-05-15 23:02:41 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.0: 58.82%
+2025-05-15 23:02:41 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.2: 52.94%
+2025-05-15 23:02:41 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.4: 58.82%
+2025-05-15 23:02:41 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.6: 58.82%
+2025-05-15 23:02:41 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.8: 58.82%
+2025-05-15 23:02:41 - llm_consortium - INFO - sql_model_runner:302 - Tuning complete. Best params: {'temperature': 0.0, 'execution_match_rate': np.float64(58.82352941176471)}
+2025-05-15 23:12:42 - llm_consortium - INFO - sql_model_runner:32 - Initialized with metrics: ['execution_match', 'anmol', 'select_check', 'vaibhav']
+2025-05-15 23:12:42 - llm_consortium - INFO - sql_model_runner:244 - Starting evaluation for gpt-4o-mini
+2025-05-15 23:12:42 - llm_consortium - INFO - sql_model_runner:244 - Starting evaluation for gpt-3.5-turbo
+2025-05-15 23:12:46 - llm_consortium - INFO - sql_model_runner:260 - Model gpt-3.5-turbo evaluation complete
+2025-05-15 23:12:47 - llm_consortium - INFO - sql_model_runner:260 - Model gpt-4o-mini evaluation complete
+2025-05-15 23:12:47 - llm_consortium - INFO - sql_model_runner:283 - Tuning hyperparameters for gpt-3.5-turbo
+2025-05-15 23:12:47 - llm_consortium - INFO - hyperparameter_tuner:104 - Testing temperatures: [0.0, 0.2, 0.4, 0.6, 0.8]
+2025-05-15 23:13:13 - llm_consortium - INFO - hyperparameter_tuner:132 - Temperature tuning results:
+2025-05-15 23:13:13 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.0: 58.82%
+2025-05-15 23:13:13 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.2: 58.82%
+2025-05-15 23:13:13 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.4: 58.82%
+2025-05-15 23:13:13 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.6: 58.82%
+2025-05-15 23:13:13 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.8: 58.82%
+2025-05-15 23:13:13 - llm_consortium - INFO - sql_model_runner:302 - Tuning complete. Best params: {'temperature': 0.0, 'execution_match_rate': np.float64(58.82352941176471)}
+2025-05-15 23:38:10 - llm_consortium - INFO - sql_model_runner:32 - Initialized with metrics: ['join_clausee', 'vaibhav', 'select_check']
+2025-05-15 23:38:10 - llm_consortium - INFO - sql_model_runner:244 - Starting evaluation for gpt-4o-mini
+2025-05-15 23:38:10 - llm_consortium - INFO - sql_model_runner:244 - Starting evaluation for gpt-3.5-turbo
+2025-05-15 23:38:12 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:12 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:12 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:12 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:13 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:13 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:13 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:13 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:13 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:13 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:13 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:13 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:13 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:13 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:13 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:13 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:13 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:13 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:13 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:13 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:13 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:13 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:13 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:13 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:13 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:13 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:13 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:13 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:13 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:14 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:14 - llm_consortium - INFO - sql_model_runner:260 - Model gpt-3.5-turbo evaluation complete
+2025-05-15 23:38:16 - llm_consortium - INFO - sql_model_runner:260 - Model gpt-4o-mini evaluation complete
+2025-05-15 23:38:16 - llm_consortium - INFO - sql_model_runner:283 - Tuning hyperparameters for gpt-3.5-turbo
+2025-05-15 23:38:16 - llm_consortium - INFO - hyperparameter_tuner:104 - Testing temperatures: [0.0, 0.2, 0.4, 0.6, 0.8]
+2025-05-15 23:38:17 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:17 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:17 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:18 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:18 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:21 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:21 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:21 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:22 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:22 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:22 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:22 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:23 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:23 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:23 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:23 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:24 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:24 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:24 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:24 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:25 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:25 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:25 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:25 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:26 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:26 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:26 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:26 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:27 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:27 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:27 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:27 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:28 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:28 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:28 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:28 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:29 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:29 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:29 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:29 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:30 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:30 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:30 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:30 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:31 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:31 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:31 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:31 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:31 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:32 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:32 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:32 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:32 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:32 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:33 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:33 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:33 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:33 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:34 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:34 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:34 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:34 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:34 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:34 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:34 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:35 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:35 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:35 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:35 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:35 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:35 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:36 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:36 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:36 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:36 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:36 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:37 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:37 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:37 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:38 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:38 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:38 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:38 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:39 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:39 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:38:39 - llm_consortium - INFO - hyperparameter_tuner:132 - Temperature tuning results:
+2025-05-15 23:38:39 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.0: 0.00%
+2025-05-15 23:38:39 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.2: 0.00%
+2025-05-15 23:38:39 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.4: 0.00%
+2025-05-15 23:38:39 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.6: 0.00%
+2025-05-15 23:38:39 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.8: 0.00%
+2025-05-15 23:38:39 - llm_consortium - INFO - sql_model_runner:302 - Tuning complete. Best params: {'temperature': 0.0, 'join_clausee_rate': 0.0}
+2025-05-15 23:38:41 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:45 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:46 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:48 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:49 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:49 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:51 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:52 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:53 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:54 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:55 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:57 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:38:58 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:39:00 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:39:01 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:05 - llm_consortium - INFO - sql_model_runner:32 - Initialized with metrics: ['join_clausee', 'vaibhav', 'select_check']
+2025-05-15 23:41:05 - llm_consortium - INFO - sql_model_runner:244 - Starting evaluation for gpt-4o-mini
+2025-05-15 23:41:05 - llm_consortium - INFO - sql_model_runner:244 - Starting evaluation for gpt-3.5-turbo
+2025-05-15 23:41:06 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:06 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:06 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:06 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:06 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:06 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:06 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:06 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:06 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:06 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:06 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:06 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:06 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:06 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:06 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:06 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:06 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:06 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:06 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:06 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:06 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:06 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:07 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:07 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:07 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:07 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:07 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:07 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:07 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:07 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:08 - llm_consortium - INFO - sql_model_runner:260 - Model gpt-3.5-turbo evaluation complete
+2025-05-15 23:41:08 - llm_consortium - INFO - sql_model_runner:260 - Model gpt-4o-mini evaluation complete
+2025-05-15 23:41:08 - llm_consortium - INFO - sql_model_runner:283 - Tuning hyperparameters for gpt-3.5-turbo
+2025-05-15 23:41:08 - llm_consortium - INFO - hyperparameter_tuner:104 - Testing temperatures: [0.0, 0.2, 0.4, 0.6, 0.8]
+2025-05-15 23:41:10 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:10 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:10 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:10 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:10 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:12 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:12 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:13 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:13 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:14 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:14 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:14 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:14 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:15 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:15 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:15 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:15 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:16 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:16 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:16 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:16 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:16 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:17 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:17 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:17 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:18 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:18 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:18 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:18 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:18 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:19 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:19 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:19 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:19 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:20 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:20 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:20 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:20 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:20 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:21 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:21 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:21 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:21 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:22 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:22 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:22 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:22 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:22 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:22 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:23 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:23 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:23 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:23 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:23 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:24 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:24 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:24 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:25 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:25 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:25 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:25 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:25 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:25 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:26 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:26 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:26 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:26 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:26 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:26 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:26 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:27 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:27 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:27 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:27 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:27 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:27 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:28 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:28 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:28 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:28 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:28 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:29 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:29 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:29 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:30 - llm_consortium - ERROR - sql_model_runner:232 - Metric join_clausee failed: name 'logger' is not defined
+2025-05-15 23:41:30 - llm_consortium - INFO - hyperparameter_tuner:132 - Temperature tuning results:
+2025-05-15 23:41:30 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.0: 0.00%
+2025-05-15 23:41:30 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.2: 0.00%
+2025-05-15 23:41:30 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.4: 0.00%
+2025-05-15 23:41:30 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.6: 0.00%
+2025-05-15 23:41:30 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.8: 0.00%
+2025-05-15 23:41:30 - llm_consortium - INFO - sql_model_runner:302 - Tuning complete. Best params: {'temperature': 0.0, 'join_clausee_rate': 0.0}
+2025-05-15 23:41:32 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:35 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:36 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:38 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:39 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:40 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:41 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:42 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:43 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:44 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:45 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:46 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:47 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:48 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:41:50 - llm_consortium - ERROR - sql_model_runner:176 - Metric error: name 'logger' is not defined
+2025-05-15 23:45:33 - llm_consortium - INFO - sql_model_runner:32 - Initialized with metrics: ['join_clausee', 'vaibhav', 'select_check']
+2025-05-15 23:45:33 - llm_consortium - INFO - sql_model_runner:244 - Starting evaluation for gpt-4o-mini
+2025-05-15 23:45:33 - llm_consortium - INFO - sql_model_runner:244 - Starting evaluation for gpt-3.5-turbo
+2025-05-15 23:45:34 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:34 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:34 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:34 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:34 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:34 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:34 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:34 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:35 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:35 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:35 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:35 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:35 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:35 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:35 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:35 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:35 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:35 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:35 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:35 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:35 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:35 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:35 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:35 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:35 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:35 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:35 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:35 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:35 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:35 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:37 - llm_consortium - INFO - sql_model_runner:260 - Model gpt-3.5-turbo evaluation complete
+2025-05-15 23:45:39 - llm_consortium - INFO - sql_model_runner:260 - Model gpt-4o-mini evaluation complete
+2025-05-15 23:45:39 - llm_consortium - INFO - sql_model_runner:283 - Tuning hyperparameters for gpt-3.5-turbo
+2025-05-15 23:45:40 - llm_consortium - INFO - hyperparameter_tuner:104 - Testing temperatures: [0.0, 0.2, 0.4, 0.6, 0.8]
+2025-05-15 23:45:41 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:41 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:41 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:41 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:41 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:43 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:44 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:45 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:45 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:45 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:46 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:46 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:46 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:47 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:47 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:47 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:47 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:47 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:48 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:48 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:48 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:49 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:49 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:49 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:49 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:49 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:49 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:50 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:50 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:50 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:50 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:50 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:51 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:51 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:51 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:51 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:52 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:52 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:52 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:52 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:52 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:53 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:53 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:53 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:53 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:54 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:54 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:54 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:55 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:55 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:55 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:55 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:55 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:56 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:56 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:56 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:56 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:56 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:56 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:57 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:57 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:57 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:57 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:58 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:58 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:58 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:59 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:59 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:59 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:59 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:59 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:59 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:45:59 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:00 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:00 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:00 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:00 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:01 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:01 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:01 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:01 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:01 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:02 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:03 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:03 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:03 - llm_consortium - INFO - hyperparameter_tuner:132 - Temperature tuning results:
+2025-05-15 23:46:03 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.0: 0.00%
+2025-05-15 23:46:03 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.2: 0.00%
+2025-05-15 23:46:03 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.4: 0.00%
+2025-05-15 23:46:03 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.6: 0.00%
+2025-05-15 23:46:03 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.8: 0.00%
+2025-05-15 23:46:03 - llm_consortium - INFO - sql_model_runner:302 - Tuning complete. Best params: {'temperature': 0.0, 'join_clausee_rate': 0.0}
+2025-05-15 23:46:05 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:10 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:11 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:13 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:13 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:15 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:17 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:18 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:19 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:20 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:21 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:22 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:24 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:25 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:46:26 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-15 23:55:00 - llm_consortium - ERROR - join_clausee:60 - Error in join_clausee: OpenAIWrapper.chat() missing 1 required positional argument: 'messages'
+2025-05-16 06:34:58 - llm_consortium - INFO - sql_model_runner:32 - Initialized with metrics: ['execution_match', 'select_check', 'vaibhav']
+2025-05-16 06:34:58 - llm_consortium - INFO - sql_model_runner:244 - Starting evaluation for gpt-4o-mini
+2025-05-16 06:34:58 - llm_consortium - INFO - sql_model_runner:244 - Starting evaluation for gpt-3.5-turbo
+2025-05-16 06:35:00 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:00 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:00 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:00 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:00 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:00 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:00 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:00 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:00 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:00 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:00 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:00 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:00 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:00 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:00 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:00 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:00 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:00 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:00 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:00 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:00 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:00 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:01 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:01 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:01 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:01 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:01 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:01 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:01 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:01 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:02 - llm_consortium - INFO - sql_model_runner:260 - Model gpt-4o-mini evaluation complete
+2025-05-16 06:35:03 - llm_consortium - INFO - sql_model_runner:260 - Model gpt-3.5-turbo evaluation complete
+2025-05-16 06:35:03 - llm_consortium - INFO - sql_model_runner:283 - Tuning hyperparameters for gpt-3.5-turbo
+2025-05-16 06:35:03 - llm_consortium - INFO - hyperparameter_tuner:104 - Testing temperatures: [0.0, 0.2, 0.4, 0.6, 0.8]
+2025-05-16 06:35:04 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:05 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:05 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:05 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:05 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:08 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:08 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:09 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:09 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:09 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:09 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:09 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:10 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:10 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:10 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:10 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:10 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:11 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:11 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:11 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:12 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:12 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:12 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:13 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:13 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:13 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:13 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:13 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:14 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:14 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:14 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:14 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:14 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:15 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:15 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:15 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:15 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:16 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:16 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:16 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:16 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:16 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:17 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:17 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:17 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:17 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:17 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:18 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:18 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:18 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:18 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:18 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:19 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:19 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:19 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:19 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:19 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:20 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:20 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:20 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:20 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:21 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:21 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:21 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:21 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:21 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:21 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:21 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:21 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:22 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:22 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:22 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:22 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:22 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:22 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:23 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:23 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:23 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:23 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:24 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:24 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:24 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:24 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:25 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:25 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:25 - llm_consortium - INFO - hyperparameter_tuner:132 - Temperature tuning results:
+2025-05-16 06:35:25 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.0: 58.82%
+2025-05-16 06:35:25 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.2: 58.82%
+2025-05-16 06:35:25 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.4: 58.82%
+2025-05-16 06:35:25 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.6: 52.94%
+2025-05-16 06:35:25 - llm_consortium - INFO - hyperparameter_tuner:136 -   Temperature 0.8: 58.82%
+2025-05-16 06:35:25 - llm_consortium - INFO - sql_model_runner:302 - Tuning complete. Best params: {'temperature': 0.0, 'execution_match_rate': np.float64(58.82352941176471)}
+2025-05-16 06:35:27 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:32 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:34 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:35 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:36 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:37 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:38 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:39 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:40 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:41 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:42 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:43 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:44 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:45 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:35:47 - llm_consortium - ERROR - select_check:76 - Error in calculate: asyncio.run() cannot be called from a running event loop
+2025-05-16 06:46:42 - llm_consortium - INFO - sql_model_runner:368 - Initialized with metrics: ['execution_match', 'select_check', 'vaibhav']
+2025-05-16 06:46:42 - llm_consortium - INFO - sql_model_runner:620 - Starting evaluation for gpt-4o-mini
+2025-05-16 06:46:42 - llm_consortium - INFO - sql_model_runner:620 - Starting evaluation for gpt-3.5-turbo
+2025-05-16 06:46:43 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT "Time_of_purchase", "Age", "Address" FROM "member" ORDER BY "Time_of_purchase";
+Gold SQL: SELECT Time_of_purchase ,  age ,  address FROM member ORDER BY Time_of_purchase
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:43 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT cName
+FROM College
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000);
+Gold SQL: SELECT cName FROM College WHERE enr  <  13000 AND state = "AZ" UNION SELECT cName FROM College WHERE enr  >  15000 AND state = "LA"
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:43 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: No SQL detected
+Gold SQL: SELECT DISTINCT T1.name FROM nurse AS T1 JOIN on_call AS T2 ON T1.EmployeeID  =  T2.nurse
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:44 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT p.Player, ms.Season, t.Name
+FROM player p
+JOIN match_season ms ON p.Team = ms.Team
+JOIN team t ON ms.Team = t.Team_id;
+Gold SQL: SELECT T1.Season ,  T1.Player ,  T2.Name FROM match_season AS T1 JOIN team AS T2 ON T1.Team  =  T2.Team_id
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:44 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT f_id
+FROM song
+WHERE f_id IN (SELECT f_id FROM files WHERE formats = 'mp4') OR resolution > 720;
+Gold SQL: SELECT f_id FROM files WHERE formats  =  "mp4" UNION SELECT f_id FROM song WHERE resolution  >  720
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:44 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT Fname FROM Student WHERE Age > 22;
+Gold SQL: SELECT Fname FROM STUDENT WHERE Age  >  22
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:44 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT DISTINCT c.Leader_Name
+FROM college c
+JOIN member m ON c.College_ID = m.College_ID
+WHERE m.Country = 'Canada';
+Gold SQL: SELECT DISTINCT T1.Leader_Name FROM college AS T1 JOIN member AS T2 ON T1.College_ID  =  T2.College_ID WHERE T2.Country  =  "Canada"
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:44 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT SUM(acc_bal) AS total_account_balance
+FROM customer
+WHERE state IN ('Utah', 'Texas');
+Gold SQL: SELECT sum(acc_bal) FROM customer WHERE state  =  'Utah' OR state  =  'Texas'
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:44 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT artist_name
+FROM song
+WHERE duration = (SELECT MIN(duration) FROM files);
+Gold SQL: SELECT T1.artist_name FROM song AS T1 JOIN files AS T2 ON T1.f_id  =  T2.f_id ORDER BY T2.duration LIMIT 1
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:44 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT COUNT(*) FROM company WHERE Headquarters = 'USA';
+Gold SQL: SELECT count(*) FROM company WHERE Headquarters  =  'USA'
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:44 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:44 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:44 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT COUNT(*) 
+FROM company 
+WHERE Headquarters = 'USA';
+Gold SQL: SELECT count(*) FROM company WHERE Headquarters  =  'USA'
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:44 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(DISTINCT party_id) > 3;
+Gold SQL: SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:44 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:44 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:44 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT artist_name 
+FROM song 
+WHERE duration = (SELECT MIN(duration) FROM song);
+Gold SQL: SELECT T1.artist_name FROM song AS T1 JOIN files AS T2 ON T1.f_id  =  T2.f_id ORDER BY T2.duration LIMIT 1
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:44 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:44 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT DISTINCT N.Name
+FROM Nurse N
+JOIN On_Call OC ON N.EmployeeID = OC.Nurse;
+Gold SQL: SELECT DISTINCT T1.name FROM nurse AS T1 JOIN on_call AS T2 ON T1.EmployeeID  =  T2.nurse
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:44 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT c.cust_ID, c.cust_name, SUM(c.acc_bal) AS total_account_balance
+FROM customer c
+JOIN bank b ON c.branch_ID = b.branch_ID
+WHERE b.state IN ('Utah', 'Texas')
+GROUP BY c.cust_ID, c.cust_name;
+Gold SQL: SELECT sum(acc_bal) FROM customer WHERE state  =  'Utah' OR state  =  'Texas'
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:44 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT p.Player, ms.Season, t.Name AS Team
+FROM player p
+JOIN team t ON p.Team = t.Team_id
+JOIN match_season ms ON p.Team = ms.Team;
+Gold SQL: SELECT T1.Season ,  T1.Player ,  T2.Name FROM match_season AS T1 JOIN team AS T2 ON T1.Team  =  T2.Team_id
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:44 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:44 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT "Category", COUNT("Category") AS "Category_Count"
+FROM "music_festival"
+GROUP BY "Category"
+HAVING COUNT("Category") > 1;
+Gold SQL: SELECT Category FROM music_festival GROUP BY Category HAVING COUNT(*)  >  1
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:44 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT Document_Type_Name, Document_Type_Description
+FROM Ref_Document_Types
+WHERE Document_Type_Code = 'RV';
+Gold SQL: SELECT document_type_name ,  document_type_description FROM Ref_document_types WHERE document_type_code  =  "RV"
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:44 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:44 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT Time_of_purchase, Age, Address 
+FROM member 
+ORDER BY Time_of_purchase;
+Gold SQL: SELECT Time_of_purchase ,  age ,  address FROM member ORDER BY Time_of_purchase
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:44 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:44 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:44 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT Fname
+FROM Student
+WHERE Age > 22;
+Gold SQL: SELECT Fname FROM STUDENT WHERE Age  >  22
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:44 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:44 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:44 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT DISTINCT c.Leader_Name 
+FROM college c 
+JOIN member m ON c.College_ID = m.College_ID 
+WHERE m.Country = 'Canada';
+Gold SQL: SELECT DISTINCT T1.Leader_Name FROM college AS T1 JOIN member AS T2 ON T1.College_ID  =  T2.College_ID WHERE T2.Country  =  "Canada"
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:44 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:44 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:44 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT cName 
+FROM College 
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000);
+Gold SQL: SELECT cName FROM College WHERE enr  <  13000 AND state = "AZ" UNION SELECT cName FROM College WHERE enr  >  15000 AND state = "LA"
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:44 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT invoice_number
+FROM Invoices
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25';
+Gold SQL: SELECT invoice_number FROM invoices WHERE invoice_date < "1989-09-03" OR invoice_date > "2007-12-25"
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:44 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:44 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:44 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:45 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT Category, COUNT(*) as Count
+FROM music_festival
+GROUP BY Category
+HAVING COUNT(*) > 1;
+Gold SQL: SELECT Category FROM music_festival GROUP BY Category HAVING COUNT(*)  >  1
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:45 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:45 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:45 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT supplier_name, supplier_phone
+FROM Suppliers
+JOIN Supplier_Addresses ON Suppliers.supplier_id = Supplier_Addresses.supplier_id
+JOIN Addresses ON Supplier_Addresses.address_id = Addresses.address_id
+ORDER BY Addresses.address_details;
+Gold SQL: SELECT T1.supplier_name ,  T1.supplier_phone FROM Suppliers AS T1 JOIN supplier_addresses AS T2 ON T1.supplier_id  =  T2.supplier_id JOIN addresses AS T3 ON T2.address_id  =  T3.address_id ORDER BY T3.address_details
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:45 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:45 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:45 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:45 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:45 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT s.f_id 
+FROM song s 
+JOIN files f ON s.f_id = f.f_id 
+WHERE f.formats = 'mp4' OR s.resolution > 720;
+Gold SQL: SELECT f_id FROM files WHERE formats  =  "mp4" UNION SELECT f_id FROM song WHERE resolution  >  720
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:45 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:45 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT Document_Type_Name, Document_Type_Description 
+FROM Ref_Document_Types 
+WHERE Document_Type_Code = 'RV';
+Gold SQL: SELECT document_type_name ,  document_type_description FROM Ref_document_types WHERE document_type_code  =  "RV"
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:45 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(party_id) > 3;
+Gold SQL: SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:45 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:45 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:45 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:45 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT invoice_number 
+FROM Invoices 
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25';
+Gold SQL: SELECT invoice_number FROM invoices WHERE invoice_date < "1989-09-03" OR invoice_date > "2007-12-25"
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:45 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:45 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:45 - llm_consortium - INFO - select_check:115 - Sending prompt to LLM: Check whether the following two SQL queries both contain a SELECT clause:
+Generated SQL: SELECT s.supplier_name, s.supplier_phone
+FROM Suppliers s
+JOIN Supplier_Addresses sa ON s.supplier_id = sa.supplier_id
+JOIN Addresses a ON sa.address_id = a.address_id
+ORDER BY a.address_details;
+Gold SQL: SELECT T1.supplier_name ,  T1.supplier_phone FROM Suppliers AS T1 JOIN supplier_addresses AS T2 ON T1.supplier_id  =  T2.supplier_id JOIN addresses AS T3 ON T2.address_id  =  T3.address_id ORDER BY T3.address_details
+Answer only with 'yes' or 'no'. Strictly.
+2025-05-16 06:46:46 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:46 - llm_consortium - ERROR - select_check:127 - Error in _check_sql_query: Error code: 400 - {'error': {'message': "Missing required parameter: 'messages[0].role'.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'missing_required_parameter'}}
+2025-05-16 06:46:46 - llm_consortium - INFO - sql_model_runner:636 - Model gpt-4o-mini evaluation complete
+2025-05-16 06:46:47 - llm_consortium - INFO - sql_model_runner:636 - Model gpt-3.5-turbo evaluation complete
+2025-05-16 06:46:47 - llm_consortium - INFO - sql_model_runner:660 - Tuning hyperparameters for gpt-3.5-turbo
+2025-05-16 06:46:47 - llm_consortium - INFO - hyperparameter_tuner:104 - Testing temperatures: [0.0, 0.2, 0.4, 0.6, 0.8]
+2025-05-16 06:46:48 - llm_consortium - ERROR - sql_model_runner:684 - Tuning failed: 'function' object has no attribute 'evaluate_query'
+2025-05-16 06:46:48 - llm_consortium - ERROR - app:3620 - Evaluation error: 'function' object has no attribute 'evaluate_query'

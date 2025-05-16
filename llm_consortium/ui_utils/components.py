@@ -123,10 +123,10 @@ def render_custom_metric_tabs():
                     
 
                     # Generate Python class code with correct indentation
-                    raw_code = f'''
+                    raw_code= f'''
 from .base_metrics import BaseMetric
 from typing import Dict, Any
-from ...utils.logging import logger
+from ..utils.logging import logger
 
 class {metric_name.capitalize()}Metric(BaseMetric):
     """LLM Judge metric for {metric_name}"""
@@ -150,7 +150,8 @@ class {metric_name.capitalize()}Metric(BaseMetric):
                 self.client = llm
             except ImportError as e:
                 logger.error(f"Failed to import LLM client: {{str(e)}}")
-                raise
+                return False
+        return True
     
     def check_sql_query(self, generated_sql: str, gold_sql: str) -> str:
         """Check SQL queries based on {metric_name} criteria"""
@@ -165,8 +166,7 @@ class {metric_name.capitalize()}Metric(BaseMetric):
                 else:
                     return "no"
             # For more complex metrics that truly need LLM
-            else:
-                self._initialize_client()
+            elif self._initialize_client():
                 from langchain.schema import HumanMessage
                 
                 formatted_prompt = self.prompt.format(
@@ -175,18 +175,34 @@ class {metric_name.capitalize()}Metric(BaseMetric):
                 )
                 message = HumanMessage(content=formatted_prompt)
                 response = self.client.chat([message])
-                return response.content.strip()
+                return response.content.strip().lower()
+            else:
+                logger.error("Failed to initialize LLM client")
+                return "error"
                 
         except Exception as e:
             logger.error(f"Error in {metric_name.lower()}: {{str(e)}}")
-            return f"Error: {{str(e)}}"
+            return f"error"
     
-    def calculate(self, generated_sql: str, gold_sql: str) -> Dict[str, Any]:
+    def calculate(self, **kwargs) -> Dict[str, Any]:
         """Calculate the {metric_name.lower()} metric score"""
+        # Extract required parameters from kwargs
+        generated_sql = kwargs.get("generated_sql", "")
+        gold_sql = kwargs.get("gold_sql", "")
+        
+        # Validate inputs
+        if not generated_sql or not gold_sql:
+            logger.error(f"{metric_name.capitalize()}Metric: Missing required parameters")
+            return {{
+                "{metric_name.lower()}": 0.0,
+                "{metric_name.lower()}_result": "error: missing parameters"
+            }}
+        
+        # Perform the check
         result = self.check_sql_query(generated_sql, gold_sql)
         
         # Map result to score
-        score = self.response_map.get(result.lower(), 0.0)
+        score = self.response_map.get(result, 0.0)
         
         return {{
             "{metric_name.lower()}": score,

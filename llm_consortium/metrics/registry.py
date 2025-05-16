@@ -9,12 +9,10 @@ from .abcabc import SQLabcabc
 from .xyz import SQLxyz
 from .ooo import SQLooo
 from .ppp import SQLppp
-
 from .ccc import SQLccc
 from .select_check import Select_checkMetric
-
-
-
+from .vaibhav import SQLVaibhav
+from .join_clausee import Join_clauseeMetric
 
 class MetricRegistry:
     """Registry for available metrics with validation"""
@@ -37,6 +35,9 @@ class MetricRegistry:
                 
                 "ccc": SQLccc(),
                 "select_check": Select_checkMetric(),
+                
+                "vaibhav": SQLVaibhav(),
+                "join_clausee": Join_clauseeMetric(),
             }
         }
     
