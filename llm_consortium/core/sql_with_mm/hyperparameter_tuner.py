@@ -142,7 +142,6 @@
 #             "temperature": best_temp,
 #             primary_metric: best_result.get(primary_metric, 0.0)
 #         }
-
 import asyncio
 import random
 import numpy as np
@@ -219,7 +218,6 @@ class HyperparameterTuner:
                     })
             except Exception as e:
                 logger.error(f"Error evaluating query with temperature {temperature}: {str(e)}")
-                # Log the full exception traceback for debugging
                 import traceback
                 logger.error(f"Traceback: {traceback.format_exc()}")
         
@@ -227,38 +225,20 @@ class HyperparameterTuner:
         logger.info(f"Temperature {temperature}: Collected {len(results)} valid results")
         
         # Calculate metrics
+        metrics = {}
         if results:
             # Calculate average metrics across results
             metrics = self._calculate_average_metrics(results)
             logger.info(f"Temperature {temperature}: Metrics: {metrics}")
-            
-            # Return primary metric and all results
-            primary_metric_value = metrics.get(primary_metric, 0.0)
-            if isinstance(primary_metric_value, (int, float)):
-                # For numerical metrics
-                return {
-                    "temperature": temperature,
-                    primary_metric: primary_metric_value,
-                    "results": results
-                }
-            else:
-                # For non-numerical metrics, default to first available numerical metric
-                for key, value in metrics.items():
-                    if isinstance(value, (int, float)) and "_rate" in key:
-                        return {
-                            "temperature": temperature,
-                            key: value,
-                            "results": results
-                        }
+        else:
+            logger.warning(f"Temperature {temperature}: No valid results collected")
         
-        # Fallback
-        logger.warning(f"Temperature {temperature}: No valid metrics calculated, returning 0.0")
         return {
             "temperature": temperature,
-            "performance": 0.0,
+            "metrics": metrics,
             "results": results
         }
-    
+        
     async def tune_model(
         self,
         model: str,
@@ -271,105 +251,82 @@ class HyperparameterTuner:
         """Find optimal hyperparameters for the model"""
         logger.info(f"Starting hyperparameter tuning for {model}")
         
-        # Get temperature range and number of trials
+        # Get configuration parameters
         min_temp, max_temp = tuning_config.get("temp_range", (0.0, 1.0))
         num_trials = tuning_config.get("num_trials", 5)
         primary_metric = tuning_config.get("primary_metric", "execution_match_rate")
         
-        # Clear previous trial results
-        self.trial_results = []
-        
-        # Generate temperature values to test
+        # Generate temperatures and run evaluations
         temperatures = self.generate_temperature_values(min_temp, max_temp, num_trials)
-        logger.info(f"Testing temperatures: {temperatures}")
-        
-        # Evaluate each temperature
-        tasks = []
-        for temp in temperatures:
-            task = self.evaluate_temperature(
-                model,
-                temp,
-                queries,
-                query_func,
-                metrics_func,
-                primary_metric,
-                base_params
+        results = await asyncio.gather(*[
+            self.evaluate_temperature(
+                model, temp, queries, query_func, 
+                metrics_func, primary_metric, base_params
             )
-            tasks.append(task)
-        
-        results = await asyncio.gather(*tasks)
-        
-        # Check if any results were obtained
-        if not results:
-            logger.error("No results obtained from temperature evaluation")
-            return {"temperature": (min_temp + max_temp) / 2, primary_metric: 0.0}
-        
-        # Store all trial results for visualization
+            for temp in temperatures
+        ])
+
+        # Store trial results with all metrics
+        self.trial_results = []
         for result in results:
-            metric_value = result.get(primary_metric, 0.0)
-            self.trial_results.append({
-                "temperature": result["temperature"],
-                primary_metric: metric_value
-            })
-            logger.info(f"Trial result: temp={result['temperature']}, {primary_metric}={metric_value}")
+            if result["metrics"]: 
+                self.trial_results.append({
+                    "temperature": result["temperature"],
+                    **result["metrics"]
+                })
+
+        # Create a DataFrame for analysis
+        result_df = pd.DataFrame(self.trial_results) if self.trial_results else pd.DataFrame()
         
-        # Find best temperature based on primary metric
-        if not results or not any(primary_metric in r for r in results):
-            logger.error(f"No results contain primary metric '{primary_metric}'")
-            return {"temperature": (min_temp + max_temp) / 2, primary_metric: 0.0}
+        # Find best temperature for each metric
+        best_metrics = {}
+        if not result_df.empty:
+            # Get all metrics columns (exclude temperature)
+            metric_cols = [col for col in result_df.columns if col != "temperature"]
             
-        filtered_results = [r for r in results if primary_metric in r]
-        if not filtered_results:
-            logger.error(f"No valid results with primary metric '{primary_metric}'")
-            return {"temperature": (min_temp + max_temp) / 2, primary_metric: 0.0}
-            
-        best_result = max(filtered_results, key=lambda x: x.get(primary_metric, 0.0))
-        best_temp = best_result["temperature"]
-        
-        logger.info(f"Temperature tuning results:")
-        for result in results:
-            metric_value = result.get(primary_metric, 0.0)
-            if isinstance(metric_value, (int, float)):
-                logger.info(f"  Temperature {result['temperature']}: {metric_value:.2f}%")
-            else:
-                logger.info(f"  Temperature {result['temperature']}: {metric_value}")
-        
+            for metric in metric_cols:
+                if pd.api.types.is_numeric_dtype(result_df[metric]):
+                    # Find the best temperature for this metric
+                    # For metrics with "rate" in name or higher is better
+                    if "rate" in metric or metric.endswith("_score"):
+                        best_idx = result_df[metric].idxmax()
+                    else:
+                        # For error metrics, lower is better
+                        best_idx = result_df[metric].idxmin()
+                        
+                    best_metrics[metric] = {
+                        "temperature": result_df.loc[best_idx, "temperature"],
+                        "value": result_df.loc[best_idx, metric]
+                    }
+
+        # Get primary metric result
+        primary_result = best_metrics.get(
+            primary_metric,
+            {"temperature": (min_temp + max_temp)/2, "value": 0.0}
+        )
+
+        # Return all metrics results organized by metric
         return {
-            "temperature": best_temp,
-            primary_metric: best_result.get(primary_metric, 0.0)
+            "primary_metric": primary_result,
+            "all_metrics": best_metrics,
+            "trial_results": self.trial_results,
+            "result_df": result_df
         }
-     # Updated _calculate_average_metrics in HyperparameterTuner
-       
+     
     def _calculate_average_metrics(self, results: List[Dict[str, Any]]) -> Dict[str, float]:
         """Calculate average metrics across all results."""
-        # Create a DataFrame with all results
         df = pd.DataFrame(results)
-        
-        # Extract numerical columns (metrics)
-        non_metric_columns = ["question", "generated_sql", "gold_sql", "confidence"]
-        metric_columns = [col for col in df.columns if col not in non_metric_columns]
-        
-        # Calculate averages for each metric
         avg_metrics = {}
         
-        for col in metric_columns:
-            # Check if column exists and if it's a simple numeric type
-            if col in df:
-                if df[col].dtype in ['int64', 'float64', 'bool']:
-                    # For boolean columns, calculate the percentage of True values
-                    if df[col].dtype == 'bool':
-                        avg_metrics[col] = df[col].mean() * 100
-                    else:
-                        avg_metrics[col] = df[col].mean()
-                elif df[col].apply(lambda x: isinstance(x, (int, float, bool))).all():
-                    # For columns with mixed numeric types
-                    avg_metrics[col] = df[col].astype(float).mean()
-        
-        # Add metric rates for boolean columns
-        for col in metric_columns:
-            if col in df and df[col].dtype == 'bool':
-                rate_key = f"{col}_rate"
-                if rate_key not in avg_metrics:
-                    avg_metrics[rate_key] = df[col].mean() * 100
-                    
+        # Handle boolean success metrics
+        bool_cols = [col for col in df.columns if df[col].dtype == 'bool']
+        for col in bool_cols:
+            avg_metrics[f"{col}_rate"] = df[col].mean() * 100
+            
+        # Handle numeric metrics
+        num_cols = [col for col in df.columns if pd.api.types.is_numeric_dtype(df[col])]
+        for col in num_cols:
+            if col not in bool_cols:  # Skip boolean columns already processed
+                avg_metrics[col] = df[col].mean()
+                
         return avg_metrics

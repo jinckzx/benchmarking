@@ -353,7 +353,7 @@ import inspect
 load_dotenv()
 # SCHEMA_PATH = "D:\\data_sci\\benchmarking_tool\\dataset\\spider_data\\spider_data\\database\\{db_id}\\schema.sql"
 
-SCHEMA_PATH = "C:/Users/NikhilJain/OneDrive - Info Origin Technologies Pvt Ltd/Desktop/Info Origin/LLM_Benchmarking/04_updated/benchmarking_tool/dataset/spider_data/spider_data/database/{db_id}/schema.sql"
+SCHEMA_PATH = "D:\\data_sci\\version3\\benchmarking_tool\\dataset\\spider_data\\spider_data\\database\\{db_id}\\schema.sql"
 
 class SQLModelRunner:
     def __init__(self, selected_metrics: List[str]):
@@ -562,9 +562,6 @@ class SQLModelRunner:
         except Exception as e:
             logger.error(f"Query processing failed: {str(e)}")
             return {**result_template, "generated_sql": f"Error: {str(e)}"}
-
-    # FIXED: Make evaluate_query as an instance method, not a callable function
-    
     
     async def evaluate_query_async(self, generated_sql: str, gold_sql: str, db_id: str) -> Dict[str, Any]:
         """Async version of evaluate_query that handles LLM-based metrics"""
@@ -612,8 +609,6 @@ class SQLModelRunner:
         
         return metric_results
     
-
-    # Keep the original evaluate_query for backward compatibility
     def evaluate_query(self, generated_sql: str, gold_sql: str, db_id: str) -> Dict[str, Any]:
         """Evaluate a single query against the selected metrics (sync version)"""
         metric_inputs = {
@@ -684,54 +679,61 @@ class SQLModelRunner:
             }
             
         return models_results
-
-    # FIXED: Update hyperparameter tuning to use bound methods instead of functions
-    # Updated tune_best_model method in SQLModelRunner
     
     async def tune_best_model(self, model: str, csv_path: str, config: ModelConfig) -> Dict[str, Any]:
-        """Tune hyperparameters using selected metrics"""
+        """Tune hyperparameters using all selected metrics"""
         try:
             logger.info(f"Tuning hyperparameters for {model}")
             queries = self.ingest_csv(csv_path)
             
-            # Configure tuning based on selected metrics
-            primary_metric = self.selected_metrics[0].name
-            
-            # If primary metric is not a boolean or rate, default to execution_match
-            if not any(metric.name == primary_metric and hasattr(metric, 'is_boolean_success') 
-                    for metric in self.selected_metrics):
-                logger.info(f"Primary metric {primary_metric} is not a boolean success metric, defaulting to execution_match")
-                primary_metric = "execution_match"
-                
+            # Configure tuning using all selected metrics
             tuning_config = {
                 "temp_range": (config.min_temp, config.max_temp),
                 "num_trials": config.num_trials,
-                "primary_metric": f"{primary_metric}_rate"
+                "primary_metric": "execution_match_rate"  # Default primary metric
             }
-            
-            # When passing the evaluate_query_async method to tuner, create a simple wrapper
-            # that binds it to self and ensures proper parameter passing
+
+            # Create metrics evaluation wrapper
             async def evaluate_query_wrapper(generated_sql: str, gold_sql: str, db_id: str) -> Dict[str, Any]:
                 return await self.evaluate_query_async(generated_sql, gold_sql, db_id)
-            
-            best_params = await self.hyperparameter_tuner.tune_model(
+
+            # Run tuning
+            tuning_results = await self.hyperparameter_tuner.tune_model(
                 model,
                 queries,
-                self._query_model,  # This is a bound method
-                evaluate_query_wrapper,  # This wraps the bound method properly
+                self._query_model,
+                evaluate_query_wrapper,
                 tuning_config,
                 config.get_model_params(model)
             )
+
+            # Create a more user-friendly results summary
+            summary = {
+                "best_temperature_by_metric": {},
+                "all_trials_data": tuning_results["trial_results"]
+            }
             
-            logger.info(f"Tuning complete. Best params: {best_params}")
-            return best_params
+            # For each metric, show the best temperature
+            for metric, data in tuning_results["all_metrics"].items():
+                summary["best_temperature_by_metric"][metric] = {
+                    "temperature": data["temperature"],
+                    "value": data["value"]
+                }
+                
+            # Log all results
+            logger.info("Complete tuning results:")
+            for metric, data in tuning_results["all_metrics"].items():
+                logger.info(f"{metric}: Best temp {data['temperature']} ({data['value']:.2f})")
+
+            # Store the DataFrame for further analysis
+            if "result_df" in tuning_results and not tuning_results["result_df"].empty:
+                summary["metrics_per_temperature"] = tuning_results["result_df"].to_dict(orient="records")
             
+            return summary
+
         except Exception as e:
             logger.error(f"Tuning failed: {str(e)}")
-            import traceback
-            logger.error(f"Traceback: {traceback.format_exc()}")
             raise
-    
 
     async def evaluate_with_params(self, model: str, params: Dict[str, Any], csv_path: str) -> Dict[str, Any]:
         """Final evaluation with tuned parameters"""
@@ -743,7 +745,7 @@ class SQLModelRunner:
                 result = await self._process_single_query(
                     model,
                     query,
-                    params["temperature"]
+                    params
                 )
                 if result:
                     model_responses.append(result)

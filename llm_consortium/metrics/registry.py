@@ -22,6 +22,7 @@ from .check2_execute import Check2_executeMetric
 from .from_clause import From_clauseMetric
 from .join123_check import Join123_checkMetric
 from .abc1234 import Abc1234Metric
+from .new_llmbased import New_llmbasedMetric
 
 
 
@@ -36,7 +37,7 @@ class MetricRegistry:
 
                     # db_root_path="D:/data_sci/benchmarking_tool/dataset/spider_data/spider_data/database"
 
-                    db_root_path = "C:/Users/NikhilJain/OneDrive - Info Origin Technologies Pvt Ltd/Desktop/Info Origin/LLM_Benchmarking/04_updated/benchmarking_tool/dataset/spider_data/spider_data/database"
+                    db_root_path = "D:/data_sci/version3/benchmarking_tool/dataset/spider_data/spider_data/database"
                 ),
                 "component_match":SQLComponentMatch(),
                 "anmol": SQLAnmol(),
@@ -63,6 +64,7 @@ class MetricRegistry:
                 "from_clause": From_clauseMetric(),
                 "join123_check": Join123_checkMetric(),
                 "abc1234": Abc1234Metric(),
+                "new_llmbased": New_llmbasedMetric(),
             }
         }
     

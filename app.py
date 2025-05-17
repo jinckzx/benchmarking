@@ -3212,12 +3212,8 @@ def text2sql_ui_mm():
     from datetime import datetime
     from llm_consortium.utils.pricing import calculate_cost
     from llm_consortium.core.client_init import llm
-    from llm_consortium.ui_utils.custom_metric_utils import (
-    extract_class_name,
-    save_custom_metric_to_file,
-    register_custom_metric,
-    extract_metric_name
-
+    from llm_consortium.ui_utils.parameter_tuning import (
+    create_best_parameter_tab
     )
     from llm_consortium.ui_utils.components import render_custom_metric_tabs
     # Initialize judge and metric registry
@@ -3747,12 +3743,12 @@ def text2sql_ui_mm():
                     evaluation_progress.progress(st.session_state.sql_progress/100, f"Tuning {best_model}...")
                     
                     # Tune the best model
-                    best_params = await runner.tune_best_model(
+                    tuning_results = await runner.tune_best_model(
                         best_model,
                         eval_csv_path,  # Use the already sampled dataset
                         config
                     )
-                    st.session_state.sql_best_params = best_params
+                    st.session_state.sql_best_params = tuning_results
                     
                     # Capture the temperature trial results if available from the tuner
                     if hasattr(runner.hyperparameter_tuner, 'trial_results'):
@@ -3764,9 +3760,40 @@ def text2sql_ui_mm():
                     # Step 4: Evaluate with tuned parameters
                     if config.run_final_evaluation:
                         evaluation_progress.progress(st.session_state.sql_progress/100, f"Final evaluation with tuned parameters...")
+                        
+                        # Create params dictionary with the best temperature
+                        # First, get the base params for the model
+                        model_params = config.get_model_params(best_model).copy()
+                        
+                        # Now extract the best temperature for the primary metric
+                        best_temp = None
+                        if "best_temperature_by_metric" in tuning_results:
+                            # Check if we have a matching metric from tuning
+                            if primary_metric in tuning_results["best_temperature_by_metric"]:
+                                best_temp = tuning_results["best_temperature_by_metric"][primary_metric]["temperature"]
+                            # If no exact match, try without _rate suffix
+                            elif primary_metric.endswith("_rate") and primary_metric[:-5] in tuning_results["best_temperature_by_metric"]:
+                                best_temp = tuning_results["best_temperature_by_metric"][primary_metric[:-5]]["temperature"]
+                            # Fallback to primary_metric without _rate suffix if available
+                            elif primary_metric and primary_metric[:-5] in tuning_results["best_temperature_by_metric"]:
+                                best_temp = tuning_results["best_temperature_by_metric"][primary_metric[:-5]]["temperature"]
+                            # Last resort, use the first available metric
+                            elif tuning_results["best_temperature_by_metric"]:
+                                first_metric = next(iter(tuning_results["best_temperature_by_metric"]))
+                                best_temp = tuning_results["best_temperature_by_metric"][first_metric]["temperature"]
+                        
+                        # If we found a temperature, update params
+                        if best_temp is not None:
+                            model_params["temperature"] = best_temp
+                            logger.info(f"Using best temperature: {best_temp} for final evaluation")
+                        else:
+                            # Fallback to default temperature from config if no best temp available
+                            logger.warning("No best temperature found, using default temperature")
+                        
+                        # Run final evaluation with the best params
                         final_results = await runner.evaluate_with_params(
                             best_model, 
-                            best_params, 
+                            model_params,  # Use the fixed params
                             eval_csv_path  # Use the already sampled dataset
                         )
                         st.session_state.sql_tuning_results = final_results
@@ -3797,6 +3824,119 @@ def text2sql_ui_mm():
                 return None
             finally:
                 st.session_state.sql_running = False
+        # async def run_evaluation_async(config, csv_path, sampled_csv_path=None):
+        #     """Run the evaluation and tuning pipeline asynchronously"""
+        #     try:
+        #         # Initialize runner with selected metrics
+        #         runner = SQLModelRunner(selected_metrics=config.metrics)
+                
+        #         # Step 1: Evaluate all models
+        #         st.session_state.sql_progress = 10
+        #         evaluation_progress.progress(st.session_state.sql_progress/100, "Evaluating models...")
+                
+        #         # Use the sampled dataset if available
+        #         eval_csv_path = sampled_csv_path if sampled_csv_path else csv_path
+                
+        #         # Run evaluation
+        #         evaluation_results = await runner.evaluate_models(config, eval_csv_path)
+        #         st.session_state.sql_evaluation_results = evaluation_results
+        #         st.session_state.sql_progress = 50
+        #         evaluation_progress.progress(st.session_state.sql_progress/100, "Evaluation complete, processing results...")
+                
+        #         # Calculate metrics for each model
+        #         model_metrics = {}
+                
+        #         # Track which metric to use for ranking (use first selected metric)
+        #         primary_metric = f"{config.metrics[0]}_rate" if config.metrics else None
+                
+        #         for model_name, eval_data in evaluation_results.items():
+        #             metrics = eval_data["metrics"]
+        #             responses = eval_data["responses"]
+                    
+        #             # Calculate average latency (not directly provided in metrics)
+        #             latencies = [r.get("latency", 0) for r in responses]
+        #             avg_latency = sum(latencies) / len(latencies) if latencies else 0
+                    
+        #             # Add all available metrics to the results
+        #             model_metrics[model_name] = {"avg_latency": avg_latency}
+                    
+        #             # Add all rate metrics from the evaluation
+        #             for key, value in metrics.items():
+        #                 if key.endswith("_rate") and isinstance(value, (int, float)):
+        #                     model_metrics[model_name][key] = value
+                
+        #         # Find best model based on primary metric (first selected), breaking ties with latency
+        #         if primary_metric and model_metrics:
+        #             best_model = max(
+        #                 model_metrics.items(),
+        #                 key=lambda x: (x[1].get(primary_metric, 0), -x[1]["avg_latency"])
+        #             )[0]
+                    
+        #             st.session_state.sql_best_model = best_model
+        #             st.session_state.sql_progress = 60
+        #             evaluation_progress.progress(st.session_state.sql_progress/100, f"Best model identified: {best_model}")
+        #         else:
+        #             st.warning("Could not determine best model - no valid metrics available")
+        #             st.session_state.sql_best_model = selected_models[0] if selected_models else None
+        #             st.session_state.sql_progress = 60
+        #             evaluation_progress.progress(st.session_state.sql_progress/100, "Evaluation complete")
+                
+        #         # Step 3: Tune the best model if enabled
+        #         if config.enable_tuning and st.session_state.sql_best_model:
+        #             best_model = st.session_state.sql_best_model
+        #             evaluation_progress.progress(st.session_state.sql_progress/100, f"Tuning {best_model}...")
+                    
+        #             # Tune the best model
+        #             best_params = await runner.tune_best_model(
+        #                 best_model,
+        #                 eval_csv_path,  # Use the already sampled dataset
+        #                 config
+        #             )
+        #             st.session_state.sql_best_params = best_params
+                    
+        #             # Capture the temperature trial results if available from the tuner
+        #             if hasattr(runner.hyperparameter_tuner, 'trial_results'):
+        #                 st.session_state.sql_tuning_trials = runner.hyperparameter_tuner.trial_results
+                    
+        #             st.session_state.sql_progress = 80
+        #             evaluation_progress.progress(st.session_state.sql_progress/100, "Tuning complete")
+                
+        #             # Step 4: Evaluate with tuned parameters
+        #             if config.run_final_evaluation:
+        #                 evaluation_progress.progress(st.session_state.sql_progress/100, f"Final evaluation with tuned parameters...")
+        #                 final_results = await runner.evaluate_with_params(
+        #                     best_model, 
+        #                     best_params, 
+        #                     eval_csv_path  # Use the already sampled dataset
+        #                 )
+        #                 st.session_state.sql_tuning_results = final_results
+                        
+        #         # Save results if requested
+        #         if save_results:
+        #             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        #             os.makedirs(output_dir, exist_ok=True)
+        #             output_file = os.path.join(output_dir, f"sql_eval_results_{timestamp}.json")
+                    
+        #             with open(output_file, "w") as f:
+        #                 json.dump({
+        #                     "model_evaluations": evaluation_results,
+        #                     "best_model": st.session_state.sql_best_model,
+        #                     "best_params": st.session_state.sql_best_params if config.enable_tuning else None,
+        #                     "model_metrics": model_metrics,
+        #                     "sample_size": sample_size if 'sample_size' in locals() else "full dataset",
+        #                     "selected_metrics": config.metrics
+        #                 }, f, indent=2, default=str)
+                        
+        #         st.session_state.sql_progress = 100
+        #         evaluation_progress.progress(st.session_state.sql_progress/100, "Complete!")
+        #         return model_metrics
+                
+        #     except Exception as e:
+        #         st.error(f"Error during evaluation: {str(e)}")
+        #         logger.error(f"Evaluation error: {str(e)}")
+        #         return None
+        #     finally:
+        #         st.session_state.sql_running = False
         
         # Judge evaluation function
         async def run_judge_evaluation_async(judge_criteria):
@@ -3956,6 +4096,7 @@ def text2sql_ui_mm():
             
             # Tab for Evaluation Results
             # Tab: LLM Judge Results
+
             with tabs[tab_mapping["llm_judge"]]:
                 st.header("LLM Judge Evaluation")
                 
@@ -4245,6 +4386,8 @@ def text2sql_ui_mm():
                         """)
                     else:
                         st.warning("Please select at least one model for cost estimation")
+            with tabs[tab_mapping["best_parameter"]]:
+                create_best_parameter_tab()
             with tabs[tab_mapping["sample_queries"]]:
                 if "sample_queries" in st.session_state and st.session_state.sample_queries:
                     st.subheader("Sampled Queries with Per-Query Metrics")
@@ -4624,211 +4767,7 @@ def text2sql_ui_mm():
                 else:
                     st.info("Complete evaluation to view best model details")
 
-            # Tab for Parameter Tuning Results
-            with tabs[tab_mapping["best_parameter"]]:
-                if st.session_state.sql_best_params:
-                    st.header("Parameter Tuning Results")
-                    
-                    # Show best parameters found
-                    st.subheader("Best Parameters")
-                    best_temp = st.session_state.sql_best_params.get('temperature', 'N/A')
-                    
-                    col1, col2 = st.columns(2)
-                    col1.metric("Best Temperature", f"{best_temp:.2f}" if isinstance(best_temp, (int, float)) else best_temp)
-                    
-                    # Get improvement if available
-                    improvement = st.session_state.sql_best_params.get('improvement', 0)
-                    col2.metric("Performance Improvement", f"{improvement:.2f}%" if isinstance(improvement, (int, float)) else improvement)
-                    
-                    # Display trials data if available
-                    if 'sql_tuning_trials' in st.session_state and st.session_state.sql_tuning_trials:
-                        st.subheader("Temperature Trial Results")
-                        
-                        # Convert tuning trials to DataFrame for better display
-                        trials_data = []
-                        for trial in st.session_state.sql_tuning_trials:
-                            trial_data = {"Temperature": f"{trial.get('temperature', 0):.2f}"}
-                            
-                            # Add metric scores
-                            for metric in selected_metrics:
-                                rate_key = f"{metric}_rate"
-                                if rate_key in trial:
-                                    value = trial[rate_key]
-                                    if isinstance(value, (int, float)):
-                                        trial_data[available_metrics[metric]] = value
-                                    else:
-                                        # Try to convert to float if possible
-                                        try:
-                                            trial_data[available_metrics[metric]] = float(value)
-                                        except (ValueError, TypeError):
-                                            trial_data[available_metrics[metric]] = str(value)
-                            
-                            # Calculate combined score for each trial
-                            metric_values = [v for k, v in trial_data.items() if k != "Temperature" and isinstance(v, (int, float))]
-                            if metric_values:
-                                trial_data["Combined Score"] = sum(metric_values) / len(metric_values)
-                            
-                            trials_data.append(trial_data)
-                        
-                        # Create DataFrame
-                        if trials_data:
-                            trials_df = pd.DataFrame(trials_data)
-                            
-                            # Display the data table
-                            st.dataframe(trials_df, use_container_width=True)
-                            
-                            # Create tabs for metric-specific temperature optimization
-                            if len(selected_metrics) > 0:
-                                st.subheader("Metric-Specific Temperature Optimization")
-                                
-                                # Create tabs for each metric plus combined score
-                                metric_tabs = [f"{available_metrics[m]}" for m in selected_metrics] + ["Combined Score"]
-                                tabs_metric = st.tabs(metric_tabs)
-                                
-                                # In each tab, show the best temperature for that metric
-                                for i, metric_name in enumerate(selected_metrics):
-                                    with tabs_metric[i]:
-                                        metric_display_name = available_metrics[metric_name]
-                                        
-                                        # Find best temperature for this metric
-                                        best_for_metric = None
-                                        best_score = -1
-                                        
-                                        for trial in trials_data:
-                                            if metric_display_name in trial and isinstance(trial[metric_display_name], (int, float)):
-                                                if trial[metric_display_name] > best_score:
-                                                    best_score = trial[metric_display_name]
-                                                    best_for_metric = trial["Temperature"]
-                                        
-                                        if best_for_metric:
-                                            st.success(f"Best temperature for {metric_display_name}: {best_for_metric} (Score: {best_score:.2f}%)")
-                                            
-                                            # Plot temperature vs. this metric
-                                            fig, ax = plt.subplots(figsize=(10, 5))
-                                            
-                                            # Extract data for plotting
-                                            temps = [float(t["Temperature"]) for t in trials_data if metric_display_name in t]
-                                            scores = [t[metric_display_name] for t in trials_data if metric_display_name in t]
-                                            
-                                            if temps and scores:
-                                                # Sort by temperature for proper line chart
-                                                temp_score = sorted(zip(temps, scores), key=lambda x: x[0])
-                                                temps = [t[0] for t in temp_score]
-                                                scores = [t[1] for t in temp_score]
-                                                
-                                                ax.plot(temps, scores, 'o-', linewidth=2, markersize=8)
-                                                ax.set_xlabel('Temperature')
-                                                ax.set_ylabel(f'{metric_display_name} Score (%)')
-                                                ax.set_title(f'Temperature vs. {metric_display_name}')
-                                                ax.grid(True, linestyle='--', alpha=0.7)
-                                                
-                                                # Highlight best point
-                                                best_temp_val = float(best_for_metric)
-                                                if best_temp_val in temps:
-                                                    idx = temps.index(best_temp_val)
-                                                    ax.plot(best_temp_val, scores[idx], 'ro', markersize=10)
-                                                    ax.annotate(f'Best: {best_temp_val}',
-                                                            xy=(best_temp_val, scores[idx]),
-                                                            xytext=(10, 10),
-                                                            textcoords='offset points',
-                                                            arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=.2'))
-                                                
-                                                st.pyplot(fig)
-                                            else:
-                                                st.warning(f"No valid data to plot for {metric_display_name}")
-                                        else:
-                                            st.info(f"No best temperature found for {metric_display_name}")
-                                
-                                # Handle combined score tab
-                                with tabs_metric[-1]:
-                                    # Find best temperature for combined score
-                                    best_for_combined = None
-                                    best_combined_score = -1
-                                    
-                                    for trial in trials_data:
-                                        if "Combined Score" in trial and isinstance(trial["Combined Score"], (int, float)):
-                                            if trial["Combined Score"] > best_combined_score:
-                                                best_combined_score = trial["Combined Score"]
-                                                best_for_combined = trial["Temperature"]
-                                    
-                                    if best_for_combined:
-                                        st.success(f"Best temperature for Combined Score: {best_for_combined} (Score: {best_combined_score:.2f}%)")
-                                        
-                                        # Plot temperature vs. combined score
-                                        fig, ax = plt.subplots(figsize=(10, 5))
-                                        
-                                        # Extract data for plotting
-                                        temps = [float(t["Temperature"]) for t in trials_data if "Combined Score" in t]
-                                        scores = [t["Combined Score"] for t in trials_data if "Combined Score" in t]
-                                        
-                                        if temps and scores:
-                                            # Sort by temperature for proper line chart
-                                            temp_score = sorted(zip(temps, scores), key=lambda x: x[0])
-                                            temps = [t[0] for t in temp_score]
-                                            scores = [t[1] for t in temp_score]
-                                            
-                                            ax.plot(temps, scores, 'o-', linewidth=2, markersize=8)
-                                            ax.set_xlabel('Temperature')
-                                            ax.set_ylabel('Combined Score (%)')
-                                            ax.set_title('Temperature vs. Combined Score')
-                                            ax.grid(True, linestyle='--', alpha=0.7)
-                                            
-                                            # Highlight best point
-                                            best_temp_val = float(best_for_combined)
-                                            if best_temp_val in temps:
-                                                idx = temps.index(best_temp_val)
-                                                ax.plot(best_temp_val, scores[idx], 'ro', markersize=10)
-                                                ax.annotate(f'Best: {best_temp_val}',
-                                                        xy=(best_temp_val, scores[idx]),
-                                                        xytext=(10, 10),
-                                                        textcoords='offset points',
-                                                        arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=.2'))
-                                            
-                                            st.pyplot(fig)
-                                        else:
-                                            st.warning("No valid data to plot for Combined Score")
-                                    else:
-                                        st.info("No best temperature found for Combined Score")
-                            
-                            # Create a line chart showing all metrics vs temperature
-                            st.subheader("All Metrics vs Temperature")
-                            try:
-                                # Convert to proper format for plotting
-                                plot_data = trials_df.melt('Temperature', var_name='Metric', value_name='Score')
-                                
-                                # Filter out non-numeric values and Combined Score
-                                plot_data = plot_data[plot_data['Metric'] != 'Combined Score']
-                                plot_data['Score'] = pd.to_numeric(plot_data['Score'], errors='coerce')
-                                plot_data = plot_data.dropna(subset=['Score'])
-                                
-                                if not plot_data.empty:
-                                    fig, ax = plt.subplots(figsize=(12, 6))
-                                    
-                                    # Convert temperature to numeric for proper plotting
-                                    plot_data['Temperature'] = pd.to_numeric(plot_data['Temperature'], errors='coerce')
-                                    
-                                    for metric in plot_data['Metric'].unique():
-                                        metric_data = plot_data[plot_data['Metric'] == metric]
-                                        metric_data = metric_data.sort_values('Temperature')
-                                        ax.plot(metric_data['Temperature'], metric_data['Score'], 'o-', linewidth=2, label=metric)
-                                    
-                                    ax.set_xlabel('Temperature')
-                                    ax.set_ylabel('Score (%)')
-                                    ax.set_title('Temperature Impact on All Metrics')
-                                    ax.grid(True, linestyle='--', alpha=0.7)
-                                    ax.legend(loc='best')
-                                    
-                                    st.pyplot(fig)
-                                else:
-                                    st.warning("No valid numeric data for plotting")
-                            except Exception as e:
-                                st.error(f"Error generating combined plot: {str(e)}")
-                        else:
-                            st.info("No tuning trial data available")
-                    else:
-                        st.info("No parameter tuning trials data available. Make sure tuning is enabled in the configuration.")
-                else:
-                    st.info("Enable parameter tuning and complete evaluation to view tuning results")
+            
 def text2sql_ui():
     import os
     import matplotlib.pyplot as plt
