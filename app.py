@@ -4238,6 +4238,13 @@ def text2sql_ui_mm():
                             
                             # Rerun to show the spinner
                             st.rerun()
+
+            # Tab for Best Parameter                 
+            with tabs[tab_mapping["best_parameter"]]:
+                create_best_parameter_tab()
+
+
+            # Tab for Cost Estimation                 
             with tabs[tab_mapping["cost_estimation"]]:  # Assuming this is the seventh tab (index 6)
                 st.header("Cost Estimation")
                 
@@ -4386,51 +4393,6 @@ def text2sql_ui_mm():
                         """)
                     else:
                         st.warning("Please select at least one model for cost estimation")
-            with tabs[tab_mapping["best_parameter"]]:
-                create_best_parameter_tab()
-            with tabs[tab_mapping["sample_queries"]]:
-                if "sample_queries" in st.session_state and st.session_state.sample_queries:
-                    st.subheader("Sampled Queries with Per-Query Metrics")
-                    
-                    for i, response in enumerate(st.session_state.sample_queries):
-                        st.markdown(f"### Query {i + 1}")
-                        st.markdown(f"**Question:** {response['question']}")
-
-                        col1, col2 = st.columns(2)
-                        with col1:
-                            st.markdown("**Generated SQL:**")
-                            st.code(response.get("generated_sql", "N/A"), language="sql")
-
-                        with col2:
-                            st.markdown("**Gold SQL:**")
-                            st.code(response.get("gold_sql", "N/A"), language="sql")
-
-                        # Display latency and confidence (if present)
-                        extra_cols = st.columns(2)
-                        if "latency" in response:
-                            extra_cols[0].metric("Latency", f"{response['latency']:.3f}s")
-                        if "confidence" in response:
-                            extra_cols[1].metric("Confidence", f"{response['confidence']:.2f}")
-
-                        # Display selected metrics
-                        st.markdown("**Evaluation Metrics:**")
-                        metric_cols = st.columns(len(selected_metrics))
-                        for idx, metric in enumerate(selected_metrics):
-                            display_name = available_metrics.get(metric, metric)
-                            score = response.get(f"{metric}_rate") or response.get(metric)
-                            if score is not None:
-                                try:
-                                    value = float(score)
-                                    metric_cols[idx].metric(display_name, f"{value:.2f}%")
-                                except (ValueError, TypeError):
-                                    metric_cols[idx].metric(display_name, str(score))
-                            else:
-                                metric_cols[idx].metric(display_name, "N/A")
-
-                        st.markdown("---")
-                else:
-                    st.info("No sampled queries available. Please run the evaluation.")
-
 
             # Tab for Evaluation Results
             with tabs[tab_mapping["evaluation_results"]]:
@@ -4486,31 +4448,60 @@ def text2sql_ui_mm():
                             "Avg. Latency (s)": round(sum(r["latency"] for r in responses) / len(responses), 3)
                         }
                         
-                        # Add selected metrics
-                        for metric in selected_metrics:
-                            rate_key = f"{metric}_rate"
-                            if rate_key in metrics:
-                                value = metrics[rate_key]
-                                # Convert any objects to string to prevent type errors
-                                if not isinstance(value, (str, int, float, bool)):
-                                    value = str(value)
-                                if isinstance(value, float):
-                                    model_metrics[available_metrics[metric]] = f"{value:.2f}%"
-                                else:
-                                    model_metrics[available_metrics[metric]] = str(value)
-                            elif metric in metrics:
-                                value = metrics[metric]
-                                if not isinstance(value, (str, int, float, bool)):
-                                    value = str(value)
-                                if isinstance(value, float):
-                                    model_metrics[available_metrics[metric]] = f"{value:.2f}%"
-                                else:
-                                    model_metrics[available_metrics[metric]] = str(value)
+                        # # Add selected metrics
+                        # for metric in selected_metrics:
+                        #     rate_key = f"{metric}_rate"
+                        #     if rate_key in metrics:
+                        #         value = metrics[rate_key]
+                        #         # Convert any objects to string to prevent type errors
+                        #         if not isinstance(value, (str, int, float, bool)):
+                        #             value = str(value)
+                        #         if isinstance(value, float):
+                        #             model_metrics[available_metrics[metric]] = f"{value:.2f}%"
+                        #         else:
+                        #             model_metrics[available_metrics[metric]] = str(value)
+                        #     elif metric in metrics:
+                        #         value = metrics[metric]
+                        #         if not isinstance(value, (str, int, float, bool)):
+                        #             value = str(value)
+                        #         if isinstance(value, float):
+                        #             model_metrics[available_metrics[metric]] = f"{value:.2f}%"
+                        #         else:
+                        #             model_metrics[available_metrics[metric]] = str(value)
                         
-                        metrics_data.append(model_metrics)
+                        # metrics_data.append(model_metrics)
+
+
+                        # Modified metrics table creation   (NEW ADD)
+                        metrics_data = []
+                        for model_name, eval_data in st.session_state.sql_evaluation_results.items():
+                            metrics = eval_data["metrics"]
+                            responses = eval_data["responses"]
+                            
+                            model_metrics = {
+                                "Model": model_name,
+                                "Temperature": model_configs[model_name]["temperature"],
+                                "Samples": len(responses),
+                                "Avg. Latency (s)": round(sum(r["latency"] for r in responses) / len(responses), 3)
+                            }
+                            
+                            # Modified metric handling
+                            for metric_key in selected_metrics:
+                                metric_obj = metric_registry.get_metrics_for_task("sql")[metric_key]
+                                rate_key = f"{metric_key}_rate"
+                                
+                                value = metrics.get(rate_key) or metrics.get(metric_key)
+                                model_metrics[metric_obj.name] = f"{float(value):.2f}%" if isinstance(value, (int, float)) else str(value)
+                            
+                            metrics_data.append(model_metrics)
                     
-                    # Create DataFrame with dynamic columns
-                    columns_order = ["Model","Temperature"] + [available_metrics[m] for m in selected_metrics] + ["Avg. Latency (s)", "Samples"]
+                    # # Create DataFrame with dynamic columns
+                    # columns_order = ["Model","Temperature"] + [available_metrics[m] for m in selected_metrics] + ["Avg. Latency (s)", "Samples"]
+
+                    # Create columns order with proper names
+                    columns_order = ["Model", "Temperature"] + \
+                    [metric_registry.get_metrics_for_task("sql")[m].name for m in selected_metrics] + \
+                    ["Avg. Latency (s)", "Samples"]
                     
                     # Filter columns to only those that exist in the dataframe
                     metrics_df = pd.DataFrame(metrics_data)
@@ -4524,7 +4515,7 @@ def text2sql_ui_mm():
 
                 else:
                     st.info("Running evaluation..." if st.session_state.sql_running else "Run evaluation to see results")
-            # Tab for Model Comparison Charts
+            
             
                 
             # Tab for Model Comparison Charts
@@ -4567,72 +4558,141 @@ def text2sql_ui_mm():
                         
                         comparison_data.append(entry)
                     
-                    # Create DataFrame and rename columns
+                    # Create DataFrame and rename columns   (ADD NEW)
+                    rename_dict = {f"{metric_key}_rate": metric_registry.get_metrics_for_task("sql")[metric_key].name
+                    for metric_key in selected_metrics}
                     df = pd.DataFrame(comparison_data)
-                    rename_dict = {f"{metric}_rate": available_metrics[metric] for metric in selected_metrics}
+                    # rename_dict = {f"{metric}_rate": available_metrics[metric] for metric in selected_metrics}
                     df.rename(columns=rename_dict, inplace=True)
+
+
+                    # Get valid metric display names that exist in DataFrame   (ADD NEW)
+                    valid_metrics = [
+                        metric_registry.get_metrics_for_task("sql")[m].name 
+                        for m in selected_metrics if f"{m}_rate" in df.columns or m in df.columns]
                     
-                    # Plotting
-                    if len(selected_metrics) > 0 and not df.empty:
+                    # # Plotting
+                    # if len(selected_metrics) > 0 and not df.empty:
+                    #     try:
+                    #         # Create individual bar charts for each metric
+                    #         st.subheader("Individual Metric Performance")
+                    #         metric_cols = [available_metrics[m] for m in selected_metrics if f"{m}_rate" in df.columns or available_metrics[m] in df.columns]
+                            
+                    #         # Only proceed if we have valid metric columns
+                    #         if metric_cols:
+                    #             # Make sure DataFrame has all required columns
+                    #             for col in metric_cols:
+                    #                 if col not in df.columns:
+                    #                     df[col] = 0.0
+                                
+                                
+                    #             toggle_label = "Hide Detailed Metrics" if st.session_state.show_detailed_metrics else "See All Metrics in Detail"
+                    #             if st.button(toggle_label):
+                    #                 st.session_state.show_detailed_metrics = not st.session_state.show_detailed_metrics
+
+                    #             if st.session_state.show_detailed_metrics:
+                    #                 # Create a separate chart for each metric
+                    #                 for metric_col in metric_cols:
+                    #                     fig, ax = plt.subplots(figsize=(10, 5))
+                    #                     df.plot.bar(x='Model', y=metric_col, ax=ax, color='skyblue', legend=False)
+                    #                     ax.set_title(f"{metric_col} by Model")
+                    #                     ax.set_ylabel(f"{metric_col} Score (%)")
+                    #                     ax.grid(True, linestyle='--', alpha=0.7)
+                    #                     plt.xticks(rotation=45, ha='right')
+                    #                     plt.tight_layout()
+                    #                     st.pyplot(fig)
+      
+                #                 # Combined view
+                #                 st.subheader("Combined Metrics View")
+                #                 fig, ax = plt.subplots(figsize=(12, 6))
+                #                 df.set_index("Model")[metric_cols].plot.bar(ax=ax)
+                #                 ax.set_title("Model Performance Comparison")
+                #                 ax.set_ylabel("Score (%)")
+                #                 ax.grid(True, linestyle='--', alpha=0.7)
+                #                 plt.xticks(rotation=45, ha='right')
+                #                 plt.tight_layout()
+                #                 st.pyplot(fig)
+                                
+                #                 # Latency comparison chart
+                #                 st.subheader("Latency Comparison")
+                #                 fig, ax = plt.subplots(figsize=(10, 5))
+                #                 df.plot.bar(x='Model', y='Avg. Latency (s)', ax=ax, color='coral', legend=False)
+                #                 ax.set_title("Average Latency by Model")
+                #                 ax.set_ylabel("Time (seconds)")
+                #                 ax.grid(True, linestyle='--', alpha=0.7)
+                #                 plt.xticks(rotation=45, ha='right')
+                #                 plt.tight_layout()
+                #                 st.pyplot(fig)
+                #             else:
+                #                 st.warning("No valid metrics available for plotting")
+                #         except Exception as e:
+                #             st.error(f"Error generating plot: {str(e)}")
+                #             st.write("Comparison data:", df)
+                #     else:
+                #         st.warning("No metrics selected for comparison or no data available")
+                # else:
+                #     st.info("Complete evaluation to view model comparison charts")
+
+
+                # Plotting    (ADD NEW)
+                    if valid_metrics:
                         try:
                             # Create individual bar charts for each metric
                             st.subheader("Individual Metric Performance")
-                            metric_cols = [available_metrics[m] for m in selected_metrics if f"{m}_rate" in df.columns or available_metrics[m] in df.columns]
-                            
+
                             # Only proceed if we have valid metric columns
-                            if metric_cols:
+                            if valid_metrics:
                                 # Make sure DataFrame has all required columns
-                                for col in metric_cols:
+                                for col in valid_metrics:
                                     if col not in df.columns:
                                         df[col] = 0.0
-                                
-                                
+                            
                                 toggle_label = "Hide Detailed Metrics" if st.session_state.show_detailed_metrics else "See All Metrics in Detail"
                                 if st.button(toggle_label):
                                     st.session_state.show_detailed_metrics = not st.session_state.show_detailed_metrics
 
                                 if st.session_state.show_detailed_metrics:
-                                    # Create a separate chart for each metric
-                                    for metric_col in metric_cols:
+                                    # Create charts for each valid metric
+                                    for metric_display_name in valid_metrics:
                                         fig, ax = plt.subplots(figsize=(10, 5))
-                                        df.plot.bar(x='Model', y=metric_col, ax=ax, color='skyblue', legend=False)
-                                        ax.set_title(f"{metric_col} by Model")
-                                        ax.set_ylabel(f"{metric_col} Score (%)")
-                                        ax.grid(True, linestyle='--', alpha=0.7)
-                                        plt.xticks(rotation=45, ha='right')
-                                        plt.tight_layout()
+                                        df.plot.bar(x='Model', y=metric_display_name, ax=ax)
+                                        ax.set_title(f"{metric_display_name} Comparison")
+                                        ax.set_ylabel("Score (%)")
+                                        plt.xticks(rotation=45)
                                         st.pyplot(fig)
+                
+                            # Combined view
+                            st.subheader("Combined Metrics View")
+                            fig, ax = plt.subplots(figsize=(12, 6))
+                            df.set_index("Model")[valid_metrics].plot.bar(ax=ax)
+                            ax.set_title("Model Performance Comparison")
+                            ax.set_ylabel("Score (%)")
+                            ax.grid(True, linestyle='--', alpha=0.7)
+                            plt.xticks(rotation=45, ha='right')
+                            plt.tight_layout()
+                            st.pyplot(fig)
                                 
-                                # Combined view
-                                st.subheader("Combined Metrics View")
-                                fig, ax = plt.subplots(figsize=(12, 6))
-                                df.set_index("Model")[metric_cols].plot.bar(ax=ax)
-                                ax.set_title("Model Performance Comparison")
-                                ax.set_ylabel("Score (%)")
-                                ax.grid(True, linestyle='--', alpha=0.7)
-                                plt.xticks(rotation=45, ha='right')
-                                plt.tight_layout()
-                                st.pyplot(fig)
-                                
-                                # Latency comparison chart
-                                st.subheader("Latency Comparison")
-                                fig, ax = plt.subplots(figsize=(10, 5))
-                                df.plot.bar(x='Model', y='Avg. Latency (s)', ax=ax, color='coral', legend=False)
-                                ax.set_title("Average Latency by Model")
-                                ax.set_ylabel("Time (seconds)")
-                                ax.grid(True, linestyle='--', alpha=0.7)
-                                plt.xticks(rotation=45, ha='right')
-                                plt.tight_layout()
-                                st.pyplot(fig)
-                            else:
-                                st.warning("No valid metrics available for plotting")
+                            # Latency comparison chart
+                            st.subheader("Latency Comparison")
+                            fig, ax = plt.subplots(figsize=(10, 5))
+                            df.plot.bar(x='Model', y='Avg. Latency (s)', ax=ax, color='coral', legend=False)
+                            ax.set_title("Average Latency by Model")
+                            ax.set_ylabel("Time (seconds)")
+                            ax.grid(True, linestyle='--', alpha=0.7)
+                            plt.xticks(rotation=45, ha='right')
+                            plt.tight_layout()
+                            st.pyplot(fig)
+                            # else:
+                            #     st.warning("No valid metrics available for plotting")
                         except Exception as e:
                             st.error(f"Error generating plot: {str(e)}")
                             st.write("Comparison data:", df)
                     else:
-                        st.warning("No metrics selected for comparison or no data available")
+                       st.warning("No metrics selected for comparison or no data available")
                 else:
                     st.info("Complete evaluation to view model comparison charts")
+
+
 
             # Tab for Best Model Details
             with tabs[tab_mapping["best_model"]]:
@@ -4665,35 +4725,36 @@ def text2sql_ui_mm():
                     cols = st.columns(num_cols)
                     
                     # Add selected metrics
-                    for idx, metric in enumerate(selected_metrics):
+                    for idx, metric_key in enumerate(selected_metrics):
                         if idx < len(cols):  # Safety check
+                            try:
+                                metric_obj = metric_registry.get_metrics_for_task("sql")[metric_key]
+                            except KeyError:
+                                st.error(f"Metric '{metric_key}' not found in registry")
+                                continue
                             rate_key = f"{metric}_rate"
+                            value = None
+
                             if rate_key in metrics:
+                                value = metrics[rate_key]
                                 # Ensure value is a number or convert to string
                                 try:
-                                    value = float(metrics[rate_key])
-                                    cols[idx].metric(
-                                        str(available_metrics[metric]), 
-                                        f"{value:.2f}%"
-                                    )
+                                    value = float(value)
+                                    cols[idx].metric(metric_obj.name, f"{value:.2f}%")
                                 except (ValueError, TypeError):
-                                    cols[idx].metric(
-                                        str(available_metrics[metric]), 
-                                        str(metrics[rate_key])
-                                    )
-                            elif metric in metrics:
+                                    cols[idx].metric(metric_obj.name, str(value))
+                            elif metric_key in metrics:
+                                value = metrics[metric_key]
                                 # Always convert to string to avoid type errors
                                 try:
-                                    value = float(metrics[metric])
-                                    cols[idx].metric(
-                                        str(available_metrics[metric]), 
-                                        f"{value:.2f}%"
-                                    )
+                                    value = float(value)
+                                    cols[idx].metric(metric_obj.name, f"{value:.2f}%")
                                 except (ValueError, TypeError):
-                                    cols[idx].metric(
-                                        str(available_metrics[metric]), 
-                                        str(metrics[metric])
-                                    )
+                                    cols[idx].metric(metric_obj.name, str(value))
+                            
+                            # Handle missing values
+                            else:
+                                cols[idx].metric(metric_obj.name, "N/A")
                     
                     # Add latency in last column
                     if len(cols) > 0 and len(selected_metrics) < len(cols):  # Safety check
@@ -4708,14 +4769,24 @@ def text2sql_ui_mm():
                         labels = []
                         values = []
                         
-                        for metric in selected_metrics:
+                        for metric_key in selected_metrics:
+                            try:
+                                metric_obj = metric_registry.get_metrics_for_task("sql")[metric_key]
+                            except KeyError:
+                                st.error(f"Metric {metric_key} not found in registry")
+                                continue
                             rate_key = f"{metric}_rate"
+                            value = None
+
                             if rate_key in metrics and isinstance(metrics[rate_key], (int, float)):
-                                labels.append(available_metrics[metric])
-                                values.append(metrics[rate_key])
+                                value = metrics[rate_key]
                             elif metric in metrics and isinstance(metrics[metric], (int, float)):
-                                labels.append(available_metrics[metric])
-                                values.append(metrics[metric])
+                                value = metrics[metric_key]
+
+                            # Only add valid numerical values
+                            if value is not None:
+                                labels.append(metric_obj.name)  # Use official name from registry
+                                values.append(value)
                         
                         if labels and values:
                             fig = plt.figure(figsize=(8, 8))
@@ -4748,24 +4819,60 @@ def text2sql_ui_mm():
                         else:
                             st.info("Not enough numerical metrics available for radar chart visualization")
                     
-                    # Sample responses section
-                    st.subheader("Sample Responses")
-                    with st.expander("View Sample Queries", expanded=False):
-                        for i, response in enumerate(responses[:5]):  # Show 5 samples
-                            st.markdown(f"**Query {i+1}:** {response['question'][:100]}...")
-                            
-                            col1, col2 = st.columns(2)
-                            with col1:
-                                st.markdown("**Generated SQL:**")
-                                st.code(response["generated_sql"], language="sql")
-                            
-                            with col2:
-                                st.markdown("**Gold SQL:**")
-                                st.code(response["gold_sql"], language="sql")
-                            
-                            st.markdown("---")
+                    # Show confidence distribution
+                    with st.expander("View Confidence Distribution", expanded=False):
+                        st.subheader("Confidence Distribution")
+                        confidences = [r["confidence"] for r in responses]
+                        
+                        fig, ax = plt.subplots(figsize=(10, 5))
+                        ax.hist(confidences, bins=10, alpha=0.7)
+                        ax.set_xlabel('Confidence')
+                        ax.set_ylabel('Count')
+                        ax.grid(True, linestyle='--', alpha=0.7)
+                        st.pyplot(fig)
+
                 else:
                     st.info("Complete evaluation to view best model details")
+
+            
+            # Tab for Sample Queries
+            with tabs[tab_mapping["sample_queries"]]:
+                if st.session_state.sql_evaluation_results:
+                    st.header("Sample Query Results")
+                    
+                    # Model selector for viewing samples
+                    model_to_view = st.selectbox(
+                        "Select model to view samples",
+                        list(st.session_state.sql_evaluation_results.keys()),
+                        key="sql_model_selector"
+                    )
+                    
+                    if model_to_view:
+                        responses = st.session_state.sql_evaluation_results[model_to_view]["responses"]
+
+                        for i, response in enumerate(responses[:10]):  # Show 10 samples
+                                st.markdown(f"**Question:** {response['question']}...")
+                                
+                                col1, col2 = st.columns(2)
+                                with col1:
+                                    st.markdown("**Generated SQL:**")
+                                    st.code(response["generated_sql"], language="sql")
+                                
+                                with col2:
+                                    st.markdown("**Gold SQL:**")
+                                    st.code(response["gold_sql"], language="sql")
+
+                               # Display latency and confidence (if present)
+                                extra_cols = st.columns(2)
+                                if "latency" in response:
+                                    extra_cols[0].metric("Latency", f"{response['latency']:.3f}s")
+                                if "confidence" in response:
+                                    extra_cols[1].metric("Confidence", f"{response['confidence']:.2f}")
+                                
+                                st.markdown("---")
+
+                else:
+                    st.info("Running evaluation..." if st.session_state.sql_running else "Run evaluation to see sample queries")
 
             
 def text2sql_ui():

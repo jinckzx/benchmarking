@@ -37,7 +37,9 @@ class MetricRegistry:
 
                     # db_root_path="D:/data_sci/benchmarking_tool/dataset/spider_data/spider_data/database"
 
-                    db_root_path = "D:/data_sci/version3/benchmarking_tool/dataset/spider_data/spider_data/database"
+                    # db_root_path = "D:/data_sci/version3/benchmarking_tool/dataset/spider_data/spider_data/database"
+
+                    db_root_path = "C:/Users/NikhilJain/OneDrive - Info Origin Technologies Pvt Ltd/Desktop/Info Origin/LLM_Benchmarking/05/benchmarking_tool/dataset/spider_data/spider_data/database"
                 ),
                 "component_match":SQLComponentMatch(),
                 "anmol": SQLAnmol(),

@@ -37565,3 +37565,293 @@ the first query groups the results by `cust_name` and calculates the total accou
 the second query simply sums the account balances for all customers in utah or texas without grouping by customer name, returning only a single total value. 
 
 thus, they do not have the same columns or the same clauses used.
+2025-05-17 23:25:10 - llm_consortium - INFO - sql_model_runner:370 - Initialized with metrics: ['execution_match', 'vaibhav', 'abc1234']
+2025-05-17 23:25:10 - llm_consortium - INFO - sql_model_runner:644 - Starting evaluation for gpt-4o-mini
+2025-05-17 23:25:10 - llm_consortium - INFO - sql_model_runner:644 - Starting evaluation for gpt-3.5-turbo
+2025-05-17 23:25:10 - llm_consortium - INFO - sql_model_runner:663 - Model gpt-4o-mini evaluation complete
+2025-05-17 23:25:10 - llm_consortium - INFO - sql_model_runner:663 - Model gpt-3.5-turbo evaluation complete
+2025-05-17 23:25:10 - llm_consortium - INFO - sql_model_runner:686 - Tuning hyperparameters for gpt-4o-mini
+2025-05-17 23:25:10 - llm_consortium - INFO - hyperparameter_tuner:252 - Starting hyperparameter tuning for gpt-4o-mini
+2025-05-17 23:25:10 - llm_consortium - INFO - hyperparameter_tuner:225 - Temperature 0.0: Collected 0 valid results
+2025-05-17 23:25:10 - llm_consortium - WARNING - hyperparameter_tuner:234 - Temperature 0.0: No valid results collected
+2025-05-17 23:25:10 - llm_consortium - INFO - hyperparameter_tuner:225 - Temperature 0.4: Collected 0 valid results
+2025-05-17 23:25:10 - llm_consortium - WARNING - hyperparameter_tuner:234 - Temperature 0.4: No valid results collected
+2025-05-17 23:25:10 - llm_consortium - INFO - hyperparameter_tuner:225 - Temperature 0.8: Collected 0 valid results
+2025-05-17 23:25:10 - llm_consortium - WARNING - hyperparameter_tuner:234 - Temperature 0.8: No valid results collected
+2025-05-17 23:25:10 - llm_consortium - INFO - sql_model_runner:724 - Complete tuning results:
+2025-05-17 23:25:10 - llm_consortium - WARNING - app:3791 - No best temperature found, using default temperature
+2025-05-17 23:31:40 - llm_consortium - INFO - sql_model_runner:372 - Initialized with metrics: ['execution_match', 'vaibhav', 'abc1234']
+2025-05-17 23:31:40 - llm_consortium - INFO - sql_model_runner:646 - Starting evaluation for gpt-4o-mini
+2025-05-17 23:31:40 - llm_consortium - INFO - sql_model_runner:646 - Starting evaluation for gpt-3.5-turbo
+2025-05-17 23:31:42 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT Fname
+FROM Student
+WHERE Age > 22; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:42 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT artist_name
+FROM song
+WHERE duration = (SELECT MIN(duration) FROM files); is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:42 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT DISTINCT c.Leader_Name
+FROM college c
+JOIN member m ON c.College_ID = m.College_ID
+WHERE m.Country = 'Canada'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT COUNT(*) 
+FROM company 
+WHERE Headquarters = 'USA'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(DISTINCT party_id) > 3; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT Document_Type_Name, Document_Type_Description
+FROM Ref_Document_Types
+WHERE Document_Type_Code = 'RV'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT invoice_number
+FROM Invoices
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT "Player", "Season", "Name"
+FROM "match_season"
+JOIN "team" ON "match_season"."Team" = "team"."Team_id"; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT cust_name, SUM(acc_bal) AS total_account_balance
+FROM customer
+WHERE state IN ('Utah', 'Texas')
+GROUP BY cust_name; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT f_id
+FROM song
+WHERE f_id IN (SELECT f_id FROM files WHERE formats = 'mp4') OR resolution > 720; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the No SQL detected is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT cName
+FROM College
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT "Category", COUNT("Category") AS "Category_Count"
+FROM "music_festival"
+GROUP BY "Category"
+HAVING COUNT("Category") > 1; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT m."Time_of_purchase", m."Age", m."Address"
+FROM "member" m
+ORDER BY m."Time_of_purchase"; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT artist_name 
+FROM song 
+WHERE duration = (SELECT MIN(duration) FROM song); is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT Fname FROM Student WHERE Age > 22; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT cName 
+FROM College 
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT supplier_name, supplier_phone
+FROM Suppliers
+JOIN Supplier_Addresses ON Suppliers.supplier_id = Supplier_Addresses.supplier_id
+JOIN Addresses ON Supplier_Addresses.address_id = Addresses.address_id
+ORDER BY Addresses.address_details; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT DISTINCT c.Leader_Name
+FROM college c
+JOIN member m ON c.College_ID = m.College_ID
+WHERE m.Country = 'Canada'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT DISTINCT Nurse.Name
+FROM Nurse
+JOIN On_Call ON Nurse.EmployeeID = On_Call.Nurse; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT COUNT(*) 
+FROM company 
+WHERE Headquarters = 'USA'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT p.Player, ms.Season, t.Name AS Team
+FROM player p
+JOIN team t ON p.Team = t.Team_id
+JOIN match_season ms ON p.Team = ms.Team; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT Time_of_purchase, Age, Address 
+FROM member 
+ORDER BY Time_of_purchase; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT invoice_number 
+FROM Invoices 
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT Category
+FROM music_festival
+GROUP BY Category
+HAVING COUNT(*) > 1; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT SUM(acc_bal) AS total_account_balance
+FROM customer
+WHERE state IN ('Utah', 'Texas'); is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:43 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:44 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT s.f_id 
+FROM song s 
+JOIN files f ON s.f_id = f.f_id 
+WHERE f.formats = 'mp4' OR s.resolution > 720; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:44 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:44 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:44 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT Document_Type_Name, Document_Type_Description 
+FROM Ref_Document_Types 
+WHERE Document_Type_Code = 'RV'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:44 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:44 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:44 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(party_id) > 3; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:44 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:44 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:44 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:44 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:44 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:44 - llm_consortium - INFO - abc1234:97 - LLM response: yes.
+2025-05-17 23:31:44 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:44 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:44 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:44 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:44 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:44 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:44 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:44 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:44 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:44 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:44 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:45 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:45 - llm_consortium - INFO - abc1234:97 - LLM response: yes.
+2025-05-17 23:31:45 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT s.supplier_name, s.supplier_phone
+FROM Suppliers s
+JOIN Supplier_Addresses sa ON s.supplier_id = sa.supplier_id
+JOIN Addresses a ON sa.address_id = a.address_id
+ORDER BY a.address_details; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:46 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:46 - llm_consortium - INFO - sql_model_runner:665 - Model gpt-4o-mini evaluation complete
+2025-05-17 23:31:46 - llm_consortium - INFO - sql_model_runner:665 - Model gpt-3.5-turbo evaluation complete
+2025-05-17 23:31:46 - llm_consortium - INFO - sql_model_runner:688 - Tuning hyperparameters for gpt-3.5-turbo
+2025-05-17 23:31:46 - llm_consortium - INFO - hyperparameter_tuner:252 - Starting hyperparameter tuning for gpt-3.5-turbo
+2025-05-17 23:31:47 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT Document_Type_Name, Document_Type_Description
+FROM Ref_Document_Types
+WHERE Document_Type_Code = 'RV'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:47 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT cName
+FROM College
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:48 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:48 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:49 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT Fname
+FROM Student
+WHERE Age > 22; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:49 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT supplier_name, supplier_phone
+FROM Suppliers
+JOIN Supplier_Addresses ON Suppliers.supplier_id = Supplier_Addresses.supplier_id
+JOIN Addresses ON Supplier_Addresses.address_id = Addresses.address_id
+ORDER BY Addresses.address_details ASC; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:49 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT "Category", COUNT("Category") AS "Category_Count"
+FROM "music_festival"
+GROUP BY "Category"
+HAVING COUNT("Category") > 1; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:49 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:50 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:50 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:50 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT artist_name 
+FROM song
+WHERE duration = (SELECT MIN(duration) FROM files); is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:51 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT invoice_number
+FROM Invoices
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:51 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(DISTINCT party_id) > 3; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:51 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:52 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:52 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:52 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT "Player", "Season", team."Name" AS "Team"
+FROM "match_season"
+JOIN team ON match_season."Team" = team."Team_id"; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:52 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT COUNT(*) 
+FROM company 
+WHERE Headquarters = 'USA'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:53 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT DISTINCT c.Leader_Name
+FROM college c
+JOIN member m ON c.College_ID = m.College_ID
+WHERE m.Country = 'Canada'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:53 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:53 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:53 - llm_consortium - INFO - hyperparameter_tuner:225 - Temperature 0.4: Collected 4 valid results
+2025-05-17 23:31:53 - llm_consortium - INFO - hyperparameter_tuner:232 - Temperature 0.4: Metrics: {'execution_match_rate': np.float64(75.0), 'confidence': np.float64(0.95), 'select_match': np.float64(0.0), 'where_match': np.float64(0.5), 'group_by_match': np.float64(0.75), 'order_by_match': np.float64(0.75), 'vaibhav': np.float64(0.5), 'abc1234': np.float64(0.0)}
+2025-05-17 23:31:53 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:54 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT cName
+FROM College
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:54 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:54 - llm_consortium - INFO - hyperparameter_tuner:225 - Temperature 0.8: Collected 5 valid results
+2025-05-17 23:31:54 - llm_consortium - INFO - hyperparameter_tuner:232 - Temperature 0.8: Metrics: {'execution_match_rate': np.float64(40.0), 'confidence': np.float64(0.93), 'select_match': np.float64(0.0), 'where_match': np.float64(0.2), 'group_by_match': np.float64(1.0), 'order_by_match': np.float64(0.8), 'vaibhav': np.float64(0.5), 'abc1234': np.float64(0.0)}
+2025-05-17 23:31:55 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT supplier_name, supplier_phone
+FROM Suppliers
+JOIN Supplier_Addresses ON Suppliers.supplier_id = Supplier_Addresses.supplier_id
+JOIN Addresses ON Supplier_Addresses.address_id = Addresses.address_id
+ORDER BY Addresses.address_details; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:55 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:31:55 - llm_consortium - INFO - hyperparameter_tuner:225 - Temperature 0.0: Collected 4 valid results
+2025-05-17 23:31:55 - llm_consortium - INFO - hyperparameter_tuner:232 - Temperature 0.0: Metrics: {'execution_match_rate': np.float64(75.0), 'confidence': np.float64(0.95), 'select_match': np.float64(0.0), 'where_match': np.float64(0.5), 'group_by_match': np.float64(0.75), 'order_by_match': np.float64(0.75), 'vaibhav': np.float64(0.5), 'abc1234': np.float64(0.0)}
+2025-05-17 23:31:55 - llm_consortium - INFO - sql_model_runner:726 - Complete tuning results:
+2025-05-17 23:31:55 - llm_consortium - INFO - sql_model_runner:728 - execution_match_rate: Best temp 0.0 (75.00)
+2025-05-17 23:31:55 - llm_consortium - INFO - sql_model_runner:728 - confidence: Best temp 0.8 (0.93)
+2025-05-17 23:31:55 - llm_consortium - INFO - sql_model_runner:728 - select_match: Best temp 0.0 (0.00)
+2025-05-17 23:31:55 - llm_consortium - INFO - sql_model_runner:728 - where_match: Best temp 0.8 (0.20)
+2025-05-17 23:31:55 - llm_consortium - INFO - sql_model_runner:728 - group_by_match: Best temp 0.0 (0.75)
+2025-05-17 23:31:55 - llm_consortium - INFO - sql_model_runner:728 - order_by_match: Best temp 0.0 (0.75)
+2025-05-17 23:31:55 - llm_consortium - INFO - sql_model_runner:728 - vaibhav: Best temp 0.0 (0.50)
+2025-05-17 23:31:55 - llm_consortium - INFO - sql_model_runner:728 - abc1234: Best temp 0.0 (0.00)
+2025-05-17 23:31:55 - llm_consortium - INFO - app:3788 - Using best temperature: 0.0 for final evaluation
+2025-05-17 23:31:56 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(DISTINCT party_id) > 3; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:31:57 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:32:00 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT f_id
+FROM files
+WHERE formats = 'mp4'
+OR f_id IN (SELECT f_id FROM song WHERE resolution > 720); is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:32:01 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:32:02 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT cName
+FROM College
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:32:02 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:32:04 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT supplier_name, supplier_phone
+FROM Suppliers
+JOIN Supplier_Addresses ON Suppliers.supplier_id = Supplier_Addresses.supplier_id
+JOIN Addresses ON Supplier_Addresses.address_id = Addresses.address_id
+ORDER BY Addresses.address_details; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:32:04 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:32:05 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT Fname
+FROM Student
+WHERE Age > 22; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:32:06 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:32:07 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT COUNT(*) FROM company WHERE Headquarters = 'USA'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:32:07 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:32:08 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT DISTINCT c.Leader_Name
+FROM college c
+JOIN member m ON c.College_ID = m.College_ID
+WHERE m.Country = 'Canada'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:32:09 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:32:10 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the No SQL detected is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:32:11 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:32:12 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT m."Time_of_purchase", m."Age", m."Address"
+FROM "member" m
+ORDER BY m."Time_of_purchase"; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:32:12 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:32:14 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT Document_Type_Name, Document_Type_Description
+FROM Ref_Document_Types
+WHERE Document_Type_Code = 'RV'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:32:14 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:32:16 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT artist_name
+FROM song
+WHERE duration = (SELECT MIN(duration) FROM song); is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:32:16 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:32:17 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT player.Player, match_season.Season, team.Name
+FROM player
+JOIN match_season ON player.Team = match_season.Team
+JOIN team ON player.Team = team.Team_id; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:32:18 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:32:19 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT "Category", COUNT("Category") AS "Category_Count"
+FROM "music_festival"
+GROUP BY "Category"
+HAVING COUNT("Category") > 1; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:32:19 - llm_consortium - INFO - abc1234:97 - LLM response: yes.
+2025-05-17 23:32:20 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT invoice_number
+FROM Invoices
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25'; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:32:21 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:32:22 - llm_consortium - INFO - abc1234:88 - Sending prompt: check whether the SELECT cust_name, SUM(acc_bal) AS total_account_balance
+FROM customer
+WHERE state IN ('Utah', 'Texas')
+GROUP BY cust_name; is exceeds the length limit of 20, strictly answer in yes or no.
+2025-05-17 23:32:23 - llm_consortium - INFO - abc1234:97 - LLM response: no.
