@@ -307,7 +307,14 @@ from .hyperparameter_tuner import HyperparameterTuner
 from ..client_init import llm
 
 load_dotenv()
-SCHEMA_PATH = "D:\\data_sci\\benchmarking_tool\\dataset\\spider_data\\spider_data\\database\\{db_id}\\schema.sql"
+from pathlib import Path
+
+# Get the current file's directory
+BASE_DIR = Path(__file__).resolve().parent.parent.parent  # goes from sql_with_mm → core → llm_consortium
+SCHEMA_PATH = BASE_DIR / ".." / "dataset" / "spider_data" / "spider_data" / "database" / "{db_id}" / "schema.sql"
+SCHEMA_PATH = SCHEMA_PATH.resolve()
+
+# SCHEMA_PATH = "D:\\data_sci\\benchmarking_tool\\dataset\\spider_data\\spider_data\\database\\{db_id}\\schema.sql"
 
 class SQLModelRunner:
     def __init__(self):

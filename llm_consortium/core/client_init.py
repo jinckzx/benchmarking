@@ -70,12 +70,6 @@ else:
     class OpenAIWrapper:
             
 
-        # async def chat(self, model: str, messages: list, temperature: float = 0.2):
-        #     response = await client.chat.completions.create(
-        #         model=model,
-        #         messages=messages,
-        #         temperature=temperature,
-        #     )
 
 
         async def chat(self, model, messages, **kwargs):

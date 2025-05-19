@@ -353,9 +353,7 @@ import inspect
 load_dotenv()
 # SCHEMA_PATH = "D:\\data_sci\\benchmarking_tool\\dataset\\spider_data\\spider_data\\database\\{db_id}\\schema.sql"
 
-# SCHEMA_PATH = "D:\\data_sci\\version3\\benchmarking_tool\\dataset\\spider_data\\spider_data\\database\\{db_id}\\schema.sql"
-
-SCHEMA_PATH = "C:/Users/NikhilJain/OneDrive - Info Origin Technologies Pvt Ltd/Desktop/Info Origin/LLM_Benchmarking/05/benchmarking_tool/dataset/spider_data/spider_data/database/{db_id}/schema.sql"
+SCHEMA_PATH = "D:\\data_sci\\v4\\benchmarking_tool\\dataset\\spider_data\\spider_data\\database\\{db_id}\\schema.sql"
 
 class SQLModelRunner:
     def __init__(self, selected_metrics: List[str]):

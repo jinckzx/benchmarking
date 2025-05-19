@@ -2,6 +2,14 @@
 from .exact_match import SQLExactMatch
 from .execution_match import SQLExecutionMatch
 from typing import Dict, List
+from pathlib import Path
+
+# Step 1: Resolve the base directory (benchmarking_tool/)
+# Assuming this file is located at: benchmarking_tool/llm_consortium/metrics/metrics.py
+BASE_DIR = Path(__file__).resolve().parents[2]
+
+# Step 2: Construct the relative path to the spider_data database directory
+DB_ROOT_PATH = BASE_DIR / "dataset" / "spider_data" / "spider_data" / "database"
 from .base_metrics import BaseMetric
 from .component_match import SQLComponentMatch
 from .anmol import SQLAnmol
@@ -23,6 +31,7 @@ from .from_clause import From_clauseMetric
 from .join123_check import Join123_checkMetric
 from .abc1234 import Abc1234Metric
 from .new_llmbased import New_llmbasedMetric
+from .where_clause_1705 import Where_clause_1705Metric
 
 
 
@@ -37,9 +46,8 @@ class MetricRegistry:
 
                     # db_root_path="D:/data_sci/benchmarking_tool/dataset/spider_data/spider_data/database"
 
-                    # db_root_path = "D:/data_sci/version3/benchmarking_tool/dataset/spider_data/spider_data/database"
+                    db_root_path=str(DB_ROOT_PATH)
 
-                    db_root_path = "C:/Users/NikhilJain/OneDrive - Info Origin Technologies Pvt Ltd/Desktop/Info Origin/LLM_Benchmarking/05/benchmarking_tool/dataset/spider_data/spider_data/database"
                 ),
                 "component_match":SQLComponentMatch(),
                 "anmol": SQLAnmol(),
@@ -67,6 +75,7 @@ class MetricRegistry:
                 "join123_check": Join123_checkMetric(),
                 "abc1234": Abc1234Metric(),
                 "new_llmbased": New_llmbasedMetric(),
+                "where_clause_1705": Where_clause_1705Metric(),
             }
         }
     

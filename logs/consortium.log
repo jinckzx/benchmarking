@@ -37855,3 +37855,1595 @@ FROM customer
 WHERE state IN ('Utah', 'Texas')
 GROUP BY cust_name; is exceeds the length limit of 20, strictly answer in yes or no.
 2025-05-17 23:32:23 - llm_consortium - INFO - abc1234:97 - LLM response: no.
+2025-05-17 23:51:38 - llm_consortium - INFO - sql_model_runner:370 - Initialized with metrics: ['execution_match', 'where_clause_1705', 'vaibhav']
+2025-05-17 23:51:38 - llm_consortium - INFO - sql_model_runner:644 - Starting evaluation for gpt-4o-mini
+2025-05-17 23:51:38 - llm_consortium - INFO - sql_model_runner:644 - Starting evaluation for gpt-3.5-turbo
+2025-05-17 23:51:40 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Fname
+FROM Student
+WHERE Age > 22; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:40 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT cName
+FROM College
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:40 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT time_of_purchase, age, address
+FROM member
+ORDER BY time_of_purchase; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:40 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT DISTINCT c.Leader_Name
+FROM college c
+JOIN member m ON c.College_ID = m.College_ID
+WHERE m.Country = 'Canada'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:40 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT f_id
+FROM files
+WHERE formats = 'mp4' OR resolution > 720; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:40 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Time_of_purchase, Age, Address 
+FROM member 
+ORDER BY Time_of_purchase; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:40 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT "Category", COUNT("Category") AS "Category_count"
+FROM "music_festival"
+GROUP BY "Category"
+HAVING COUNT("Category") > 1; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:40 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT DISTINCT Name
+FROM Nurse
+JOIN On_Call ON Nurse.EmployeeID = On_Call.Nurse; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:40 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT invoice_number
+FROM Invoices
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:40 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(DISTINCT party_id) > 3; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:40 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT supplier_name, supplier_phone
+FROM Suppliers
+ORDER BY supplier_id; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:40 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT cust_name, SUM(acc_bal) AS total_account_balance
+FROM customer
+WHERE state IN ('Utah', 'Texas')
+GROUP BY cust_name; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:40 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:41 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT "player"."Player", "match_season"."Season", "team"."Name"
+FROM "player"
+JOIN "match_season" ON "player"."Team" = "match_season"."Team"
+JOIN "team" ON "player"."Team" = "team"."Team_id"; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:41 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Category, COUNT(*) as Count
+FROM music_festival
+GROUP BY Category
+HAVING COUNT(*) > 1; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:41 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT SUM(acc_bal) AS total_account_balance
+FROM customer
+WHERE state IN ('Utah', 'Texas'); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:41 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT COUNT(*) 
+FROM company 
+WHERE Headquarters = 'USA'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:41 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT artist_name
+FROM song
+WHERE duration = (SELECT MIN(duration) FROM files); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:41 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT DISTINCT N.Name
+FROM Nurse N
+JOIN On_Call OC ON N.EmployeeID = OC.Nurse; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:41 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT DISTINCT c.Leader_Name
+FROM college c
+JOIN member m ON c.College_ID = m.College_ID
+WHERE m.Country = 'Canada'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:41 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT COUNT(*) 
+FROM company
+WHERE Headquarters = 'USA'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:41 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT artist_name 
+FROM song 
+WHERE duration = (SELECT MIN(duration) FROM song); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:41 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT cName 
+FROM College 
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:41 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-17 23:51:41 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Document_Type_Name, Document_Type_Description FROM Ref_Document_Types WHERE Document_Type_Code = 'RV'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:41 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:41 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT s.f_id 
+FROM song s 
+JOIN files f ON s.f_id = f.f_id 
+WHERE f.formats = 'mp4' OR s.resolution > 720; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:41 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT p.Player, ms.Season, t.Name AS Team
+FROM player p
+JOIN team t ON p.Team = t.Team_id
+JOIN match_season ms ON p.Team = ms.Team; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:41 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Document_Type_Name, Document_Type_Description 
+FROM Ref_Document_Types 
+WHERE Document_Type_Code = 'RV'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:41 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:41 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:41 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-17 23:51:41 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-17 23:51:41 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-17 23:51:41 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-17 23:51:41 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-17 23:51:41 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-17 23:51:41 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:42 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:42 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:42 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-17 23:51:42 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:42 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-17 23:51:42 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:42 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:42 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-17 23:51:42 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:42 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:42 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:42 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:42 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:42 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:42 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT invoice_number 
+FROM Invoices 
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:42 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT s.supplier_name, s.supplier_phone
+FROM Suppliers s
+JOIN Supplier_Addresses sa ON s.supplier_id = sa.supplier_id
+JOIN Addresses a ON sa.address_id = a.address_id
+ORDER BY a.address_details; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:42 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Fname FROM Student WHERE Age > 22; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:43 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:43 - llm_consortium - INFO - sql_model_runner:663 - Model gpt-3.5-turbo evaluation complete
+2025-05-17 23:51:43 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-17 23:51:43 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:49 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(party_id) > 3; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:49 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-17 23:51:49 - llm_consortium - INFO - sql_model_runner:663 - Model gpt-4o-mini evaluation complete
+2025-05-17 23:51:49 - llm_consortium - INFO - sql_model_runner:686 - Tuning hyperparameters for gpt-3.5-turbo
+2025-05-17 23:51:49 - llm_consortium - INFO - hyperparameter_tuner:252 - Starting hyperparameter tuning for gpt-3.5-turbo
+2025-05-17 23:51:50 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Fname
+FROM Student
+WHERE Age > 22; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:50 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT DISTINCT c.Leader_Name
+FROM college c
+JOIN member m ON c.College_ID = m.College_ID
+WHERE m.Country = 'Canada'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:50 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT invoice_number 
+FROM Invoices 
+WHERE invoice_date < '1989-09-03 00:00:00' OR invoice_date > '2007-12-25 23:59:59'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:51 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:51 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:51 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:52 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT COUNT(*) 
+FROM company 
+WHERE Headquarters = 'USA'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:52 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT cust_ID, cust_name, sum(acc_bal) as total_account_balance
+FROM customer
+WHERE state IN ('Utah', 'Texas')
+GROUP BY cust_ID, cust_name; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:52 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT supplier_name, supplier_phone
+FROM Suppliers
+JOIN Supplier_Addresses ON Suppliers.supplier_id = Supplier_Addresses.supplier_id
+JOIN Addresses ON Supplier_Addresses.address_id = Addresses.address_id
+ORDER BY Addresses.address_details; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:52 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:53 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:53 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-17 23:51:54 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Document_Type_Name, Document_Type_Description 
+FROM Ref_Document_Types 
+WHERE Document_Type_Code = 'RV'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:54 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT f_id
+FROM song
+WHERE f_id IN (SELECT f_id FROM files WHERE formats = 'mp4') OR resolution > 720; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:54 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Document_Type_Name, Document_Type_Description
+FROM Ref_Document_Types
+WHERE Document_Type_Code = 'RV'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:54 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:54 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:55 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:55 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT artist_name
+FROM song
+WHERE duration = (SELECT MIN(duration) FROM song); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:55 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT cName
+FROM College
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:56 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether No SQL detected has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:56 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:56 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:56 - llm_consortium - INFO - hyperparameter_tuner:225 - Temperature 0.8: Collected 4 valid results
+2025-05-17 23:51:56 - llm_consortium - INFO - hyperparameter_tuner:232 - Temperature 0.8: Metrics: {'execution_match_rate': np.float64(25.0), 'confidence': np.float64(0.9375), 'select_match': np.float64(0.0), 'where_match': np.float64(0.0), 'group_by_match': np.float64(0.75), 'order_by_match': np.float64(1.0), 'vaibhav': np.float64(0.4375), 'where_clause_1705': np.float64(1.0)}
+2025-05-17 23:51:56 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-17 23:51:57 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT p."Player", ms."Season", t."Name"
+FROM "player" p
+JOIN "match_season" ms ON p."Team" = ms."Team"
+JOIN "team" t ON p."Team" = t."Team_id"; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:57 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT invoice_number
+FROM Invoices
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:57 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-17 23:51:57 - llm_consortium - INFO - hyperparameter_tuner:225 - Temperature 0.4: Collected 5 valid results
+2025-05-17 23:51:57 - llm_consortium - INFO - hyperparameter_tuner:232 - Temperature 0.4: Metrics: {'execution_match_rate': np.float64(60.0), 'confidence': np.float64(0.9299999999999999), 'select_match': np.float64(0.0), 'where_match': np.float64(0.2), 'group_by_match': np.float64(1.0), 'order_by_match': np.float64(0.8), 'vaibhav': np.float64(0.5), 'where_clause_1705': np.float64(0.8)}
+2025-05-17 23:51:58 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:51:58 - llm_consortium - INFO - hyperparameter_tuner:225 - Temperature 0.0: Collected 5 valid results
+2025-05-17 23:51:58 - llm_consortium - INFO - hyperparameter_tuner:232 - Temperature 0.0: Metrics: {'execution_match_rate': np.float64(80.0), 'confidence': np.float64(0.95), 'select_match': np.float64(0.0), 'where_match': np.float64(0.4), 'group_by_match': np.float64(1.0), 'order_by_match': np.float64(0.8), 'vaibhav': np.float64(0.55), 'where_clause_1705': np.float64(0.6)}
+2025-05-17 23:51:58 - llm_consortium - INFO - sql_model_runner:724 - Complete tuning results:
+2025-05-17 23:51:58 - llm_consortium - INFO - sql_model_runner:726 - execution_match_rate: Best temp 0.0 (80.00)
+2025-05-17 23:51:58 - llm_consortium - INFO - sql_model_runner:726 - confidence: Best temp 0.4 (0.93)
+2025-05-17 23:51:58 - llm_consortium - INFO - sql_model_runner:726 - select_match: Best temp 0.0 (0.00)
+2025-05-17 23:51:58 - llm_consortium - INFO - sql_model_runner:726 - where_match: Best temp 0.8 (0.00)
+2025-05-17 23:51:58 - llm_consortium - INFO - sql_model_runner:726 - group_by_match: Best temp 0.8 (0.75)
+2025-05-17 23:51:58 - llm_consortium - INFO - sql_model_runner:726 - order_by_match: Best temp 0.0 (0.80)
+2025-05-17 23:51:58 - llm_consortium - INFO - sql_model_runner:726 - vaibhav: Best temp 0.8 (0.44)
+2025-05-17 23:51:58 - llm_consortium - INFO - sql_model_runner:726 - where_clause_1705: Best temp 0.0 (0.60)
+2025-05-17 23:51:58 - llm_consortium - INFO - app:3788 - Using best temperature: 0.0 for final evaluation
+2025-05-17 23:51:59 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(DISTINCT party_id) > 3; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:51:59 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-17 23:52:04 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT f_id
+FROM files
+WHERE formats = 'mp4'
+UNION
+SELECT f_id
+FROM song
+WHERE resolution > 720; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:52:04 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-17 23:52:05 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT cName
+FROM College
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:52:06 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:52:07 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT supplier_name, supplier_phone
+FROM Suppliers
+JOIN Supplier_Addresses ON Suppliers.supplier_id = Supplier_Addresses.supplier_id
+JOIN Addresses ON Supplier_Addresses.address_id = Addresses.address_id
+ORDER BY Addresses.address_details; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:52:07 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-17 23:52:08 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Fname
+FROM Student
+WHERE Age > 22; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:52:09 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:52:10 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT COUNT(*) FROM company WHERE Headquarters = 'USA'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:52:11 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:52:12 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT DISTINCT c.Leader_Name
+FROM college c
+JOIN member m ON c.College_ID = m.College_ID
+WHERE m.Country = 'Canada'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:52:13 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:52:14 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT DISTINCT Name
+FROM Nurse
+WHERE EmployeeID IN (
+    SELECT Nurse
+    FROM On_Call
+); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:52:14 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:52:15 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT "Time_of_purchase", "Age", "Address" FROM "member" ORDER BY "Time_of_purchase"; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:52:16 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-17 23:52:17 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Document_Type_Name, Document_Type_Description
+FROM Ref_Document_Types
+WHERE Document_Type_Code = 'RV'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:52:17 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:52:18 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT artist_name
+FROM song
+WHERE duration = (SELECT MIN(duration) FROM files); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:52:19 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:52:20 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT p."Player", ms."Season", t."Name"
+FROM "player" p
+JOIN "match_season" ms ON p."Team" = ms."Team"
+JOIN "team" t ON p."Team" = t."Team_id"; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:52:21 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-17 23:52:22 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT "Category", COUNT("Category") AS "Category_Count"
+FROM "music_festival"
+GROUP BY "Category"
+HAVING COUNT("Category") > 1; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:52:22 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-17 23:52:23 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT invoice_number
+FROM Invoices
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:52:24 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-17 23:52:25 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT cust_name, SUM(acc_bal) AS total_account_balance
+FROM customer
+WHERE state IN ('Utah', 'Texas')
+GROUP BY cust_name; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-17 23:52:26 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:05:54 - llm_consortium - INFO - sql_model_runner:370 - Initialized with metrics: ['exact_match', 'execution_match']
+2025-05-19 10:05:54 - llm_consortium - INFO - sql_model_runner:644 - Starting evaluation for gpt-4o-mini
+2025-05-19 10:05:54 - llm_consortium - INFO - sql_model_runner:644 - Starting evaluation for gpt-3.5-turbo
+2025-05-19 10:06:12 - llm_consortium - INFO - sql_model_runner:663 - Model gpt-4o-mini evaluation complete
+2025-05-19 10:06:13 - llm_consortium - INFO - sql_model_runner:663 - Model gpt-3.5-turbo evaluation complete
+2025-05-19 10:06:13 - llm_consortium - INFO - sql_model_runner:686 - Tuning hyperparameters for gpt-3.5-turbo
+2025-05-19 10:06:13 - llm_consortium - INFO - hyperparameter_tuner:252 - Starting hyperparameter tuning for gpt-3.5-turbo
+2025-05-19 10:06:17 - llm_consortium - INFO - hyperparameter_tuner:225 - Temperature 0.4: Collected 4 valid results
+2025-05-19 10:06:17 - llm_consortium - INFO - hyperparameter_tuner:232 - Temperature 0.4: Metrics: {'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(50.0), 'confidence': np.float64(0.9249999999999999)}
+2025-05-19 10:06:19 - llm_consortium - INFO - hyperparameter_tuner:225 - Temperature 0.2: Collected 5 valid results
+2025-05-19 10:06:19 - llm_consortium - INFO - hyperparameter_tuner:232 - Temperature 0.2: Metrics: {'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(40.0), 'confidence': np.float64(0.95)}
+2025-05-19 10:06:19 - llm_consortium - INFO - hyperparameter_tuner:225 - Temperature 0.6: Collected 5 valid results
+2025-05-19 10:06:19 - llm_consortium - INFO - hyperparameter_tuner:232 - Temperature 0.6: Metrics: {'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(80.0), 'confidence': np.float64(0.95)}
+2025-05-19 10:06:23 - llm_consortium - INFO - hyperparameter_tuner:225 - Temperature 0.8: Collected 3 valid results
+2025-05-19 10:06:23 - llm_consortium - INFO - hyperparameter_tuner:232 - Temperature 0.8: Metrics: {'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(66.66666666666666), 'confidence': np.float64(0.94)}
+2025-05-19 10:06:36 - llm_consortium - INFO - hyperparameter_tuner:225 - Temperature 0.0: Collected 3 valid results
+2025-05-19 10:06:36 - llm_consortium - INFO - hyperparameter_tuner:232 - Temperature 0.0: Metrics: {'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(33.33333333333333), 'confidence': np.float64(0.9499999999999998)}
+2025-05-19 10:06:36 - llm_consortium - INFO - sql_model_runner:724 - Complete tuning results:
+2025-05-19 10:06:36 - llm_consortium - INFO - sql_model_runner:726 - exact_match_rate: Best temp 0.0 (0.00)
+2025-05-19 10:06:36 - llm_consortium - INFO - sql_model_runner:726 - execution_match_rate: Best temp 0.6 (80.00)
+2025-05-19 10:06:36 - llm_consortium - INFO - sql_model_runner:726 - confidence: Best temp 0.4 (0.92)
+2025-05-19 10:06:36 - llm_consortium - INFO - app:3788 - Using best temperature: 0.0 for final evaluation
+2025-05-19 10:20:36 - llm_consortium - INFO - sql_model_runner:370 - Initialized with metrics: ['exact_match', 'execution_match', 'new_llmbased', 'where_clause_1705']
+2025-05-19 10:20:36 - llm_consortium - INFO - sql_model_runner:644 - Starting evaluation for gpt-4o-mini
+2025-05-19 10:20:36 - llm_consortium - INFO - sql_model_runner:644 - Starting evaluation for gpt-3.5-turbo
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT COUNT(*) 
+FROM company 
+WHERE Headquarters = 'USA'; and SELECT count(*) FROM company WHERE Headquarters  =  'USA' have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT COUNT(*) 
+FROM company 
+WHERE Headquarters = 'USA'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT artist_name
+FROM song
+WHERE duration = (SELECT MIN(duration) FROM song); and SELECT T1.artist_name FROM song AS T1 JOIN files AS T2 ON T1.f_id  =  T2.f_id ORDER BY T2.duration LIMIT 1 have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT artist_name
+FROM song
+WHERE duration = (SELECT MIN(duration) FROM song); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT Fname
+FROM Student
+WHERE Age > 22; and SELECT Fname FROM STUDENT WHERE Age  >  22 have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Fname
+FROM Student
+WHERE Age > 22; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT DISTINCT c.Leader_Name
+FROM college c
+JOIN member m ON c.College_ID = m.College_ID
+WHERE m.Country = 'Canada'; and SELECT DISTINCT T1.Leader_Name FROM college AS T1 JOIN member AS T2 ON T1.College_ID  =  T2.College_ID WHERE T2.Country  =  "Canada" have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT DISTINCT c.Leader_Name
+FROM college c
+JOIN member m ON c.College_ID = m.College_ID
+WHERE m.Country = 'Canada'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT cust_name, SUM(acc_bal) AS total_account_balance
+FROM customer
+WHERE state IN ('Utah', 'Texas')
+GROUP BY cust_name; and SELECT sum(acc_bal) FROM customer WHERE state  =  'Utah' OR state  =  'Texas' have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT cust_name, SUM(acc_bal) AS total_account_balance
+FROM customer
+WHERE state IN ('Utah', 'Texas')
+GROUP BY cust_name; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT Document_Type_Name, Document_Type_Description
+FROM Ref_Document_Types
+WHERE Document_Type_Code = 'RV'; and SELECT document_type_name ,  document_type_description FROM Ref_document_types WHERE document_type_code  =  "RV" have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Document_Type_Name, Document_Type_Description
+FROM Ref_Document_Types
+WHERE Document_Type_Code = 'RV'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT cName
+FROM College
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); and SELECT cName FROM College WHERE enr  <  13000 AND state = "AZ" UNION SELECT cName FROM College WHERE enr  >  15000 AND state = "LA" have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT cName
+FROM College
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if No SQL detected and SELECT DISTINCT T1.name FROM nurse AS T1 JOIN on_call AS T2 ON T1.EmployeeID  =  T2.nurse have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether No SQL detected has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT player.Player, match_season.Season, team.Name
+FROM player
+JOIN match_season ON player.Team = match_season.Team
+JOIN team ON player.Team = team.Team_id; and SELECT T1.Season ,  T1.Player ,  T2.Name FROM match_season AS T1 JOIN team AS T2 ON T1.Team  =  T2.Team_id have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT player.Player, match_season.Season, team.Name
+FROM player
+JOIN match_season ON player.Team = match_season.Team
+JOIN team ON player.Team = team.Team_id; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT invoice_number
+FROM Invoices
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25'; and SELECT invoice_number FROM invoices WHERE invoice_date < "1989-09-03" OR invoice_date > "2007-12-25" have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT invoice_number
+FROM Invoices
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT f_id
+FROM files
+WHERE formats = 'mp4'
+UNION
+SELECT f_id
+FROM song
+WHERE resolution > 720; and SELECT f_id FROM files WHERE formats  =  "mp4" UNION SELECT f_id FROM song WHERE resolution  >  720 have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT f_id
+FROM files
+WHERE formats = 'mp4'
+UNION
+SELECT f_id
+FROM song
+WHERE resolution > 720; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT "Category", COUNT("Category") AS "Category_Count"
+FROM "music_festival"
+GROUP BY "Category"
+HAVING COUNT("Category") > 1; and SELECT Category FROM music_festival GROUP BY Category HAVING COUNT(*)  >  1 have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT "Category", COUNT("Category") AS "Category_Count"
+FROM "music_festival"
+GROUP BY "Category"
+HAVING COUNT("Category") > 1; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT Category 
+FROM music_festival 
+GROUP BY Category 
+HAVING COUNT(*) > 1; and SELECT Category FROM music_festival GROUP BY Category HAVING COUNT(*)  >  1 have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Category 
+FROM music_festival 
+GROUP BY Category 
+HAVING COUNT(*) > 1; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(DISTINCT party_id) > 3; and SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3 have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(DISTINCT party_id) > 3; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT Fname FROM Student WHERE Age > 22; and SELECT Fname FROM STUDENT WHERE Age  >  22 have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Fname FROM Student WHERE Age > 22; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT supplier_name, supplier_phone
+FROM Suppliers
+JOIN Supplier_Addresses ON Suppliers.supplier_id = Supplier_Addresses.supplier_id
+JOIN Addresses ON Supplier_Addresses.address_id = Addresses.address_id
+ORDER BY Addresses.address_details; and SELECT T1.supplier_name ,  T1.supplier_phone FROM Suppliers AS T1 JOIN supplier_addresses AS T2 ON T1.supplier_id  =  T2.supplier_id JOIN addresses AS T3 ON T2.address_id  =  T3.address_id ORDER BY T3.address_details have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT supplier_name, supplier_phone
+FROM Suppliers
+JOIN Supplier_Addresses ON Suppliers.supplier_id = Supplier_Addresses.supplier_id
+JOIN Addresses ON Supplier_Addresses.address_id = Addresses.address_id
+ORDER BY Addresses.address_details; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT DISTINCT c.Leader_Name
+FROM college c
+JOIN member m ON c.College_ID = m.College_ID
+WHERE m.Country = 'Canada'; and SELECT DISTINCT T1.Leader_Name FROM college AS T1 JOIN member AS T2 ON T1.College_ID  =  T2.College_ID WHERE T2.Country  =  "Canada" have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT DISTINCT c.Leader_Name
+FROM college c
+JOIN member m ON c.College_ID = m.College_ID
+WHERE m.Country = 'Canada'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT artist_name 
+FROM song 
+WHERE duration = (
+    SELECT MIN(duration) 
+    FROM song
+); and SELECT T1.artist_name FROM song AS T1 JOIN files AS T2 ON T1.f_id  =  T2.f_id ORDER BY T2.duration LIMIT 1 have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT artist_name 
+FROM song 
+WHERE duration = (
+    SELECT MIN(duration) 
+    FROM song
+); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT COUNT(*) 
+FROM "company" 
+WHERE "Headquarters" = 'USA'; and SELECT count(*) FROM company WHERE Headquarters  =  'USA' have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT COUNT(*) 
+FROM "company" 
+WHERE "Headquarters" = 'USA'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT Time_of_purchase, Age, Address 
+FROM member 
+ORDER BY Time_of_purchase; and SELECT Time_of_purchase ,  age ,  address FROM member ORDER BY Time_of_purchase have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Time_of_purchase, Age, Address 
+FROM member 
+ORDER BY Time_of_purchase; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT m."Time_of_purchase", m."Age", m."Address"
+FROM "member" m
+ORDER BY m."Time_of_purchase"; and SELECT Time_of_purchase ,  age ,  address FROM member ORDER BY Time_of_purchase have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT m."Time_of_purchase", m."Age", m."Address"
+FROM "member" m
+ORDER BY m."Time_of_purchase"; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT cName 
+FROM College 
+WHERE (state = 'LA' AND enr > 15000) 
+   OR (state = 'AZ' AND enr < 13000); and SELECT cName FROM College WHERE enr  <  13000 AND state = "AZ" UNION SELECT cName FROM College WHERE enr  >  15000 AND state = "LA" have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT cName 
+FROM College 
+WHERE (state = 'LA' AND enr > 15000) 
+   OR (state = 'AZ' AND enr < 13000); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT DISTINCT N.Name 
+FROM Nurse N 
+JOIN On_Call OC ON N.EmployeeID = OC.Nurse; and SELECT DISTINCT T1.name FROM nurse AS T1 JOIN on_call AS T2 ON T1.EmployeeID  =  T2.nurse have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT DISTINCT N.Name 
+FROM Nurse N 
+JOIN On_Call OC ON N.EmployeeID = OC.Nurse; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT p.Player, ms.Season, t.Name AS Team
+FROM player p
+JOIN team t ON p.Team = t.Team_id
+JOIN match_season ms ON p.Team = ms.Team; and SELECT T1.Season ,  T1.Player ,  T2.Name FROM match_season AS T1 JOIN team AS T2 ON T1.Team  =  T2.Team_id have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT p.Player, ms.Season, t.Name AS Team
+FROM player p
+JOIN team t ON p.Team = t.Team_id
+JOIN match_season ms ON p.Team = ms.Team; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT `invoice_number` 
+FROM `Invoices` 
+WHERE `invoice_date` < '1989-09-03' OR `invoice_date` > '2007-12-25'; and SELECT invoice_number FROM invoices WHERE invoice_date < "1989-09-03" OR invoice_date > "2007-12-25" have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT `invoice_number` 
+FROM `Invoices` 
+WHERE `invoice_date` < '1989-09-03' OR `invoice_date` > '2007-12-25'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT SUM(acc_bal) AS total_balance
+FROM customer
+WHERE state IN ('Utah', 'Texas'); and SELECT sum(acc_bal) FROM customer WHERE state  =  'Utah' OR state  =  'Texas' have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT SUM(acc_bal) AS total_balance
+FROM customer
+WHERE state IN ('Utah', 'Texas'); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT DISTINCT s.f_id 
+FROM song s 
+JOIN files f ON s.f_id = f.f_id 
+WHERE f.formats = 'mp4' OR s.resolution > 720; and SELECT f_id FROM files WHERE formats  =  "mp4" UNION SELECT f_id FROM song WHERE resolution  >  720 have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT DISTINCT s.f_id 
+FROM song s 
+JOIN files f ON s.f_id = f.f_id 
+WHERE f.formats = 'mp4' OR s.resolution > 720; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:38 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT Document_Type_Name, Document_Type_Description 
+FROM Ref_Document_Types 
+WHERE Document_Type_Code = 'RV'; and SELECT document_type_name ,  document_type_description FROM Ref_document_types WHERE document_type_code  =  "RV" have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Document_Type_Name, Document_Type_Description 
+FROM Ref_Document_Types 
+WHERE Document_Type_Code = 'RV'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:39 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:20:39 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT s.supplier_name, s.supplier_phone
+FROM Suppliers s
+JOIN Supplier_Addresses sa ON s.supplier_id = sa.supplier_id
+JOIN Addresses a ON sa.address_id = a.address_id
+ORDER BY a.address_details; and SELECT T1.supplier_name ,  T1.supplier_phone FROM Suppliers AS T1 JOIN supplier_addresses AS T2 ON T1.supplier_id  =  T2.supplier_id JOIN addresses AS T3 ON T2.address_id  =  T3.address_id ORDER BY T3.address_details have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:39 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT s.supplier_name, s.supplier_phone
+FROM Suppliers s
+JOIN Supplier_Addresses sa ON s.supplier_id = sa.supplier_id
+JOIN Addresses a ON sa.address_id = a.address_id
+ORDER BY a.address_details; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:39 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:20:39 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:20:39 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:20:39 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-19 10:20:39 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-19 10:20:39 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-19 10:20:39 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:20:39 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:20:39 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-19 10:20:39 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. both queries have the same column and the same clauses used. the only difference is the spacing, which does not affect the sql execution.
+2025-05-19 10:20:39 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-19 10:20:39 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:20:39 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:20:39 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:20:40 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:20:40 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:20:40 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. both queries are selecting the same column ("category") and using the same clauses (group by and having) to filter the results based on the count of categories. the first query also includes an aggregate function to count the occurrences, but the essential logic and conditions are the same.
+2025-05-19 10:20:40 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-19 10:20:40 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-19 10:20:40 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:20:40 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-19 10:20:40 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:20:40 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:20:40 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:20:40 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-19 10:20:40 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:20:40 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-19 10:20:40 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:20:40 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:20:40 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-19 10:20:40 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. 
+
+both sql queries are functionally equivalent. they both select distinct `leader_name` from the `college` table, joining it with the `member` table on `college_id`, and filtering the results where the `country` is 'canada'. the only difference is the use of different aliases for the tables, but this does not affect the outcome of the queries.
+2025-05-19 10:20:40 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. both queries have the same column and the same clauses used. they are functionally equivalent, differing only in the use of quotes around the table name and column name.
+2025-05-19 10:20:40 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. 
+
+both sql queries select the same columns (`time_of_purchase`, `age`/`age`, and `address`/`address`) and use the same `order by` clause (`order by time_of_purchase`). the only difference is the capitalization of the column names, which does not affect the outcome in most sql databases. therefore, they have the same columns and clauses used.
+2025-05-19 10:20:40 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. both sql queries have the same column (`invoice_number`) and the same clauses (`where invoice_date < '1989-09-03' or invoice_date > '2007-12-25'`). the only difference is the use of single quotes in the first query and double quotes in the second query for the date literals, but in sql, single and double quotes can often be interchangeable depending on the database system. therefore, the queries are effectively the same in terms of their structure and logic.
+2025-05-19 10:20:40 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. both queries have the same column (`fname`) and the same clause (`where age > 22`). the only difference is the spacing in the second query, which does not affect the execution or the result.
+2025-05-19 10:20:40 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. both sql queries have the same column and the same clauses used. they both select the `category` from the `music_festival` table, group the results by `category`, and filter the groups to include only those with a count greater than 1. the formatting is slightly different, but the logic and structure are identical.
+2025-05-19 10:20:40 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. 
+
+both sql queries select the same columns (`document_type_name`, `document_type_description`) from the same table (`ref_document_types` or `ref_document_types`, which is the same table with different casing). they also use the same condition in the `where` clause to filter by `document_type_code` with the value 'rv' (one using single quotes and the other using double quotes, which is acceptable in some sql dialects). 
+
+thus, they have the same columns and clauses used.
+2025-05-19 10:20:41 - llm_consortium - INFO - new_llmbased:98 - LLM response: no. 
+
+the first query groups the results by `cust_name` and returns the total account balance for each customer in either utah or texas. the second query calculates the total account balance for all customers in utah or texas without grouping by customer name. therefore, they do not have the same columns or clauses used.
+2025-05-19 10:20:41 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. 
+
+both sql queries are functionally equivalent. they both select distinct `leader_name` from the `college` table, joining it with the `member` table on `college_id`, and filtering the results where the `country` is 'canada'. the only difference is the use of different aliases for the tables, but that does not affect the outcome of the queries.
+2025-05-19 10:20:41 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. both sql queries select the same columns (`time_of_purchase`, `age`, and `address`) from the `member` table and order the results by `time_of_purchase`. the only difference is the use of double quotes in the first query, which is typically used in some sql dialects (like postgresql) to preserve case sensitivity or special characters. however, the columns and clauses used are the same in both queries.
+2025-05-19 10:20:41 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(party_id) > 3; and SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3 have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:41 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(party_id) > 3; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:41 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. 
+
+both sql queries select the same columns (`supplier_name` and `supplier_phone`) from the `suppliers` table and join the same tables (`supplier_addresses` and `addresses`) using the same join conditions. they also order the results by the same column (`address_details`). the only differences are in the table aliases and casing of the table names, which do not affect the logic of the queries.
+2025-05-19 10:20:41 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. 
+
+both sql queries select the same columns (`supplier_name` and `supplier_phone`) from the `suppliers` table and join the same tables (`supplier_addresses` and `addresses`) using the same join conditions. they also order the results by the same column (`address_details`). the only differences are the use of table aliases in the second query and the casing of table names, but these do not affect the logic or the output of the queries.
+2025-05-19 10:20:41 - llm_consortium - INFO - new_llmbased:98 - LLM response: no. 
+
+the two sql queries do not have the same clauses used. 
+
+1. the first query uses `count(distinct party_id)` which counts the number of unique `party_id` values for each `payment_method_code`. 
+2. the second query uses `count(*)`, which counts all rows for each `payment_method_code`, regardless of whether `party_id` values are unique or not.
+
+since the counting methods are different, the results of the two queries may not be the same.
+2025-05-19 10:20:41 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. 
+
+both queries are functionally identical. they select the same column (`fname`) from the same table (`student` or `student`, which are treated as the same in most sql databases since sql is case-insensitive for keywords and identifiers). they also use the same clause (`where age > 22`). 
+
+the difference in case for the table name does not affect the outcome, so the answer is yes.
+2025-05-19 10:20:42 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes, both sql queries have the same column and the same clauses used. 
+
+- both queries are selecting distinct names from the `nurse` table.
+- they are performing a join between the `nurse` table and the `on_call` table based on the `employeeid` from the `nurse` table and the `nurse` column from the `on_call` table.
+
+thus, the answer is **yes**.
+2025-05-19 10:20:42 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-19 10:20:42 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. both sql queries have the same column (`invoice_number`) and the same clauses (`where invoice_date < '1989-09-03' or invoice_date > '2007-12-25'`). the only difference is the use of backticks in the first query and double quotes in the second query for the date string, but this does not affect the logic or the result of the queries.
+2025-05-19 10:20:42 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes, both sql queries have the same columns and clauses used. 
+
+1. both queries select the column `f_id`.
+2. both queries use the `union` operator to combine results from two different tables (`files` and `song`).
+3. the first query filters `files` by `formats = 'mp4'` and the second query filters `song` by `resolution > 720`. the second query does the same filtering.
+
+since the structure and clauses are identical in both queries, the answer is **yes**.
+2025-05-19 10:20:42 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. 
+
+both sql queries select the same columns (`document_type_name` and `document_type_description`) from the same table (`ref_document_types` or `ref_document_types`, which is the same table with different casing). they also use the same condition in the `where` clause to filter by `document_type_code` with the value 'rv' (the first query uses single quotes, while the second uses double quotes, which is acceptable in some sql dialects). 
+
+thus, they have the same columns and clauses used.
+2025-05-19 10:20:42 - llm_consortium - INFO - new_llmbased:98 - LLM response: no. 
+
+the two sql queries do not have the same clauses due to the difference in how the `where` conditions are structured. 
+
+1. the first query uses `in` to check if the `state` is either 'utah' or 'texas':
+   ```sql
+   where state in ('utah', 'texas')
+   ```
+
+2. the second query uses `or` to check if the `state` is 'utah' or 'texas':
+   ```sql
+   where state = 'utah' or state = 'texas'
+   ```
+
+while both queries will yield the same result in this specific case, they are not identical in terms of syntax. therefore, the answer is **no**.
+2025-05-19 10:20:43 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. both queries are selecting the same column (`payment_method_code`) from the `parties` table, grouping by that column, and using the same condition in the `having` clause to filter groups with a count greater than 3. the only difference is the way the count is expressed (`count(party_id)` vs. `count(*)`), but both will yield the same result in this context as long as `party_id` is not null for any row. therefore, the answer is **yes**.
+2025-05-19 10:20:44 - llm_consortium - INFO - new_llmbased:98 - LLM response: to determine if the two sql queries have the same columns and clauses, let's analyze each query:
+
+1. **first query:**
+   ```sql
+   select artist_name
+   from song
+   where duration = (select min(duration) from song);
+   ```
+   - **columns:** `artist_name`
+   - **clauses:** 
+     - `from song`
+     - `where duration = (select min(duration) from song)`
+
+2. **second query:**
+   ```sql
+   select t1.artist_name 
+   from song as t1 
+   join files as t2 on t1.f_id = t2.f_id 
+   order by t2.duration 
+   limit 1;
+   ```
+   - **columns:** `t1.artist_name`
+   - **clauses:**
+     - `from song as t1`
+     - `join files as t2 on t1.f_id = t2.f_id`
+     - `order by t2.duration`
+     - `limit 1`
+
+### comparison:
+- **columns:**
+  - both queries select `artist_name`, but the second query uses an alias (`t1.artist_name`).
+
+- **clauses:**
+  - the first query uses a `where` clause with a subquery to filter results based on duration.
+  - the second query uses a `join` clause to combine data from two tables and includes an `order by` clause and a `limit` clause.
+
+### conclusion:
+the two queries do not have the same columns or the same clauses used. 
+
+**answer: no**
+2025-05-19 10:20:45 - llm_consortium - INFO - new_llmbased:98 - LLM response: to determine if the two sql queries have the same columns and clauses, let's break down each query.
+
+### first query:
+```sql
+select player.player, match_season.season, team.name
+from player
+join match_season on player.team = match_season.team
+join team on player.team = team.team_id;
+```
+- **selected columns**: 
+  - `player.player`
+  - `match_season.season`
+  - `team.name`
+  
+- **joins**:
+  - `join match_season on player.team = match_season.team`
+  - `join team on player.team = team.team_id`
+
+### second query:
+```sql
+select t1.season, t1.player, t2.name 
+from match_season as t1 
+join team as t2 on t1.team = t2.team_id;
+```
+- **selected columns**:
+  - `t1.season`
+  - `t1.player`
+  - `t2.name`
+  
+- **joins**:
+  - `join team as t2 on t1.team = t2.team_id`
+
+### comparison:
+1. **selected columns**:
+   - the first query selects `player.player`, while the second query selects `t1.player`. if `t1` is an alias for `match_season`, then `t1.player` does not exist in the `match_season` table unless `player` is a column in `match_season`, which is not indicated in the first query.
+   - the first query includes `match_season.season`, while the second query also includes `t1.season`, which is the same.
+   - both queries include `team.name`.
+
+2. **joins**:
+   - the first query has two joins: one with `match_season` and one with `team`.
+   - the second query only has one join with `team`.
+
+### conclusion:
+the two queries do not have the same columns or the same clauses used. therefore, the answer is:
+
+**no**.
+2025-05-19 10:20:46 - llm_consortium - INFO - new_llmbased:98 - LLM response: to determine if the two sql queries have the same columns and clauses, let's break them down:
+
+1. **first query:**
+   ```sql
+   select cname
+   from college
+   where (state = 'la' and enr > 15000) or (state = 'az' and enr < 13000);
+   ```
+
+   - **columns:** `cname`
+   - **clauses:** 
+     - `from college`
+     - `where` clause with two conditions combined using `or`.
+
+2. **second query:**
+   ```sql
+   select cname 
+   from college 
+   where enr < 13000 and state = "az" 
+   union 
+   select cname 
+   from college 
+   where enr > 15000 and state = "la";
+   ```
+
+   - **columns:** `cname` (from both parts of the union)
+   - **clauses:**
+     - `from college` (in both select statements)
+     - `where` clause in both parts with conditions combined using `and`.
+
+### comparison:
+- **columns:** both queries select the same column `cname`.
+- **clauses:** 
+  - the first query uses a single `where` clause with an `or` condition.
+  - the second query uses two separate `select` statements combined with a `union`, each with an `and` condition.
+
+### conclusion:
+the two queries do not have the same clauses due to the difference in how the conditions are structured (one uses `or` and the other uses `and` in separate queries). 
+
+therefore, the answer is **no**.
+2025-05-19 10:20:46 - llm_consortium - INFO - new_llmbased:98 - LLM response: to determine if the two sql queries have the same columns and clauses, let's analyze each query step by step.
+
+1. **first query:**
+   ```sql
+   select distinct s.f_id 
+   from song s 
+   join files f on s.f_id = f.f_id 
+   where f.formats = 'mp4' or s.resolution > 720;
+   ```
+
+   - **selected column:** `s.f_id`
+   - **tables involved:** `song` (aliased as `s`) and `files` (aliased as `f`)
+   - **join condition:** `s.f_id = f.f_id`
+   - **where clause:** `f.formats = 'mp4' or s.resolution > 720`
+
+2. **second query:**
+   ```sql
+   select f_id from files where formats = "mp4" 
+   union 
+   select f_id from song where resolution > 720;
+   ```
+
+   - **selected columns:** `f_id` (from both `files` and `song`)
+   - **tables involved:** `files` and `song`
+   - **where clauses:**
+     - for the first part: `formats = "mp4"`
+     - for the second part: `resolution > 720`
+
+### comparison:
+
+- **columns:**
+  - the first query selects `s.f_id`, while the second query selects `f_id` from both `files` and `song`. the column names are the same (`f_id`), but they are selected from different tables in the second query.
+
+- **clauses:**
+  - the first query uses a `join` between `song` and `files` and has a combined condition in the `where` clause.
+  - the second query uses a `union` to combine results from two separate `select` statements, each with its own `where` clause.
+
+### conclusion:
+the two queries do not have the same structure in terms of how they retrieve data (one uses a join, the other uses a union), even though they ultimately may return similar data under certain conditions. therefore, the answer is:
+
+**no**.
+2025-05-19 10:20:46 - llm_consortium - INFO - new_llmbased:98 - LLM response: to determine if the two sql queries have the same column and the same clauses used, let's analyze each query.
+
+1. **first query:**
+   ```sql
+   select artist_name 
+   from song 
+   where duration = (
+       select min(duration) 
+       from song
+   );
+   ```
+   - **selected column:** `artist_name`
+   - **clauses used:** 
+     - `from song`
+     - `where duration = (subquery)`
+
+2. **second query:**
+   ```sql
+   select t1.artist_name 
+   from song as t1 
+   join files as t2 on t1.f_id = t2.f_id 
+   order by t2.duration 
+   limit 1;
+   ```
+   - **selected column:** `t1.artist_name`
+   - **clauses used:**
+     - `from song as t1`
+     - `join files as t2 on t1.f_id = t2.f_id`
+     - `order by t2.duration`
+     - `limit 1`
+
+### comparison:
+- **selected columns:** both queries select `artist_name`, although the second query uses an alias (`t1.artist_name`).
+- **clauses used:**
+  - the first query uses a `where` clause with a subquery to filter based on the minimum duration.
+  - the second query uses a `join` clause to combine data from two tables and includes an `order by` clause and a `limit` clause.
+
+### conclusion:
+the two queries do not have the same clauses used. the first query uses a `where` clause with a subquery, while the second query uses a `join`, `order by`, and `limit`.
+
+**answer:** no
+2025-05-19 10:20:46 - llm_consortium - INFO - new_llmbased:98 - LLM response: to determine if the two sql queries have the same columns and clauses, let's analyze them:
+
+1. **first query:**
+   ```sql
+   select cname 
+   from college 
+   where (state = 'la' and enr > 15000) 
+      or (state = 'az' and enr < 13000);
+   ```
+
+   - **columns selected:** `cname`
+   - **clauses used:** 
+     - `from college`
+     - `where` clause with two conditions combined using `or`.
+
+2. **second query:**
+   ```sql
+   select cname 
+   from college 
+   where enr < 13000 and state = "az" 
+   union 
+   select cname 
+   from college 
+   where enr > 15000 and state = "la";
+   ```
+
+   - **columns selected:** `cname` (from both parts of the union)
+   - **clauses used:** 
+     - `from college` in both parts
+     - `where` clause in both parts with conditions combined using `and`.
+     - `union` to combine results from two separate queries.
+
+### comparison:
+- **columns:** both queries select the same column `cname`.
+- **clauses:** 
+  - the first query uses an `or` condition in a single `where` clause, while the second query uses two separate `where` clauses combined with `union`, each using `and`.
+
+### conclusion:
+the two queries do not have the same clauses due to the difference in how the conditions are combined (using `or` vs. `and` and `union`).
+
+**answer:** no
+2025-05-19 10:20:47 - llm_consortium - INFO - new_llmbased:98 - LLM response: to determine if the sql query you provided is valid and whether it has the same columns and clauses used, let's analyze the query:
+
+1. **sql query**: 
+   ```sql
+   select distinct t1.name 
+   from nurse as t1 
+   join on_call as t2 on t1.employeeid = t2.nurse
+   ```
+
+2. **components of the query**:
+   - **select distinct**: this clause is used to return only distinct (different) values.
+   - **t1.name**: this specifies that we are selecting the `name` column from the `nurse` table (aliased as t1).
+   - **from nurse as t1**: this indicates that we are selecting from the `nurse` table, which is aliased as t1.
+   - **join on_call as t2**: this indicates that we are performing an inner join with the `on_call` table, which is aliased as t2.
+   - **on t1.employeeid = t2.nurse**: this specifies the condition for the join, where the `employeeid` from the `nurse` table matches the `nurse` column in the `on_call` table.
+
+3. **no sql detected**: the phrase "no sql detected" seems to imply that we need to check if the query is valid sql. the provided query is indeed valid sql syntax.
+
+4. **same columns and clauses**: the query selects only one column (`t1.name`) and uses a join clause. there are no other columns or clauses in the query to compare against.
+
+based on this analysis, the answer to your question is:
+
+**no**. the query is valid sql, but it does not have any other columns or clauses to compare against.
+2025-05-19 10:20:47 - llm_consortium - INFO - sql_model_runner:663 - Model gpt-3.5-turbo evaluation complete
+2025-05-19 10:20:52 - llm_consortium - INFO - new_llmbased:98 - LLM response: to determine if the two sql queries have the same columns and clauses, let's analyze each query.
+
+### query 1:
+```sql
+select p.player, ms.season, t.name as team
+from player p
+join team t on p.team = t.team_id
+join match_season ms on p.team = ms.team;
+```
+- **selected columns**: 
+  - `p.player`
+  - `ms.season`
+  - `t.name as team`
+  
+- **joins**:
+  - `join team t on p.team = t.team_id`
+  - `join match_season ms on p.team = ms.team`
+
+### query 2:
+```sql
+select t1.season, t1.player, t2.name 
+from match_season as t1 
+join team as t2 on t1.team = t2.team_id;
+```
+- **selected columns**: 
+  - `t1.season`
+  - `t1.player`
+  - `t2.name`
+  
+- **joins**:
+  - `join team as t2 on t1.team = t2.team_id`
+
+### comparison:
+1. **selected columns**:
+   - query 1 selects `p.player`, `ms.season`, and `t.name as team`.
+   - query 2 selects `t1.season`, `t1.player`, and `t2.name`.
+   - the columns `ms.season` and `t1.season` refer to the same data, and `t.name` and `t2.name` refer to the same data. however, `p.player` and `t1.player` are not directly comparable since they come from different tables.
+
+2. **joins**:
+   - query 1 has two joins: one with the `team` table and another with the `match_season` table.
+   - query 2 only has one join with the `team` table and does not join with the `player` table.
+
+### conclusion:
+the two queries do not have the same columns or the same clauses used. therefore, the answer is:
+
+**no**.
+2025-05-19 10:20:52 - llm_consortium - INFO - sql_model_runner:663 - Model gpt-4o-mini evaluation complete
+2025-05-19 10:20:52 - llm_consortium - INFO - sql_model_runner:686 - Tuning hyperparameters for gpt-3.5-turbo
+2025-05-19 10:20:52 - llm_consortium - INFO - hyperparameter_tuner:252 - Starting hyperparameter tuning for gpt-3.5-turbo
+2025-05-19 10:20:53 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT cName
+FROM College
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); and SELECT cName FROM College WHERE enr  <  13000 AND state = "AZ" UNION SELECT cName FROM College WHERE enr  >  15000 AND state = "LA" have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:53 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT cName
+FROM College
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:53 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if No SQL detected and SELECT T1.Season ,  T1.Player ,  T2.Name FROM match_season AS T1 JOIN team AS T2 ON T1.Team  =  T2.Team_id have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:53 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether No SQL detected has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:53 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT s.f_id
+FROM song s
+JOIN files f ON s.f_id = f.f_id
+WHERE f.formats = 'mp4' OR s.resolution > 720; and SELECT f_id FROM files WHERE formats  =  "mp4" UNION SELECT f_id FROM song WHERE resolution  >  720 have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:20:53 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT s.f_id
+FROM song s
+JOIN files f ON s.f_id = f.f_id
+WHERE f.formats = 'mp4' OR s.resolution > 720; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:20:54 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:20:54 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:20:54 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-19 10:20:59 - llm_consortium - INFO - new_llmbased:98 - LLM response: to determine if the sql query you provided is a valid sql statement and whether it uses the same columns and clauses, we can analyze the query.
+
+the query is:
+
+```sql
+select t1.season, t1.player, t2.name 
+from match_season as t1 
+join team as t2 on t1.team = t2.team_id
+```
+
+### analysis:
+
+1. **columns selected**:
+   - `t1.season`
+   - `t1.player`
+   - `t2.name`
+
+2. **tables involved**:
+   - `match_season` (aliased as `t1`)
+   - `team` (aliased as `t2`)
+
+3. **join condition**:
+   - the query uses an inner join on the condition `t1.team = t2.team_id`.
+
+### conclusion:
+
+- the query is a valid sql statement.
+- it uses the `select`, `from`, and `join` clauses.
+- the columns selected are from both tables involved in the join.
+
+since you asked if "no sql detected" and if the columns and clauses are the same, the answer is:
+
+**no** (the query is sql, not nosql). 
+
+if you meant to check if the columns and clauses are the same in some other context, please clarify, and i can provide further assistance.
+2025-05-19 10:21:00 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT DISTINCT Name
+FROM Nurse
+WHERE EmployeeID IN (
+    SELECT Nurse
+    FROM On_Call
+); and SELECT DISTINCT T1.name FROM nurse AS T1 JOIN on_call AS T2 ON T1.EmployeeID  =  T2.nurse have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:21:00 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT DISTINCT Name
+FROM Nurse
+WHERE EmployeeID IN (
+    SELECT Nurse
+    FROM On_Call
+); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:21:00 - llm_consortium - INFO - new_llmbased:98 - LLM response: to determine if the two sql queries have the same columns and clauses, let's analyze them:
+
+1. **first query:**
+   ```sql
+   select cname
+   from college
+   where (state = 'la' and enr > 15000) or (state = 'az' and enr < 13000);
+   ```
+
+   - **columns:** `cname`
+   - **clauses:** 
+     - `from college`
+     - `where` clause with two conditions combined using `or`.
+
+2. **second query:**
+   ```sql
+   select cname 
+   from college 
+   where enr < 13000 and state = "az" 
+   union 
+   select cname 
+   from college 
+   where enr > 15000 and state = "la";
+   ```
+
+   - **columns:** `cname` (from both parts of the union)
+   - **clauses:** 
+     - `from college` (in both select statements)
+     - `where` clause in both parts with conditions combined using `and`.
+
+### comparison:
+- **columns:** both queries select the same column `cname`.
+- **clauses:** 
+  - the first query uses an `or` condition in a single `where` clause, while the second query uses two separate `select` statements combined with `union`, each with an `and` condition.
+
+### conclusion:
+the two queries do not have the same clauses because they use different logical operators (`or` vs. `and`) and different structures (single `where` vs. two `select` statements with `union`).
+
+**answer:** no
+2025-05-19 10:21:01 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:21:01 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT Fname
+FROM Student
+WHERE Age > 22; and SELECT Fname FROM STUDENT WHERE Age  >  22 have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:21:01 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Fname
+FROM Student
+WHERE Age > 22; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:21:02 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:21:02 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. both queries have the same column (`fname`) and the same clause (`where age > 22`). the only difference is the spacing in the second query, which does not affect the execution or the result.
+2025-05-19 10:21:03 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT cust_ID, cust_name, SUM(acc_bal) AS total_account_balance
+FROM customer
+WHERE state IN ('Utah', 'Texas')
+GROUP BY cust_ID, cust_name; and SELECT sum(acc_bal) FROM customer WHERE state  =  'Utah' OR state  =  'Texas' have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:21:03 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT cust_ID, cust_name, SUM(acc_bal) AS total_account_balance
+FROM customer
+WHERE state IN ('Utah', 'Texas')
+GROUP BY cust_ID, cust_name; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:21:04 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:21:05 - llm_consortium - INFO - new_llmbased:98 - LLM response: to determine if the two sql queries have the same columns and clauses, let's analyze each query.
+
+1. **first query:**
+   ```sql
+   select s.f_id
+   from song s
+   join files f on s.f_id = f.f_id
+   where f.formats = 'mp4' or s.resolution > 720;
+   ```
+
+   - this query selects `s.f_id` from the `song` table, joining it with the `files` table on `f_id`.
+   - the `where` clause filters results based on two conditions: 
+     - `f.formats = 'mp4'`
+     - `s.resolution > 720`
+
+2. **second query:**
+   ```sql
+   select f_id from files where formats = "mp4"
+   union
+   select f_id from song where resolution > 720;
+   ```
+
+   - the first part of this query selects `f_id` from the `files` table where `formats = 'mp4'`.
+   - the second part selects `f_id` from the `song` table where `resolution > 720`.
+   - the `union` operator combines the results of both queries, ensuring that the results are distinct.
+
+### comparison:
+- **columns:**
+  - both queries ultimately return a single column: `f_id`. 
+  - the first query returns `s.f_id`, while the second query returns `f_id` from two different tables. however, since both queries return `f_id`, they have the same column.
+
+- **clauses:**
+  - the first query has a `join` clause and a `where` clause that combines two conditions with an `or`.
+  - the second query uses `union` to combine results from two separate `select` statements, each with its own `where` clause.
+
+### conclusion:
+the two queries do not have the same clauses due to the presence of a `join` in the first query and the use of `union` in the second query. therefore, while they return the same column, the structure and logic of the queries differ.
+
+**final answer: no**
+2025-05-19 10:21:05 - llm_consortium - INFO - new_llmbased:98 - LLM response: no. 
+
+the first query selects multiple columns (`cust_id`, `cust_name`, and the sum of `acc_bal`), groups the results by `cust_id` and `cust_name`, and returns a total account balance for each customer in utah and texas. 
+
+the second query only returns a single value, which is the total sum of `acc_bal` for all customers in utah or texas, without grouping by any customer identifiers. 
+
+thus, they do not have the same columns or clauses used.
+2025-05-19 10:21:06 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT Fname
+FROM Student
+WHERE Age > 22; and SELECT Fname FROM STUDENT WHERE Age  >  22 have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:21:06 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Fname
+FROM Student
+WHERE Age > 22; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:21:07 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:21:07 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT supplier_name, supplier_phone
+FROM Suppliers
+JOIN Supplier_Addresses ON Suppliers.supplier_id = Supplier_Addresses.supplier_id
+JOIN Addresses ON Supplier_Addresses.address_id = Addresses.address_id
+ORDER BY Addresses.address_details; and SELECT T1.supplier_name ,  T1.supplier_phone FROM Suppliers AS T1 JOIN supplier_addresses AS T2 ON T1.supplier_id  =  T2.supplier_id JOIN addresses AS T3 ON T2.address_id  =  T3.address_id ORDER BY T3.address_details have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:21:07 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT supplier_name, supplier_phone
+FROM Suppliers
+JOIN Supplier_Addresses ON Suppliers.supplier_id = Supplier_Addresses.supplier_id
+JOIN Addresses ON Supplier_Addresses.address_id = Addresses.address_id
+ORDER BY Addresses.address_details; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:21:07 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. both queries have the same column (`fname`) and the same clause (`where age > 22`). the only difference is the spacing in the second query, which does not affect the execution or the result.
+2025-05-19 10:21:08 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT invoice_number
+FROM Invoices
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25'; and SELECT invoice_number FROM invoices WHERE invoice_date < "1989-09-03" OR invoice_date > "2007-12-25" have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:21:08 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT invoice_number
+FROM Invoices
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:21:08 - llm_consortium - INFO - new_llmbased:98 - LLM response: to determine if the two sql queries have the same columns and clauses, let's analyze them:
+
+1. **first query:**
+   ```sql
+   select distinct name
+   from nurse
+   where employeeid in (
+       select nurse
+       from on_call
+   );
+   ```
+   - this query selects distinct names from the `nurse` table where the `employeeid` is in a subquery that selects `nurse` from the `on_call` table.
+
+2. **second query:**
+   ```sql
+   select distinct t1.name 
+   from nurse as t1 
+   join on_call as t2 on t1.employeeid = t2.nurse;
+   ```
+   - this query selects distinct names from the `nurse` table (aliased as t1) and performs an inner join with the `on_call` table (aliased as t2) on the condition that `t1.employeeid` equals `t2.nurse`.
+
+### comparison:
+- **columns:**
+  - both queries are selecting distinct names from the `nurse` table. the first query uses `name`, while the second uses `t1.name`. assuming `name` and `t1.name` refer to the same column, they are equivalent.
+
+- **clauses:**
+  - the first query uses a `where` clause with a subquery to filter results based on `employeeid`.
+  - the second query uses a `join` clause to filter results based on the relationship between `employeeid` and `nurse`.
+
+### conclusion:
+the two queries do not use the same clauses. the first uses a subquery with a `where` clause, while the second uses a `join`. therefore, they are not equivalent.
+
+**answer: no**
+2025-05-19 10:21:08 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-19 10:21:09 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:21:10 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. 
+
+both sql queries select the same columns (`supplier_name` and `supplier_phone`) from the `suppliers` table and join the same tables (`supplier_addresses` and `addresses`) using the same join conditions. they also order the results by the same column (`address_details`). the only difference is the use of table aliases in the second query, but this does not affect the overall structure or the result of the queries.
+2025-05-19 10:21:11 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT "Time_of_purchase", "Age", "Address" FROM "member" ORDER BY "Time_of_purchase"; and SELECT Time_of_purchase ,  age ,  address FROM member ORDER BY Time_of_purchase have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:21:11 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT "Time_of_purchase", "Age", "Address" FROM "member" ORDER BY "Time_of_purchase"; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:21:11 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. both sql queries have the same column (`invoice_number`) and the same clauses (`where invoice_date < '1989-09-03' or invoice_date > '2007-12-25'`). the only difference is the use of single quotes in the first query and double quotes in the second query for the date literals, but in sql, single and double quotes can often be interchangeable depending on the database system. therefore, the queries are effectively the same in terms of their structure and logic.
+2025-05-19 10:21:11 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-19 10:21:13 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. 
+
+both sql queries select the same columns ("time_of_purchase", "age", "address" and time_of_purchase, age, address) from the same table ("member") and use the same ordering clause (order by "time_of_purchase"). the only difference is the use of double quotes in the first query, which is typically used for case sensitivity or special characters in some sql dialects. however, the columns themselves are the same.
+2025-05-19 10:21:13 - llm_consortium - INFO - hyperparameter_tuner:225 - Temperature 0.4: Collected 5 valid results
+2025-05-19 10:21:13 - llm_consortium - INFO - hyperparameter_tuner:232 - Temperature 0.4: Metrics: {'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(60.0), 'confidence': np.float64(0.944), 'new_llmbased': np.float64(0.72), 'where_clause_1705': np.float64(0.6)}
+2025-05-19 10:21:13 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(DISTINCT party_id) > 3; and SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3 have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:21:13 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(DISTINCT party_id) > 3; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:21:14 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-19 10:21:14 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT f_id
+FROM files
+WHERE formats = 'mp4'
+UNION
+SELECT f_id
+FROM song
+WHERE resolution > 720; and SELECT f_id FROM files WHERE formats  =  "mp4" UNION SELECT f_id FROM song WHERE resolution  >  720 have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:21:14 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT f_id
+FROM files
+WHERE formats = 'mp4'
+UNION
+SELECT f_id
+FROM song
+WHERE resolution > 720; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:21:14 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:21:15 - llm_consortium - INFO - new_llmbased:98 - LLM response: no. 
+
+the two sql queries use different aggregate functions in the `having` clause:
+
+1. the first query uses `count(distinct party_id)`, which counts the number of unique `party_id` values for each `payment_method_code`.
+2. the second query uses `count(*)`, which counts all rows for each `payment_method_code`, regardless of whether `party_id` values are unique or not.
+
+since they are counting different things, the results of the two queries may not be the same, even though they are grouping by the same column (`payment_method_code`).
+2025-05-19 10:21:15 - llm_consortium - INFO - hyperparameter_tuner:225 - Temperature 0.8: Collected 4 valid results
+2025-05-19 10:21:15 - llm_consortium - INFO - hyperparameter_tuner:232 - Temperature 0.8: Metrics: {'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(100.0), 'confidence': np.float64(0.95), 'new_llmbased': np.float64(0.6499999999999999), 'where_clause_1705': np.float64(0.75)}
+2025-05-19 10:21:21 - llm_consortium - INFO - new_llmbased:98 - LLM response: to determine if the two sql queries are equivalent in terms of their columns and clauses, let's analyze them:
+
+1. **first query:**
+   ```sql
+   select f_id
+   from files
+   where formats = 'mp4'
+   union
+   select f_id
+   from song
+   where resolution > 720;
+   ```
+
+2. **second query:**
+   ```sql
+   select f_id
+   from files
+   where formats = "mp4"
+   union
+   select f_id
+   from song
+   where resolution > 720;
+   ```
+
+### analysis:
+
+- **columns:**
+  both queries select the same column, `f_id`, from both tables.
+
+- **clauses:**
+  - the first query uses single quotes (`'mp4'`) for the string comparison in the `where` clause.
+  - the second query uses double quotes (`"mp4"`) for the same string comparison in the `where` clause.
+
+### conclusion:
+in sql, the use of single quotes and double quotes can have different meanings depending on the database system. however, in many sql databases (like mysql), single quotes are used for string literals, while double quotes are used for identifiers. 
+
+since the two queries differ in the type of quotes used for the string literal, they are not strictly equivalent.
+
+**final answer: no**
+2025-05-19 10:21:21 - llm_consortium - INFO - hyperparameter_tuner:225 - Temperature 0.0: Collected 3 valid results
+2025-05-19 10:21:21 - llm_consortium - INFO - hyperparameter_tuner:232 - Temperature 0.0: Metrics: {'exact_match_rate': np.float64(0.0), 'execution_match_rate': np.float64(66.66666666666666), 'confidence': np.float64(0.9499999999999998), 'new_llmbased': np.float64(0.3), 'where_clause_1705': np.float64(0.6666666666666666)}
+2025-05-19 10:21:21 - llm_consortium - INFO - sql_model_runner:724 - Complete tuning results:
+2025-05-19 10:21:21 - llm_consortium - INFO - sql_model_runner:726 - exact_match_rate: Best temp 0.0 (0.00)
+2025-05-19 10:21:21 - llm_consortium - INFO - sql_model_runner:726 - execution_match_rate: Best temp 0.8 (100.00)
+2025-05-19 10:21:21 - llm_consortium - INFO - sql_model_runner:726 - confidence: Best temp 0.4 (0.94)
+2025-05-19 10:21:21 - llm_consortium - INFO - sql_model_runner:726 - new_llmbased: Best temp 0.0 (0.30)
+2025-05-19 10:21:21 - llm_consortium - INFO - sql_model_runner:726 - where_clause_1705: Best temp 0.4 (0.60)
+2025-05-19 10:21:21 - llm_consortium - INFO - app:3788 - Using best temperature: 0.0 for final evaluation
+2025-05-19 10:21:22 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(DISTINCT party_id) > 3; and SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3 have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:21:22 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(DISTINCT party_id) > 3; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:21:22 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-19 10:21:24 - llm_consortium - INFO - new_llmbased:98 - LLM response: no. 
+
+the two sql queries do not have the same clauses used. 
+
+1. the first query uses `count(distinct party_id)`, which counts the number of unique `party_id` values for each `payment_method_code`. 
+2. the second query uses `count(*)`, which counts all rows for each `payment_method_code`, regardless of whether the `party_id` values are unique or not.
+
+since the counting methods are different, the results of the two queries may not be the same.
+2025-05-19 10:21:31 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT f_id
+FROM files
+WHERE formats = 'mp4'
+UNION
+SELECT f_id
+FROM song
+WHERE resolution > 720; and SELECT f_id FROM files WHERE formats  =  "mp4" UNION SELECT f_id FROM song WHERE resolution  >  720 have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:21:31 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT f_id
+FROM files
+WHERE formats = 'mp4'
+UNION
+SELECT f_id
+FROM song
+WHERE resolution > 720; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:21:32 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-19 10:21:34 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes, both sql queries have the same columns and clauses used. 
+
+1. both queries select the column `f_id`.
+2. both queries use the `union` operator to combine results from two different tables (`files` and `song`).
+3. the conditions in the `where` clauses are equivalent: one checks for `formats = 'mp4'` and the other checks for `formats = "mp4"` (the difference is in the quotation marks, but they are functionally the same in sql). the second part of the `union` in both queries checks for `resolution > 720`.
+
+therefore, the answer is **yes**.
+2025-05-19 10:21:36 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT cName
+FROM College
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); and SELECT cName FROM College WHERE enr  <  13000 AND state = "AZ" UNION SELECT cName FROM College WHERE enr  >  15000 AND state = "LA" have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:21:36 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT cName
+FROM College
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:21:36 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:21:44 - llm_consortium - INFO - new_llmbased:98 - LLM response: to determine if the two sql queries have the same columns and clauses, let's break them down:
+
+1. **first query:**
+   ```sql
+   select cname
+   from college
+   where (state = 'la' and enr > 15000) or (state = 'az' and enr < 13000);
+   ```
+
+   - **columns:** `cname`
+   - **clauses:** 
+     - `from college`
+     - `where` clause with two conditions combined using `or`.
+
+2. **second query:**
+   ```sql
+   select cname 
+   from college 
+   where enr < 13000 and state = "az" 
+   union 
+   select cname 
+   from college 
+   where enr > 15000 and state = "la";
+   ```
+
+   - **columns:** `cname` (from both parts of the union)
+   - **clauses:** 
+     - `from college` (in both select statements)
+     - `where` clause in both parts with conditions combined using `and`.
+
+### comparison:
+- **columns:** both queries select the same column `cname`.
+- **clauses:** 
+  - the first query uses an `or` condition in a single `where` clause, while the second query uses two separate `select` statements combined with `union`, each with an `and` condition.
+
+### conclusion:
+the two queries do not have the same clauses because they use different logical operators (`or` vs. `and`) and structure (single `where` vs. two `select` statements with `union`).
+
+**answer:** no
+2025-05-19 10:21:45 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT supplier_name, supplier_phone
+FROM Suppliers
+JOIN Supplier_Addresses ON Suppliers.supplier_id = Supplier_Addresses.supplier_id
+JOIN Addresses ON Supplier_Addresses.address_id = Addresses.address_id
+ORDER BY Addresses.address_details; and SELECT T1.supplier_name ,  T1.supplier_phone FROM Suppliers AS T1 JOIN supplier_addresses AS T2 ON T1.supplier_id  =  T2.supplier_id JOIN addresses AS T3 ON T2.address_id  =  T3.address_id ORDER BY T3.address_details have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:21:45 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT supplier_name, supplier_phone
+FROM Suppliers
+JOIN Supplier_Addresses ON Suppliers.supplier_id = Supplier_Addresses.supplier_id
+JOIN Addresses ON Supplier_Addresses.address_id = Addresses.address_id
+ORDER BY Addresses.address_details; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:21:48 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-19 10:21:48 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. 
+
+both sql queries select the same columns (`supplier_name` and `supplier_phone`) from the `suppliers` table and join the same tables (`supplier_addresses` and `addresses`) using the same join conditions. they also order the results by the same column (`address_details`). the only difference is the use of table aliases in the second query, but this does not affect the overall structure or the result of the queries.
+2025-05-19 10:21:49 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT Fname
+FROM Student
+WHERE Age > 22; and SELECT Fname FROM STUDENT WHERE Age  >  22 have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:21:49 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Fname
+FROM Student
+WHERE Age > 22; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:21:49 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:21:50 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. both queries have the same column (`fname`) and the same clause (`where age > 22`). the only difference is the spacing in the second query, which does not affect the execution or the result.
+2025-05-19 10:21:51 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT COUNT(*) FROM company WHERE Headquarters = 'USA'; and SELECT count(*) FROM company WHERE Headquarters  =  'USA' have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:21:51 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT COUNT(*) FROM company WHERE Headquarters = 'USA'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:21:51 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:21:52 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. both queries have the same column (`count(*)`) and the same clause (`where headquarters = 'usa'`). the only difference is the spacing, which does not affect the execution of the sql statements.
+2025-05-19 10:21:53 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT DISTINCT c.Leader_Name
+FROM college c
+JOIN member m ON c.College_ID = m.College_ID
+WHERE m.Country = 'Canada'; and SELECT DISTINCT T1.Leader_Name FROM college AS T1 JOIN member AS T2 ON T1.College_ID  =  T2.College_ID WHERE T2.Country  =  "Canada" have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:21:53 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT DISTINCT c.Leader_Name
+FROM college c
+JOIN member m ON c.College_ID = m.College_ID
+WHERE m.Country = 'Canada'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:21:54 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:21:56 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes, both sql queries have the same column and the same clauses used. they both select distinct `leader_name` from the `college` table, joining it with the `member` table on `college_id`, and filtering the results where `country` is 'canada'. the only difference is the use of different aliases (c/m vs. t1/t2), but that does not affect the logic or the output of the queries.
+2025-05-19 10:21:57 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT DISTINCT Name
+FROM Nurse
+WHERE EmployeeID IN (
+    SELECT Nurse
+    FROM On_Call
+); and SELECT DISTINCT T1.name FROM nurse AS T1 JOIN on_call AS T2 ON T1.EmployeeID  =  T2.nurse have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:21:57 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT DISTINCT Name
+FROM Nurse
+WHERE EmployeeID IN (
+    SELECT Nurse
+    FROM On_Call
+); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:21:57 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:22:03 - llm_consortium - INFO - new_llmbased:98 - LLM response: to determine if the two sql queries have the same columns and clauses, let's analyze them:
+
+1. **first query:**
+   ```sql
+   select distinct name
+   from nurse
+   where employeeid in (
+       select nurse
+       from on_call
+   );
+   ```
+   - this query selects distinct names from the `nurse` table where the `employeeid` is in a subquery that selects `nurse` from the `on_call` table.
+
+2. **second query:**
+   ```sql
+   select distinct t1.name 
+   from nurse as t1 
+   join on_call as t2 on t1.employeeid = t2.nurse;
+   ```
+   - this query selects distinct names from the `nurse` table (aliased as `t1`) and performs an inner join with the `on_call` table (aliased as `t2`) on the condition that `t1.employeeid` matches `t2.nurse`.
+
+### comparison:
+- **columns:**
+  - both queries are selecting distinct names from the `nurse` table. the first query uses `name`, while the second uses `t1.name`. assuming `name` and `t1.name` refer to the same column, they are equivalent.
+
+- **clauses:**
+  - the first query uses a `where` clause with a subquery to filter results based on `employeeid`.
+  - the second query uses a `join` clause to filter results based on the relationship between `employeeid` and `nurse`.
+
+### conclusion:
+the two queries do not use the same clauses. the first uses a subquery with a `where` clause, while the second uses a `join`. therefore, they are not equivalent.
+
+**answer: no**
+2025-05-19 10:22:04 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT m."Time_of_purchase", m."Age", m."Address"
+FROM "member" m
+ORDER BY m."Time_of_purchase"; and SELECT Time_of_purchase ,  age ,  address FROM member ORDER BY Time_of_purchase have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:22:04 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT m."Time_of_purchase", m."Age", m."Address"
+FROM "member" m
+ORDER BY m."Time_of_purchase"; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:22:05 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-19 10:22:06 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. 
+
+both sql queries select the same columns (`time_of_purchase`, `age`, and `address`) from the `member` table and order the results by `time_of_purchase`. the only difference is the use of double quotes in the first query, which is typically used in some sql dialects (like postgresql) to preserve case sensitivity or special characters in identifiers. however, the columns and clauses used are the same in both queries.
+2025-05-19 10:22:07 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT Document_Type_Name, Document_Type_Description
+FROM Ref_Document_Types
+WHERE Document_Type_Code = 'RV'; and SELECT document_type_name ,  document_type_description FROM Ref_document_types WHERE document_type_code  =  "RV" have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:22:07 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Document_Type_Name, Document_Type_Description
+FROM Ref_Document_Types
+WHERE Document_Type_Code = 'RV'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:22:08 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:22:11 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. 
+
+both sql queries select the same columns (`document_type_name`, `document_type_description`) from the same table (`ref_document_types` or `ref_document_types`, which is the same table with different casing). they also use the same condition in the `where` clause to filter by `document_type_code` with the value 'rv' (using single quotes in the first query and double quotes in the second query, which is acceptable in some sql dialects). 
+
+thus, they have the same columns and clauses used.
+2025-05-19 10:22:12 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT artist_name
+FROM song
+WHERE duration = (SELECT MIN(duration) FROM files); and SELECT T1.artist_name FROM song AS T1 JOIN files AS T2 ON T1.f_id  =  T2.f_id ORDER BY T2.duration LIMIT 1 have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:22:12 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT artist_name
+FROM song
+WHERE duration = (SELECT MIN(duration) FROM files); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:22:12 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:22:18 - llm_consortium - INFO - new_llmbased:98 - LLM response: to determine if the two sql queries have the same columns and clauses, let's analyze each query:
+
+1. **first query:**
+   ```sql
+   select artist_name
+   from song
+   where duration = (select min(duration) from files);
+   ```
+   - **columns:** `artist_name`
+   - **clauses:** 
+     - `from song`
+     - `where` clause with a subquery to find the minimum duration from the `files` table.
+
+2. **second query:**
+   ```sql
+   select t1.artist_name 
+   from song as t1 
+   join files as t2 on t1.f_id = t2.f_id 
+   order by t2.duration 
+   limit 1;
+   ```
+   - **columns:** `t1.artist_name`
+   - **clauses:** 
+     - `from song as t1`
+     - `join files as t2 on t1.f_id = t2.f_id`
+     - `order by t2.duration`
+     - `limit 1`
+
+### comparison:
+- **columns:**
+  - both queries select `artist_name`, but the second query uses an alias (`t1.artist_name`).
+
+- **clauses:**
+  - the first query uses a `where` clause with a subquery, while the second query uses a `join` clause, an `order by` clause, and a `limit` clause.
+
+### conclusion:
+the two queries do not have the same columns and clauses. therefore, the answer is:
+
+**no**
+2025-05-19 10:22:20 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT p."Player", ms."Season", t."Name"
+FROM "player" p
+JOIN "match_season" ms ON p."Team" = ms."Team"
+JOIN "team" t ON p."Team" = t."Team_id"; and SELECT T1.Season ,  T1.Player ,  T2.Name FROM match_season AS T1 JOIN team AS T2 ON T1.Team  =  T2.Team_id have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:22:20 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT p."Player", ms."Season", t."Name"
+FROM "player" p
+JOIN "match_season" ms ON p."Team" = ms."Team"
+JOIN "team" t ON p."Team" = t."Team_id"; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:22:20 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-19 10:22:29 - llm_consortium - INFO - new_llmbased:98 - LLM response: to determine if the two sql queries have the same columns and clauses, let's break down each query.
+
+### first query:
+```sql
+select p."player", ms."season", t."name"
+from "player" p
+join "match_season" ms on p."team" = ms."team"
+join "team" t on p."team" = t."team_id";
+```
+- **selected columns**: 
+  - p."player"
+  - ms."season"
+  - t."name"
+  
+- **joins**:
+  - join between "player" (p) and "match_season" (ms) on p."team" = ms."team"
+  - join between "player" (p) and "team" (t) on p."team" = t."team_id"
+
+### second query:
+```sql
+select t1.season, t1.player, t2.name 
+from match_season as t1 
+join team as t2 on t1.team = t2.team_id;
+```
+- **selected columns**:
+  - t1.season
+  - t1.player
+  - t2.name
+  
+- **joins**:
+  - join between "match_season" (t1) and "team" (t2) on t1.team = t2.team_id
+
+### comparison:
+1. **selected columns**:
+   - the first query selects `p."player"`, `ms."season"`, and `t."name"`.
+   - the second query selects `t1.season`, `t1.player`, and `t2.name`.
+   - the columns `t1.season` and `ms."season"` refer to the same data, and `t2.name` and `t."name"` also refer to the same data. however, `t1.player` does not match `p."player"` because `t1` is derived from `match_season`, which does not include player information directly.
+
+2. **joins**:
+   - the first query has two joins, while the second query only has one join. the first query joins "player" with "match_season" and "team", while the second query only joins "match_season" with "team".
+
+### conclusion:
+the two queries do not have the same columns and clauses used. therefore, the answer is:
+
+**no**.
+2025-05-19 10:22:30 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT "Category", COUNT("Category") AS "Category_Count"
+FROM "music_festival"
+GROUP BY "Category"
+HAVING COUNT("Category") > 1; and SELECT Category FROM music_festival GROUP BY Category HAVING COUNT(*)  >  1 have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:22:30 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT "Category", COUNT("Category") AS "Category_Count"
+FROM "music_festival"
+GROUP BY "Category"
+HAVING COUNT("Category") > 1; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:22:31 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-19 10:22:32 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. both queries are checking for categories in the "music_festival" table that have a count greater than 1. they both group by the "category" column and use the having clause to filter the results based on the count of occurrences. the first query also includes a count of the categories in the result set, while the second query only returns the category names. however, the conditions and the grouping are the same in both queries.
+2025-05-19 10:22:33 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT invoice_number
+FROM Invoices
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25'; and SELECT invoice_number FROM invoices WHERE invoice_date < "1989-09-03" OR invoice_date > "2007-12-25" have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:22:33 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT invoice_number
+FROM Invoices
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:22:34 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:22:36 - llm_consortium - INFO - new_llmbased:98 - LLM response: yes. both sql queries have the same column (`invoice_number`) and the same clauses (`where invoice_date < '1989-09-03' or invoice_date > '2007-12-25'`). the only difference is the use of single quotes in the first query and double quotes in the second query for the date literals, but in sql, single and double quotes can often be interchangeable depending on the database system. therefore, the queries are effectively the same in terms of their structure and logic.
+2025-05-19 10:22:37 - llm_consortium - INFO - new_llmbased:89 - Sending prompt: check if SELECT cust_name, SUM(acc_bal) AS total_account_balance
+FROM customer
+WHERE state IN ('Utah', 'Texas')
+GROUP BY cust_name; and SELECT sum(acc_bal) FROM customer WHERE state  =  'Utah' OR state  =  'Texas' have the same column AND same clauses used. Return Yes or No
+2025-05-19 10:22:37 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT cust_name, SUM(acc_bal) AS total_account_balance
+FROM customer
+WHERE state IN ('Utah', 'Texas')
+GROUP BY cust_name; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-19 10:22:38 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-19 10:22:38 - llm_consortium - INFO - new_llmbased:98 - LLM response: no. 
+
+the first query groups the results by `cust_name` and returns the total account balance for each customer in either utah or texas. the second query calculates the total account balance for all customers in utah or texas without grouping by customer name. therefore, they do not have the same columns or clauses used.
