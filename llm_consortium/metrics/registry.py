@@ -3,28 +3,9 @@ from .exact_match import SQLExactMatch
 from .execution_match import SQLExecutionMatch
 from typing import Dict, List
 from pathlib import Path
-
-
 from .base_metrics import BaseMetric
-from .component_match import SQLComponentMatch
-from .anmol import SQLAnmol
-from .abcabc import SQLabcabc
-from .xyz import SQLxyz
-from .ooo import SQLooo
-from .ppp import SQLppp
-from .ccc import SQLccc
-from .select_check import Select_checkMetric
 from .vaibhav import SQLVaibhav
-from .joinclause_check import Joinclause_checkMetric
-from .where_clause import Where_clauseMetric
-from .custom123 import Custom123Metric
-from .custom321 import Custom321Metric
 from .llmbased_clause_match import Llmbased_clause_matchMetric
-from .check1_join import Check1_joinMetric
-from .check2_execute import Check2_executeMetric
-from .from_clause import From_clauseMetric
-from .join123_check import Join123_checkMetric
-from .abc1234 import Abc1234Metric
 from .new_llmbased import New_llmbasedMetric
 from .where_clause_1705 import Where_clause_1705Metric
 
@@ -44,31 +25,9 @@ class MetricRegistry:
                 
 
                 ),
-                "component_match":SQLComponentMatch(),
-                "anmol": SQLAnmol(),
-                
-                
-                "abcabc": SQLabcabc(),
-                "xyz": SQLxyz(),
-                "ooo": SQLooo(),
-                "ppp": SQLppp(),
-                
-                "ccc": SQLccc(),
-                "select_check": Select_checkMetric(),
                 
                 "vaibhav": SQLVaibhav(),
-                
-                
-                "joinclause_check": Joinclause_checkMetric(),
-                "where_clause": Where_clauseMetric(),
-                "custom123": Custom123Metric(),
-                "custom321": Custom321Metric(),
                 "llmbased_clause_match": Llmbased_clause_matchMetric(),
-                "check1_join": Check1_joinMetric(),
-                "check2_execute": Check2_executeMetric(),
-                "from_clause": From_clauseMetric(),
-                "join123_check": Join123_checkMetric(),
-                "abc1234": Abc1234Metric(),
                 "new_llmbased": New_llmbasedMetric(),
                 "where_clause_1705": Where_clause_1705Metric(),
             }
