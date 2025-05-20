@@ -31,7 +31,7 @@ def render_custom_metric_tabs():
                 "Prompt for LLM-as-Judge",
                 key="llm_judge_prompt",
                 height=150,
-                placeholder="e.g., Check whether [generated_sql] has the join clause or not"
+                placeholder="e.g., Check whether {generated_sql} and {gold_sql} has the join clause or not"
             )
 
             st.subheader("Response Mapping")

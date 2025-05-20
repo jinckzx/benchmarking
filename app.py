@@ -3481,7 +3481,15 @@ def text2sql_ui_mm():
         for model in selected_models:
             with st.expander(f"Parameters for {model}", expanded=False):
                 # All parameters in one column
-                
+                # New prompt input at the top
+                prompt = st.text_area(
+                    "Prompt",
+                    value="",
+                    key=f"{model}_prompt",
+                    height=150,
+                    help="Enter the specific prompt for this model (supports multi-line input)",
+                    placeholder="Enter your model specific prompt here. Convert {prompt} into sql."
+                )
                 temperature = st.slider(
                     "Temperature",
                     min_value=0.0,
@@ -3556,6 +3564,7 @@ def text2sql_ui_mm():
         
                 # Store the configuration for this model
                 model_configs[model] = {
+                    "prompt": prompt.strip(),
                     "temperature": temperature,
                     "top_p": top_p,
                     "max_tokens": max_tokens,

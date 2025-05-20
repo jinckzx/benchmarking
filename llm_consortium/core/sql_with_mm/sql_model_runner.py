@@ -432,6 +432,7 @@ class SQLModelRunner:
                 {"role": "system", "content": self.system_prompt},
                 {"role": "user", "content": self.iteration_prompt_template.format(
                     context=context,
+                    user_prompt_input=params["prompt"],
                     prompt=prompt,
                     model=model
                 )}
@@ -451,6 +452,7 @@ class SQLModelRunner:
             )
             
             content = response["content"]
+            print(content)
             extracted_sql = self.extractor.extract_sql(content)
             
             entry = LogEntry(
