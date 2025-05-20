@@ -4,12 +4,7 @@ from .execution_match import SQLExecutionMatch
 from typing import Dict, List
 from pathlib import Path
 
-# Step 1: Resolve the base directory (benchmarking_tool/)
-# Assuming this file is located at: benchmarking_tool/llm_consortium/metrics/metrics.py
-BASE_DIR = Path(__file__).resolve().parents[2]
 
-# Step 2: Construct the relative path to the spider_data database directory
-DB_ROOT_PATH = BASE_DIR / "dataset" / "spider_data" / "spider_data" / "database"
 from .base_metrics import BaseMetric
 from .component_match import SQLComponentMatch
 from .anmol import SQLAnmol
@@ -44,9 +39,9 @@ class MetricRegistry:
                 "exact_match": SQLExactMatch(),
                 "execution_match": SQLExecutionMatch(
 
-                    # db_root_path="D:/data_sci/benchmarking_tool/dataset/spider_data/spider_data/database"
+                    db_root_path="./dataset/spider_data/spider_data/database"
 
-                    db_root_path=str(DB_ROOT_PATH)
+                
 
                 ),
                 "component_match":SQLComponentMatch(),

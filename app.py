@@ -4244,7 +4244,157 @@ def text2sql_ui_mm():
                 create_best_parameter_tab()
 
 
-            # Tab for Cost Estimation                 
+            # # Tab for Cost Estimation                 
+            # with tabs[tab_mapping["cost_estimation"]]:  # Assuming this is the seventh tab (index 6)
+            #     st.header("Cost Estimation")
+                
+            #     if st.session_state.sql_evaluation_results:
+            #         # Calculate cost based on actual completed evaluation
+            #         selected_models = list(st.session_state.sql_evaluation_results.keys())
+                    
+            #         # Count number of queries processed per model
+            #         query_counts = {}
+            #         for model, eval_data in st.session_state.sql_evaluation_results.items():
+            #             query_counts[model] = len(eval_data["responses"])
+                    
+            #         # Prepare model data for cost calculation
+            #         model_instances = [(model, 1) for model in selected_models]
+                    
+            #         # Calculate cost for all iterations
+            #         total_iterations = sum(query_counts.values())
+            #         total_cost, cost_breakdown = calculate_cost(model_instances, total_iterations)
+                    
+            #         # Display summary
+            #         st.subheader("Evaluation Cost Summary")
+            #         col1, col2 = st.columns(2)
+            #         col1.metric("Total Models", len(selected_models))
+            #         col2.metric("Total Queries", total_iterations)
+                    
+            #         st.metric("Estimated Total Cost", f"${total_cost:.4f}")
+                    
+            #         # Display cost breakdown table
+            #         st.subheader("Cost Breakdown by Model")
+            #         st.dataframe(cost_breakdown, use_container_width=True)
+                    
+            #         # Create a bar chart of costs by model
+            #         cost_data = []
+            #         for model in selected_models:
+            #             row = cost_breakdown[cost_breakdown['Model'] == model]
+            #             if not row.empty:
+            #                 cost_val = float(row['Total'].iloc[0].replace('$', ''))
+            #                 cost_data.append({"Model": model, "Cost": cost_val})
+                    
+            #         if cost_data:
+            #             cost_df = pd.DataFrame(cost_data)
+            #             fig, ax = plt.subplots(figsize=(10, 5))
+            #             ax.bar(cost_df['Model'], cost_df['Cost'], color='green')
+            #             ax.set_xlabel('Model')
+            #             ax.set_ylabel('Cost ($)')
+            #             ax.set_title('Cost by Model')
+            #             ax.grid(True, linestyle='--', alpha=0.7)
+            #             plt.xticks(rotation=45, ha='right')
+            #             plt.tight_layout()
+            #             st.pyplot(fig)
+                        
+            #     else:
+            #         # If no evaluation has been run, show cost estimator
+            #         st.subheader("Cost Estimator")
+            #         st.markdown("""
+            #         This tool helps you estimate the cost of running your SQL evaluation based on:
+            #         - Selected models
+            #         - Number of test queries
+            #         - Whether parameter tuning is enabled
+            #         """)
+                    
+            #         # Get user inputs for estimation
+            #         estimation_models = st.multiselect(
+            #             "Select Models for Estimation",
+            #             ["gpt-4o-mini", "gpt-3.5-turbo", "gemini-2", "o3-mini"],
+            #             default=["gpt-4o-mini"] if "sql_models" not in st.session_state else st.session_state.sql_models
+            #         )
+                    
+            #         num_queries = st.slider(
+            #             "Number of Test Queries",
+            #             min_value=10,
+            #             max_value=500,
+            #             value=50,
+            #             step=10,
+            #             help="Estimated number of queries to evaluate"
+            #         )
+                    
+            #         enable_est_tuning = st.checkbox(
+            #             "Include Parameter Tuning",
+            #             value=True,
+            #             help="Parameter tuning runs additional evaluations with different temperatures"
+            #         )
+                    
+            #         if enable_est_tuning:
+            #             num_trials = st.slider(
+            #                 "Number of Tuning Trials",
+            #                 min_value=3,
+            #                 max_value=10,
+            #                 value=5,
+            #                 step=1,
+            #                 help="Number of different parameter configurations to try"
+            #             )
+            #         else:
+            #             num_trials = 1
+                        
+            #         # Calculate estimated cost
+            #         if estimation_models:
+            #             # Prepare model data for cost calculation
+            #             model_instances = [(model, 1) for model in estimation_models]
+                        
+            #             # Basic evaluation cost (one run per model)
+            #             base_iterations = num_queries * len(estimation_models)
+                        
+            #             # Add tuning iterations if enabled
+            #             tuning_iterations = 0
+            #             if enable_est_tuning and estimation_models:
+            #                 # For each trial, we run a subset of queries with one model
+            #                 tuning_iterations = num_queries * num_trials
+                            
+            #             total_iterations = base_iterations + tuning_iterations
+                        
+            #             # Calculate cost
+            #             total_cost, cost_breakdown = calculate_cost(model_instances, total_iterations)
+                        
+            #             # Display results
+            #             cost_col1, cost_col2, cost_col3 = st.columns(3)
+            #             cost_col1.metric("Base Evaluation Queries", base_iterations)
+            #             cost_col2.metric("Tuning Queries", tuning_iterations)
+            #             cost_col3.metric("Total Queries", total_iterations)
+                        
+            #             st.metric("Estimated Total Cost", f"${total_cost:.4f}")
+                        
+            #             # Display cost breakdown
+            #             st.subheader("Cost Breakdown")
+            #             st.dataframe(cost_breakdown, use_container_width=True)
+                        
+            #             # Show model pricing information
+            #             st.subheader("Model Pricing (per 1K tokens)")
+            #             pricing_data = []
+            #             for model, prices in MODEL_PRICING.items():
+            #                 pricing_data.append({
+            #                     "Model": model,
+            #                     "Input Cost (per 1K tokens)": f"${prices['input']}",
+            #                     "Output Cost (per 1K tokens)": f"${prices['output']}"
+            #                 })
+                        
+            #             st.dataframe(pd.DataFrame(pricing_data), use_container_width=True)
+                        
+            #             # Display assumptions
+            #             st.subheader("Calculation Assumptions")
+            #             st.markdown(f"""
+            #             - Average input tokens per query: {AVG_INPUT_TOKENS}
+            #             - Average output tokens per query: {AVG_OUTPUT_TOKENS}
+            #             - Base evaluation: All models process all queries once
+            #             - Tuning: Best model processes queries {num_trials} times with different parameters
+            #             """)
+            #         else:
+            #             st.warning("Please select at least one model for cost estimation")
+            
+# Tab for Cost Estimation                 
             with tabs[tab_mapping["cost_estimation"]]:  # Assuming this is the seventh tab (index 6)
                 st.header("Cost Estimation")
                 
@@ -4306,11 +4456,19 @@ def text2sql_ui_mm():
                     - Whether parameter tuning is enabled
                     """)
                     
+                    # Get the selected models from the main configuration if available
+                    default_models = []
+                    if "sql_models" in st.session_state and st.session_state.sql_models:
+                        default_models = st.session_state.sql_models
+                    
+                    # List of available models - make sure this matches your actual available models
+                    available_models = ["gpt-4o", "gpt-4o-mini", "gpt-3.5-turbo", "gemini-2", "o3-mini"]
+                    
                     # Get user inputs for estimation
                     estimation_models = st.multiselect(
                         "Select Models for Estimation",
-                        ["gpt-4o-mini", "gpt-3.5-turbo", "gemini-2", "o3-mini"],
-                        default=["gpt-4o-mini"] if "sql_models" not in st.session_state else st.session_state.sql_models
+                        available_models,
+                        default=default_models if default_models else ["gpt-4o-mini"]
                     )
                     
                     num_queries = st.slider(

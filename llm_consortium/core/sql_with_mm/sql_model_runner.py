@@ -349,11 +349,13 @@ from ...utils.logging import logger
 from .hyperparameter_tuner import HyperparameterTuner
 from ..client_init import llm
 import inspect
-
+from pathlib import Path
 load_dotenv()
-# SCHEMA_PATH = "D:\\data_sci\\benchmarking_tool\\dataset\\spider_data\\spider_data\\database\\{db_id}\\schema.sql"
+SCHEMA_PATH = "./dataset/spider_data/spider_data/database/{db_id}/schema.sql"
+from pathlib import Path
+import os
 
-SCHEMA_PATH = "D:\\data_sci\\v4\\benchmarking_tool\\dataset\\spider_data\\spider_data\\database\\{db_id}\\schema.sql"
+
 
 class SQLModelRunner:
     def __init__(self, selected_metrics: List[str]):
