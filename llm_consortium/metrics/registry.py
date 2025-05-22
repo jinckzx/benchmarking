@@ -8,6 +8,7 @@ from .vaibhav import SQLVaibhav
 from .llmbased_clause_match import Llmbased_clause_matchMetric
 from .new_llmbased import New_llmbasedMetric
 from .where_clause_1705 import Where_clause_1705Metric
+from .join_2205 import Join_2205Metric
 
 
 
@@ -30,6 +31,7 @@ class MetricRegistry:
                 "llmbased_clause_match": Llmbased_clause_matchMetric(),
                 "new_llmbased": New_llmbasedMetric(),
                 "where_clause_1705": Where_clause_1705Metric(),
+                "join_2205": Join_2205Metric(),
             }
         }
     

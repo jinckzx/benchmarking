@@ -26,3 +26,15 @@ plotly
 seaborn
 llama.index.embeddings.azure_openai
 sqlparse
+fastapi
+uvicorn
+pandas
+python-multipart
+aiofiles
+pytest
+pytest-asyncio
+httpx
+sqlalchemy
+sqlite3-binary
+python-dotenv
+streamlit_modal
