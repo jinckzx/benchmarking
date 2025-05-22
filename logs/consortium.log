@@ -48699,3 +48699,24 @@ the first query groups the results by `cust_id` and returns the total account ba
 the second query calculates the total account balance for all customers in utah or texas without grouping by `cust_id`, returning a single total sum for all matching records.
 
 thus, they do not have the same columns or clauses used.
+2025-05-22 16:00:52 - llm_consortium - INFO - sql_model_runner:372 - Initialized with metrics: ['execution_match']
+2025-05-22 16:00:52 - llm_consortium - INFO - sql_model_runner:648 - Starting evaluation for gpt-4o-mini
+2025-05-22 16:00:52 - llm_consortium - INFO - sql_model_runner:648 - Starting evaluation for gpt-3.5-turbo
+2025-05-22 16:01:10 - llm_consortium - INFO - sql_model_runner:667 - Model gpt-4o-mini evaluation complete
+2025-05-22 16:01:11 - llm_consortium - INFO - sql_model_runner:667 - Model gpt-3.5-turbo evaluation complete
+2025-05-22 16:01:11 - llm_consortium - INFO - sql_model_runner:690 - Tuning hyperparameters for gpt-3.5-turbo
+2025-05-22 16:01:11 - llm_consortium - INFO - hyperparameter_tuner:252 - Starting hyperparameter tuning for gpt-3.5-turbo
+2025-05-22 16:01:16 - llm_consortium - INFO - hyperparameter_tuner:225 - Temperature 0.2: Collected 4 valid results
+2025-05-22 16:01:16 - llm_consortium - INFO - hyperparameter_tuner:232 - Temperature 0.2: Metrics: {'execution_match_rate': np.float64(75.0), 'confidence': np.float64(0.95)}
+2025-05-22 16:01:17 - llm_consortium - INFO - hyperparameter_tuner:225 - Temperature 0.6: Collected 4 valid results
+2025-05-22 16:01:17 - llm_consortium - INFO - hyperparameter_tuner:232 - Temperature 0.6: Metrics: {'execution_match_rate': np.float64(75.0), 'confidence': np.float64(0.95)}
+2025-05-22 16:01:18 - llm_consortium - INFO - hyperparameter_tuner:225 - Temperature 0.4: Collected 5 valid results
+2025-05-22 16:01:18 - llm_consortium - INFO - hyperparameter_tuner:232 - Temperature 0.4: Metrics: {'execution_match_rate': np.float64(40.0), 'confidence': np.float64(0.944)}
+2025-05-22 16:01:18 - llm_consortium - INFO - hyperparameter_tuner:225 - Temperature 0.8: Collected 5 valid results
+2025-05-22 16:01:18 - llm_consortium - INFO - hyperparameter_tuner:232 - Temperature 0.8: Metrics: {'execution_match_rate': np.float64(60.0), 'confidence': np.float64(0.9460000000000001)}
+2025-05-22 16:01:34 - llm_consortium - INFO - hyperparameter_tuner:225 - Temperature 0.0: Collected 4 valid results
+2025-05-22 16:01:34 - llm_consortium - INFO - hyperparameter_tuner:232 - Temperature 0.0: Metrics: {'execution_match_rate': np.float64(25.0), 'confidence': np.float64(0.9425000000000001)}
+2025-05-22 16:01:34 - llm_consortium - INFO - sql_model_runner:728 - Complete tuning results:
+2025-05-22 16:01:34 - llm_consortium - INFO - sql_model_runner:730 - execution_match_rate: Best temp 0.2 (75.00)
+2025-05-22 16:01:34 - llm_consortium - INFO - sql_model_runner:730 - confidence: Best temp 0.0 (0.94)
+2025-05-22 16:01:34 - llm_consortium - INFO - app:3797 - Using best temperature: 0.2 for final evaluation
