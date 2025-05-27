@@ -1,0 +1,158 @@
+SQL EVALUATION SUMMARY REPORT
+==================================================
+
+MODEL RANKINGS:
+--------------------
+1. gpt-4o-mini: 0.704
+2. gpt-3.5-turbo: 0.671
+
+
+MODEL: gpt-4o-mini
+========================================
+
+QUERY_METRICS METRIC:
+Average Score: 0.694
+Pass Rate: 75.0%
+Evaluations: 4
+
+Criteria Summary:
+SUMMARY FOR QUERY_METRICS METRIC:
+
+Performance Overview:
+Average score of 0.69 with 75.0% pass rate indicates moderate performance in this area.
+
+Common Issues Identified:
+
+
+Recommendations:
+Based on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in query_metrics.
+------------------------------
+
+INTENT_UNDERSTANDING METRIC:
+Average Score: 0.751
+Pass Rate: 75.0%
+Evaluations: 4
+
+Criteria Summary:
+SUMMARY FOR INTENT_UNDERSTANDING METRIC:
+
+Performance Overview:
+Average score of 0.75 with 75.0% pass rate indicates moderate performance in this area.
+
+Common Issues Identified:
+
+
+Recommendations:
+Based on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in intent_understanding.
+------------------------------
+
+SYNTAX_ACCURACY METRIC:
+Average Score: 0.621
+Pass Rate: 0.0%
+Evaluations: 4
+
+Criteria Summary:
+SUMMARY FOR SYNTAX_ACCURACY METRIC:
+
+Performance Overview:
+Average score of 0.62 with 0.0% pass rate indicates moderate performance in this area.
+
+Common Issues Identified:
+
+
+Recommendations:
+Based on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in syntax_accuracy.
+------------------------------
+
+LOGICAL_CORRECTNESS METRIC:
+Average Score: 0.721
+Pass Rate: 75.0%
+Evaluations: 4
+
+Criteria Summary:
+SUMMARY FOR LOGICAL_CORRECTNESS METRIC:
+
+Performance Overview:
+Average score of 0.72 with 75.0% pass rate indicates moderate performance in this area.
+
+Common Issues Identified:
+
+
+Recommendations:
+Based on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in logical_correctness.
+------------------------------
+
+MODEL: gpt-3.5-turbo
+========================================
+
+QUERY_METRICS METRIC:
+Average Score: 0.654
+Pass Rate: 50.0%
+Evaluations: 4
+
+Criteria Summary:
+SUMMARY FOR QUERY_METRICS METRIC:
+
+Performance Overview:
+Average score of 0.65 with 50.0% pass rate indicates moderate performance in this area.
+
+Common Issues Identified:
+
+
+Recommendations:
+Based on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in query_metrics.
+------------------------------
+
+INTENT_UNDERSTANDING METRIC:
+Average Score: 0.702
+Pass Rate: 50.0%
+Evaluations: 4
+
+Criteria Summary:
+SUMMARY FOR INTENT_UNDERSTANDING METRIC:
+
+Performance Overview:
+Average score of 0.70 with 50.0% pass rate indicates moderate performance in this area.
+
+Common Issues Identified:
+
+
+Recommendations:
+Based on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in intent_understanding.
+------------------------------
+
+SYNTAX_ACCURACY METRIC:
+Average Score: 0.628
+Pass Rate: 0.0%
+Evaluations: 4
+
+Criteria Summary:
+SUMMARY FOR SYNTAX_ACCURACY METRIC:
+
+Performance Overview:
+Average score of 0.63 with 0.0% pass rate indicates moderate performance in this area.
+
+Common Issues Identified:
+
+
+Recommendations:
+Based on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in syntax_accuracy.
+------------------------------
+
+LOGICAL_CORRECTNESS METRIC:
+Average Score: 0.683
+Pass Rate: 50.0%
+Evaluations: 4
+
+Criteria Summary:
+SUMMARY FOR LOGICAL_CORRECTNESS METRIC:
+
+Performance Overview:
+Average score of 0.68 with 50.0% pass rate indicates moderate performance in this area.
+
+Common Issues Identified:
+
+
+Recommendations:
+Based on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in logical_correctness.
+------------------------------

@@ -51707,3 +51707,514 @@ FROM Ref_Document_Types
 WHERE Document_Type_Code = 'RV'; matches with SELECT document_type_name ,  document_type_description FROM Ref_document_types WHERE document_type_code  =  "RV". Return in Yes or No. Strictly.
 2025-05-27 12:33:45 - llm_consortium - INFO - new_2705:98 - LLM response: yes.
 2025-05-27 12:33:45 - llm_consortium - INFO - llmbased_clause_match:97 - LLM response: yes.
+2025-05-27 16:02:05 - llm_consortium - INFO - sql_model_runner:372 - Initialized with metrics: ['execution_match', 'new_2705', 'where_clause_1705']
+2025-05-27 16:02:05 - llm_consortium - INFO - sql_model_runner:648 - Starting evaluation for gpt-4o-mini
+2025-05-27 16:02:05 - llm_consortium - INFO - sql_model_runner:648 - Starting evaluation for gpt-3.5-turbo
+2025-05-27 16:02:07 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether No SQL detected and SELECT DISTINCT T1.name FROM nurse AS T1 JOIN on_call AS T2 ON T1.EmployeeID  =  T2.nurse has exact same column names. Yes or No strictly
+2025-05-27 16:02:07 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether No SQL detected has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:07 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT artist_name
+FROM song
+WHERE duration = (SELECT MIN(duration) FROM files); and SELECT T1.artist_name FROM song AS T1 JOIN files AS T2 ON T1.f_id  =  T2.f_id ORDER BY T2.duration LIMIT 1 has exact same column names. Yes or No strictly
+2025-05-27 16:02:07 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT artist_name
+FROM song
+WHERE duration = (SELECT MIN(duration) FROM files); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:07 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT "Player", "Season", "Name"
+FROM "match_season"
+JOIN "player" ON "match_season"."Player" = "player"."Player"
+JOIN "team" ON "match_season"."Team" = "team"."Team_id"; and SELECT T1.Season ,  T1.Player ,  T2.Name FROM match_season AS T1 JOIN team AS T2 ON T1.Team  =  T2.Team_id has exact same column names. Yes or No strictly
+2025-05-27 16:02:07 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT "Player", "Season", "Name"
+FROM "match_season"
+JOIN "player" ON "match_season"."Player" = "player"."Player"
+JOIN "team" ON "match_season"."Team" = "team"."Team_id"; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:07 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT Fname FROM Student WHERE Age > 22; and SELECT Fname FROM STUDENT WHERE Age  >  22 has exact same column names. Yes or No strictly
+2025-05-27 16:02:07 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Fname FROM Student WHERE Age > 22; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:07 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT f_id
+FROM song
+WHERE formats = 'mp4' OR resolution > 720; and SELECT f_id FROM files WHERE formats  =  "mp4" UNION SELECT f_id FROM song WHERE resolution  >  720 has exact same column names. Yes or No strictly
+2025-05-27 16:02:07 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT f_id
+FROM song
+WHERE formats = 'mp4' OR resolution > 720; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:08 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT "Category", COUNT("Category") AS "Category_Count"
+FROM "music_festival"
+GROUP BY "Category"
+HAVING COUNT("Category") > 1; and SELECT Category FROM music_festival GROUP BY Category HAVING COUNT(*)  >  1 has exact same column names. Yes or No strictly
+2025-05-27 16:02:08 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT "Category", COUNT("Category") AS "Category_Count"
+FROM "music_festival"
+GROUP BY "Category"
+HAVING COUNT("Category") > 1; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:08 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT Time_of_purchase, Age, Address
+FROM "member"
+ORDER BY Time_of_purchase; and SELECT Time_of_purchase ,  age ,  address FROM member ORDER BY Time_of_purchase has exact same column names. Yes or No strictly
+2025-05-27 16:02:08 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Time_of_purchase, Age, Address
+FROM "member"
+ORDER BY Time_of_purchase; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:08 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT cName
+FROM College
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); and SELECT cName FROM College WHERE enr  <  13000 AND state = "AZ" UNION SELECT cName FROM College WHERE enr  >  15000 AND state = "LA" has exact same column names. Yes or No strictly
+2025-05-27 16:02:08 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT cName
+FROM College
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:08 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT Document_Type_Name, Document_Type_Description FROM Ref_Document_Types WHERE Document_Type_Code = 'RV'; and SELECT document_type_name ,  document_type_description FROM Ref_document_types WHERE document_type_code  =  "RV" has exact same column names. Yes or No strictly
+2025-05-27 16:02:08 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Document_Type_Name, Document_Type_Description FROM Ref_Document_Types WHERE Document_Type_Code = 'RV'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:08 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT DISTINCT c.Leader_Name
+FROM college c
+JOIN member m ON c.College_ID = m.College_ID
+WHERE m.Country = 'Canada'; and SELECT DISTINCT T1.Leader_Name FROM college AS T1 JOIN member AS T2 ON T1.College_ID  =  T2.College_ID WHERE T2.Country  =  "Canada" has exact same column names. Yes or No strictly
+2025-05-27 16:02:08 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT DISTINCT c.Leader_Name
+FROM college c
+JOIN member m ON c.College_ID = m.College_ID
+WHERE m.Country = 'Canada'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:08 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT Category, COUNT(*) as Count
+FROM music_festival
+GROUP BY Category
+HAVING COUNT(*) > 1; and SELECT Category FROM music_festival GROUP BY Category HAVING COUNT(*)  >  1 has exact same column names. Yes or No strictly
+2025-05-27 16:02:08 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Category, COUNT(*) as Count
+FROM music_festival
+GROUP BY Category
+HAVING COUNT(*) > 1; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:08 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT COUNT(*) FROM company WHERE Headquarters = 'USA'; and SELECT count(*) FROM company WHERE Headquarters  =  'USA' has exact same column names. Yes or No strictly
+2025-05-27 16:02:08 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT COUNT(*) FROM company WHERE Headquarters = 'USA'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:08 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(DISTINCT party_id) > 3; and SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3 has exact same column names. Yes or No strictly
+2025-05-27 16:02:08 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(DISTINCT party_id) > 3; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:08 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT cName 
+FROM College 
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); and SELECT cName FROM College WHERE enr  <  13000 AND state = "AZ" UNION SELECT cName FROM College WHERE enr  >  15000 AND state = "LA" has exact same column names. Yes or No strictly
+2025-05-27 16:02:08 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT cName 
+FROM College 
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:08 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT DISTINCT Nurse.Name 
+FROM Nurse 
+JOIN On_Call ON Nurse.EmployeeID = On_Call.Nurse; and SELECT DISTINCT T1.name FROM nurse AS T1 JOIN on_call AS T2 ON T1.EmployeeID  =  T2.nurse has exact same column names. Yes or No strictly
+2025-05-27 16:02:08 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT DISTINCT Nurse.Name 
+FROM Nurse 
+JOIN On_Call ON Nurse.EmployeeID = On_Call.Nurse; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:08 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT cust_name, acc_bal 
+FROM customer 
+WHERE state IN ('Utah', 'Texas'); and SELECT sum(acc_bal) FROM customer WHERE state  =  'Utah' OR state  =  'Texas' has exact same column names. Yes or No strictly
+2025-05-27 16:02:08 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT cust_name, acc_bal 
+FROM customer 
+WHERE state IN ('Utah', 'Texas'); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:08 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT supplier_name, supplier_phone
+FROM Suppliers
+JOIN Supplier_Addresses ON Suppliers.supplier_id = Supplier_Addresses.supplier_id
+JOIN Addresses ON Supplier_Addresses.address_id = Addresses.address_id
+ORDER BY Addresses.address_details; and SELECT T1.supplier_name ,  T1.supplier_phone FROM Suppliers AS T1 JOIN supplier_addresses AS T2 ON T1.supplier_id  =  T2.supplier_id JOIN addresses AS T3 ON T2.address_id  =  T3.address_id ORDER BY T3.address_details has exact same column names. Yes or No strictly
+2025-05-27 16:02:08 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT supplier_name, supplier_phone
+FROM Suppliers
+JOIN Supplier_Addresses ON Suppliers.supplier_id = Supplier_Addresses.supplier_id
+JOIN Addresses ON Supplier_Addresses.address_id = Addresses.address_id
+ORDER BY Addresses.address_details; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:08 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT Time_of_purchase, Age, Address 
+FROM member 
+ORDER BY Time_of_purchase; and SELECT Time_of_purchase ,  age ,  address FROM member ORDER BY Time_of_purchase has exact same column names. Yes or No strictly
+2025-05-27 16:02:08 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Time_of_purchase, Age, Address 
+FROM member 
+ORDER BY Time_of_purchase; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:08 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT f_id 
+FROM song 
+WHERE f_id IN (SELECT f_id FROM files WHERE formats = 'mp4') 
+   OR resolution > 720; and SELECT f_id FROM files WHERE formats  =  "mp4" UNION SELECT f_id FROM song WHERE resolution  >  720 has exact same column names. Yes or No strictly
+2025-05-27 16:02:08 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT f_id 
+FROM song 
+WHERE f_id IN (SELECT f_id FROM files WHERE formats = 'mp4') 
+   OR resolution > 720; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:08 - llm_consortium - INFO - new_2705:98 - LLM response: no
+2025-05-27 16:02:08 - llm_consortium - INFO - new_2705:98 - LLM response: no.
+2025-05-27 16:02:08 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT COUNT(*) FROM company WHERE Headquarters = 'USA'; and SELECT count(*) FROM company WHERE Headquarters  =  'USA' has exact same column names. Yes or No strictly
+2025-05-27 16:02:08 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT COUNT(*) FROM company WHERE Headquarters = 'USA'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:08 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT Fname
+FROM Student
+WHERE Age > 22; and SELECT Fname FROM STUDENT WHERE Age  >  22 has exact same column names. Yes or No strictly
+2025-05-27 16:02:08 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Fname
+FROM Student
+WHERE Age > 22; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:08 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT invoice_number 
+FROM Invoices 
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25'; and SELECT invoice_number FROM invoices WHERE invoice_date < "1989-09-03" OR invoice_date > "2007-12-25" has exact same column names. Yes or No strictly
+2025-05-27 16:02:08 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT invoice_number 
+FROM Invoices 
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:08 - llm_consortium - INFO - new_2705:98 - LLM response: yes
+2025-05-27 16:02:08 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-27 16:02:08 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT invoice_number
+FROM Invoices
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25'; and SELECT invoice_number FROM invoices WHERE invoice_date < "1989-09-03" OR invoice_date > "2007-12-25" has exact same column names. Yes or No strictly
+2025-05-27 16:02:08 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT invoice_number
+FROM Invoices
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:08 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:08 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT Document_Type_Name, Document_Type_Description 
+FROM Ref_Document_Types 
+WHERE Document_Type_Code = 'RV'; and SELECT document_type_name ,  document_type_description FROM Ref_document_types WHERE document_type_code  =  "RV" has exact same column names. Yes or No strictly
+2025-05-27 16:02:08 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Document_Type_Name, Document_Type_Description 
+FROM Ref_Document_Types 
+WHERE Document_Type_Code = 'RV'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:08 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-27 16:02:08 - llm_consortium - INFO - new_2705:98 - LLM response: yes.
+2025-05-27 16:02:08 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT DISTINCT c.Leader_Name
+FROM college c
+JOIN member m ON c.College_ID = m.College_ID
+WHERE m.Country = 'Canada'; and SELECT DISTINCT T1.Leader_Name FROM college AS T1 JOIN member AS T2 ON T1.College_ID  =  T2.College_ID WHERE T2.Country  =  "Canada" has exact same column names. Yes or No strictly
+2025-05-27 16:02:08 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT DISTINCT c.Leader_Name
+FROM college c
+JOIN member m ON c.College_ID = m.College_ID
+WHERE m.Country = 'Canada'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:09 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-27 16:02:09 - llm_consortium - INFO - new_2705:98 - LLM response: yes.
+2025-05-27 16:02:09 - llm_consortium - INFO - new_2705:98 - LLM response: yes.
+2025-05-27 16:02:09 - llm_consortium - INFO - new_2705:98 - LLM response: no.
+2025-05-27 16:02:09 - llm_consortium - INFO - new_2705:98 - LLM response: no.
+2025-05-27 16:02:09 - llm_consortium - INFO - new_2705:98 - LLM response: no.
+2025-05-27 16:02:09 - llm_consortium - INFO - new_2705:98 - LLM response: yes
+2025-05-27 16:02:09 - llm_consortium - INFO - new_2705:98 - LLM response: no.
+2025-05-27 16:02:09 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-27 16:02:09 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:09 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:09 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:09 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT cust_name, SUM(acc_bal) AS total_account_balance
+FROM customer
+WHERE state IN ('Utah', 'Texas')
+GROUP BY cust_name; and SELECT sum(acc_bal) FROM customer WHERE state  =  'Utah' OR state  =  'Texas' has exact same column names. Yes or No strictly
+2025-05-27 16:02:09 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT cust_name, SUM(acc_bal) AS total_account_balance
+FROM customer
+WHERE state IN ('Utah', 'Texas')
+GROUP BY cust_name; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:09 - llm_consortium - INFO - new_2705:98 - LLM response: no.
+2025-05-27 16:02:09 - llm_consortium - INFO - new_2705:98 - LLM response: yes
+2025-05-27 16:02:09 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:09 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:09 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:09 - llm_consortium - INFO - new_2705:98 - LLM response: no.
+2025-05-27 16:02:09 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-27 16:02:09 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:09 - llm_consortium - INFO - new_2705:98 - LLM response: yes.
+2025-05-27 16:02:09 - llm_consortium - INFO - new_2705:98 - LLM response: yes
+2025-05-27 16:02:09 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:09 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:09 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-27 16:02:09 - llm_consortium - INFO - new_2705:98 - LLM response: yes
+2025-05-27 16:02:09 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:10 - llm_consortium - INFO - new_2705:98 - LLM response: yes.
+2025-05-27 16:02:10 - llm_consortium - INFO - new_2705:98 - LLM response: yes
+2025-05-27 16:02:10 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT s.supplier_name, s.supplier_phone
+FROM Suppliers s
+JOIN Supplier_Addresses sa ON s.supplier_id = sa.supplier_id
+JOIN Addresses a ON sa.address_id = a.address_id
+ORDER BY a.address_details; and SELECT T1.supplier_name ,  T1.supplier_phone FROM Suppliers AS T1 JOIN supplier_addresses AS T2 ON T1.supplier_id  =  T2.supplier_id JOIN addresses AS T3 ON T2.address_id  =  T3.address_id ORDER BY T3.address_details has exact same column names. Yes or No strictly
+2025-05-27 16:02:10 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT s.supplier_name, s.supplier_phone
+FROM Suppliers s
+JOIN Supplier_Addresses sa ON s.supplier_id = sa.supplier_id
+JOIN Addresses a ON sa.address_id = a.address_id
+ORDER BY a.address_details; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:10 - llm_consortium - INFO - new_2705:98 - LLM response: yes.
+2025-05-27 16:02:10 - llm_consortium - INFO - new_2705:98 - LLM response: yes.
+2025-05-27 16:02:10 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-27 16:02:10 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:10 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:10 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-27 16:02:10 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:10 - llm_consortium - INFO - new_2705:98 - LLM response: no.
+2025-05-27 16:02:10 - llm_consortium - INFO - new_2705:98 - LLM response: yes.
+2025-05-27 16:02:10 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-27 16:02:10 - llm_consortium - INFO - new_2705:98 - LLM response: yes.
+2025-05-27 16:02:10 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:10 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:10 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:10 - llm_consortium - INFO - new_2705:98 - LLM response: no.
+2025-05-27 16:02:10 - llm_consortium - INFO - sql_model_runner:667 - Model gpt-3.5-turbo evaluation complete
+2025-05-27 16:02:10 - llm_consortium - INFO - new_2705:98 - LLM response: yes.
+2025-05-27 16:02:10 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT p.Player, ms.Season, t.Name AS Team
+FROM player p
+JOIN team t ON p.Team = t.Team_id
+JOIN match_season ms ON p.Team = ms.Team; and SELECT T1.Season ,  T1.Player ,  T2.Name FROM match_season AS T1 JOIN team AS T2 ON T1.Team  =  T2.Team_id has exact same column names. Yes or No strictly
+2025-05-27 16:02:10 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT p.Player, ms.Season, t.Name AS Team
+FROM player p
+JOIN team t ON p.Team = t.Team_id
+JOIN match_season ms ON p.Team = ms.Team; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:10 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-27 16:02:11 - llm_consortium - INFO - new_2705:98 - LLM response: yes.
+2025-05-27 16:02:11 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-27 16:02:11 - llm_consortium - INFO - new_2705:98 - LLM response: no.
+2025-05-27 16:02:12 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT artist_name 
+FROM song 
+WHERE duration = (SELECT MIN(duration) FROM song); and SELECT T1.artist_name FROM song AS T1 JOIN files AS T2 ON T1.f_id  =  T2.f_id ORDER BY T2.duration LIMIT 1 has exact same column names. Yes or No strictly
+2025-05-27 16:02:12 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT artist_name 
+FROM song 
+WHERE duration = (SELECT MIN(duration) FROM song); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:13 - llm_consortium - INFO - new_2705:98 - LLM response: no.
+2025-05-27 16:02:13 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:13 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(party_id) > 3; and SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3 has exact same column names. Yes or No strictly
+2025-05-27 16:02:13 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(party_id) > 3; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:14 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-27 16:02:14 - llm_consortium - INFO - new_2705:98 - LLM response: yes.
+2025-05-27 16:02:14 - llm_consortium - INFO - sql_model_runner:667 - Model gpt-4o-mini evaluation complete
+2025-05-27 16:02:14 - llm_consortium - INFO - sql_model_runner:690 - Tuning hyperparameters for gpt-3.5-turbo
+2025-05-27 16:02:14 - llm_consortium - INFO - hyperparameter_tuner:252 - Starting hyperparameter tuning for gpt-3.5-turbo
+2025-05-27 16:02:15 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT Fname
+FROM Student
+WHERE Age > 22; and SELECT Fname FROM STUDENT WHERE Age  >  22 has exact same column names. Yes or No strictly
+2025-05-27 16:02:15 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Fname
+FROM Student
+WHERE Age > 22; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:15 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT DISTINCT Name
+FROM Nurse
+JOIN On_Call ON Nurse.EmployeeID = On_Call.Nurse; and SELECT DISTINCT T1.name FROM nurse AS T1 JOIN on_call AS T2 ON T1.EmployeeID  =  T2.nurse has exact same column names. Yes or No strictly
+2025-05-27 16:02:15 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT DISTINCT Name
+FROM Nurse
+JOIN On_Call ON Nurse.EmployeeID = On_Call.Nurse; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:16 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT supplier_name, supplier_phone
+FROM Suppliers
+JOIN Supplier_Addresses ON Suppliers.supplier_id = Supplier_Addresses.supplier_id
+JOIN Addresses ON Supplier_Addresses.address_id = Addresses.address_id
+ORDER BY Addresses.address_details; and SELECT T1.supplier_name ,  T1.supplier_phone FROM Suppliers AS T1 JOIN supplier_addresses AS T2 ON T1.supplier_id  =  T2.supplier_id JOIN addresses AS T3 ON T2.address_id  =  T3.address_id ORDER BY T3.address_details has exact same column names. Yes or No strictly
+2025-05-27 16:02:16 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT supplier_name, supplier_phone
+FROM Suppliers
+JOIN Supplier_Addresses ON Suppliers.supplier_id = Supplier_Addresses.supplier_id
+JOIN Addresses ON Supplier_Addresses.address_id = Addresses.address_id
+ORDER BY Addresses.address_details; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:16 - llm_consortium - INFO - new_2705:98 - LLM response: yes.
+2025-05-27 16:02:16 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-27 16:02:16 - llm_consortium - INFO - new_2705:98 - LLM response: yes
+2025-05-27 16:02:16 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-27 16:02:16 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:16 - llm_consortium - INFO - new_2705:98 - LLM response: yes.
+2025-05-27 16:02:17 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT DISTINCT Name FROM Nurse; and SELECT DISTINCT T1.name FROM nurse AS T1 JOIN on_call AS T2 ON T1.EmployeeID  =  T2.nurse has exact same column names. Yes or No strictly
+2025-05-27 16:02:17 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT DISTINCT Name FROM Nurse; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:17 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT f_id
+FROM song
+WHERE formats = 'mp4' OR resolution > 720; and SELECT f_id FROM files WHERE formats  =  "mp4" UNION SELECT f_id FROM song WHERE resolution  >  720 has exact same column names. Yes or No strictly
+2025-05-27 16:02:17 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT f_id
+FROM song
+WHERE formats = 'mp4' OR resolution > 720; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:18 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT "Category", COUNT("Category") AS "Category_Count"
+FROM "music_festival"
+GROUP BY "Category"
+HAVING COUNT("Category") > 1; and SELECT Category FROM music_festival GROUP BY Category HAVING COUNT(*)  >  1 has exact same column names. Yes or No strictly
+2025-05-27 16:02:18 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT "Category", COUNT("Category") AS "Category_Count"
+FROM "music_festival"
+GROUP BY "Category"
+HAVING COUNT("Category") > 1; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:18 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-27 16:02:18 - llm_consortium - INFO - new_2705:98 - LLM response: yes.
+2025-05-27 16:02:18 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:18 - llm_consortium - INFO - new_2705:98 - LLM response: no.
+2025-05-27 16:02:19 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-27 16:02:19 - llm_consortium - INFO - new_2705:98 - LLM response: no.
+2025-05-27 16:02:19 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT DISTINCT c.Leader_Name
+FROM college c
+JOIN member m ON c.College_ID = m.College_ID
+WHERE m.Country = 'Canada'; and SELECT DISTINCT T1.Leader_Name FROM college AS T1 JOIN member AS T2 ON T1.College_ID  =  T2.College_ID WHERE T2.Country  =  "Canada" has exact same column names. Yes or No strictly
+2025-05-27 16:02:19 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT DISTINCT c.Leader_Name
+FROM college c
+JOIN member m ON c.College_ID = m.College_ID
+WHERE m.Country = 'Canada'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:20 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:20 - llm_consortium - INFO - new_2705:98 - LLM response: yes.
+2025-05-27 16:02:20 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT Document_Type_Name, Document_Type_Description
+FROM Ref_Document_Types
+WHERE Document_Type_Code = 'RV'; and SELECT document_type_name ,  document_type_description FROM Ref_document_types WHERE document_type_code  =  "RV" has exact same column names. Yes or No strictly
+2025-05-27 16:02:20 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Document_Type_Name, Document_Type_Description
+FROM Ref_Document_Types
+WHERE Document_Type_Code = 'RV'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:20 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(DISTINCT party_id) > 3; and SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3 has exact same column names. Yes or No strictly
+2025-05-27 16:02:20 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(DISTINCT party_id) > 3; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:21 - llm_consortium - INFO - new_2705:98 - LLM response: no
+2025-05-27 16:02:21 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:21 - llm_consortium - INFO - new_2705:98 - LLM response: yes.
+2025-05-27 16:02:21 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-27 16:02:21 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT "Category", COUNT("Category") AS "Category_Count"
+FROM "music_festival"
+GROUP BY "Category"
+HAVING COUNT("Category") > 1; and SELECT Category FROM music_festival GROUP BY Category HAVING COUNT(*)  >  1 has exact same column names. Yes or No strictly
+2025-05-27 16:02:21 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT "Category", COUNT("Category") AS "Category_Count"
+FROM "music_festival"
+GROUP BY "Category"
+HAVING COUNT("Category") > 1; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:22 - llm_consortium - INFO - new_2705:98 - LLM response: no.
+2025-05-27 16:02:22 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-27 16:02:22 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT invoice_number
+FROM Invoices
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25'; and SELECT invoice_number FROM invoices WHERE invoice_date < "1989-09-03" OR invoice_date > "2007-12-25" has exact same column names. Yes or No strictly
+2025-05-27 16:02:22 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT invoice_number
+FROM Invoices
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:23 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:23 - llm_consortium - INFO - new_2705:98 - LLM response: yes
+2025-05-27 16:02:23 - llm_consortium - INFO - hyperparameter_tuner:225 - Temperature 0.0: Collected 4 valid results
+2025-05-27 16:02:23 - llm_consortium - INFO - hyperparameter_tuner:232 - Temperature 0.0: Metrics: {'execution_match_rate': np.float64(75.0), 'confidence': np.float64(0.7124999999999999), 'new_2705': np.float64(0.75), 'where_clause_1705': np.float64(0.25)}
+2025-05-27 16:02:24 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT cName
+FROM College
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); and SELECT cName FROM College WHERE enr  <  13000 AND state = "AZ" UNION SELECT cName FROM College WHERE enr  >  15000 AND state = "LA" has exact same column names. Yes or No strictly
+2025-05-27 16:02:24 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT cName
+FROM College
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:24 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:24 - llm_consortium - INFO - new_2705:98 - LLM response: yes.
+2025-05-27 16:02:24 - llm_consortium - INFO - hyperparameter_tuner:225 - Temperature 0.4: Collected 5 valid results
+2025-05-27 16:02:24 - llm_consortium - INFO - hyperparameter_tuner:232 - Temperature 0.4: Metrics: {'execution_match_rate': np.float64(40.0), 'confidence': np.float64(0.95), 'new_2705': np.float64(0.9), 'where_clause_1705': np.float64(0.8)}
+2025-05-27 16:02:26 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT "Category", COUNT("Category") as count
+FROM "music_festival"
+GROUP BY "Category"
+HAVING COUNT("Category") > 1; and SELECT Category FROM music_festival GROUP BY Category HAVING COUNT(*)  >  1 has exact same column names. Yes or No strictly
+2025-05-27 16:02:26 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT "Category", COUNT("Category") as count
+FROM "music_festival"
+GROUP BY "Category"
+HAVING COUNT("Category") > 1; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:26 - llm_consortium - INFO - new_2705:98 - LLM response: no.
+2025-05-27 16:02:26 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-27 16:02:26 - llm_consortium - INFO - hyperparameter_tuner:225 - Temperature 0.8: Collected 4 valid results
+2025-05-27 16:02:26 - llm_consortium - INFO - hyperparameter_tuner:232 - Temperature 0.8: Metrics: {'execution_match_rate': np.float64(75.0), 'confidence': np.float64(0.9575), 'new_2705': np.float64(0.75), 'where_clause_1705': np.float64(0.25)}
+2025-05-27 16:02:26 - llm_consortium - INFO - sql_model_runner:728 - Complete tuning results:
+2025-05-27 16:02:26 - llm_consortium - INFO - sql_model_runner:730 - execution_match_rate: Best temp 0.0 (75.00)
+2025-05-27 16:02:26 - llm_consortium - INFO - sql_model_runner:730 - confidence: Best temp 0.0 (0.71)
+2025-05-27 16:02:26 - llm_consortium - INFO - sql_model_runner:730 - new_2705: Best temp 0.0 (0.75)
+2025-05-27 16:02:26 - llm_consortium - INFO - sql_model_runner:730 - where_clause_1705: Best temp 0.0 (0.25)
+2025-05-27 16:02:26 - llm_consortium - INFO - app:3797 - Using best temperature: 0.0 for final evaluation
+2025-05-27 16:02:28 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(DISTINCT party_id) > 3; and SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3 has exact same column names. Yes or No strictly
+2025-05-27 16:02:28 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT payment_method_code
+FROM Parties
+GROUP BY payment_method_code
+HAVING COUNT(DISTINCT party_id) > 3; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:29 - llm_consortium - INFO - new_2705:98 - LLM response: no.
+2025-05-27 16:02:29 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-27 16:02:32 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT f_id
+FROM song
+WHERE f_id IN (SELECT f_id FROM files WHERE formats = 'mp4') OR resolution > 720; and SELECT f_id FROM files WHERE formats  =  "mp4" UNION SELECT f_id FROM song WHERE resolution  >  720 has exact same column names. Yes or No strictly
+2025-05-27 16:02:32 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT f_id
+FROM song
+WHERE f_id IN (SELECT f_id FROM files WHERE formats = 'mp4') OR resolution > 720; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:33 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:34 - llm_consortium - INFO - new_2705:98 - LLM response: no.
+2025-05-27 16:02:35 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT cName
+FROM College
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); and SELECT cName FROM College WHERE enr  <  13000 AND state = "AZ" UNION SELECT cName FROM College WHERE enr  >  15000 AND state = "LA" has exact same column names. Yes or No strictly
+2025-05-27 16:02:35 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT cName
+FROM College
+WHERE (state = 'LA' AND enr > 15000) OR (state = 'AZ' AND enr < 13000); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:36 - llm_consortium - INFO - new_2705:98 - LLM response: yes.
+2025-05-27 16:02:36 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:38 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT supplier_name, supplier_phone
+FROM Suppliers
+JOIN Supplier_Addresses ON Suppliers.supplier_id = Supplier_Addresses.supplier_id
+JOIN Addresses ON Supplier_Addresses.address_id = Addresses.address_id
+ORDER BY Addresses.address_details; and SELECT T1.supplier_name ,  T1.supplier_phone FROM Suppliers AS T1 JOIN supplier_addresses AS T2 ON T1.supplier_id  =  T2.supplier_id JOIN addresses AS T3 ON T2.address_id  =  T3.address_id ORDER BY T3.address_details has exact same column names. Yes or No strictly
+2025-05-27 16:02:38 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT supplier_name, supplier_phone
+FROM Suppliers
+JOIN Supplier_Addresses ON Suppliers.supplier_id = Supplier_Addresses.supplier_id
+JOIN Addresses ON Supplier_Addresses.address_id = Addresses.address_id
+ORDER BY Addresses.address_details; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:39 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-27 16:02:39 - llm_consortium - INFO - new_2705:98 - LLM response: yes.
+2025-05-27 16:02:40 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT Fname
+FROM Student
+WHERE Age > 22; and SELECT Fname FROM STUDENT WHERE Age  >  22 has exact same column names. Yes or No strictly
+2025-05-27 16:02:40 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Fname
+FROM Student
+WHERE Age > 22; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:40 - llm_consortium - INFO - new_2705:98 - LLM response: yes.
+2025-05-27 16:02:41 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:42 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT COUNT(*) FROM company WHERE Headquarters = 'USA'; and SELECT count(*) FROM company WHERE Headquarters  =  'USA' has exact same column names. Yes or No strictly
+2025-05-27 16:02:42 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT COUNT(*) FROM company WHERE Headquarters = 'USA'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:43 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:43 - llm_consortium - INFO - new_2705:98 - LLM response: yes
+2025-05-27 16:02:44 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT DISTINCT c.Leader_Name
+FROM college c
+JOIN member m ON c.College_ID = m.College_ID
+WHERE m.Country = 'Canada'; and SELECT DISTINCT T1.Leader_Name FROM college AS T1 JOIN member AS T2 ON T1.College_ID  =  T2.College_ID WHERE T2.Country  =  "Canada" has exact same column names. Yes or No strictly
+2025-05-27 16:02:44 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT DISTINCT c.Leader_Name
+FROM college c
+JOIN member m ON c.College_ID = m.College_ID
+WHERE m.Country = 'Canada'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:45 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:46 - llm_consortium - INFO - new_2705:98 - LLM response: yes.
+2025-05-27 16:02:47 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT DISTINCT Name
+FROM Nurse
+JOIN On_Call ON Nurse.EmployeeID = On_Call.Nurse; and SELECT DISTINCT T1.name FROM nurse AS T1 JOIN on_call AS T2 ON T1.EmployeeID  =  T2.nurse has exact same column names. Yes or No strictly
+2025-05-27 16:02:47 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT DISTINCT Name
+FROM Nurse
+JOIN On_Call ON Nurse.EmployeeID = On_Call.Nurse; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:47 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-27 16:02:48 - llm_consortium - INFO - new_2705:98 - LLM response: yes.
+2025-05-27 16:02:49 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT Time_of_purchase, Age, Address
+FROM "member"
+ORDER BY Time_of_purchase; and SELECT Time_of_purchase ,  age ,  address FROM member ORDER BY Time_of_purchase has exact same column names. Yes or No strictly
+2025-05-27 16:02:49 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Time_of_purchase, Age, Address
+FROM "member"
+ORDER BY Time_of_purchase; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:49 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-27 16:02:50 - llm_consortium - INFO - new_2705:98 - LLM response: yes.
+2025-05-27 16:02:51 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT Document_Type_Name, Document_Type_Description
+FROM Ref_Document_Types
+WHERE Document_Type_Code = 'RV'; and SELECT document_type_name ,  document_type_description FROM Ref_document_types WHERE document_type_code  =  "RV" has exact same column names. Yes or No strictly
+2025-05-27 16:02:51 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT Document_Type_Name, Document_Type_Description
+FROM Ref_Document_Types
+WHERE Document_Type_Code = 'RV'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:51 - llm_consortium - INFO - new_2705:98 - LLM response: yes.
+2025-05-27 16:02:52 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:53 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT artist_name
+FROM song
+WHERE duration = (SELECT MIN(duration) FROM files); and SELECT T1.artist_name FROM song AS T1 JOIN files AS T2 ON T1.f_id  =  T2.f_id ORDER BY T2.duration LIMIT 1 has exact same column names. Yes or No strictly
+2025-05-27 16:02:53 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT artist_name
+FROM song
+WHERE duration = (SELECT MIN(duration) FROM files); has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:54 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:02:54 - llm_consortium - INFO - new_2705:98 - LLM response: no.
+2025-05-27 16:02:55 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT "Player", "Season", "Name" 
+FROM "match_season" 
+JOIN "player" ON "match_season"."Player" = "player"."Player"
+JOIN "team" ON "match_season"."Team" = "team"."Team_id"; and SELECT T1.Season ,  T1.Player ,  T2.Name FROM match_season AS T1 JOIN team AS T2 ON T1.Team  =  T2.Team_id has exact same column names. Yes or No strictly
+2025-05-27 16:02:55 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT "Player", "Season", "Name" 
+FROM "match_season" 
+JOIN "player" ON "match_season"."Player" = "player"."Player"
+JOIN "team" ON "match_season"."Team" = "team"."Team_id"; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:56 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-27 16:02:56 - llm_consortium - INFO - new_2705:98 - LLM response: no.
+2025-05-27 16:02:58 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT "Category", COUNT("Category") AS "Category_Count"
+FROM "music_festival"
+GROUP BY "Category"
+HAVING COUNT("Category") > 1; and SELECT Category FROM music_festival GROUP BY Category HAVING COUNT(*)  >  1 has exact same column names. Yes or No strictly
+2025-05-27 16:02:58 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT "Category", COUNT("Category") AS "Category_Count"
+FROM "music_festival"
+GROUP BY "Category"
+HAVING COUNT("Category") > 1; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:02:58 - llm_consortium - INFO - where_clause_1705:97 - LLM response: no.
+2025-05-27 16:02:58 - llm_consortium - INFO - new_2705:98 - LLM response: no.
+2025-05-27 16:03:00 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT invoice_number
+FROM Invoices
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25'; and SELECT invoice_number FROM invoices WHERE invoice_date < "1989-09-03" OR invoice_date > "2007-12-25" has exact same column names. Yes or No strictly
+2025-05-27 16:03:00 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT invoice_number
+FROM Invoices
+WHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25'; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:03:00 - llm_consortium - INFO - new_2705:98 - LLM response: yes
+2025-05-27 16:03:00 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:03:01 - llm_consortium - INFO - new_2705:89 - Sending prompt: check whether SELECT cust_name, SUM(acc_bal) AS total_account_balance
+FROM customer
+WHERE state IN ('Utah', 'Texas')
+GROUP BY cust_name; and SELECT sum(acc_bal) FROM customer WHERE state  =  'Utah' OR state  =  'Texas' has exact same column names. Yes or No strictly
+2025-05-27 16:03:01 - llm_consortium - INFO - where_clause_1705:88 - Sending prompt: check whether SELECT cust_name, SUM(acc_bal) AS total_account_balance
+FROM customer
+WHERE state IN ('Utah', 'Texas')
+GROUP BY cust_name; has a WHERE CLAUSE, strictly return yes or no.
+2025-05-27 16:03:02 - llm_consortium - INFO - where_clause_1705:97 - LLM response: yes.
+2025-05-27 16:03:02 - llm_consortium - INFO - new_2705:98 - LLM response: no.

@@ -45,12 +45,14 @@
           "vaibhav": 0.5,
           "join_2205": 0,
           "result": "no",
-          "column_accuracy": 0.7258884993479763,
-          "column_accuracy_rationale": "The generated SQL has the correct column and table references, but it uses COUNT(party_id) instead of COUNT(*), which affects semantic equivalence.",
-          "query_structure": 0.8167043890533037,
-          "query_structure_rationale": "The actual output is structurally sound and logically flows well, but it has minor formatting differences compared to the expected output, such as casing and the use of COUNT(party_id) instead of COUNT(*).",
-          "join_quality": 0.8442655640024682,
-          "join_quality_rationale": "The actual output correctly identifies the payment method codes and uses GROUP BY and HAVING clauses appropriately, but it does not match the expected output's use of COUNT(*), which is a minor deviation."
+          "column_accuracy": 0.0,
+          "column_accuracy_rationale": "Missing dataset parameter",
+          "query_structure": 0.0,
+          "query_structure_rationale": "Missing dataset parameter",
+          "join_quality": 0.0,
+          "join_quality_rationale": "Missing dataset parameter",
+          "metric_analyzer": 0.9154697894817418,
+          "metric_analyzer_rationale": "No rationale provided"
         },
         {
           "question": "What is the average latitude and longitude of the starting points of all trips?",
@@ -64,7 +66,9 @@
           "query_structure": 0.0,
           "query_structure_rationale": "Error in generated SQL",
           "join_quality": 0.0,
-          "join_quality_rationale": "Error in generated SQL"
+          "join_quality_rationale": "Error in generated SQL",
+          "metric_analyzer": 0.0,
+          "metric_analyzer_rationale": "Error in generated SQL"
         },
         {
           "question": "Find the first names of students with age above 22.",
@@ -103,12 +107,14 @@
           "vaibhav": 0.75,
           "join_2205": 0,
           "result": "no",
-          "column_accuracy": 0.8026651730133615,
-          "column_accuracy_rationale": "The generated SQL correctly retrieves the first names of students over 22, but the table name 'Student' should be in uppercase as 'STUDENT' to match the expected output.",
-          "query_structure": 0.8197104449394553,
-          "query_structure_rationale": "The query is well-structured and logically flows, but the table name 'Student' should be in uppercase as per the expected output.",
-          "join_quality": 0.9033275513335418,
-          "join_quality_rationale": "The actual output correctly retrieves first names of students over 22, matching the expected output in terms of logic and conditions, though it uses lowercase 'Student' instead of uppercase 'STUDENT'."
+          "column_accuracy": 0.0,
+          "column_accuracy_rationale": "Missing dataset parameter",
+          "query_structure": 0.0,
+          "query_structure_rationale": "Missing dataset parameter",
+          "join_quality": 0.0,
+          "join_quality_rationale": "Missing dataset parameter",
+          "metric_analyzer": 0.9932453310268177,
+          "metric_analyzer_rationale": "No rationale provided"
         },
         {
           "question": "What are the invoice numbers created before 1989-09-03 or after 2007-12-25?",
@@ -183,12 +189,14 @@
           "vaibhav": 0.5,
           "join_2205": 0,
           "result": "no",
-          "column_accuracy": 0.794792447121585,
-          "column_accuracy_rationale": "The actual output correctly retrieves the invoice numbers and uses the correct conditions, but it uses single quotes instead of double quotes for the date literals and has a case mismatch in the table name 'Invoices' vs 'invoices'.",
-          "query_structure": 0.79321386800279,
-          "query_structure_rationale": "The actual output is well-structured and logically flows, but it uses single quotes instead of double quotes for the date strings, which slightly affects readability.",
-          "join_quality": 0.8533836436753696,
-          "join_quality_rationale": "The actual output correctly retrieves invoice numbers based on the specified date conditions, but it uses single quotes instead of double quotes for the date strings, which is a minor formatting issue."
+          "column_accuracy": 0.0,
+          "column_accuracy_rationale": "Missing dataset parameter",
+          "query_structure": 0.0,
+          "query_structure_rationale": "Missing dataset parameter",
+          "join_quality": 0.0,
+          "join_quality_rationale": "Missing dataset parameter",
+          "metric_analyzer": 0.8891937233048077,
+          "metric_analyzer_rationale": "No rationale provided"
         }
       ]
     },
@@ -237,12 +245,14 @@
           "vaibhav": 0.5,
           "join_2205": 0,
           "result": "no",
-          "column_accuracy": 0.7532841752338392,
-          "column_accuracy_rationale": "The generated SQL correctly retrieves payment_method_code and uses GROUP BY and HAVING clauses appropriately, but it uses COUNT(DISTINCT party_id) instead of COUNT(*), which is a minor deviation from the expected output.",
-          "query_structure": 0.7609051210536091,
-          "query_structure_rationale": "The actual output is well-structured and logically flows, but it uses COUNT(DISTINCT party_id) instead of COUNT(*), which slightly deviates from the expected output's simplicity.",
-          "join_quality": 0.8305244100233999,
-          "join_quality_rationale": "The actual output correctly identifies the payment method codes and uses GROUP BY and HAVING clauses, but it uses COUNT(DISTINCT party_id) instead of COUNT(*), which is unnecessary for this query."
+          "column_accuracy": 0.0,
+          "column_accuracy_rationale": "Missing dataset parameter",
+          "query_structure": 0.0,
+          "query_structure_rationale": "Missing dataset parameter",
+          "join_quality": 0.0,
+          "join_quality_rationale": "Missing dataset parameter",
+          "metric_analyzer": 0.8722380517274784,
+          "metric_analyzer_rationale": "No rationale provided"
         },
         {
           "question": "What is the average latitude and longitude of the starting points of all trips?",
@@ -256,7 +266,9 @@
           "query_structure": 0.0,
           "query_structure_rationale": "Error in generated SQL",
           "join_quality": 0.0,
-          "join_quality_rationale": "Error in generated SQL"
+          "join_quality_rationale": "Error in generated SQL",
+          "metric_analyzer": 0.0,
+          "metric_analyzer_rationale": "Error in generated SQL"
         },
         {
           "question": "Find the first names of students with age above 22.",
@@ -295,12 +307,14 @@
           "vaibhav": 0.5,
           "join_2205": 0,
           "result": "no",
-          "column_accuracy": 0.8766036764432649,
-          "column_accuracy_rationale": "The generated SQL matches the expected output in terms of column names and conditions, but the table name 'Student' should be in uppercase as 'STUDENT' for exact match.",
-          "query_structure": 0.8462599285026873,
-          "query_structure_rationale": "The actual output is structurally sound and logically flows well, but it lacks the formatting consistency of the expected output, particularly in the casing of 'STUDENT'.",
-          "join_quality": 0.9982013785991288,
-          "join_quality_rationale": "The actual output matches the expected output in terms of SQL syntax and logic, fulfilling all criteria without any unnecessary joins."
+          "column_accuracy": 0.0,
+          "column_accuracy_rationale": "Missing dataset parameter",
+          "query_structure": 0.0,
+          "query_structure_rationale": "Missing dataset parameter",
+          "join_quality": 0.0,
+          "join_quality_rationale": "Missing dataset parameter",
+          "metric_analyzer": 1.0,
+          "metric_analyzer_rationale": "No rationale provided"
         },
         {
           "question": "What are the invoice numbers created before 1989-09-03 or after 2007-12-25?",
@@ -375,12 +389,14 @@
           "vaibhav": 0.5,
           "join_2205": 0,
           "result": "no",
-          "column_accuracy": 0.7876717645635093,
-          "column_accuracy_rationale": "The actual output correctly retrieves the invoice numbers and uses the correct table.column reference format, but it uses single quotes instead of double quotes for the date literals and has a different casing for the table name.",
-          "query_structure": 0.8055421915944372,
-          "query_structure_rationale": "The query structure is correct and logically flows well, but it uses single quotes instead of double quotes for the date strings, which affects readability.",
-          "join_quality": 0.8562852464327844,
-          "join_quality_rationale": "The actual output correctly retrieves invoice numbers based on the specified date conditions, but it uses single quotes instead of double quotes for the date strings, which is a minor formatting issue."
+          "column_accuracy": 0.0,
+          "column_accuracy_rationale": "Missing dataset parameter",
+          "query_structure": 0.0,
+          "query_structure_rationale": "Missing dataset parameter",
+          "join_quality": 0.0,
+          "join_quality_rationale": "Missing dataset parameter",
+          "metric_analyzer": 0.891138250894296,
+          "metric_analyzer_rationale": "No rationale provided"
         }
       ]
     }
