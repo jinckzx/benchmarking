@@ -1,0 +1,461 @@
+{
+  "model_evaluations": {
+    "gpt-4o-mini": {
+      "metrics": {
+        "total": 4,
+        "execution_match": 1.0,
+        "vaibhav": 0.5833333333333334,
+        "join_2205": 0.0
+      },
+      "responses": [
+        {
+          "question": "What are the payment method codes that have been used by more than 3 parties?",
+          "db_id": "e_government",
+          "generated_sql": "SELECT payment_method_code\nFROM Parties\nGROUP BY payment_method_code\nHAVING COUNT(party_id) > 3;",
+          "gold_sql": "SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3",
+          "confidence": 0.95,
+          "latency": 5.806653,
+          "execution_match": true,
+          "generated_result": [
+            [
+              "Cash"
+            ],
+            [
+              "Cheque"
+            ],
+            [
+              "Credit Card"
+            ]
+          ],
+          "gold_result": [
+            [
+              "Cash"
+            ],
+            [
+              "Cheque"
+            ],
+            [
+              "Credit Card"
+            ]
+          ],
+          "select_match": 0.0,
+          "where_match": 1.0,
+          "group_by_match": 0.0,
+          "order_by_match": 1.0,
+          "vaibhav": 0.5,
+          "join_2205": 0,
+          "result": "no"
+        },
+        {
+          "question": "What is the average latitude and longitude of the starting points of all trips?",
+          "db_id": "bike_1",
+          "generated_sql": "BadRequestError: Error code: 400 - {'error': {'message': \"This model's maximum context length is 128000 tokens. However, your messages resulted in 1059631 tokens. Please reduce the length of the messages.\", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'context_length_exceeded'}}",
+          "gold_sql": "SELECT avg(T1.lat) ,  avg(T1.long) FROM station AS T1 JOIN trip AS T2 ON T1.id  =  T2.start_station_id",
+          "confidence": 0.0,
+          "latency": 5.692435
+        },
+        {
+          "question": "Find the first names of students with age above 22.",
+          "db_id": "voter_2",
+          "generated_sql": "SELECT Fname FROM Student WHERE Age > 22;",
+          "gold_sql": "SELECT Fname FROM STUDENT WHERE Age  >  22",
+          "confidence": 1.0,
+          "latency": 2.326115,
+          "execution_match": true,
+          "generated_result": [
+            [
+              "Paul"
+            ],
+            [
+              "Bruce"
+            ],
+            [
+              "Sarah"
+            ]
+          ],
+          "gold_result": [
+            [
+              "Paul"
+            ],
+            [
+              "Bruce"
+            ],
+            [
+              "Sarah"
+            ]
+          ],
+          "select_match": 1.0,
+          "where_match": 0.0,
+          "group_by_match": 1.0,
+          "order_by_match": 1.0,
+          "vaibhav": 0.75,
+          "join_2205": 0,
+          "result": "no"
+        },
+        {
+          "question": "What are the invoice numbers created before 1989-09-03 or after 2007-12-25?",
+          "db_id": "tracking_orders",
+          "generated_sql": "SELECT invoice_number \nFROM Invoices \nWHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25';",
+          "gold_sql": "SELECT invoice_number FROM invoices WHERE invoice_date < \"1989-09-03\" OR invoice_date > \"2007-12-25\"",
+          "confidence": 1.0,
+          "latency": 2.77157,
+          "execution_match": true,
+          "generated_result": [
+            [
+              4
+            ],
+            [
+              5
+            ],
+            [
+              6
+            ],
+            [
+              8
+            ],
+            [
+              9
+            ],
+            [
+              11
+            ],
+            [
+              12
+            ],
+            [
+              13
+            ],
+            [
+              15
+            ]
+          ],
+          "gold_result": [
+            [
+              4
+            ],
+            [
+              5
+            ],
+            [
+              6
+            ],
+            [
+              8
+            ],
+            [
+              9
+            ],
+            [
+              11
+            ],
+            [
+              12
+            ],
+            [
+              13
+            ],
+            [
+              15
+            ]
+          ],
+          "select_match": 0.0,
+          "where_match": 0.0,
+          "group_by_match": 1.0,
+          "order_by_match": 1.0,
+          "vaibhav": 0.5,
+          "join_2205": 0,
+          "result": "no"
+        }
+      ]
+    },
+    "gpt-3.5-turbo": {
+      "metrics": {
+        "total": 4,
+        "execution_match": 1.0,
+        "vaibhav": 0.5,
+        "join_2205": 0.0
+      },
+      "responses": [
+        {
+          "question": "What are the payment method codes that have been used by more than 3 parties?",
+          "db_id": "e_government",
+          "generated_sql": "SELECT payment_method_code\nFROM Parties\nGROUP BY payment_method_code\nHAVING COUNT(DISTINCT party_id) > 3;",
+          "gold_sql": "SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3",
+          "confidence": 0.95,
+          "latency": 2.175103,
+          "execution_match": true,
+          "generated_result": [
+            [
+              "Cash"
+            ],
+            [
+              "Cheque"
+            ],
+            [
+              "Credit Card"
+            ]
+          ],
+          "gold_result": [
+            [
+              "Cash"
+            ],
+            [
+              "Cheque"
+            ],
+            [
+              "Credit Card"
+            ]
+          ],
+          "select_match": 0.0,
+          "where_match": 1.0,
+          "group_by_match": 0.0,
+          "order_by_match": 1.0,
+          "vaibhav": 0.5,
+          "join_2205": 0,
+          "result": "no"
+        },
+        {
+          "question": "What is the average latitude and longitude of the starting points of all trips?",
+          "db_id": "bike_1",
+          "generated_sql": "BadRequestError: Error code: 400 - {'error': {'message': \"This model's maximum context length is 16385 tokens. However, your messages resulted in 1061496 tokens. Please reduce the length of the messages.\", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'context_length_exceeded'}}",
+          "gold_sql": "SELECT avg(T1.lat) ,  avg(T1.long) FROM station AS T1 JOIN trip AS T2 ON T1.id  =  T2.start_station_id",
+          "confidence": 0.0,
+          "latency": 5.034992
+        },
+        {
+          "question": "Find the first names of students with age above 22.",
+          "db_id": "voter_2",
+          "generated_sql": "SELECT Fname\nFROM Student\nWHERE Age > 22;",
+          "gold_sql": "SELECT Fname FROM STUDENT WHERE Age  >  22",
+          "confidence": 0.95,
+          "latency": 1.230106,
+          "execution_match": true,
+          "generated_result": [
+            [
+              "Paul"
+            ],
+            [
+              "Bruce"
+            ],
+            [
+              "Sarah"
+            ]
+          ],
+          "gold_result": [
+            [
+              "Paul"
+            ],
+            [
+              "Bruce"
+            ],
+            [
+              "Sarah"
+            ]
+          ],
+          "select_match": 0.0,
+          "where_match": 0.0,
+          "group_by_match": 1.0,
+          "order_by_match": 1.0,
+          "vaibhav": 0.5,
+          "join_2205": 0,
+          "result": "no"
+        },
+        {
+          "question": "What are the invoice numbers created before 1989-09-03 or after 2007-12-25?",
+          "db_id": "tracking_orders",
+          "generated_sql": "SELECT invoice_number\nFROM Invoices\nWHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25';",
+          "gold_sql": "SELECT invoice_number FROM invoices WHERE invoice_date < \"1989-09-03\" OR invoice_date > \"2007-12-25\"",
+          "confidence": 0.95,
+          "latency": 2.171551,
+          "execution_match": true,
+          "generated_result": [
+            [
+              4
+            ],
+            [
+              5
+            ],
+            [
+              6
+            ],
+            [
+              8
+            ],
+            [
+              9
+            ],
+            [
+              11
+            ],
+            [
+              12
+            ],
+            [
+              13
+            ],
+            [
+              15
+            ]
+          ],
+          "gold_result": [
+            [
+              4
+            ],
+            [
+              5
+            ],
+            [
+              6
+            ],
+            [
+              8
+            ],
+            [
+              9
+            ],
+            [
+              11
+            ],
+            [
+              12
+            ],
+            [
+              13
+            ],
+            [
+              15
+            ]
+          ],
+          "select_match": 0.0,
+          "where_match": 0.0,
+          "group_by_match": 1.0,
+          "order_by_match": 1.0,
+          "vaibhav": 0.5,
+          "join_2205": 0,
+          "result": "no"
+        }
+      ]
+    }
+  },
+  "best_model": "gpt-3.5-turbo",
+  "best_params": {
+    "best_temperature_by_metric": {
+      "execution_match_rate": {
+        "temperature": 0.0,
+        "value": 100.0
+      },
+      "confidence": {
+        "temperature": 0.0,
+        "value": 0.9499999999999998
+      },
+      "select_match": {
+        "temperature": 0.0,
+        "value": 0.0
+      },
+      "where_match": {
+        "temperature": 0.0,
+        "value": 0.3333333333333333
+      },
+      "group_by_match": {
+        "temperature": 0.0,
+        "value": 0.6666666666666666
+      },
+      "order_by_match": {
+        "temperature": 0.0,
+        "value": 1.0
+      },
+      "vaibhav": {
+        "temperature": 0.0,
+        "value": 0.5
+      },
+      "join_2205": {
+        "temperature": 0.0,
+        "value": 0.0
+      }
+    },
+    "all_trials_data": [
+      {
+        "temperature": 0.0,
+        "execution_match_rate": 100.0,
+        "confidence": 0.9499999999999998,
+        "select_match": 0.0,
+        "where_match": 0.3333333333333333,
+        "group_by_match": 0.6666666666666666,
+        "order_by_match": 1.0,
+        "vaibhav": 0.5,
+        "join_2205": 0.0
+      },
+      {
+        "temperature": 0.4,
+        "execution_match_rate": 100.0,
+        "confidence": 0.9499999999999998,
+        "select_match": 0.0,
+        "where_match": 0.3333333333333333,
+        "group_by_match": 0.6666666666666666,
+        "order_by_match": 1.0,
+        "vaibhav": 0.5,
+        "join_2205": 0.0
+      },
+      {
+        "temperature": 0.8,
+        "execution_match_rate": 100.0,
+        "confidence": 0.9499999999999998,
+        "select_match": 0.0,
+        "where_match": 0.3333333333333333,
+        "group_by_match": 0.6666666666666666,
+        "order_by_match": 1.0,
+        "vaibhav": 0.5,
+        "join_2205": 0.0
+      }
+    ],
+    "metrics_per_temperature": [
+      {
+        "temperature": 0.0,
+        "execution_match_rate": 100.0,
+        "confidence": 0.9499999999999998,
+        "select_match": 0.0,
+        "where_match": 0.3333333333333333,
+        "group_by_match": 0.6666666666666666,
+        "order_by_match": 1.0,
+        "vaibhav": 0.5,
+        "join_2205": 0.0
+      },
+      {
+        "temperature": 0.4,
+        "execution_match_rate": 100.0,
+        "confidence": 0.9499999999999998,
+        "select_match": 0.0,
+        "where_match": 0.3333333333333333,
+        "group_by_match": 0.6666666666666666,
+        "order_by_match": 1.0,
+        "vaibhav": 0.5,
+        "join_2205": 0.0
+      },
+      {
+        "temperature": 0.8,
+        "execution_match_rate": 100.0,
+        "confidence": 0.9499999999999998,
+        "select_match": 0.0,
+        "where_match": 0.3333333333333333,
+        "group_by_match": 0.6666666666666666,
+        "order_by_match": 1.0,
+        "vaibhav": 0.5,
+        "join_2205": 0.0
+      }
+    ]
+  },
+  "model_metrics": {
+    "gpt-4o-mini": {
+      "avg_latency": 4.14919325
+    },
+    "gpt-3.5-turbo": {
+      "avg_latency": 2.652938
+    }
+  },
+  "sample_size": 4,
+  "selected_metrics": [
+    "execution_match",
+    "vaibhav",
+    "join_2205"
+  ]
+}

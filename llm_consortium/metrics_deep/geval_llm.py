@@ -106,7 +106,7 @@ class SQLClauseCountGEval(CustomBaseMetric):
             ],
             model="gpt-4o-mini"
         )
-
+    
     async def measure_async(self, generated_sql: str, gold_sql: str) -> None:
         """Async version of measure for proper await handling"""
         test_case = LLMTestCase(
