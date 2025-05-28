@@ -3,35 +3,35 @@
     "model": "gpt-4o-mini",
     "metrics": {
       "query_metrics": {
-        "average_score": 0.693836269611134,
+        "average_score": 0.6865774613101657,
         "num_evaluated": 4,
         "pass_rate": 0.75,
         "threshold": 0.8,
         "detailed_results": [
           {
-            "score": 0.85856350875726,
-            "rationale": "The query includes the required column and uses a proper GROUP BY and HAVING clause, but the COUNT function should reference the correct column for clarity.",
+            "score": 0.8566660666938422,
+            "rationale": "The query includes the necessary columns and uses appropriate aliases, but the join quality is not assessed as there are no joins present. The SQL syntax is correct, and the clauses are applied properly.",
             "question": "What are the payment method codes that have been used by more than 3 parties?",
             "generated_sql": "SELECT payment_method_code\nFROM Parties\nGROUP BY payment_method_code\nHAVING COUNT(party_id) > 3;",
             "gold_sql": "SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3"
           },
           {
             "score": 0.0,
-            "rationale": "The actual output indicates a BadRequestError due to exceeding token limits, which means the SQL query was not executed or evaluated, failing to meet any of the criteria.",
+            "rationale": "The actual output indicates a BadRequestError due to exceeding token limits, which means the SQL query was not executed or evaluated, failing all criteria.",
             "question": "What is the average latitude and longitude of the starting points of all trips?",
             "generated_sql": "BadRequestError: Error code: 400 - {'error': {'message': \"This model's maximum context length is 128000 tokens. However, your messages resulted in 1059631 tokens. Please reduce the length of the messages.\", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'context_length_exceeded'}}",
             "gold_sql": "SELECT avg(T1.lat) ,  avg(T1.long) FROM station AS T1 JOIN trip AS T2 ON T1.id  =  T2.start_station_id"
           },
           {
-            "score": 1.0,
-            "rationale": "The query includes the required column 'Fname', follows proper SQL syntax, and accurately implements the WHERE clause to filter students by age.",
+            "score": 0.99149009636942,
+            "rationale": "All required columns are selected without superfluous ones, SQL syntax is correct, and the WHERE clause accurately filters the data.",
             "question": "Find the first names of students with age above 22.",
             "generated_sql": "SELECT Fname FROM Student WHERE Age > 22;",
             "gold_sql": "SELECT Fname FROM STUDENT WHERE Age  >  22"
           },
           {
-            "score": 0.9167815696872761,
-            "rationale": "All required columns are present, and the SQL syntax is correct. The use of single quotes for date literals is acceptable, but the table name casing differs from the gold SQL.",
+            "score": 0.8981536821774008,
+            "rationale": "The query includes the required column and correctly applies the WHERE clause, but the table name casing differs from the gold SQL, which could affect clarity.",
             "question": "What are the invoice numbers created before 1989-09-03 or after 2007-12-25?",
             "generated_sql": "SELECT invoice_number \nFROM Invoices \nWHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25';",
             "gold_sql": "SELECT invoice_number FROM invoices WHERE invoice_date < \"1989-09-03\" OR invoice_date > \"2007-12-25\""
@@ -40,101 +40,101 @@
         "criteria_summary": "SUMMARY FOR QUERY_METRICS METRIC:\n\nPerformance Overview:\nAverage score of 0.69 with 75.0% pass rate indicates moderate performance in this area.\n\nCommon Issues Identified:\n\n\nRecommendations:\nBased on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in query_metrics."
       },
       "intent_understanding": {
-        "average_score": 0.7511835554254236,
+        "average_score": 0.7147380899394331,
         "num_evaluated": 4,
         "pass_rate": 0.75,
         "threshold": 0.8,
         "detailed_results": [
           {
-            "score": 0.8894328961455054,
-            "rationale": "The SQL correctly identifies payment method codes used by more than 3 parties, but it could improve by ensuring consistent casing for table names.",
+            "score": 0.8618835826738744,
+            "rationale": "The SQL query correctly identifies payment method codes used by more than 3 parties, but it uses COUNT(party_id) instead of COUNT(*), which is a minor deviation from the gold SQL.",
             "question": "What are the payment method codes that have been used by more than 3 parties?",
             "generated_sql": "SELECT payment_method_code\nFROM Parties\nGROUP BY payment_method_code\nHAVING COUNT(party_id) > 3;",
             "gold_sql": "SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3"
           },
           {
-            "score": 0.11530132555618919,
-            "rationale": "The SQL query does not produce a valid output due to a context length error, indicating it fails to address the question effectively.",
+            "score": 0.0,
+            "rationale": "The actual output indicates a context length error, suggesting that the SQL query was not executed or evaluated, failing to address the question's requirements.",
             "question": "What is the average latitude and longitude of the starting points of all trips?",
             "generated_sql": "BadRequestError: Error code: 400 - {'error': {'message': \"This model's maximum context length is 128000 tokens. However, your messages resulted in 1059631 tokens. Please reduce the length of the messages.\", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'context_length_exceeded'}}",
             "gold_sql": "SELECT avg(T1.lat) ,  avg(T1.long) FROM station AS T1 JOIN trip AS T2 ON T1.id  =  T2.start_station_id"
           },
           {
             "score": 1.0,
-            "rationale": "The SQL directly addresses the question by selecting first names of students with age above 22, correctly applying the filtering criteria and including the necessary table and column.",
+            "rationale": "The SQL query correctly retrieves the first names of students aged above 22, aligning perfectly with the question's requirements.",
             "question": "Find the first names of students with age above 22.",
             "generated_sql": "SELECT Fname FROM Student WHERE Age > 22;",
             "gold_sql": "SELECT Fname FROM STUDENT WHERE Age  >  22"
           },
           {
-            "score": 1.0,
-            "rationale": "The SQL correctly addresses the question by selecting invoice numbers based on the specified date criteria, and it includes the necessary table and columns.",
+            "score": 0.997068777083858,
+            "rationale": "The SQL query accurately reflects the question's intent by correctly filtering invoice numbers based on the specified date conditions, and it includes all necessary elements without any logical gaps.",
             "question": "What are the invoice numbers created before 1989-09-03 or after 2007-12-25?",
             "generated_sql": "SELECT invoice_number \nFROM Invoices \nWHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25';",
             "gold_sql": "SELECT invoice_number FROM invoices WHERE invoice_date < \"1989-09-03\" OR invoice_date > \"2007-12-25\""
           }
         ],
-        "criteria_summary": "SUMMARY FOR INTENT_UNDERSTANDING METRIC:\n\nPerformance Overview:\nAverage score of 0.75 with 75.0% pass rate indicates moderate performance in this area.\n\nCommon Issues Identified:\n\n\nRecommendations:\nBased on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in intent_understanding."
+        "criteria_summary": "SUMMARY FOR INTENT_UNDERSTANDING METRIC:\n\nPerformance Overview:\nAverage score of 0.71 with 75.0% pass rate indicates moderate performance in this area.\n\nCommon Issues Identified:\n\n\nRecommendations:\nBased on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in intent_understanding."
       },
       "syntax_accuracy": {
-        "average_score": 0.6211459522067908,
+        "average_score": 0.5939046120829143,
         "num_evaluated": 4,
-        "pass_rate": 0.0,
+        "pass_rate": 0.25,
         "threshold": 0.9,
         "detailed_results": [
           {
-            "score": 0.7294964067723794,
-            "rationale": "The SQL statement has valid syntax, correct keyword usage, and proper clause ordering, but it lacks a SELECT clause for COUNT(party_id) which is necessary for the HAVING clause.",
+            "score": 0.6332874112619786,
+            "rationale": "The query has no syntax errors and uses SQL keywords correctly, but the ORDER BY clause is missing, and the HAVING clause is used without a corresponding GROUP BY context.",
             "generated_sql": "SELECT payment_method_code\nFROM Parties\nGROUP BY payment_method_code\nHAVING COUNT(party_id) > 3;"
           },
           {
             "score": 0.0,
-            "rationale": "The output indicates a parsing error due to exceeding the maximum context length, which violates valid SQL syntax.",
+            "rationale": "The output indicates a context length error, suggesting that the SQL statements were not parsed or evaluated, failing all criteria.",
             "generated_sql": "BadRequestError: Error code: 400 - {'error': {'message': \"This model's maximum context length is 128000 tokens. However, your messages resulted in 1059631 tokens. Please reduce the length of the messages.\", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'context_length_exceeded'}}"
           },
           {
-            "score": 0.862309464375721,
-            "rationale": "The SQL statement has valid syntax, correctly spelled keywords, and proper clause ordering, but lacks an alias for the table reference.",
+            "score": 0.8377585494772776,
+            "rationale": "The SQL statement has no syntax errors, keywords are correct, and the clause order is appropriate, but it lacks a GROUP BY or ORDER BY clause for completeness.",
             "generated_sql": "SELECT Fname FROM Student WHERE Age > 22;"
           },
           {
-            "score": 0.892777937679063,
-            "rationale": "The SQL syntax is valid, keywords are correctly used, clauses are in the correct order, and table/column references are valid, but there is no aliasing for the table.",
+            "score": 0.904572487592401,
+            "rationale": "The SQL statement has no syntax errors, uses keywords correctly, follows the proper clause order, and references a valid table and column.",
             "generated_sql": "SELECT invoice_number \nFROM Invoices \nWHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25';"
           }
         ],
-        "criteria_summary": "SUMMARY FOR SYNTAX_ACCURACY METRIC:\n\nPerformance Overview:\nAverage score of 0.62 with 0.0% pass rate indicates moderate performance in this area.\n\nCommon Issues Identified:\n\n\nRecommendations:\nBased on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in syntax_accuracy."
+        "criteria_summary": "SUMMARY FOR SYNTAX_ACCURACY METRIC:\n\nPerformance Overview:\nAverage score of 0.59 with 25.0% pass rate indicates weak performance in this area.\n\nCommon Issues Identified:\n\u2022 The query has no syntax errors and uses SQL keywords correctly, but the ORDER BY clause is missing, and the HAVING clause is used without a corresponding GROUP BY context\n\nRecommendations:\nBased on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in syntax_accuracy."
       },
       "logical_correctness": {
-        "average_score": 0.721405036818417,
+        "average_score": 0.7244719460705581,
         "num_evaluated": 4,
         "pass_rate": 0.75,
         "threshold": 0.85,
         "detailed_results": [
           {
-            "score": 0.8962892068102526,
-            "rationale": "The query logic aligns well with the question, and the aggregation logic is correctly applied with GROUP BY and HAVING. However, the join conditions were not evaluated as there are no joins present.",
+            "score": 0.9038964494679457,
+            "rationale": "The query logic addresses the question requirements well, using appropriate GROUP BY and HAVING clauses, but the join conditions are not evaluated, which could affect data alignment.",
             "question": "What are the payment method codes that have been used by more than 3 parties?",
             "generated_sql": "SELECT payment_method_code\nFROM Parties\nGROUP BY payment_method_code\nHAVING COUNT(party_id) > 3;",
             "gold_sql": "SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3"
           },
           {
             "score": 0.0,
-            "rationale": "The actual output indicates a context length error, suggesting that the query was not executed, and thus no evaluation of logic, joins, filters, or aggregations could be performed.",
+            "rationale": "The actual output indicates a context length error, suggesting that the SQL query was not executed or evaluated, failing to address the question requirements.",
             "question": "What is the average latitude and longitude of the starting points of all trips?",
             "generated_sql": "BadRequestError: Error code: 400 - {'error': {'message': \"This model's maximum context length is 128000 tokens. However, your messages resulted in 1059631 tokens. Please reduce the length of the messages.\", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'context_length_exceeded'}}",
             "gold_sql": "SELECT avg(T1.lat) ,  avg(T1.long) FROM station AS T1 JOIN trip AS T2 ON T1.id  =  T2.start_station_id"
           },
           {
             "score": 1.0,
-            "rationale": "The query logic aligns perfectly with the question, the join conditions are not applicable here, the filter condition correctly implements the age criteria, and there is no aggregation needed.",
+            "rationale": "The query logic directly addresses the requirement to find first names of students over 22, and the SQL syntax is correct with appropriate WHERE clause.",
             "question": "Find the first names of students with age above 22.",
             "generated_sql": "SELECT Fname FROM Student WHERE Age > 22;",
             "gold_sql": "SELECT Fname FROM STUDENT WHERE Age  >  22"
           },
           {
-            "score": 0.9893309404634152,
-            "rationale": "The query logic aligns perfectly with the question, the join conditions are not applicable here, the filter conditions correctly implement the specified date criteria, and there are no aggregation requirements in this case.",
+            "score": 0.9939913348142868,
+            "rationale": "The query logic correctly addresses the question requirements, the join conditions are not applicable here, the WHERE clause accurately filters the necessary data, and there are no GROUP BY or aggregate functions to assess.",
             "question": "What are the invoice numbers created before 1989-09-03 or after 2007-12-25?",
             "generated_sql": "SELECT invoice_number \nFROM Invoices \nWHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25';",
             "gold_sql": "SELECT invoice_number FROM invoices WHERE invoice_date < \"1989-09-03\" OR invoice_date > \"2007-12-25\""
@@ -149,35 +149,35 @@
     "model": "gpt-3.5-turbo",
     "metrics": {
       "query_metrics": {
-        "average_score": 0.6539367403156137,
+        "average_score": 0.6471783272317211,
         "num_evaluated": 4,
         "pass_rate": 0.5,
         "threshold": 0.8,
         "detailed_results": [
           {
-            "score": 0.70027717301999,
-            "rationale": "The actual output includes a DISTINCT clause in the HAVING condition, which is not present in the gold SQL, potentially affecting the accuracy of the count.",
+            "score": 0.6987824420268963,
+            "rationale": "The query includes the necessary columns and uses GROUP BY and HAVING correctly, but it introduces COUNT(DISTINCT party_id), which alters the intended logic of counting parties.",
             "question": "What are the payment method codes that have been used by more than 3 parties?",
             "generated_sql": "SELECT payment_method_code\nFROM Parties\nGROUP BY payment_method_code\nHAVING COUNT(DISTINCT party_id) > 3;",
             "gold_sql": "SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3"
           },
           {
             "score": 0.0,
-            "rationale": "The actual output indicates a BadRequestError due to exceeding token limits, which means the SQL query was not executed or evaluated.",
+            "rationale": "The actual output indicates a BadRequestError due to exceeding token limits, which suggests that the SQL query was not executed or evaluated, failing to meet any of the criteria outlined.",
             "question": "What is the average latitude and longitude of the starting points of all trips?",
             "generated_sql": "BadRequestError: Error code: 400 - {'error': {'message': \"This model's maximum context length is 16385 tokens. However, your messages resulted in 1061496 tokens. Please reduce the length of the messages.\", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'context_length_exceeded'}}",
             "gold_sql": "SELECT avg(T1.lat) ,  avg(T1.long) FROM station AS T1 JOIN trip AS T2 ON T1.id  =  T2.start_station_id"
           },
           {
             "score": 1.0,
-            "rationale": "The query includes the required column 'Fname', follows proper SQL syntax, and accurately implements the WHERE clause to filter students by age.",
+            "rationale": "All required columns are selected without superfluous ones, SQL syntax is correct, join conditions are not applicable here, and the WHERE clause is accurately applied.",
             "question": "Find the first names of students with age above 22.",
             "generated_sql": "SELECT Fname\nFROM Student\nWHERE Age > 22;",
             "gold_sql": "SELECT Fname FROM STUDENT WHERE Age  >  22"
           },
           {
-            "score": 0.9154697882424646,
-            "rationale": "The query includes the required column and follows proper SQL syntax, but the table name 'Invoices' should be consistently cased as 'invoices' for clarity.",
+            "score": 0.8899308668999879,
+            "rationale": "The query includes the required column and correctly applies the WHERE clause, but the table name casing differs from the gold SQL.",
             "question": "What are the invoice numbers created before 1989-09-03 or after 2007-12-25?",
             "generated_sql": "SELECT invoice_number\nFROM Invoices\nWHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25';",
             "gold_sql": "SELECT invoice_number FROM invoices WHERE invoice_date < \"1989-09-03\" OR invoice_date > \"2007-12-25\""
@@ -186,107 +186,107 @@
         "criteria_summary": "SUMMARY FOR QUERY_METRICS METRIC:\n\nPerformance Overview:\nAverage score of 0.65 with 50.0% pass rate indicates moderate performance in this area.\n\nCommon Issues Identified:\n\n\nRecommendations:\nBased on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in query_metrics."
       },
       "intent_understanding": {
-        "average_score": 0.7020456709537175,
+        "average_score": 0.685542468922056,
         "num_evaluated": 4,
         "pass_rate": 0.5,
         "threshold": 0.8,
         "detailed_results": [
           {
-            "score": 0.766777182540611,
-            "rationale": "The SQL correctly identifies payment method codes used by more than 3 parties, but it lacks clarity on counting distinct parties, which is crucial for accurate results.",
+            "score": 0.7454784735390118,
+            "rationale": "The actual output correctly identifies payment method codes used by more than 3 parties, but it uses COUNT(DISTINCT party_id) instead of COUNT(*), which slightly alters the intended logic.",
             "question": "What are the payment method codes that have been used by more than 3 parties?",
             "generated_sql": "SELECT payment_method_code\nFROM Parties\nGROUP BY payment_method_code\nHAVING COUNT(DISTINCT party_id) > 3;",
             "gold_sql": "SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3"
           },
           {
-            "score": 0.041405501274258835,
-            "rationale": "The SQL query does not execute due to a context length error, indicating it cannot be evaluated for correctness or completeness.",
+            "score": 0.0,
+            "rationale": "The actual output indicates a context length error, suggesting that the SQL query was not executed or evaluated, failing to address any of the evaluation criteria.",
             "question": "What is the average latitude and longitude of the starting points of all trips?",
             "generated_sql": "BadRequestError: Error code: 400 - {'error': {'message': \"This model's maximum context length is 16385 tokens. However, your messages resulted in 1061496 tokens. Please reduce the length of the messages.\", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'context_length_exceeded'}}",
             "gold_sql": "SELECT avg(T1.lat) ,  avg(T1.long) FROM station AS T1 JOIN trip AS T2 ON T1.id  =  T2.start_station_id"
           },
           {
             "score": 1.0,
-            "rationale": "The SQL directly addresses the question by selecting first names of students with age above 22, correctly applying the filtering criteria.",
+            "rationale": "The SQL query correctly retrieves the first names of students aged above 22, aligning perfectly with the question's requirements.",
             "question": "Find the first names of students with age above 22.",
             "generated_sql": "SELECT Fname\nFROM Student\nWHERE Age > 22;",
             "gold_sql": "SELECT Fname FROM STUDENT WHERE Age  >  22"
           },
           {
-            "score": 1.0,
-            "rationale": "The SQL correctly addresses the question by selecting invoice numbers based on the specified date criteria, and it includes the necessary table and columns.",
+            "score": 0.9966914021492119,
+            "rationale": "The SQL query accurately reflects the question's intent by correctly filtering invoice numbers based on the specified date conditions, and it includes all necessary elements without any logical gaps.",
             "question": "What are the invoice numbers created before 1989-09-03 or after 2007-12-25?",
             "generated_sql": "SELECT invoice_number\nFROM Invoices\nWHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25';",
             "gold_sql": "SELECT invoice_number FROM invoices WHERE invoice_date < \"1989-09-03\" OR invoice_date > \"2007-12-25\""
           }
         ],
-        "criteria_summary": "SUMMARY FOR INTENT_UNDERSTANDING METRIC:\n\nPerformance Overview:\nAverage score of 0.70 with 50.0% pass rate indicates moderate performance in this area.\n\nCommon Issues Identified:\n\n\nRecommendations:\nBased on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in intent_understanding."
+        "criteria_summary": "SUMMARY FOR INTENT_UNDERSTANDING METRIC:\n\nPerformance Overview:\nAverage score of 0.69 with 50.0% pass rate indicates moderate performance in this area.\n\nCommon Issues Identified:\n\n\nRecommendations:\nBased on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in intent_understanding."
       },
       "syntax_accuracy": {
-        "average_score": 0.6281640390469636,
+        "average_score": 0.6432712541668368,
         "num_evaluated": 4,
-        "pass_rate": 0.0,
+        "pass_rate": 0.25,
         "threshold": 0.9,
         "detailed_results": [
           {
-            "score": 0.7726805920829866,
-            "rationale": "The SQL statement has valid syntax, correct keyword usage, and proper clause ordering, but it lacks a WHERE clause for filtering before grouping.",
+            "score": 0.7331961380833759,
+            "rationale": "The SQL statement has no syntax errors, keywords are correctly spelled, and clauses are in the correct order, but the HAVING clause is used without a corresponding GROUP BY clause for aggregation.",
             "generated_sql": "SELECT payment_method_code\nFROM Parties\nGROUP BY payment_method_code\nHAVING COUNT(DISTINCT party_id) > 3;"
           },
           {
             "score": 0.0,
-            "rationale": "The output indicates a parsing error due to exceeding token limits, which violates valid SQL syntax.",
+            "rationale": "The output indicates a context length error, suggesting that the SQL statements were not parsed or evaluated at all.",
             "generated_sql": "BadRequestError: Error code: 400 - {'error': {'message': \"This model's maximum context length is 16385 tokens. However, your messages resulted in 1061496 tokens. Please reduce the length of the messages.\", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'context_length_exceeded'}}"
           },
           {
-            "score": 0.8711801852063804,
-            "rationale": "The SQL statement has valid syntax, correctly spelled keywords, and proper clause ordering, but lacks a valid alias for the table reference.",
+            "score": 0.9485375737289532,
+            "rationale": "The SQL statement has no syntax errors, uses keywords correctly, follows the proper clause order, and references valid table and column names.",
             "generated_sql": "SELECT Fname\nFROM Student\nWHERE Age > 22;"
           },
           {
-            "score": 0.8687953788984872,
-            "rationale": "The SQL syntax is valid, keywords are correctly used, and the clause order is appropriate. However, there is no aliasing for the table reference.",
+            "score": 0.8913513048550182,
+            "rationale": "The SQL statement has no syntax errors, keywords are correctly spelled, and the clauses are in the correct order, but there is no GROUP BY or ORDER BY clause present.",
             "generated_sql": "SELECT invoice_number\nFROM Invoices\nWHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25';"
           }
         ],
-        "criteria_summary": "SUMMARY FOR SYNTAX_ACCURACY METRIC:\n\nPerformance Overview:\nAverage score of 0.63 with 0.0% pass rate indicates moderate performance in this area.\n\nCommon Issues Identified:\n\n\nRecommendations:\nBased on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in syntax_accuracy."
+        "criteria_summary": "SUMMARY FOR SYNTAX_ACCURACY METRIC:\n\nPerformance Overview:\nAverage score of 0.64 with 25.0% pass rate indicates moderate performance in this area.\n\nCommon Issues Identified:\n\n\nRecommendations:\nBased on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in syntax_accuracy."
       },
       "logical_correctness": {
-        "average_score": 0.6829236292810793,
+        "average_score": 0.6935000761767137,
         "num_evaluated": 4,
         "pass_rate": 0.5,
         "threshold": 0.85,
         "detailed_results": [
           {
-            "score": 0.7585692710493169,
-            "rationale": "The query aligns well with the logic of the question, but it uses COUNT(DISTINCT party_id) instead of COUNT(*), which may not be necessary depending on the context of the data.",
+            "score": 0.7777329931333828,
+            "rationale": "The query logic addresses the question requirements, but the use of COUNT(DISTINCT party_id) instead of COUNT(*) may lead to misrepresentation of the count of parties using each payment method.",
             "question": "What are the payment method codes that have been used by more than 3 parties?",
             "generated_sql": "SELECT payment_method_code\nFROM Parties\nGROUP BY payment_method_code\nHAVING COUNT(DISTINCT party_id) > 3;",
             "gold_sql": "SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3"
           },
           {
             "score": 0.0,
-            "rationale": "The actual output indicates a context length error, suggesting that the query was not executed, and thus no evaluation of logic, joins, filters, or aggregations could be performed.",
+            "rationale": "The actual output indicates a context length error, suggesting that the query logic was not executed, and thus it does not address the question requirements.",
             "question": "What is the average latitude and longitude of the starting points of all trips?",
             "generated_sql": "BadRequestError: Error code: 400 - {'error': {'message': \"This model's maximum context length is 16385 tokens. However, your messages resulted in 1061496 tokens. Please reduce the length of the messages.\", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'context_length_exceeded'}}",
             "gold_sql": "SELECT avg(T1.lat) ,  avg(T1.long) FROM station AS T1 JOIN trip AS T2 ON T1.id  =  T2.start_station_id"
           },
           {
             "score": 1.0,
-            "rationale": "The query logic aligns perfectly with the question, the join conditions are not applicable here, the filter condition correctly implements the age criteria, and there is no aggregation needed.",
+            "rationale": "The query logic directly addresses the requirement to find first names of students over 22, with correct syntax and no missing joins or filters.",
             "question": "Find the first names of students with age above 22.",
             "generated_sql": "SELECT Fname\nFROM Student\nWHERE Age > 22;",
             "gold_sql": "SELECT Fname FROM STUDENT WHERE Age  >  22"
           },
           {
-            "score": 0.9731252460750003,
-            "rationale": "The query logic aligns perfectly with the question, the join conditions are not applicable here, the filter conditions correctly implement the specified date criteria, and there are no aggregation requirements in this case.",
+            "score": 0.996267311573472,
+            "rationale": "The query logic correctly addresses the question requirements, the join conditions are not applicable here, the WHERE clause accurately filters the necessary data, and there are no GROUP BY or aggregate functions to assess.",
             "question": "What are the invoice numbers created before 1989-09-03 or after 2007-12-25?",
             "generated_sql": "SELECT invoice_number\nFROM Invoices\nWHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25';",
             "gold_sql": "SELECT invoice_number FROM invoices WHERE invoice_date < \"1989-09-03\" OR invoice_date > \"2007-12-25\""
           }
         ],
-        "criteria_summary": "SUMMARY FOR LOGICAL_CORRECTNESS METRIC:\n\nPerformance Overview:\nAverage score of 0.68 with 50.0% pass rate indicates moderate performance in this area.\n\nCommon Issues Identified:\n\n\nRecommendations:\nBased on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in logical_correctness."
+        "criteria_summary": "SUMMARY FOR LOGICAL_CORRECTNESS METRIC:\n\nPerformance Overview:\nAverage score of 0.69 with 50.0% pass rate indicates moderate performance in this area.\n\nCommon Issues Identified:\n\n\nRecommendations:\nBased on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in logical_correctness."
       }
     },
     "detailed_results": []
@@ -294,60 +294,60 @@
   "rankings": [
     {
       "model": "gpt-4o-mini",
-      "overall_score": 0.7038338630213009,
+      "overall_score": 0.6869039023369344,
       "metric_breakdown": {
         "query_metrics": {
-          "score": 0.693836269611134,
+          "score": 0.6865774613101657,
           "weight": 1.0,
           "pass_rate": 0.75
         },
         "intent_understanding": {
-          "score": 0.7511835554254236,
+          "score": 0.7147380899394331,
           "weight": 1.2,
           "pass_rate": 0.75
         },
         "syntax_accuracy": {
-          "score": 0.6211459522067908,
+          "score": 0.5939046120829143,
           "weight": 0.8,
-          "pass_rate": 0.0
+          "pass_rate": 0.25
         },
         "logical_correctness": {
-          "score": 0.721405036818417,
+          "score": 0.7244719460705581,
           "weight": 1.1,
           "pass_rate": 0.75
         }
       },
       "metrics": {
         "query_metrics": {
-          "average_score": 0.693836269611134,
+          "average_score": 0.6865774613101657,
           "num_evaluated": 4,
           "pass_rate": 0.75,
           "threshold": 0.8,
           "detailed_results": [
             {
-              "score": 0.85856350875726,
-              "rationale": "The query includes the required column and uses a proper GROUP BY and HAVING clause, but the COUNT function should reference the correct column for clarity.",
+              "score": 0.8566660666938422,
+              "rationale": "The query includes the necessary columns and uses appropriate aliases, but the join quality is not assessed as there are no joins present. The SQL syntax is correct, and the clauses are applied properly.",
               "question": "What are the payment method codes that have been used by more than 3 parties?",
               "generated_sql": "SELECT payment_method_code\nFROM Parties\nGROUP BY payment_method_code\nHAVING COUNT(party_id) > 3;",
               "gold_sql": "SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3"
             },
             {
               "score": 0.0,
-              "rationale": "The actual output indicates a BadRequestError due to exceeding token limits, which means the SQL query was not executed or evaluated, failing to meet any of the criteria.",
+              "rationale": "The actual output indicates a BadRequestError due to exceeding token limits, which means the SQL query was not executed or evaluated, failing all criteria.",
               "question": "What is the average latitude and longitude of the starting points of all trips?",
               "generated_sql": "BadRequestError: Error code: 400 - {'error': {'message': \"This model's maximum context length is 128000 tokens. However, your messages resulted in 1059631 tokens. Please reduce the length of the messages.\", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'context_length_exceeded'}}",
               "gold_sql": "SELECT avg(T1.lat) ,  avg(T1.long) FROM station AS T1 JOIN trip AS T2 ON T1.id  =  T2.start_station_id"
             },
             {
-              "score": 1.0,
-              "rationale": "The query includes the required column 'Fname', follows proper SQL syntax, and accurately implements the WHERE clause to filter students by age.",
+              "score": 0.99149009636942,
+              "rationale": "All required columns are selected without superfluous ones, SQL syntax is correct, and the WHERE clause accurately filters the data.",
               "question": "Find the first names of students with age above 22.",
               "generated_sql": "SELECT Fname FROM Student WHERE Age > 22;",
               "gold_sql": "SELECT Fname FROM STUDENT WHERE Age  >  22"
             },
             {
-              "score": 0.9167815696872761,
-              "rationale": "All required columns are present, and the SQL syntax is correct. The use of single quotes for date literals is acceptable, but the table name casing differs from the gold SQL.",
+              "score": 0.8981536821774008,
+              "rationale": "The query includes the required column and correctly applies the WHERE clause, but the table name casing differs from the gold SQL, which could affect clarity.",
               "question": "What are the invoice numbers created before 1989-09-03 or after 2007-12-25?",
               "generated_sql": "SELECT invoice_number \nFROM Invoices \nWHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25';",
               "gold_sql": "SELECT invoice_number FROM invoices WHERE invoice_date < \"1989-09-03\" OR invoice_date > \"2007-12-25\""
@@ -356,101 +356,101 @@
           "criteria_summary": "SUMMARY FOR QUERY_METRICS METRIC:\n\nPerformance Overview:\nAverage score of 0.69 with 75.0% pass rate indicates moderate performance in this area.\n\nCommon Issues Identified:\n\n\nRecommendations:\nBased on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in query_metrics."
         },
         "intent_understanding": {
-          "average_score": 0.7511835554254236,
+          "average_score": 0.7147380899394331,
           "num_evaluated": 4,
           "pass_rate": 0.75,
           "threshold": 0.8,
           "detailed_results": [
             {
-              "score": 0.8894328961455054,
-              "rationale": "The SQL correctly identifies payment method codes used by more than 3 parties, but it could improve by ensuring consistent casing for table names.",
+              "score": 0.8618835826738744,
+              "rationale": "The SQL query correctly identifies payment method codes used by more than 3 parties, but it uses COUNT(party_id) instead of COUNT(*), which is a minor deviation from the gold SQL.",
               "question": "What are the payment method codes that have been used by more than 3 parties?",
               "generated_sql": "SELECT payment_method_code\nFROM Parties\nGROUP BY payment_method_code\nHAVING COUNT(party_id) > 3;",
               "gold_sql": "SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3"
             },
             {
-              "score": 0.11530132555618919,
-              "rationale": "The SQL query does not produce a valid output due to a context length error, indicating it fails to address the question effectively.",
+              "score": 0.0,
+              "rationale": "The actual output indicates a context length error, suggesting that the SQL query was not executed or evaluated, failing to address the question's requirements.",
               "question": "What is the average latitude and longitude of the starting points of all trips?",
               "generated_sql": "BadRequestError: Error code: 400 - {'error': {'message': \"This model's maximum context length is 128000 tokens. However, your messages resulted in 1059631 tokens. Please reduce the length of the messages.\", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'context_length_exceeded'}}",
               "gold_sql": "SELECT avg(T1.lat) ,  avg(T1.long) FROM station AS T1 JOIN trip AS T2 ON T1.id  =  T2.start_station_id"
             },
             {
               "score": 1.0,
-              "rationale": "The SQL directly addresses the question by selecting first names of students with age above 22, correctly applying the filtering criteria and including the necessary table and column.",
+              "rationale": "The SQL query correctly retrieves the first names of students aged above 22, aligning perfectly with the question's requirements.",
               "question": "Find the first names of students with age above 22.",
               "generated_sql": "SELECT Fname FROM Student WHERE Age > 22;",
               "gold_sql": "SELECT Fname FROM STUDENT WHERE Age  >  22"
             },
             {
-              "score": 1.0,
-              "rationale": "The SQL correctly addresses the question by selecting invoice numbers based on the specified date criteria, and it includes the necessary table and columns.",
+              "score": 0.997068777083858,
+              "rationale": "The SQL query accurately reflects the question's intent by correctly filtering invoice numbers based on the specified date conditions, and it includes all necessary elements without any logical gaps.",
               "question": "What are the invoice numbers created before 1989-09-03 or after 2007-12-25?",
               "generated_sql": "SELECT invoice_number \nFROM Invoices \nWHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25';",
               "gold_sql": "SELECT invoice_number FROM invoices WHERE invoice_date < \"1989-09-03\" OR invoice_date > \"2007-12-25\""
             }
           ],
-          "criteria_summary": "SUMMARY FOR INTENT_UNDERSTANDING METRIC:\n\nPerformance Overview:\nAverage score of 0.75 with 75.0% pass rate indicates moderate performance in this area.\n\nCommon Issues Identified:\n\n\nRecommendations:\nBased on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in intent_understanding."
+          "criteria_summary": "SUMMARY FOR INTENT_UNDERSTANDING METRIC:\n\nPerformance Overview:\nAverage score of 0.71 with 75.0% pass rate indicates moderate performance in this area.\n\nCommon Issues Identified:\n\n\nRecommendations:\nBased on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in intent_understanding."
         },
         "syntax_accuracy": {
-          "average_score": 0.6211459522067908,
+          "average_score": 0.5939046120829143,
           "num_evaluated": 4,
-          "pass_rate": 0.0,
+          "pass_rate": 0.25,
           "threshold": 0.9,
           "detailed_results": [
             {
-              "score": 0.7294964067723794,
-              "rationale": "The SQL statement has valid syntax, correct keyword usage, and proper clause ordering, but it lacks a SELECT clause for COUNT(party_id) which is necessary for the HAVING clause.",
+              "score": 0.6332874112619786,
+              "rationale": "The query has no syntax errors and uses SQL keywords correctly, but the ORDER BY clause is missing, and the HAVING clause is used without a corresponding GROUP BY context.",
               "generated_sql": "SELECT payment_method_code\nFROM Parties\nGROUP BY payment_method_code\nHAVING COUNT(party_id) > 3;"
             },
             {
               "score": 0.0,
-              "rationale": "The output indicates a parsing error due to exceeding the maximum context length, which violates valid SQL syntax.",
+              "rationale": "The output indicates a context length error, suggesting that the SQL statements were not parsed or evaluated, failing all criteria.",
               "generated_sql": "BadRequestError: Error code: 400 - {'error': {'message': \"This model's maximum context length is 128000 tokens. However, your messages resulted in 1059631 tokens. Please reduce the length of the messages.\", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'context_length_exceeded'}}"
             },
             {
-              "score": 0.862309464375721,
-              "rationale": "The SQL statement has valid syntax, correctly spelled keywords, and proper clause ordering, but lacks an alias for the table reference.",
+              "score": 0.8377585494772776,
+              "rationale": "The SQL statement has no syntax errors, keywords are correct, and the clause order is appropriate, but it lacks a GROUP BY or ORDER BY clause for completeness.",
               "generated_sql": "SELECT Fname FROM Student WHERE Age > 22;"
             },
             {
-              "score": 0.892777937679063,
-              "rationale": "The SQL syntax is valid, keywords are correctly used, clauses are in the correct order, and table/column references are valid, but there is no aliasing for the table.",
+              "score": 0.904572487592401,
+              "rationale": "The SQL statement has no syntax errors, uses keywords correctly, follows the proper clause order, and references a valid table and column.",
               "generated_sql": "SELECT invoice_number \nFROM Invoices \nWHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25';"
             }
           ],
-          "criteria_summary": "SUMMARY FOR SYNTAX_ACCURACY METRIC:\n\nPerformance Overview:\nAverage score of 0.62 with 0.0% pass rate indicates moderate performance in this area.\n\nCommon Issues Identified:\n\n\nRecommendations:\nBased on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in syntax_accuracy."
+          "criteria_summary": "SUMMARY FOR SYNTAX_ACCURACY METRIC:\n\nPerformance Overview:\nAverage score of 0.59 with 25.0% pass rate indicates weak performance in this area.\n\nCommon Issues Identified:\n\u2022 The query has no syntax errors and uses SQL keywords correctly, but the ORDER BY clause is missing, and the HAVING clause is used without a corresponding GROUP BY context\n\nRecommendations:\nBased on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in syntax_accuracy."
         },
         "logical_correctness": {
-          "average_score": 0.721405036818417,
+          "average_score": 0.7244719460705581,
           "num_evaluated": 4,
           "pass_rate": 0.75,
           "threshold": 0.85,
           "detailed_results": [
             {
-              "score": 0.8962892068102526,
-              "rationale": "The query logic aligns well with the question, and the aggregation logic is correctly applied with GROUP BY and HAVING. However, the join conditions were not evaluated as there are no joins present.",
+              "score": 0.9038964494679457,
+              "rationale": "The query logic addresses the question requirements well, using appropriate GROUP BY and HAVING clauses, but the join conditions are not evaluated, which could affect data alignment.",
               "question": "What are the payment method codes that have been used by more than 3 parties?",
               "generated_sql": "SELECT payment_method_code\nFROM Parties\nGROUP BY payment_method_code\nHAVING COUNT(party_id) > 3;",
               "gold_sql": "SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3"
             },
             {
               "score": 0.0,
-              "rationale": "The actual output indicates a context length error, suggesting that the query was not executed, and thus no evaluation of logic, joins, filters, or aggregations could be performed.",
+              "rationale": "The actual output indicates a context length error, suggesting that the SQL query was not executed or evaluated, failing to address the question requirements.",
               "question": "What is the average latitude and longitude of the starting points of all trips?",
               "generated_sql": "BadRequestError: Error code: 400 - {'error': {'message': \"This model's maximum context length is 128000 tokens. However, your messages resulted in 1059631 tokens. Please reduce the length of the messages.\", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'context_length_exceeded'}}",
               "gold_sql": "SELECT avg(T1.lat) ,  avg(T1.long) FROM station AS T1 JOIN trip AS T2 ON T1.id  =  T2.start_station_id"
             },
             {
               "score": 1.0,
-              "rationale": "The query logic aligns perfectly with the question, the join conditions are not applicable here, the filter condition correctly implements the age criteria, and there is no aggregation needed.",
+              "rationale": "The query logic directly addresses the requirement to find first names of students over 22, and the SQL syntax is correct with appropriate WHERE clause.",
               "question": "Find the first names of students with age above 22.",
               "generated_sql": "SELECT Fname FROM Student WHERE Age > 22;",
               "gold_sql": "SELECT Fname FROM STUDENT WHERE Age  >  22"
             },
             {
-              "score": 0.9893309404634152,
-              "rationale": "The query logic aligns perfectly with the question, the join conditions are not applicable here, the filter conditions correctly implement the specified date criteria, and there are no aggregation requirements in this case.",
+              "score": 0.9939913348142868,
+              "rationale": "The query logic correctly addresses the question requirements, the join conditions are not applicable here, the WHERE clause accurately filters the necessary data, and there are no GROUP BY or aggregate functions to assess.",
               "question": "What are the invoice numbers created before 1989-09-03 or after 2007-12-25?",
               "generated_sql": "SELECT invoice_number \nFROM Invoices \nWHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25';",
               "gold_sql": "SELECT invoice_number FROM invoices WHERE invoice_date < \"1989-09-03\" OR invoice_date > \"2007-12-25\""
@@ -462,60 +462,60 @@
     },
     {
       "model": "gpt-3.5-turbo",
-      "overall_score": 0.6707655533919106,
+      "overall_score": 0.6700722870892788,
       "metric_breakdown": {
         "query_metrics": {
-          "score": 0.6539367403156137,
+          "score": 0.6471783272317211,
           "weight": 1.0,
           "pass_rate": 0.5
         },
         "intent_understanding": {
-          "score": 0.7020456709537175,
+          "score": 0.685542468922056,
           "weight": 1.2,
           "pass_rate": 0.5
         },
         "syntax_accuracy": {
-          "score": 0.6281640390469636,
+          "score": 0.6432712541668368,
           "weight": 0.8,
-          "pass_rate": 0.0
+          "pass_rate": 0.25
         },
         "logical_correctness": {
-          "score": 0.6829236292810793,
+          "score": 0.6935000761767137,
           "weight": 1.1,
           "pass_rate": 0.5
         }
       },
       "metrics": {
         "query_metrics": {
-          "average_score": 0.6539367403156137,
+          "average_score": 0.6471783272317211,
           "num_evaluated": 4,
           "pass_rate": 0.5,
           "threshold": 0.8,
           "detailed_results": [
             {
-              "score": 0.70027717301999,
-              "rationale": "The actual output includes a DISTINCT clause in the HAVING condition, which is not present in the gold SQL, potentially affecting the accuracy of the count.",
+              "score": 0.6987824420268963,
+              "rationale": "The query includes the necessary columns and uses GROUP BY and HAVING correctly, but it introduces COUNT(DISTINCT party_id), which alters the intended logic of counting parties.",
               "question": "What are the payment method codes that have been used by more than 3 parties?",
               "generated_sql": "SELECT payment_method_code\nFROM Parties\nGROUP BY payment_method_code\nHAVING COUNT(DISTINCT party_id) > 3;",
               "gold_sql": "SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3"
             },
             {
               "score": 0.0,
-              "rationale": "The actual output indicates a BadRequestError due to exceeding token limits, which means the SQL query was not executed or evaluated.",
+              "rationale": "The actual output indicates a BadRequestError due to exceeding token limits, which suggests that the SQL query was not executed or evaluated, failing to meet any of the criteria outlined.",
               "question": "What is the average latitude and longitude of the starting points of all trips?",
               "generated_sql": "BadRequestError: Error code: 400 - {'error': {'message': \"This model's maximum context length is 16385 tokens. However, your messages resulted in 1061496 tokens. Please reduce the length of the messages.\", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'context_length_exceeded'}}",
               "gold_sql": "SELECT avg(T1.lat) ,  avg(T1.long) FROM station AS T1 JOIN trip AS T2 ON T1.id  =  T2.start_station_id"
             },
             {
               "score": 1.0,
-              "rationale": "The query includes the required column 'Fname', follows proper SQL syntax, and accurately implements the WHERE clause to filter students by age.",
+              "rationale": "All required columns are selected without superfluous ones, SQL syntax is correct, join conditions are not applicable here, and the WHERE clause is accurately applied.",
               "question": "Find the first names of students with age above 22.",
               "generated_sql": "SELECT Fname\nFROM Student\nWHERE Age > 22;",
               "gold_sql": "SELECT Fname FROM STUDENT WHERE Age  >  22"
             },
             {
-              "score": 0.9154697882424646,
-              "rationale": "The query includes the required column and follows proper SQL syntax, but the table name 'Invoices' should be consistently cased as 'invoices' for clarity.",
+              "score": 0.8899308668999879,
+              "rationale": "The query includes the required column and correctly applies the WHERE clause, but the table name casing differs from the gold SQL.",
               "question": "What are the invoice numbers created before 1989-09-03 or after 2007-12-25?",
               "generated_sql": "SELECT invoice_number\nFROM Invoices\nWHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25';",
               "gold_sql": "SELECT invoice_number FROM invoices WHERE invoice_date < \"1989-09-03\" OR invoice_date > \"2007-12-25\""
@@ -524,107 +524,107 @@
           "criteria_summary": "SUMMARY FOR QUERY_METRICS METRIC:\n\nPerformance Overview:\nAverage score of 0.65 with 50.0% pass rate indicates moderate performance in this area.\n\nCommon Issues Identified:\n\n\nRecommendations:\nBased on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in query_metrics."
         },
         "intent_understanding": {
-          "average_score": 0.7020456709537175,
+          "average_score": 0.685542468922056,
           "num_evaluated": 4,
           "pass_rate": 0.5,
           "threshold": 0.8,
           "detailed_results": [
             {
-              "score": 0.766777182540611,
-              "rationale": "The SQL correctly identifies payment method codes used by more than 3 parties, but it lacks clarity on counting distinct parties, which is crucial for accurate results.",
+              "score": 0.7454784735390118,
+              "rationale": "The actual output correctly identifies payment method codes used by more than 3 parties, but it uses COUNT(DISTINCT party_id) instead of COUNT(*), which slightly alters the intended logic.",
               "question": "What are the payment method codes that have been used by more than 3 parties?",
               "generated_sql": "SELECT payment_method_code\nFROM Parties\nGROUP BY payment_method_code\nHAVING COUNT(DISTINCT party_id) > 3;",
               "gold_sql": "SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3"
             },
             {
-              "score": 0.041405501274258835,
-              "rationale": "The SQL query does not execute due to a context length error, indicating it cannot be evaluated for correctness or completeness.",
+              "score": 0.0,
+              "rationale": "The actual output indicates a context length error, suggesting that the SQL query was not executed or evaluated, failing to address any of the evaluation criteria.",
               "question": "What is the average latitude and longitude of the starting points of all trips?",
               "generated_sql": "BadRequestError: Error code: 400 - {'error': {'message': \"This model's maximum context length is 16385 tokens. However, your messages resulted in 1061496 tokens. Please reduce the length of the messages.\", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'context_length_exceeded'}}",
               "gold_sql": "SELECT avg(T1.lat) ,  avg(T1.long) FROM station AS T1 JOIN trip AS T2 ON T1.id  =  T2.start_station_id"
             },
             {
               "score": 1.0,
-              "rationale": "The SQL directly addresses the question by selecting first names of students with age above 22, correctly applying the filtering criteria.",
+              "rationale": "The SQL query correctly retrieves the first names of students aged above 22, aligning perfectly with the question's requirements.",
               "question": "Find the first names of students with age above 22.",
               "generated_sql": "SELECT Fname\nFROM Student\nWHERE Age > 22;",
               "gold_sql": "SELECT Fname FROM STUDENT WHERE Age  >  22"
             },
             {
-              "score": 1.0,
-              "rationale": "The SQL correctly addresses the question by selecting invoice numbers based on the specified date criteria, and it includes the necessary table and columns.",
+              "score": 0.9966914021492119,
+              "rationale": "The SQL query accurately reflects the question's intent by correctly filtering invoice numbers based on the specified date conditions, and it includes all necessary elements without any logical gaps.",
               "question": "What are the invoice numbers created before 1989-09-03 or after 2007-12-25?",
               "generated_sql": "SELECT invoice_number\nFROM Invoices\nWHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25';",
               "gold_sql": "SELECT invoice_number FROM invoices WHERE invoice_date < \"1989-09-03\" OR invoice_date > \"2007-12-25\""
             }
           ],
-          "criteria_summary": "SUMMARY FOR INTENT_UNDERSTANDING METRIC:\n\nPerformance Overview:\nAverage score of 0.70 with 50.0% pass rate indicates moderate performance in this area.\n\nCommon Issues Identified:\n\n\nRecommendations:\nBased on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in intent_understanding."
+          "criteria_summary": "SUMMARY FOR INTENT_UNDERSTANDING METRIC:\n\nPerformance Overview:\nAverage score of 0.69 with 50.0% pass rate indicates moderate performance in this area.\n\nCommon Issues Identified:\n\n\nRecommendations:\nBased on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in intent_understanding."
         },
         "syntax_accuracy": {
-          "average_score": 0.6281640390469636,
+          "average_score": 0.6432712541668368,
           "num_evaluated": 4,
-          "pass_rate": 0.0,
+          "pass_rate": 0.25,
           "threshold": 0.9,
           "detailed_results": [
             {
-              "score": 0.7726805920829866,
-              "rationale": "The SQL statement has valid syntax, correct keyword usage, and proper clause ordering, but it lacks a WHERE clause for filtering before grouping.",
+              "score": 0.7331961380833759,
+              "rationale": "The SQL statement has no syntax errors, keywords are correctly spelled, and clauses are in the correct order, but the HAVING clause is used without a corresponding GROUP BY clause for aggregation.",
               "generated_sql": "SELECT payment_method_code\nFROM Parties\nGROUP BY payment_method_code\nHAVING COUNT(DISTINCT party_id) > 3;"
             },
             {
               "score": 0.0,
-              "rationale": "The output indicates a parsing error due to exceeding token limits, which violates valid SQL syntax.",
+              "rationale": "The output indicates a context length error, suggesting that the SQL statements were not parsed or evaluated at all.",
               "generated_sql": "BadRequestError: Error code: 400 - {'error': {'message': \"This model's maximum context length is 16385 tokens. However, your messages resulted in 1061496 tokens. Please reduce the length of the messages.\", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'context_length_exceeded'}}"
             },
             {
-              "score": 0.8711801852063804,
-              "rationale": "The SQL statement has valid syntax, correctly spelled keywords, and proper clause ordering, but lacks a valid alias for the table reference.",
+              "score": 0.9485375737289532,
+              "rationale": "The SQL statement has no syntax errors, uses keywords correctly, follows the proper clause order, and references valid table and column names.",
               "generated_sql": "SELECT Fname\nFROM Student\nWHERE Age > 22;"
             },
             {
-              "score": 0.8687953788984872,
-              "rationale": "The SQL syntax is valid, keywords are correctly used, and the clause order is appropriate. However, there is no aliasing for the table reference.",
+              "score": 0.8913513048550182,
+              "rationale": "The SQL statement has no syntax errors, keywords are correctly spelled, and the clauses are in the correct order, but there is no GROUP BY or ORDER BY clause present.",
               "generated_sql": "SELECT invoice_number\nFROM Invoices\nWHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25';"
             }
           ],
-          "criteria_summary": "SUMMARY FOR SYNTAX_ACCURACY METRIC:\n\nPerformance Overview:\nAverage score of 0.63 with 0.0% pass rate indicates moderate performance in this area.\n\nCommon Issues Identified:\n\n\nRecommendations:\nBased on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in syntax_accuracy."
+          "criteria_summary": "SUMMARY FOR SYNTAX_ACCURACY METRIC:\n\nPerformance Overview:\nAverage score of 0.64 with 25.0% pass rate indicates moderate performance in this area.\n\nCommon Issues Identified:\n\n\nRecommendations:\nBased on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in syntax_accuracy."
         },
         "logical_correctness": {
-          "average_score": 0.6829236292810793,
+          "average_score": 0.6935000761767137,
           "num_evaluated": 4,
           "pass_rate": 0.5,
           "threshold": 0.85,
           "detailed_results": [
             {
-              "score": 0.7585692710493169,
-              "rationale": "The query aligns well with the logic of the question, but it uses COUNT(DISTINCT party_id) instead of COUNT(*), which may not be necessary depending on the context of the data.",
+              "score": 0.7777329931333828,
+              "rationale": "The query logic addresses the question requirements, but the use of COUNT(DISTINCT party_id) instead of COUNT(*) may lead to misrepresentation of the count of parties using each payment method.",
               "question": "What are the payment method codes that have been used by more than 3 parties?",
               "generated_sql": "SELECT payment_method_code\nFROM Parties\nGROUP BY payment_method_code\nHAVING COUNT(DISTINCT party_id) > 3;",
               "gold_sql": "SELECT payment_method_code FROM parties GROUP BY payment_method_code HAVING count(*)  >  3"
             },
             {
               "score": 0.0,
-              "rationale": "The actual output indicates a context length error, suggesting that the query was not executed, and thus no evaluation of logic, joins, filters, or aggregations could be performed.",
+              "rationale": "The actual output indicates a context length error, suggesting that the query logic was not executed, and thus it does not address the question requirements.",
               "question": "What is the average latitude and longitude of the starting points of all trips?",
               "generated_sql": "BadRequestError: Error code: 400 - {'error': {'message': \"This model's maximum context length is 16385 tokens. However, your messages resulted in 1061496 tokens. Please reduce the length of the messages.\", 'type': 'invalid_request_error', 'param': 'messages', 'code': 'context_length_exceeded'}}",
               "gold_sql": "SELECT avg(T1.lat) ,  avg(T1.long) FROM station AS T1 JOIN trip AS T2 ON T1.id  =  T2.start_station_id"
             },
             {
               "score": 1.0,
-              "rationale": "The query logic aligns perfectly with the question, the join conditions are not applicable here, the filter condition correctly implements the age criteria, and there is no aggregation needed.",
+              "rationale": "The query logic directly addresses the requirement to find first names of students over 22, with correct syntax and no missing joins or filters.",
               "question": "Find the first names of students with age above 22.",
               "generated_sql": "SELECT Fname\nFROM Student\nWHERE Age > 22;",
               "gold_sql": "SELECT Fname FROM STUDENT WHERE Age  >  22"
             },
             {
-              "score": 0.9731252460750003,
-              "rationale": "The query logic aligns perfectly with the question, the join conditions are not applicable here, the filter conditions correctly implement the specified date criteria, and there are no aggregation requirements in this case.",
+              "score": 0.996267311573472,
+              "rationale": "The query logic correctly addresses the question requirements, the join conditions are not applicable here, the WHERE clause accurately filters the necessary data, and there are no GROUP BY or aggregate functions to assess.",
               "question": "What are the invoice numbers created before 1989-09-03 or after 2007-12-25?",
               "generated_sql": "SELECT invoice_number\nFROM Invoices\nWHERE invoice_date < '1989-09-03' OR invoice_date > '2007-12-25';",
               "gold_sql": "SELECT invoice_number FROM invoices WHERE invoice_date < \"1989-09-03\" OR invoice_date > \"2007-12-25\""
             }
           ],
-          "criteria_summary": "SUMMARY FOR LOGICAL_CORRECTNESS METRIC:\n\nPerformance Overview:\nAverage score of 0.68 with 50.0% pass rate indicates moderate performance in this area.\n\nCommon Issues Identified:\n\n\nRecommendations:\nBased on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in logical_correctness."
+          "criteria_summary": "SUMMARY FOR LOGICAL_CORRECTNESS METRIC:\n\nPerformance Overview:\nAverage score of 0.69 with 50.0% pass rate indicates moderate performance in this area.\n\nCommon Issues Identified:\n\n\nRecommendations:\nBased on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in logical_correctness."
         }
       }
     }

@@ -3,15 +3,15 @@ SQL EVALUATION SUMMARY REPORT
 
 MODEL RANKINGS:
 --------------------
-1. gpt-4o-mini: 0.704
-2. gpt-3.5-turbo: 0.671
+1. gpt-4o-mini: 0.687
+2. gpt-3.5-turbo: 0.670
 
 
 MODEL: gpt-4o-mini
 ========================================
 
 QUERY_METRICS METRIC:
-Average Score: 0.694
+Average Score: 0.687
 Pass Rate: 75.0%
 Evaluations: 4
 
@@ -29,7 +29,7 @@ Based on the evaluation patterns, focus on addressing the most frequent issues i
 ------------------------------
 
 INTENT_UNDERSTANDING METRIC:
-Average Score: 0.751
+Average Score: 0.715
 Pass Rate: 75.0%
 Evaluations: 4
 
@@ -37,7 +37,7 @@ Criteria Summary:
 SUMMARY FOR INTENT_UNDERSTANDING METRIC:
 
 Performance Overview:
-Average score of 0.75 with 75.0% pass rate indicates moderate performance in this area.
+Average score of 0.71 with 75.0% pass rate indicates moderate performance in this area.
 
 Common Issues Identified:
 
@@ -47,25 +47,25 @@ Based on the evaluation patterns, focus on addressing the most frequent issues i
 ------------------------------
 
 SYNTAX_ACCURACY METRIC:
-Average Score: 0.621
-Pass Rate: 0.0%
+Average Score: 0.594
+Pass Rate: 25.0%
 Evaluations: 4
 
 Criteria Summary:
 SUMMARY FOR SYNTAX_ACCURACY METRIC:
 
 Performance Overview:
-Average score of 0.62 with 0.0% pass rate indicates moderate performance in this area.
+Average score of 0.59 with 25.0% pass rate indicates weak performance in this area.
 
 Common Issues Identified:
-
+• The query has no syntax errors and uses SQL keywords correctly, but the ORDER BY clause is missing, and the HAVING clause is used without a corresponding GROUP BY context
 
 Recommendations:
 Based on the evaluation patterns, focus on addressing the most frequent issues identified above to improve performance in syntax_accuracy.
 ------------------------------
 
 LOGICAL_CORRECTNESS METRIC:
-Average Score: 0.721
+Average Score: 0.724
 Pass Rate: 75.0%
 Evaluations: 4
 
@@ -86,7 +86,7 @@ MODEL: gpt-3.5-turbo
 ========================================
 
 QUERY_METRICS METRIC:
-Average Score: 0.654
+Average Score: 0.647
 Pass Rate: 50.0%
 Evaluations: 4
 
@@ -104,7 +104,7 @@ Based on the evaluation patterns, focus on addressing the most frequent issues i
 ------------------------------
 
 INTENT_UNDERSTANDING METRIC:
-Average Score: 0.702
+Average Score: 0.686
 Pass Rate: 50.0%
 Evaluations: 4
 
@@ -112,7 +112,7 @@ Criteria Summary:
 SUMMARY FOR INTENT_UNDERSTANDING METRIC:
 
 Performance Overview:
-Average score of 0.70 with 50.0% pass rate indicates moderate performance in this area.
+Average score of 0.69 with 50.0% pass rate indicates moderate performance in this area.
 
 Common Issues Identified:
 
@@ -122,15 +122,15 @@ Based on the evaluation patterns, focus on addressing the most frequent issues i
 ------------------------------
 
 SYNTAX_ACCURACY METRIC:
-Average Score: 0.628
-Pass Rate: 0.0%
+Average Score: 0.643
+Pass Rate: 25.0%
 Evaluations: 4
 
 Criteria Summary:
 SUMMARY FOR SYNTAX_ACCURACY METRIC:
 
 Performance Overview:
-Average score of 0.63 with 0.0% pass rate indicates moderate performance in this area.
+Average score of 0.64 with 25.0% pass rate indicates moderate performance in this area.
 
 Common Issues Identified:
 
@@ -140,7 +140,7 @@ Based on the evaluation patterns, focus on addressing the most frequent issues i
 ------------------------------
 
 LOGICAL_CORRECTNESS METRIC:
-Average Score: 0.683
+Average Score: 0.694
 Pass Rate: 50.0%
 Evaluations: 4
 
@@ -148,7 +148,7 @@ Criteria Summary:
 SUMMARY FOR LOGICAL_CORRECTNESS METRIC:
 
 Performance Overview:
-Average score of 0.68 with 50.0% pass rate indicates moderate performance in this area.
+Average score of 0.69 with 50.0% pass rate indicates moderate performance in this area.
 
 Common Issues Identified:
 

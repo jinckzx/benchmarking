@@ -1,0 +1,44 @@
+SQL EVALUATION SUMMARY REPORT
+==================================================
+
+MODEL RANKINGS (by Overall Score):
+------------------------------
+1. gpt-4o-mini: 0.695
+2. gpt-3.5-turbo: 0.660
+
+
+MODEL: gpt-4o-mini
+========================================
+Overall Score: 0.695
+Weighted Score: 0.697
+
+QUERY_METRICS:
+  Average Score: 0.661
+  Pass Rate: 75.0%
+  Evaluations: 4
+  Threshold: 0.80
+
+LOGICAL_CORRECTNESS:
+  Average Score: 0.730
+  Pass Rate: 75.0%
+  Evaluations: 4
+  Threshold: 0.85
+
+
+MODEL: gpt-3.5-turbo
+========================================
+Overall Score: 0.660
+Weighted Score: 0.662
+
+QUERY_METRICS:
+  Average Score: 0.630
+  Pass Rate: 50.0%
+  Evaluations: 4
+  Threshold: 0.80
+
+LOGICAL_CORRECTNESS:
+  Average Score: 0.691
+  Pass Rate: 50.0%
+  Evaluations: 4
+  Threshold: 0.85
+

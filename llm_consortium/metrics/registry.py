@@ -10,6 +10,7 @@ from .new_llmbased import New_llmbasedMetric
 from .where_clause_1705 import Where_clause_1705Metric
 from .join_2205 import Join_2205Metric
 from .new_2705 import New_2705Metric
+from .new_2805 import New_2805Metric
 
 
 
@@ -34,6 +35,7 @@ class MetricRegistry:
                 "where_clause_1705": Where_clause_1705Metric(),
                 "join_2205": Join_2205Metric(),
                 "new_2705": New_2705Metric(),
+                "new_2805": New_2805Metric(),
             }
         }
     
